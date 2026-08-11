@@ -1,0 +1,93 @@
+/* ===================== GENDER-NEUTRAL MENTOR AVATAR ("NAVI") ===================== */
+.guide-stage {
+    position: relative;
+    width: 100%;
+    max-width: 880px;
+    height: 230px;
+    margin-top: 10px;
+    margin-bottom: 28px;
+}
+
+.guide-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 12px;
+    height: 4px;
+    background: linear-gradient(90deg, rgba(233, 30, 99, 0.15), rgba(245, 158, 11, 0.4), rgba(233, 30, 99, 0.15));
+    border-radius: 4px;
+}
+
+.guide-wrap {
+    position: absolute;
+    bottom: 12px;
+    left: 8%;
+    width: 180px;
+    height: 220px;
+    transform: translateX(-50%);
+    transition: left 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 5;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: visible;
+}
+
+.navi-avatar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.16));
+    animation: avatarFloat 3.2s ease-in-out infinite;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+    display: block;
+}
+
+@keyframes avatarFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+
+
+.caption-bar {
+    position: absolute;
+    left: 50%;
+    bottom: -18px;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1.5px solid var(--pink-primary);
+    backdrop-filter: blur(10px);
+    padding: 12px 28px;
+    border-radius: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-dark);
+    max-width: min(660px, 90vw);
+    width: max-content;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    text-align: center;
+    z-index: 6;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 16px var(--pink-glow);
+}
+
+.caption-bar.show {
+    opacity: 1;
+}
+

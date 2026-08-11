@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavGurukul — Tech Gurukul under the Banyan Tree</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Ambient Banyan Gurukul Backdrop & Falling Leaf Canvas -->
+    <div id="world">
+        <div class="banyan-bg-layer">
+            <div class="world-overlay"></div>
+        </div>
+        <!-- Falling Leaf Animation Canvas -->
+        <canvas id="leafCanvas"></canvas>
+    </div>
+
+    <!-- Header HUD -->
+    <div id="hud">
+        <div class="hud-brand" title="NavGurukul · Pravesh">
+            <img src="navgurukul-logo.png" alt="NavGurukul Logo" class="hud-brand-img">
+            <span class="hud-brand-title">· Pravesh</span>
+        </div>
+
+        <div class="hud-track-wrapper">
+            <div class="hud-track" id="hudTrack">
+                <div class="hud-fill" id="hudFill" style="width: 0%;"></div>
+
+                <!-- Level Milestone Checkpoints -->
+                <div class="hud-checkpoints">
+                    <button class="hud-node active" data-level="0" style="left:0%;" aria-label="Level 1: Gurukul Tree">
+                        <span class="node-icon">🌱</span>
+                        <span class="node-tooltip">L1 · Gurukul Tree</span>
+                    </button>
+                    <button class="hud-node" data-level="1" style="left:20%;" aria-label="Level 2: Vision & Impact">
+                        <span class="node-icon">🌟</span>
+                        <span class="node-tooltip">L2 · Vision & Impact</span>
+                    </button>
+                    <button class="hud-node" data-level="2" style="left:40%;" aria-label="Level 3: 100% Scholarship">
+                        <span class="node-icon">💎</span>
+                        <span class="node-tooltip">L3 · 100% Scholarship</span>
+                    </button>
+                    <button class="hud-node" data-level="3" style="left:60%;" aria-label="Level 4: Choose Specialty">
+                        <span class="node-icon">⚡</span>
+                        <span class="node-tooltip">L4 · Specialty Tracks</span>
+                    </button>
+                    <button class="hud-node" data-level="4" style="left:80%;" aria-label="Level 5: Admission Roadmap">
+                        <span class="node-icon">🗺️</span>
+                        <span class="node-tooltip">L5 · Admission Roadmap</span>
+                    </button>
+                    <button class="hud-node" data-level="5" style="left:100%;" aria-label="Level 6: Book Test">
+                        <span class="node-icon">🎓</span>
+                        <span class="node-tooltip">L6 · Book Free Test</span>
+                    </button>
+                </div>
+
+                <!-- Zoom Vehicle Runner Avatar (Riding the path) -->
+                <div class="hud-vehicle-wrapper" id="hudVehicleWrapper" style="left: 0%;">
+                    <div class="hud-vehicle-callout" id="hudVehicleCallout">ZOOM! 🚀</div>
+                    <div class="hud-vehicle" id="hudVehicle">
+                        <div class="vehicle-thruster">
+                            <span class="flame-core"></span>
+                            <span class="flame-outer"></span>
+                        </div>
+                        <svg class="vehicle-svg" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 10L1 3C0.5 2.2 1.2 1 2.2 1H8.5L12 10H6Z" fill="#d97706" />
+                            <path d="M6 18L1 25C0.5 25.8 1.2 27 2.2 27H8.5L12 18H6Z" fill="#d97706" />
+                            <path d="M4 8C4 8 10 6 22 6C34 6 42 12 43 14C42 16 34 22 22 22C10 22 4 20 4 20V8Z"
+                                fill="url(#hullGradient)" />
+                            <path d="M34 8.5C38 10.5 42.5 13 43.5 14C42.5 15 38 17.5 34 19.5V8.5Z" fill="#f59e0b" />
+                            <path d="M12 11H28C29.1 11 30 11.9 30 13V15C30 16.1 29.1 17 28 17H12V11Z" fill="#ffffff"
+                                opacity="0.3" />
+                            <ellipse cx="26" cy="14" rx="7" ry="5" fill="url(#visorGradient)" stroke="#ffffff"
+                                stroke-width="0.8" />
+                            <circle cx="26" cy="13" r="2.5" fill="#fef08a" />
+                            <path d="M23 17.5C23.8 16 25 15.5 26 15.5C27 15.5 28.2 16 29 17.5" stroke="#fef08a"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="22" y1="11.5" x2="28" y2="11.5" stroke="#ffffff" stroke-linecap="round"
+                                opacity="0.7" />
+                            <defs>
+                                <linearGradient id="hullGradient" x1="4" y1="14" x2="43" y2="14"
+                                    gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#be185d" />
+                                    <stop offset="0.55" stop-color="#e91e63" />
+                                    <stop offset="1" stop-color="#ea580c" />
+                                </linearGradient>
+                                <linearGradient id="visorGradient" x1="19" y1="9" x2="33" y2="19"
+                                    gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#0284c7" />
+                                    <stop offset="1" stop-color="#38bdf8" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gamified HUD Level Badge -->
+        <div class="hud-level-badge" id="hudLevelBadge">
+        </div>
+    </div>
+
+    <!-- Arrow Buttons -->
+    <button class="nav-arrow" id="prevBtn" aria-label="Previous Slide">‹</button>
+    <button class="nav-arrow" id="nextBtn" aria-label="Next Slide">›</button>
+
+    <!-- Stage Container -->
+    <div id="stage">
+
+        <!-- SCREEN 1: Banyan Tree Hero & Students Pair-Programming -->
+        <section class="screen active" data-i="0">
+            <div class="eyebrow"><span class="eyebrow-star">🌱</span> 100% Free Residential Education</div>
+            <h1 class="headline">Empowering India's Youth with<br><span class="highlight-pink">World-Class
+                    Education</span></h1>
+
+
+            <!-- Student Name Field -->
+            <div class="name-field">
+                <span class="name-label">Aapka Naam:</span>
+                <input id="nameInput" placeholder="Asha / Rahul" maxlength="18" autocomplete="name">
+            </div>
+
+            <button class="glow-btn" id="startBtn">Start Journey →</button>
+        </section>
+
+        <!-- SCREEN 2: Proof of Outcomes & Alumni Stories -->
+        <section class="screen" data-i="1">
+            <!-- Dynamic Flying Parrot Mascot carrying 100% Job Support Flag -->
+            <div id="parrotScene" class="parrot-scene">
+                <div class="parrot-character">
+                    <!-- SVG Parrot Body -->
+                    <svg class="parrot-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Tail Feathers -->
+                        <path class="parrot-tail" d="M35 75 Q 15 95 10 115 Q 25 100 40 85 Z" fill="#047857" />
+                        <path class="parrot-tail-inner" d="M40 78 Q 25 98 20 112 Q 32 98 44 86 Z" fill="#0284c7" />
+
+                        <!-- Main Body (Vibrant Emerald Green Parakeet) -->
+                        <ellipse cx="55" cy="65" rx="28" ry="32" fill="#10b981" />
+                        <path d="M35 55 Q 55 40 75 55 Q 83 75 55 95 Q 30 80 35 55 Z" fill="#059669" />
+
+                        <!-- Chest / Belly Highlight -->
+                        <ellipse cx="62" cy="70" rx="16" ry="20" fill="#6ee7b7" opacity="0.8" />
+
+                        <!-- Cute Head (Rose Red / Coral) -->
+                        <circle cx="72" cy="38" r="22" fill="#f43f5e" />
+                        <!-- Head Crown Tuft -->
+                        <path d="M72 16 Q 78 6 84 14 Q 78 20 72 16 Z" fill="#fb7185" />
+
+                        <!-- White Cheek Patch -->
+                        <circle cx="78" cy="42" r="10" fill="#ffffff" opacity="0.9" />
+
+                        <!-- Eye -->
+                        <circle cx="80" cy="35" r="5" fill="#1e293b" />
+                        <circle class="parrot-pupil" cx="81.5" cy="33.5" r="1.8" fill="#ffffff" />
+
+                        <!-- Beak (Curved Gold / Orange) -->
+                        <path d="M88 34 Q 106 36 98 48 Q 92 48 88 44 Z" fill="#f59e0b" />
+                        <path d="M88 44 Q 96 46 94 50 Q 90 50 88 46 Z" fill="#d97706" />
+
+                        <!-- Flapping Wing -->
+                        <g class="parrot-wing-group">
+                            <path class="parrot-wing" d="M42 52 C 25 58, 20 78, 48 82 C 60 80, 64 66, 42 52 Z" fill="#0284c7" />
+                            <path class="parrot-wing-feather" d="M38 58 C 26 64, 24 76, 45 78 Z" fill="#38bdf8" />
+                        </g>
+
+                        <!-- Perch Claws -->
+                        <path d="M52 95 L 50 102 M 56 95 L 56 103 M 62 95 L 64 102" stroke="#d97706" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+
+                    <!-- Compact Flag Banner Assembly (Under the parrot) -->
+                    <div class="parrot-flag-wrap">
+                        <div class="flag-cloth">
+                            <span class="flag-star">✨</span>
+                            <div class="flag-text">
+                                <span class="flag-main">100% Job Support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eyebrow"><span class="eyebrow-star">✨</span> Student Outcomes</div>
+            <h1 class="headline"><span class="highlight-pink">2,000+ Dreams</span> Turned into Real Jobs</h1>
+            <p class="screen2-subline">Real students. Real tech companies. Life-changing salaries.</p>
+
+            <!-- Large Alumni Stories Marquee Carousel -->
+            <div class="alumni-viewport">
+                <div class="alumni-track" id="alumniTrack"></div>
+            </div>
+
+            <!-- Hiring Partners & Companies Strip -->
+            <div class="companies-strip">
+                <div class="companies-label">Top companies hiring NavGurukul graduates:</div>
+                <div class="companies-track-wrap">
+                    <div class="companies-track" id="companiesTrack"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: OFFERINGS -->
+        <section class="screen" data-i="2">
+            <div class="eyebrow"><span class="eyebrow-star">🎁</span> Comprehensive 100% Scholarship</div>
+            <h1 class="headline">Everything Covered.<br><span class="highlight-pink">Zero Financial Barrier.</span></h1>
+
+            <div class="room-row">
+                <div class="zone" id="zoneLearn">
+                    <div class="zone-icon">💻</div>
+                    <div class="zone-name">Free Laptop</div>
+                    <div class="zone-sub">Learning Power Source</div>
+                </div>
+                <div class="zone" id="zoneFood">
+                    <div class="zone-icon"><img src="indian-thali.png" alt="Indian Thali" class="thali-icon-img"></div>
+                    <div class="zone-name">3 Meals/Day</div>
+                    <div class="zone-sub">Healthy Food</div>
+                </div>
+                <div class="zone" id="zoneStay">
+                    <div class="zone-icon">🏠</div>
+                    <div class="zone-name">On-Campus Stay</div>
+                    <div class="zone-sub">Safe Living</div>
+                </div>
+                <div class="zone" id="zoneWifi">
+                    <div class="zone-icon">
+                        <svg class="wifi-icon-svg" viewBox="0 0 24 24" fill="none" stroke="url(#wifiGrad)"
+                            stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                            <defs>
+                                <linearGradient id="wifiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0284c7" />
+                                    <stop offset="100%" stop-color="#e91e63" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M12 20h.01" stroke-width="3.2" stroke="url(#wifiGrad)" />
+                            <path d="M8.5 16.5a5 5 0 0 1 7 0" />
+                            <path d="M5 12.5a10 10 0 0 1 14 0" />
+                            <path d="M2 8.5a15 15 0 0 1 20 0" />
+                        </svg>
+                    </div>
+                    <div class="zone-name">High-Speed Wifi</div>
+                    <div class="zone-sub">24/7 Internet</div>
+                </div>
+                <div class="zone" id="zonePlacement">
+                    <div class="zone-icon">🚀</div>
+                    <div class="zone-name">100% Mentor Support</div>
+                </div>
+            </div>
+
+            <!-- Gender-Neutral Mentor Avatar Stage -->
+            <div class="guide-stage">
+                <div class="guide-track"></div>
+                <div class="guide-wrap" id="guide3">
+                    <div class="navi-avatar">
+                        <img src="mentor-avatar2.png" alt="Mentor" class="avatar-img">
+                    </div>
+                </div>
+                <div class="caption-bar" id="cap3"></div>
+            </div>
+            <div class="reward-line" id="rewardLine">All you need is dedication and a desire to learn!</div>
+        </section>
+
+        <!-- SCREEN 4: CHOOSE SCHOOL / COURSES -->
+        <section class="screen" data-i="3">
+            <div class="eyebrow"><span class="eyebrow-star">🧭</span> Our Schools</div>
+            <h1 class="headline">Choose the Program That Fits You</h1>
+
+            <div class="school-row" id="schoolRow">
+                <div class="school-card blue-theme" data-school="0" onclick="openSchoolModal(0)" role="button"
+                    tabindex="0">
+                    <div class="school-top-accent"></div>
+                    <div class="school-tag blue-tag">SOFTWARE DEVELOPMENT</div>
+                    <div class="school-title">School of Programming (SOP)</div>
+                    <div class="school-desc">A residential program where you learn coding from basics and build a career
+                        in the tech industry. You will learn how to build websites and software applications.</div>
+                    <div class="school-cta">Check Details →</div>
+                    <div class="school-meta">
+                        <div class="meta-item">📍 Various Campuses</div>
+                        <div class="meta-item">⏳ 20–24 months</div>
+                    </div>
+                </div>
+
+                <div class="school-card green-theme" data-school="1" onclick="openSchoolModal(1)" role="button"
+                    tabindex="0">
+                    <div class="school-top-accent"></div>
+                    <div class="school-tag green-tag">OPERATIONS &amp; MARKETING</div>
+                    <div class="school-title">School of Business (SOB)</div>
+                    <div class="school-desc">A practical program that prepares you for jobs in business operations,
+                        digital marketing, and office management.</div>
+                    <div class="school-cta">Check Details →</div>
+                    <div class="school-meta">
+                        <div class="meta-item">📍 Various Campuses</div>
+                        <div class="meta-item">⏳ 12–18 months</div>
+                    </div>
+                </div>
+
+                <div class="school-card orange-theme" data-school="2" onclick="openSchoolModal(2)" role="button"
+                    tabindex="0">
+                    <div class="school-top-accent"></div>
+                    <div class="school-tag orange-tag">ACCOUNTING &amp; TAXATION</div>
+                    <div class="school-title">School of Finance (SOF)</div>
+                    <div class="school-desc">A job-oriented program where you learn practical accounting, taxation, and
+                        finance tools used in companies.</div>
+                    <div class="school-cta">Check Details →</div>
+                    <div class="school-meta">
+                        <div class="meta-item">📍 Various Campuses</div>
+                        <div class="meta-item">⏳ 8–12 months</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 5: ROADMAP -->
+        <section class="screen" data-i="4">
+            <div class="eyebrow"><span class="eyebrow-star">🏆</span> Selection Process</div>
+            <h1 class="headline">Simple 4-Step Admission Journey</h1>
+
+            <div class="level-map">
+                <div class="lvl-node">
+                    <div class="lvl-circle">1</div>
+                    <div class="lvl-label">Screening<br>Test</div>
+                </div>
+                <div class="lvl-node">
+                    <div class="lvl-connector"></div>
+                </div>
+                <div class="lvl-node">
+                    <div class="lvl-circle">2</div>
+                    <div class="lvl-label">Learning<br>Round</div>
+                </div>
+                <div class="lvl-node">
+                    <div class="lvl-connector"></div>
+                </div>
+                <div class="lvl-node">
+                    <div class="lvl-circle">3</div>
+                    <div class="lvl-label">Culture &amp;<br>Family (CFR)</div>
+                </div>
+                <div class="lvl-node">
+                    <div class="lvl-connector"></div>
+                </div>
+                <div class="lvl-node">
+                    <div class="lvl-circle">🎓</div>
+                    <div class="lvl-label">Campus<br>Welcome</div>
+                </div>
+            </div>
+            <div class="xp-float">+300 XP Earned! 🚀</div>
+            <button class="glow-btn" id="nextLevelBtn">Unlock Next Milestone →</button>
+        </section>
+
+        <!-- SCREEN 6: VICTORY & CTA -->
+        <section class="screen" data-i="5">
+            <div class="eyebrow"><span class="eyebrow-star">🎉</span> Final Step</div>
+            <div class="type-line">Your Journey Begins Today!</div>
+
+            <div class="quest-list">
+                <div class="quest-item">✅ Step 1: Complete Online Screening Test</div>
+                <div class="quest-item">⏳ Step 2: Try-out Hands-on Learning Round</div>
+                <div class="quest-item">🔒 Step 3: Join the Residential Campus</div>
+            </div>
+
+            <button class="glow-btn final-btn" id="finalRegisterBtn">Book Free Admission Test Now →</button>
+        </section>
+
+    </div>
+
+    <!-- Alumni Testimonial Modal Overlay -->
+    <div id="testimonialModal" class="tm-overlay" onclick="if(event.target===this)closeTestimonialModal()" role="dialog"
+        aria-modal="true">
+        <div class="tm-card">
+            <button class="tm-close" onclick="closeTestimonialModal()" aria-label="Close modal">✕</button>
+            <div class="tm-header">
+                <div class="tm-avatar"><span class="tm-initials"></span></div>
+                <div class="tm-info">
+                    <div class="tm-name"></div>
+                    <div class="tm-role"></div>
+                    <div class="tm-city"></div>
+                </div>
+                <div class="tm-logo-row">
+                    <div class="tm-logo-box">
+                        <img class="tm-logo" alt="Company Logo">
+                    </div>
+                    <div class="tm-co-name"></div>
+                </div>
+            </div>
+            <blockquote class="tm-quote"></blockquote>
+            <div class="tm-footer">
+                <span class="tm-pkg-tag">Secured Offer</span>
+                <span class="tm-pkg"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- School Detail Modal Overlay -->
+    <div id="schoolModal" class="sm-overlay" onclick="if(event.target===this)closeSchoolModal()" role="dialog"
+        aria-modal="true">
+        <div class="sm-card">
+            <div class="sm-header" id="smHeader">
+                <div class="sm-tag" id="smTag">SOFTWARE DEVELOPMENT</div>
+                <h2 class="sm-title" id="smTitle">School of Programming (SOP)</h2>
+                <button class="sm-close" onclick="closeSchoolModal()" aria-label="Close modal">✕</button>
+            </div>
+            <div class="sm-body">
+                <div class="sm-col">
+                    <div class="sm-section">
+                        <div class="sm-sec-header">
+                            <span class="sm-sec-icon">🎯</span>
+                            <span class="sm-sec-title">Eligibility</span>
+                        </div>
+                        <ul class="sm-list" id="smEligibility"></ul>
+                    </div>
+
+                    <div class="sm-section">
+                        <div class="sm-sec-header">
+                            <span class="sm-sec-icon">📚</span>
+                            <span class="sm-sec-title">Curriculum focus</span>
+                        </div>
+                        <ul class="sm-list" id="smCurriculum"></ul>
+                    </div>
+                </div>
+
+                <div class="sm-col">
+                    <div class="sm-section">
+                        <div class="sm-sec-header">
+                            <span class="sm-sec-icon">🏆</span>
+                            <span class="sm-sec-title">Outcomes</span>
+                        </div>
+                        <ul class="sm-list" id="smOutcomes"></ul>
+                    </div>
+
+                    <div class="sm-info-box">
+                        <div class="sm-info-item">
+                            <div class="sm-info-label">⏳ Duration</div>
+                            <div class="sm-info-val" id="smDuration">20–24 months (Self-paced, duration may vary)</div>
+                        </div>
+                        <div class="sm-info-divider"></div>
+                        <div class="sm-info-item">
+                            <div class="sm-info-label">📍 Location</div>
+                            <div class="sm-info-val" id="smLocation">Various Campuses (Dantewada, Bengaluru, Pune etc.)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sm-footer">
+                <button class="sm-apply-btn" id="smApplyBtn">Apply to this School</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Modular Scripts -->
+    <script src="js/leaves.js"></script>
+    <script src="js/hud.js"></script>
+    <script src="js/mentor.js"></script>
+    <script src="js/screens.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
