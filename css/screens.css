@@ -230,18 +230,18 @@ h1.headline {
     margin-bottom: 28px;
 }
 
-/* ===================== SCREEN 2: SPACING OVERRIDES ===================== */
-.screen[data-i="1"] {
+/* ===================== SCREEN 4: SPACING OVERRIDES ===================== */
+.screen[data-i="3"] {
     padding: 55px 4vw 20px;
     justify-content: flex-start;
 }
 
-.screen[data-i="1"] .eyebrow {
+.screen[data-i="3"] .eyebrow {
     margin-top: 5px;
     margin-bottom: 6px;
 }
 
-.screen[data-i="1"] h1.headline {
+.screen[data-i="3"] h1.headline {
     margin-bottom: 2px;
     max-width: 820px;
 }

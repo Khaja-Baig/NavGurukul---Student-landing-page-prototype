@@ -385,7 +385,7 @@ window.openSchoolModal = function (idx) {
         applyBtn.onclick = function () {
             window.closeSchoolModal();
             if (typeof window.go === 'function') {
-                window.go(4); // Advance to Admission Roadmap (Screen 5)
+                window.go(2); // Advance to 100% Scholarship (Screen 3)
             }
         };
     }

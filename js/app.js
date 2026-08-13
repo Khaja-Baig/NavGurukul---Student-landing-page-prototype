@@ -47,9 +47,9 @@
         }
         restartAnimations(screens[current]);
 
-        if (current === 1 && typeof runScreen2 === 'function') runScreen2();
+        if (current === 1 && typeof runScreen4 === 'function') runScreen4();
         if (current === 2 && typeof runScreen3 === 'function') runScreen3();
-        if (current === 3 && typeof runScreen4 === 'function') runScreen4();
+        if (current === 3 && typeof runScreen2 === 'function') runScreen2();
         if (current === 5 && typeof runConfetti === 'function') runConfetti();
     }
 

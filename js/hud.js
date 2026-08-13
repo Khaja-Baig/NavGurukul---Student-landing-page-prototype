@@ -2,9 +2,9 @@
 
 const levelData = [
     { title: 'GURUKUL TREE', icon: '🌱' },
-    { title: 'VISION & IMPACT', icon: '🌟' },
-    { title: '100% SCHOLARSHIP', icon: '💎' },
     { title: 'SPECIALTY TRACKS', icon: '⚡' },
+    { title: '100% SCHOLARSHIP', icon: '💎' },
+    { title: 'VISION & IMPACT', icon: '🌟' },
     { title: 'ADMISSION ROADMAP', icon: '🗺️' },
     { title: 'BOOK FREE TEST', icon: '🎓' }
 ];

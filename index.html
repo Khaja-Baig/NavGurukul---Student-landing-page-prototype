@@ -41,17 +41,17 @@
                         <span class="node-icon">🌱</span>
                         <span class="node-tooltip">L1 · Gurukul Tree</span>
                     </button>
-                    <button class="hud-node" data-level="1" style="left:20%;" aria-label="Level 2: Vision & Impact">
-                        <span class="node-icon">🌟</span>
-                        <span class="node-tooltip">L2 · Vision & Impact</span>
+                    <button class="hud-node" data-level="1" style="left:20%;" aria-label="Level 2: Choose Specialty">
+                        <span class="node-icon">⚡</span>
+                        <span class="node-tooltip">L2 · Specialty Tracks</span>
                     </button>
                     <button class="hud-node" data-level="2" style="left:40%;" aria-label="Level 3: 100% Scholarship">
                         <span class="node-icon">💎</span>
                         <span class="node-tooltip">L3 · 100% Scholarship</span>
                     </button>
-                    <button class="hud-node" data-level="3" style="left:60%;" aria-label="Level 4: Choose Specialty">
-                        <span class="node-icon">⚡</span>
-                        <span class="node-tooltip">L4 · Specialty Tracks</span>
+                    <button class="hud-node" data-level="3" style="left:60%;" aria-label="Level 4: Vision & Impact">
+                        <span class="node-icon">🌟</span>
+                        <span class="node-tooltip">L4 · Vision & Impact</span>
                     </button>
                     <button class="hud-node" data-level="4" style="left:80%;" aria-label="Level 5: Admission Roadmap">
                         <span class="node-icon">🗺️</span>
@@ -133,131 +133,8 @@
             <button class="glow-btn" id="startBtn">Start Journey →</button>
         </section>
 
-        <!-- SCREEN 2: Proof of Outcomes & Alumni Stories -->
+        <!-- SCREEN 2: CHOOSE SCHOOL / COURSES -->
         <section class="screen" data-i="1">
-            <!-- Ground/Air Shadow for Flying Bird -->
-            <div class="bird-shadow" id="birdShadow"></div>
-
-            <!-- TOP RIGHT CORNER PERCH DOCK (Where the bird sits with the poster) -->
-            <div class="perch-corner-dock">
-                <div class="perched-unit is-docked" id="perchedUnit" title="Click bird to trigger flight!">
-                    <div class="perched-bird-sprite" id="perchedBirdImg"></div>
-                    <div class="poster-pill-badge" id="dockedBadge">
-                        <span class="sparkle-icon">✨</span>
-                        <span>100% Job Support</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- AUTONOMOUS FLYING BIRD WITH CARRIED POSTER LAYER -->
-            <div class="flight-carrier-layer" id="flightLayer">
-                <div class="bird-carrier" id="birdCarrier">
-                    <!-- Bird Orientation Rig (controls yaw/facing left-right, pitch, bank) -->
-                    <div class="bird-orient" id="birdOrient">
-                        <div class="bird-rig flapping" id="birdRig">
-                            <!-- 6-Frame Wing Flapping Sprite -->
-                            <div class="bird-sprite" id="birdSprite"></div>
-                        </div>
-                    </div>
-
-                    <!-- Carried Poster Assembly (Hangs beneath bird's claws - NEVER inverted or mirrored!) -->
-                    <div class="carried-poster-assembly" id="carriedPoster">
-                        <svg class="poster-tether-cables" viewBox="0 0 64 16">
-                            <!-- Left Claw Cable -->
-                            <line x1="24" y1="2" x2="16" y2="14" class="tether-line" />
-                            <circle cx="24" cy="2" r="2.5" class="tether-claw-ring" />
-                            <!-- Right Claw Cable -->
-                            <line x1="40" y1="2" x2="48" y2="14" class="tether-line" />
-                            <circle cx="40" cy="2" r="2.5" class="tether-claw-ring" />
-                        </svg>
-                        <!-- Hanging Poster Badge -->
-                        <div class="carried-poster-badge">
-                            <span class="sparkle-icon">✨</span>
-                            <span>100% Job Support</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="eyebrow"><span class="eyebrow-star">✨</span> Student Outcomes</div>
-            <h1 class="headline"><span class="highlight-pink">2,000+ Dreams</span> Turned into Real Jobs</h1>
-            <p class="screen2-subline">Skills that opened doors. Careers that changed lives.</p>
-
-            <!-- Large Alumni Stories Marquee Carousel -->
-            <div class="alumni-viewport">
-                <div class="alumni-track" id="alumniTrack"></div>
-            </div>
-
-            <!-- Hiring Partners & Companies Strip -->
-            <div class="companies-strip">
-                <div class="companies-label">Top companies hiring NavGurukul graduates:</div>
-                <div class="companies-track-wrap">
-                    <div class="companies-track" id="companiesTrack"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SCREEN 3: OFFERINGS -->
-        <section class="screen" data-i="2">
-            <div class="eyebrow"><span class="eyebrow-star">🎁</span> Comprehensive 100% Scholarship</div>
-            <h1 class="headline">Everything Covered.<br><span class="highlight-pink">Zero Financial Barrier.</span></h1>
-
-            <div class="room-row">
-                <div class="zone" id="zoneLearn">
-                    <div class="zone-icon">💻</div>
-                    <div class="zone-name">Free Laptop</div>
-                    <div class="zone-sub">Learning Power Source</div>
-                </div>
-                <div class="zone" id="zoneFood">
-                    <div class="zone-icon"><img src="indian-thali.png" alt="Indian Thali" class="thali-icon-img"></div>
-                    <div class="zone-name">3 Meals/Day</div>
-                    <div class="zone-sub">Healthy Food</div>
-                </div>
-                <div class="zone" id="zoneStay">
-                    <div class="zone-icon">🏠</div>
-                    <div class="zone-name">On-Campus Stay</div>
-                    <div class="zone-sub">Safe Living</div>
-                </div>
-                <div class="zone" id="zoneWifi">
-                    <div class="zone-icon">
-                        <svg class="wifi-icon-svg" viewBox="0 0 24 24" fill="none" stroke="url(#wifiGrad)"
-                            stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                            <defs>
-                                <linearGradient id="wifiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#0284c7" />
-                                    <stop offset="100%" stop-color="#e91e63" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M12 20h.01" stroke-width="3.2" stroke="url(#wifiGrad)" />
-                            <path d="M8.5 16.5a5 5 0 0 1 7 0" />
-                            <path d="M5 12.5a10 10 0 0 1 14 0" />
-                            <path d="M2 8.5a15 15 0 0 1 20 0" />
-                        </svg>
-                    </div>
-                    <div class="zone-name">High-Speed Wifi</div>
-                    <div class="zone-sub">24/7 Internet</div>
-                </div>
-                <div class="zone" id="zonePlacement">
-                    <div class="zone-icon">🚀</div>
-                    <div class="zone-name">100% Mentor Support</div>
-                </div>
-            </div>
-
-            <!-- Gender-Neutral Mentor Avatar Stage -->
-            <div class="guide-stage">
-                <div class="guide-track"></div>
-                <div class="guide-wrap" id="guide3">
-                    <div class="navi-avatar">
-                        <img src="mentor-avatar2.png" alt="Mentor" class="avatar-img">
-                    </div>
-                </div>
-                <div class="caption-bar" id="cap3"></div>
-            </div>
-            <div class="reward-line" id="rewardLine">All you need is dedication and a desire to learn!</div>
-        </section>
-
-        <!-- SCREEN 4: CHOOSE SCHOOL / COURSES -->
-        <section class="screen" data-i="3">
             <div class="eyebrow"><span class="eyebrow-star">🧭</span> Our Schools</div>
             <h1 class="headline">Choose the Program That Fits You</h1>
 
@@ -360,6 +237,129 @@
 
                 <!-- Subtitle Caption Bar -->
                 <div class="s4-speech-bubble" id="s4SpeechBubble"></div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: OFFERINGS -->
+        <section class="screen" data-i="2">
+            <div class="eyebrow"><span class="eyebrow-star">🎁</span> Comprehensive 100% Scholarship</div>
+            <h1 class="headline">Everything Covered.<br><span class="highlight-pink">Zero Financial Barrier.</span></h1>
+
+            <div class="room-row">
+                <div class="zone" id="zoneLearn">
+                    <div class="zone-icon">💻</div>
+                    <div class="zone-name">Free Laptop</div>
+                    <div class="zone-sub">Learning Power Source</div>
+                </div>
+                <div class="zone" id="zoneFood">
+                    <div class="zone-icon"><img src="indian-thali.png" alt="Indian Thali" class="thali-icon-img"></div>
+                    <div class="zone-name">3 Meals/Day</div>
+                    <div class="zone-sub">Healthy Food</div>
+                </div>
+                <div class="zone" id="zoneStay">
+                    <div class="zone-icon">🏠</div>
+                    <div class="zone-name">On-Campus Stay</div>
+                    <div class="zone-sub">Safe Living</div>
+                </div>
+                <div class="zone" id="zoneWifi">
+                    <div class="zone-icon">
+                        <svg class="wifi-icon-svg" viewBox="0 0 24 24" fill="none" stroke="url(#wifiGrad)"
+                            stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                            <defs>
+                                <linearGradient id="wifiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0284c7" />
+                                    <stop offset="100%" stop-color="#e91e63" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M12 20h.01" stroke-width="3.2" stroke="url(#wifiGrad)" />
+                            <path d="M8.5 16.5a5 5 0 0 1 7 0" />
+                            <path d="M5 12.5a10 10 0 0 1 14 0" />
+                            <path d="M2 8.5a15 15 0 0 1 20 0" />
+                        </svg>
+                    </div>
+                    <div class="zone-name">High-Speed Wifi</div>
+                    <div class="zone-sub">24/7 Internet</div>
+                </div>
+                <div class="zone" id="zonePlacement">
+                    <div class="zone-icon">🚀</div>
+                    <div class="zone-name">100% Mentor Support</div>
+                </div>
+            </div>
+
+            <!-- Gender-Neutral Mentor Avatar Stage -->
+            <div class="guide-stage">
+                <div class="guide-track"></div>
+                <div class="guide-wrap" id="guide3">
+                    <div class="navi-avatar">
+                        <img src="mentor-avatar2.png" alt="Mentor" class="avatar-img">
+                    </div>
+                </div>
+                <div class="caption-bar" id="cap3"></div>
+            </div>
+            <div class="reward-line" id="rewardLine">All you need is dedication and a desire to learn!</div>
+        </section>
+
+        <!-- SCREEN 4: Proof of Outcomes & Alumni Stories -->
+        <section class="screen" data-i="3">
+            <!-- Ground/Air Shadow for Flying Bird -->
+            <div class="bird-shadow" id="birdShadow"></div>
+
+            <!-- TOP RIGHT CORNER PERCH DOCK (Where the bird sits with the poster) -->
+            <div class="perch-corner-dock">
+                <div class="perched-unit is-docked" id="perchedUnit" title="Click bird to trigger flight!">
+                    <div class="perched-bird-sprite" id="perchedBirdImg"></div>
+                    <div class="poster-pill-badge" id="dockedBadge">
+                        <span class="sparkle-icon">✨</span>
+                        <span>100% Job Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUTONOMOUS FLYING BIRD WITH CARRIED POSTER LAYER -->
+            <div class="flight-carrier-layer" id="flightLayer">
+                <div class="bird-carrier" id="birdCarrier">
+                    <!-- Bird Orientation Rig (controls yaw/facing left-right, pitch, bank) -->
+                    <div class="bird-orient" id="birdOrient">
+                        <div class="bird-rig flapping" id="birdRig">
+                            <!-- 6-Frame Wing Flapping Sprite -->
+                            <div class="bird-sprite" id="birdSprite"></div>
+                        </div>
+                    </div>
+
+                    <!-- Carried Poster Assembly (Hangs beneath bird's claws - NEVER inverted or mirrored!) -->
+                    <div class="carried-poster-assembly" id="carriedPoster">
+                        <svg class="poster-tether-cables" viewBox="0 0 64 16">
+                            <!-- Left Claw Cable -->
+                            <line x1="24" y1="2" x2="16" y2="14" class="tether-line" />
+                            <circle cx="24" cy="2" r="2.5" class="tether-claw-ring" />
+                            <!-- Right Claw Cable -->
+                            <line x1="40" y1="2" x2="48" y2="14" class="tether-line" />
+                            <circle cx="40" cy="2" r="2.5" class="tether-claw-ring" />
+                        </svg>
+                        <!-- Hanging Poster Badge -->
+                        <div class="carried-poster-badge">
+                            <span class="sparkle-icon">✨</span>
+                            <span>100% Job Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="eyebrow"><span class="eyebrow-star">✨</span> Student Outcomes</div>
+            <h1 class="headline"><span class="highlight-pink">2,000+ Dreams</span> Turned into Real Jobs</h1>
+            <p class="screen2-subline">Skills that opened doors. Careers that changed lives.</p>
+
+            <!-- Large Alumni Stories Marquee Carousel -->
+            <div class="alumni-viewport">
+                <div class="alumni-track" id="alumniTrack"></div>
+            </div>
+
+            <!-- Hiring Partners & Companies Strip -->
+            <div class="companies-strip">
+                <div class="companies-label">Top companies hiring NavGurukul graduates:</div>
+                <div class="companies-track-wrap">
+                    <div class="companies-track" id="companiesTrack"></div>
+                </div>
             </div>
         </section>
 
