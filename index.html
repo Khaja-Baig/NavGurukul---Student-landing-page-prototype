@@ -135,55 +135,45 @@
 
         <!-- SCREEN 2: Proof of Outcomes & Alumni Stories -->
         <section class="screen" data-i="1">
-            <!-- Dynamic Flying Parrot Mascot carrying 100% Job Support Flag -->
-            <div id="parrotScene" class="parrot-scene">
-                <div class="parrot-character">
-                    <!-- SVG Parrot Body -->
-                    <svg class="parrot-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Tail Feathers -->
-                        <path class="parrot-tail" d="M35 75 Q 15 95 10 115 Q 25 100 40 85 Z" fill="#047857" />
-                        <path class="parrot-tail-inner" d="M40 78 Q 25 98 20 112 Q 32 98 44 86 Z" fill="#0284c7" />
+            <!-- Ground/Air Shadow for Flying Bird -->
+            <div class="bird-shadow" id="birdShadow"></div>
 
-                        <!-- Main Body (Vibrant Emerald Green Parakeet) -->
-                        <ellipse cx="55" cy="65" rx="28" ry="32" fill="#10b981" />
-                        <path d="M35 55 Q 55 40 75 55 Q 83 75 55 95 Q 30 80 35 55 Z" fill="#059669" />
+            <!-- TOP RIGHT CORNER PERCH DOCK (Where the bird sits with the poster) -->
+            <div class="perch-corner-dock">
+                <div class="perched-unit is-docked" id="perchedUnit" title="Click bird to trigger flight!">
+                    <div class="perched-bird-sprite" id="perchedBirdImg"></div>
+                    <div class="poster-pill-badge" id="dockedBadge">
+                        <span class="sparkle-icon">✨</span>
+                        <span>100% Job Support</span>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- Chest / Belly Highlight -->
-                        <ellipse cx="62" cy="70" rx="16" ry="20" fill="#6ee7b7" opacity="0.8" />
+            <!-- AUTONOMOUS FLYING BIRD WITH CARRIED POSTER LAYER -->
+            <div class="flight-carrier-layer" id="flightLayer">
+                <div class="bird-carrier" id="birdCarrier">
+                    <!-- Bird Orientation Rig (controls yaw/facing left-right, pitch, bank) -->
+                    <div class="bird-orient" id="birdOrient">
+                        <div class="bird-rig flapping" id="birdRig">
+                            <!-- 6-Frame Wing Flapping Sprite -->
+                            <div class="bird-sprite" id="birdSprite"></div>
+                        </div>
+                    </div>
 
-                        <!-- Cute Head (Rose Red / Coral) -->
-                        <circle cx="72" cy="38" r="22" fill="#f43f5e" />
-                        <!-- Head Crown Tuft -->
-                        <path d="M72 16 Q 78 6 84 14 Q 78 20 72 16 Z" fill="#fb7185" />
-
-                        <!-- White Cheek Patch -->
-                        <circle cx="78" cy="42" r="10" fill="#ffffff" opacity="0.9" />
-
-                        <!-- Eye -->
-                        <circle cx="80" cy="35" r="5" fill="#1e293b" />
-                        <circle class="parrot-pupil" cx="81.5" cy="33.5" r="1.8" fill="#ffffff" />
-
-                        <!-- Beak (Curved Gold / Orange) -->
-                        <path d="M88 34 Q 106 36 98 48 Q 92 48 88 44 Z" fill="#f59e0b" />
-                        <path d="M88 44 Q 96 46 94 50 Q 90 50 88 46 Z" fill="#d97706" />
-
-                        <!-- Flapping Wing -->
-                        <g class="parrot-wing-group">
-                            <path class="parrot-wing" d="M42 52 C 25 58, 20 78, 48 82 C 60 80, 64 66, 42 52 Z" fill="#0284c7" />
-                            <path class="parrot-wing-feather" d="M38 58 C 26 64, 24 76, 45 78 Z" fill="#38bdf8" />
-                        </g>
-
-                        <!-- Perch Claws -->
-                        <path d="M52 95 L 50 102 M 56 95 L 56 103 M 62 95 L 64 102" stroke="#d97706" stroke-width="3" stroke-linecap="round" />
-                    </svg>
-
-                    <!-- Compact Flag Banner Assembly (Under the parrot) -->
-                    <div class="parrot-flag-wrap">
-                        <div class="flag-cloth">
-                            <span class="flag-star">✨</span>
-                            <div class="flag-text">
-                                <span class="flag-main">100% Job Support</span>
-                            </div>
+                    <!-- Carried Poster Assembly (Hangs beneath bird's claws - NEVER inverted or mirrored!) -->
+                    <div class="carried-poster-assembly" id="carriedPoster">
+                        <svg class="poster-tether-cables" viewBox="0 0 64 16">
+                            <!-- Left Claw Cable -->
+                            <line x1="24" y1="2" x2="16" y2="14" class="tether-line" />
+                            <circle cx="24" cy="2" r="2.5" class="tether-claw-ring" />
+                            <!-- Right Claw Cable -->
+                            <line x1="40" y1="2" x2="48" y2="14" class="tether-line" />
+                            <circle cx="40" cy="2" r="2.5" class="tether-claw-ring" />
+                        </svg>
+                        <!-- Hanging Poster Badge -->
+                        <div class="carried-poster-badge">
+                            <span class="sparkle-icon">✨</span>
+                            <span>100% Job Support</span>
                         </div>
                     </div>
                 </div>
@@ -271,48 +261,105 @@
             <div class="eyebrow"><span class="eyebrow-star">🧭</span> Our Schools</div>
             <h1 class="headline">Choose the Program That Fits You</h1>
 
-            <div class="school-row" id="schoolRow">
-                <div class="school-card blue-theme" data-school="0" onclick="openSchoolModal(0)" role="button"
-                    tabindex="0">
-                    <div class="school-top-accent"></div>
-                    <div class="school-tag blue-tag">SOFTWARE DEVELOPMENT</div>
-                    <div class="school-title">School of Programming (SOP)</div>
-                    <div class="school-desc">A residential program where you learn coding from basics and build a career
-                        in the tech industry. You will learn how to build websites and software applications.</div>
-                    <div class="school-cta">Check Details →</div>
-                    <div class="school-meta">
-                        <div class="meta-item">📍 Various Campuses</div>
-                        <div class="meta-item">⏳ 20–24 months</div>
+            <div class="s4-stage">
+                <!-- Left Column: Avatar -->
+                <div class="s4-avatar-zone" id="s4AvatarStage">
+                    <div class="s4-avatar-wrap" id="s4AvatarWrap">
+                        <div class="s4-navi">
+                            <img src="mentor-avatar2.png" alt="Guide Avatar" class="s4-avatar-img">
+                        </div>
                     </div>
                 </div>
 
-                <div class="school-card green-theme" data-school="1" onclick="openSchoolModal(1)" role="button"
-                    tabindex="0">
-                    <div class="school-top-accent"></div>
-                    <div class="school-tag green-tag">OPERATIONS &amp; MARKETING</div>
-                    <div class="school-title">School of Business (SOB)</div>
-                    <div class="school-desc">A practical program that prepares you for jobs in business operations,
-                        digital marketing, and office management.</div>
-                    <div class="school-cta">Check Details →</div>
-                    <div class="school-meta">
-                        <div class="meta-item">📍 Various Campuses</div>
-                        <div class="meta-item">⏳ 12–18 months</div>
+                <!-- Right Column: 2x2 Grid of 4 Courses -->
+                <div class="s4-cards-grid" id="schoolRow">
+                    <!-- Card 1: SOP -->
+                    <div class="school-card blue-theme" data-school="0" onclick="openSchoolModal(0)" role="button"
+                        tabindex="0">
+                        <div class="school-left-border"></div>
+                        <div class="school-icon-badge blue-badge">💻</div>
+                        <div class="school-content">
+                            <div class="school-header-row">
+                                <span class="school-tag blue-tag">SOFTWARE DEV</span>
+                                <h3 class="school-title">School of Programming (SOP)</h3>
+                            </div>
+                            <p class="school-desc">Learn coding from basics to full-stack web development.</p>
+                            <div class="school-footer-row">
+                                <div class="school-meta">
+                                    <span class="meta-item">📍 Campuses</span>
+                                    <span class="meta-item">⏳ 20–24 mos</span>
+                                </div>
+                                <div class="school-cta">Check Details →</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: SOB -->
+                    <div class="school-card green-theme" data-school="1" onclick="openSchoolModal(1)" role="button"
+                        tabindex="0">
+                        <div class="school-left-border"></div>
+                        <div class="school-icon-badge green-badge">📊</div>
+                        <div class="school-content">
+                            <div class="school-header-row">
+                                <span class="school-tag green-tag">BUSINESS &amp; MKTG</span>
+                                <h3 class="school-title">School of Business (SOB)</h3>
+                            </div>
+                            <p class="school-desc">Master business operations, marketing &amp; management.</p>
+                            <div class="school-footer-row">
+                                <div class="school-meta">
+                                    <span class="meta-item">📍 Campuses</span>
+                                    <span class="meta-item">⏳ 12–18 mos</span>
+                                </div>
+                                <div class="school-cta">Check Details →</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: SOF -->
+                    <div class="school-card orange-theme" data-school="2" onclick="openSchoolModal(2)" role="button"
+                        tabindex="0">
+                        <div class="school-left-border"></div>
+                        <div class="school-icon-badge orange-badge">💰</div>
+                        <div class="school-content">
+                            <div class="school-header-row">
+                                <span class="school-tag orange-tag">FINANCE &amp; TAX</span>
+                                <h3 class="school-title">School of Finance (SOF)</h3>
+                            </div>
+                            <p class="school-desc">Practical accounting, GST, income tax &amp; Tally/Excel.</p>
+                            <div class="school-footer-row">
+                                <div class="school-meta">
+                                    <span class="meta-item">📍 Campuses</span>
+                                    <span class="meta-item">⏳ 8–12 mos</span>
+                                </div>
+                                <div class="school-cta">Check Details →</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: SOD -->
+                    <div class="school-card purple-theme" data-school="3" onclick="openSchoolModal(3)" role="button"
+                        tabindex="0">
+                        <div class="school-left-border"></div>
+                        <div class="school-icon-badge purple-badge">🎨</div>
+                        <div class="school-content">
+                            <div class="school-header-row">
+                                <span class="school-tag purple-tag">UI/UX DESIGN</span>
+                                <h3 class="school-title">School of Design (SOD)</h3>
+                            </div>
+                            <p class="school-desc">UI/UX design, Figma prototyping &amp; visual branding.</p>
+                            <div class="school-footer-row">
+                                <div class="school-meta">
+                                    <span class="meta-item">📍 Campuses</span>
+                                    <span class="meta-item">⏳ 12–15 mos</span>
+                                </div>
+                                <div class="school-cta">Check Details →</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="school-card orange-theme" data-school="2" onclick="openSchoolModal(2)" role="button"
-                    tabindex="0">
-                    <div class="school-top-accent"></div>
-                    <div class="school-tag orange-tag">ACCOUNTING &amp; TAXATION</div>
-                    <div class="school-title">School of Finance (SOF)</div>
-                    <div class="school-desc">A job-oriented program where you learn practical accounting, taxation, and
-                        finance tools used in companies.</div>
-                    <div class="school-cta">Check Details →</div>
-                    <div class="school-meta">
-                        <div class="meta-item">📍 Various Campuses</div>
-                        <div class="meta-item">⏳ 8–12 months</div>
-                    </div>
-                </div>
+                <!-- Subtitle Caption Bar -->
+                <div class="s4-speech-bubble" id="s4SpeechBubble"></div>
             </div>
         </section>
 
