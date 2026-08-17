@@ -30,6 +30,18 @@
         });
     }
 
+    function updateNavArrows() {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const maxIdx = screens.length ? screens.length - 1 : 5;
+        if (prevBtn) {
+            prevBtn.style.display = (current === 0) ? 'none' : 'flex';
+        }
+        if (nextBtn) {
+            nextBtn.style.display = (current === maxIdx) ? 'none' : 'flex';
+        }
+    }
+
     function go(n, addXp) {
         if (!screens.length) return;
         n = Math.max(0, Math.min(screens.length - 1, n));
@@ -42,6 +54,8 @@
         document.body.classList.toggle('slide-other', current !== 0);
         dots.forEach((d, i) => d.classList.toggle('active', i === current));
 
+        updateNavArrows();
+
         if (typeof updateGamifiedHud === 'function') {
             updateGamifiedHud(current, prev, addXp);
         }
@@ -50,6 +64,7 @@
         if (current === 1 && typeof runScreen4 === 'function') runScreen4();
         if (current === 2 && typeof runScreen3 === 'function') runScreen3();
         if (current === 3 && typeof runScreen2 === 'function') runScreen2();
+        if (current === 4 && typeof runScreen5 === 'function') runScreen5();
         if (current === 5 && typeof runConfetti === 'function') runConfetti();
     }
 
@@ -59,6 +74,8 @@
     function initApp() {
         screens = Array.from(document.querySelectorAll('.screen'));
         dots = Array.from(document.querySelectorAll('.dot'));
+
+        updateNavArrows();
 
         // Checkpoint node clicks on HUD
         document.querySelectorAll('.hud-node').forEach((node) => {
