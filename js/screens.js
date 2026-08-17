@@ -502,6 +502,142 @@ function runScreen4() {
     }
 }
 
+// ===================== SCREEN 5: ADVENTUROUS ROADMAP CONTROLLER =====================
+let s5CurrentStage = 0;
+let s5IsWalking = false;
+
+// Waypoints along winding trail on parchment map (% left, % top)
+const s5StageWaypoints = [
+    // Stage 0: START Signpost
+    [{ left: 11, top: 72 }],
+
+    // Stage 1: Level 1 - Screening Test (Tent)
+    [{ left: 13, top: 70 }, { left: 15, top: 62 }, { left: 18.5, top: 56 }],
+
+    // Stage 2: Level 2 - Learning Round (Tech Cottage)
+    [{ left: 24, top: 68 }, { left: 31, top: 72 }, { left: 37, top: 62 }, { left: 40.5, top: 52 }],
+
+    // Stage 3: Level 3 - Culture-fit Round (Gazebo)
+    [{ left: 46, top: 58 }, { left: 51, top: 67 }, { left: 59.5, top: 60 }],
+
+    // Stage 4: Final Destination - Campus Welcome (Gurukul)
+    [{ left: 66, top: 68 }, { left: 74, top: 65 }, { left: 80, top: 52 }, { left: 86.5, top: 46 }]
+];
+
+const s5BannerMessages = [
+    (name) => `Aao ${name}! <span class="s5-highlight-pink">Level 1: Screening Test (ST)</span> explore karein! 🚀`,
+    (name) => `Awesome ${name}! <span class="s5-highlight-pink">Level 1 (Screening Test)</span> cleared! Now advance to Level 2! 💻`,
+    (name) => `Great job ${name}! <span class="s5-highlight-pink">Level 2 (Learning Round)</span> unlocked! Move to Level 3! 🤝`,
+    (name) => `Fantastic ${name}! <span class="s5-highlight-pink">Level 3 (Culture-fit Round)</span> complete! Welcome to Campus! 🎓`,
+    (name) => `Congratulations ${name}! You reached <span class="s5-highlight-pink">Campus Welcome</span>! Book your free test below! 🎉`
+];
+
+function updateS5AvatarPosition(left, top) {
+    const runner = document.getElementById('s5AvatarRunner');
+    if (!runner) return;
+    runner.style.left = left + '%';
+    runner.style.top = top + '%';
+}
+
+function s5GoToStage(targetStage) {
+    if (s5IsWalking) return;
+    targetStage = Math.max(0, Math.min(4, targetStage));
+    const runner = document.getElementById('s5AvatarRunner');
+    const bannerText = document.getElementById('s5BannerText');
+    const tag = document.getElementById('s5AvatarTag');
+    const name = window.studentName || 'Asha';
+    if (tag) tag.textContent = name;
+
+    if (targetStage === s5CurrentStage) {
+        if (runner) {
+            runner.classList.add('is-walking');
+            setTimeout(() => runner.classList.remove('is-walking'), 600);
+        }
+        return;
+    }
+
+    s5IsWalking = true;
+    if (runner) {
+        runner.classList.remove('is-idle');
+        runner.classList.add('is-walking');
+    }
+
+    let waypointsToWalk = [];
+    if (targetStage > s5CurrentStage) {
+        for (let s = s5CurrentStage + 1; s <= targetStage; s++) {
+            waypointsToWalk = waypointsToWalk.concat(s5StageWaypoints[s]);
+        }
+    } else {
+        for (let s = s5CurrentStage; s > targetStage; s--) {
+            const reversed = [...s5StageWaypoints[s]].reverse();
+            waypointsToWalk = waypointsToWalk.concat(reversed);
+        }
+    }
+
+    let stepIndex = 0;
+    function walkStep() {
+        if (stepIndex >= waypointsToWalk.length) {
+            s5CurrentStage = targetStage;
+            s5IsWalking = false;
+            if (runner) {
+                runner.classList.remove('is-walking');
+                runner.classList.add('is-idle');
+            }
+            if (bannerText && s5BannerMessages[targetStage]) {
+                bannerText.innerHTML = s5BannerMessages[targetStage](name);
+            }
+            document.querySelectorAll('.s5-stage-spot').forEach((spot, idx) => {
+                spot.classList.toggle('active', idx === targetStage);
+            });
+            return;
+        }
+
+        const wp = waypointsToWalk[stepIndex];
+        updateS5AvatarPosition(wp.left, wp.top);
+        stepIndex++;
+        setTimeout(walkStep, 320);
+    }
+
+    walkStep();
+}
+
+function s5AdvanceMilestone() {
+    if (s5CurrentStage < 4) {
+        s5GoToStage(s5CurrentStage + 1);
+    } else {
+        if (typeof window.go === 'function') window.go(5);
+    }
+}
+
+function runScreen5() {
+    const name = window.studentName || 'Asha';
+    const tag = document.getElementById('s5AvatarTag');
+    if (tag) tag.textContent = name;
+
+    const initialWp = s5StageWaypoints[s5CurrentStage][0];
+    updateS5AvatarPosition(initialWp.left, initialWp.top);
+
+    const bannerText = document.getElementById('s5BannerText');
+    if (bannerText && s5BannerMessages[s5CurrentStage]) {
+        bannerText.innerHTML = s5BannerMessages[s5CurrentStage](name);
+    }
+
+    const nextLevelBtn = document.getElementById('nextLevelBtn');
+    if (nextLevelBtn) {
+        nextLevelBtn.onclick = function () {
+            if (s5CurrentStage < 4) {
+                s5GoToStage(s5CurrentStage + 1);
+            } else {
+                if (typeof window.go === 'function') window.go(5);
+            }
+        };
+    }
+}
+
+window.s5GoToStage = s5GoToStage;
+window.s5AdvanceMilestone = s5AdvanceMilestone;
+window.runScreen5 = runScreen5;
+
 // Screen 6 Victory Confetti
 function runConfetti() {
     const screens = document.querySelectorAll('.screen');

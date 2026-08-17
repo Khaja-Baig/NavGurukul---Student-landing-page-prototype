@@ -363,40 +363,88 @@
             </div>
         </section>
 
-        <!-- SCREEN 5: ROADMAP -->
+        <!-- SCREEN 5: ADVENTUROUS TREASURE HUNT ROADMAP -->
         <section class="screen" data-i="4">
-            <div class="eyebrow"><span class="eyebrow-star">🏆</span> Selection Process</div>
-            <h1 class="headline">Simple 4-Step Admission Journey</h1>
+            <h1 class="headline">Simple 4-Step <span class="highlight-pink s5-underline">Admission Journey</span></h1>
 
-            <div class="level-map">
-                <div class="lvl-node">
-                    <div class="lvl-circle">1</div>
-                    <div class="lvl-label">Screening<br>Test</div>
-                </div>
-                <div class="lvl-node">
-                    <div class="lvl-connector"></div>
-                </div>
-                <div class="lvl-node">
-                    <div class="lvl-circle">2</div>
-                    <div class="lvl-label">Learning<br>Round</div>
-                </div>
-                <div class="lvl-node">
-                    <div class="lvl-connector"></div>
-                </div>
-                <div class="lvl-node">
-                    <div class="lvl-circle">3</div>
-                    <div class="lvl-label">Culture &amp;<br>Family (CFR)</div>
-                </div>
-                <div class="lvl-node">
-                    <div class="lvl-connector"></div>
-                </div>
-                <div class="lvl-node">
-                    <div class="lvl-circle">🎓</div>
-                    <div class="lvl-label">Campus<br>Welcome</div>
+            <!-- Adventurous Parchment Scroll Stage Container -->
+            <div class="s5-adventure-stage">
+                <div class="s5-parchment-frame">
+                    <!-- Parchment Background Map -->
+                    <img src="css/s5-map-parchment.png" alt="Admission Journey Map" class="s5-map-bg-img">
+
+                    <!-- Compass Rose Badge (Top Left Corner) -->
+                    <div class="s5-compass-badge" title="Admission Compass">🧭</div>
+
+                    <!-- Stage 0: START Signpost -->
+                    <div class="s5-stage-spot spot-0 active" data-stage="0" onclick="s5GoToStage(0)">
+                        <div class="s5-spot-pulse"></div>
+                    </div>
+
+                    <!-- Stage 1: Level 1 - Screening Test (Pink Tent & Lightning Bolt) -->
+                    <div class="s5-stage-spot spot-1" data-stage="1" onclick="s5GoToStage(1)">
+                        <div class="s5-flag-pin red-flag">
+                            <span class="flag-num">1</span>
+                        </div>
+                        <div class="s5-tent-effect">
+                            <div class="s5-lightning-glow">⚡</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 2: Level 2 - Learning Round (Tech Cottage & Laptop) -->
+                    <div class="s5-stage-spot spot-2" data-stage="2" onclick="s5GoToStage(2)">
+                        <div class="s5-flag-pin yellow-flag">
+                            <span class="flag-num">2</span>
+                        </div>
+                        <div class="s5-cottage-effect">
+                            <div class="s5-screen-glow">💻</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3: Level 3 - Culture-fit Round (Gazebo & Discussion) -->
+                    <div class="s5-stage-spot spot-3" data-stage="3" onclick="s5GoToStage(3)">
+                        <div class="s5-flag-pin purple-flag">
+                            <span class="flag-num">3</span>
+                        </div>
+                        <div class="s5-gazebo-effect">
+                            <div class="s5-fairy-light light-1">✨</div>
+                            <div class="s5-fairy-light light-2">✨</div>
+                            <div class="s5-speech-float bubble-1">💬</div>
+                            <div class="s5-speech-float bubble-2">🤝</div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 4: Final Destination - Campus Welcome (Gurukul, Trophy & Treasure) -->
+                    <div class="s5-stage-spot spot-4" data-stage="4" onclick="s5GoToStage(4)">
+                        <div class="s5-flag-pin pink-final-flag">
+                            <span class="flag-txt">FINAL</span>
+                        </div>
+                        <div class="s5-final-effects">
+                            <div class="s5-trophy-shine">🏆</div>
+                            <div class="s5-chest-sparkle">✨</div>
+                        </div>
+                    </div>
+
+                    <!-- Animated Walking Asha Avatar Layer -->
+                    <div class="s5-avatar-runner is-idle" id="s5AvatarRunner">
+                        <img src="css/s5-asha.png" alt="Asha Character" class="s5-asha-img" id="s5AshaImg">
+                        <div class="s5-avatar-tag" id="s5AvatarTag">Asha</div>
+                    </div>
+
+                    <!-- Bottom Wooden Guide Scroll Banner -->
+                    <div class="s5-wooden-banner" id="s5WoodenBanner" onclick="s5AdvanceMilestone()">
+                        <div class="s5-banner-compass">🧭</div>
+                        <div class="s5-banner-text" id="s5BannerText">
+                            Aao Asha! <span class="s5-highlight-pink">Level 1: Screening Test (ST)</span> explore karein! 🚀
+                        </div>
+                        <div class="s5-banner-cta">Tap to Walk →</div>
+                    </div>
                 </div>
             </div>
-            <div class="xp-float">+300 XP Earned! 🚀</div>
-            <button class="glow-btn" id="nextLevelBtn">Unlock Next Milestone →</button>
+
+            <div class="s5-actions-row">
+                <button class="glow-btn" id="nextLevelBtn">Unlock Next Milestone →</button>
+            </div>
         </section>
 
         <!-- SCREEN 6: VICTORY & CTA -->
@@ -505,47 +553,6 @@
     <script src="js/mentor.js"></script>
     <script src="js/screens.js"></script>
     <script src="js/app.js"></script>
-</body>
-
-</html>
-</div>
-</div>
-
-<div class="sm-col">
-    <div class="sm-section">
-        <div class="sm-sec-header">
-            <span class="sm-sec-icon">🏆</span>
-            <span class="sm-sec-title">Outcomes</span>
-        </div>
-        <ul class="sm-list" id="smOutcomes"></ul>
-    </div>
-
-    <div class="sm-info-box">
-        <div class="sm-info-item">
-            <div class="sm-info-label">⏳ Duration</div>
-            <div class="sm-info-val" id="smDuration">20–24 months (Self-paced, duration may vary)</div>
-        </div>
-        <div class="sm-info-divider"></div>
-        <div class="sm-info-item">
-            <div class="sm-info-label">📍 Location</div>
-            <div class="sm-info-val" id="smLocation">Various Campuses (Dantewada, Bengaluru, Pune etc.)
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<div class="sm-footer">
-    <button class="sm-apply-btn" id="smApplyBtn">Apply to this School</button>
-</div>
-</div>
-</div>
-
-<!-- External Modular Scripts -->
-<script src="js/leaves.js"></script>
-<script src="js/hud.js"></script>
-<script src="js/mentor.js"></script>
-<script src="js/screens.js"></script>
-<script src="js/app.js"></script>
 </body>
 
 </html>

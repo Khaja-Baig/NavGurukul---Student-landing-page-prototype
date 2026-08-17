@@ -1455,57 +1455,324 @@
     box-shadow: 0 12px 30px rgba(233, 30, 99, 0.45);
 }
 
-/* ===================== SCREEN 5: ROADMAP ===================== */
-.level-map {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-top: 35px;
-    flex-wrap: wrap;
-    justify-content: center;
+/* ===================== SCREEN 5: ADVENTUROUS MAP ROADMAP REDESIGN ===================== */
+.s5-underline {
+    position: relative;
+    display: inline-block;
 }
 
-.lvl-node {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.lvl-circle {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 2px solid var(--pink-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-weight: 800;
-    font-size: 22px;
-    color: var(--pink-primary);
-    box-shadow: 0 8px 20px var(--pink-glow);
-}
-
-.lvl-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-dark);
-    text-align: center;
-    line-height: 1.35;
-}
-
-.lvl-connector {
-    width: 70px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--pink-primary), var(--gold-bright));
-    margin-bottom: 30px;
+.s5-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #e91e63, #f59e0b);
     border-radius: 2px;
 }
 
+.s5-adventure-stage {
+    position: relative;
+    width: 100%;
+    max-width: 1020px;
+    margin: 20px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.s5-parchment-frame {
+    position: relative;
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(217, 119, 6, 0.2);
+    background: #fbf5e6;
+}
+
+.s5-map-bg-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+    border-radius: 18px;
+}
+
+/* Compass Rose Badge */
+.s5-compass-badge {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 28px;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+    animation: s5CompassSpin 16s linear infinite;
+    cursor: pointer;
+    z-index: 5;
+}
+
+@keyframes s5CompassSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Stage Spots / Interactive Hitboxes on Map */
+.s5-stage-spot {
+    position: absolute;
+    z-index: 10;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+}
+
+.s5-stage-spot.spot-0 { left: 11%; top: 72%; width: 60px; height: 60px; }
+.s5-stage-spot.spot-1 { left: 18.5%; top: 52%; width: 110px; height: 120px; }
+.s5-stage-spot.spot-2 { left: 40.5%; top: 48%; width: 110px; height: 120px; }
+.s5-stage-spot.spot-3 { left: 59.5%; top: 55%; width: 120px; height: 130px; }
+.s5-stage-spot.spot-4 { left: 86.5%; top: 42%; width: 140px; height: 150px; }
+
+/* Pulse animation for active stage spot */
+.s5-spot-pulse {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(233, 30, 99, 0.4);
+    border: 2px solid #e91e63;
+    animation: s5Pulse 1.8s infinite;
+}
+
+@keyframes s5Pulse {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    50% { transform: scale(1.4); opacity: 0.3; }
+    100% { transform: scale(0.8); opacity: 0.8; }
+}
+
+/* Flag Pins on Landmarks */
+.s5-flag-pin {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: s5FlagSway 3s ease-in-out infinite alternate;
+}
+
+@keyframes s5FlagSway {
+    0% { transform: translateX(-50%) rotate(-3deg); }
+    100% { transform: translateX(-50%) rotate(3deg); }
+}
+
+/* Micro Animations per Stage */
+/* Level 1 Tent Lightning Glow */
+.s5-lightning-glow {
+    position: absolute;
+    left: 44%;
+    top: 58%;
+    font-size: 18px;
+    color: #fef08a;
+    filter: drop-shadow(0 0 8px #f59e0b);
+    animation: s5LightningPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes s5LightningPulse {
+    0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0 0 4px #f59e0b); }
+    100% { transform: scale(1.25); opacity: 1; filter: drop-shadow(0 0 14px #fef08a); }
+}
+
+/* Level 2 Cottage Screen Glow */
+.s5-screen-glow {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    font-size: 18px;
+    filter: drop-shadow(0 0 10px #38bdf8);
+    animation: s5LaptopFlicker 2s ease-in-out infinite alternate;
+}
+
+@keyframes s5LaptopFlicker {
+    0% { opacity: 0.6; filter: drop-shadow(0 0 4px #0284c7); }
+    100% { opacity: 1; filter: drop-shadow(0 0 14px #38bdf8); }
+}
+
+/* Level 3 Gazebo Fairy Lights & Speech Bubbles */
+.s5-fairy-light {
+    position: absolute;
+    font-size: 14px;
+    animation: s5FairyTwinkle 1.6s ease-in-out infinite alternate;
+}
+
+.s5-fairy-light.light-1 { left: 30%; top: 40%; animation-delay: 0s; }
+.s5-fairy-light.light-2 { left: 70%; top: 40%; animation-delay: 0.8s; }
+
+@keyframes s5FairyTwinkle {
+    0% { opacity: 0.3; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 8px #fef08a); }
+}
+
+.s5-speech-float {
+    position: absolute;
+    font-size: 16px;
+    animation: s5SpeechFloat 2.5s ease-in-out infinite;
+}
+
+.s5-speech-float.bubble-1 { left: 25%; top: 25%; animation-delay: 0s; }
+.s5-speech-float.bubble-2 { left: 72%; top: 25%; animation-delay: 1.2s; }
+
+@keyframes s5SpeechFloat {
+    0% { transform: translateY(0) scale(0.9); opacity: 0.7; }
+    50% { transform: translateY(-8px) scale(1.1); opacity: 1; }
+    100% { transform: translateY(0) scale(0.9); opacity: 0.7; }
+}
+
+/* Stage 4 Final Campus Trophy & Chest Effects */
+.s5-trophy-shine {
+    position: absolute;
+    right: 15%;
+    top: 55%;
+    font-size: 24px;
+    animation: s5TrophyShimmer 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes s5TrophyShimmer {
+    0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px #d97706); }
+    100% { transform: scale(1.2) rotate(6deg); filter: drop-shadow(0 0 16px #fef08a); }
+}
+
+.s5-chest-sparkle {
+    position: absolute;
+    right: 32%;
+    top: 62%;
+    font-size: 18px;
+    animation: s5ChestSparkle 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes s5ChestSparkle {
+    0% { transform: translateY(0) scale(0.8); opacity: 0.4; }
+    100% { transform: translateY(-10px) scale(1.3); opacity: 1; filter: drop-shadow(0 0 10px #f59e0b); }
+}
+
+/* Animated Character Asha Layer */
+.s5-avatar-runner {
+    position: absolute;
+    z-index: 25;
+    width: 60px;
+    transform: translate(-50%, -85%);
+    transition: left 0.75s ease-in-out, top 0.75s ease-in-out;
+    pointer-events: none;
+}
+
+.s5-asha-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
+}
+
+.s5-avatar-runner.is-idle .s5-asha-img {
+    animation: s5AvatarIdle 2.4s ease-in-out infinite alternate;
+}
+
+.s5-avatar-runner.is-walking .s5-asha-img {
+    animation: s5AvatarWalk 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes s5AvatarIdle {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-6px); }
+}
+
+@keyframes s5AvatarWalk {
+    0% { transform: translateY(0) rotate(-4deg) scaleY(0.96); }
+    100% { transform: translateY(-10px) rotate(4deg) scaleY(1.04); }
+}
+
+/* Avatar Name Tag */
+.s5-avatar-tag {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e91e63;
+    color: #ffffff;
+    font-family: var(--font-main);
+    font-weight: 800;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(233, 30, 99, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Bottom Wooden Banner Scroll */
+.s5-wooden-banner {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88%;
+    max-width: 720px;
+    background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+    border: 3px solid #b45309;
+    border-radius: 35px;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    z-index: 30;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.s5-wooden-banner:hover {
+    box-shadow: 0 14px 32px rgba(180, 83, 9, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+}
+
+.s5-banner-compass {
+    font-size: 26px;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+    animation: s5CompassSpin 12s linear infinite;
+}
+
+.s5-banner-text {
+    font-family: var(--font-main);
+    font-size: 15px;
+    font-weight: 700;
+    color: #451a03;
+    text-align: center;
+    flex: 1;
+    line-height: 1.3;
+}
+
+.s5-highlight-pink {
+    color: #be185d;
+    font-weight: 800;
+}
+
+.s5-banner-cta {
+    background: #e91e63;
+    color: #ffffff;
+    font-family: var(--font-main);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.4);
+    white-space: nowrap;
+}
+
+/* Actions Row at Bottom of Screen 5 */
+.s5-actions-row {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
 .xp-float {
-    margin-top: 24px;
+    margin-top: 0;
     font-family: var(--font-mono);
     font-size: 16px;
     font-weight: 700;
