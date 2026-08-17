@@ -38,8 +38,10 @@
     background-image: url('../bird_flapping_strip.png');
     background-size: 600% 100%;
     background-repeat: no-repeat;
-    background-position-x: calc(var(--perch-bird-w) * -2); /* Resting/folded wings frame */
-    margin-bottom: calc(var(--perch-bird-h) * -0.26); /* Claws grip directly on top rim of badge */
+    background-position-x: calc(var(--perch-bird-w) * -2);
+    /* Resting/folded wings frame */
+    margin-bottom: calc(var(--perch-bird-h) * -0.26);
+    /* Claws grip directly on top rim of badge */
     position: relative;
     z-index: 2;
     filter: drop-shadow(0 8px 14px rgba(18, 38, 68, 0.18));
@@ -52,15 +54,20 @@
 }
 
 @keyframes perchedIdle {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0) rotate(0deg) scale(1);
     }
+
     30% {
         transform: translateY(-2px) rotate(-1.5deg) scale(1.01);
     }
+
     65% {
         transform: translateY(-1px) rotate(1.2deg) scale(0.99);
     }
+
     85% {
         transform: translateY(-3px) rotate(0deg) scale(1.01);
     }
@@ -95,8 +102,18 @@
 }
 
 @keyframes spinSparkle {
-    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
-    50% { transform: scale(1.25) rotate(12deg); opacity: 1; filter: drop-shadow(0 0 6px #ff2d75); }
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: scale(1.25) rotate(12deg);
+        opacity: 1;
+        filter: drop-shadow(0 0 6px #ff2d75);
+    }
 }
 
 /* AUTONOMOUS FLYING BIRD WITH CARRIED POSTER LAYER */
@@ -191,19 +208,33 @@
 }
 
 @keyframes playFlap {
-    from { background-position-x: 0px; }
-    to { background-position-x: calc(var(--bird-w) * -6); }
+    from {
+        background-position-x: 0px;
+    }
+
+    to {
+        background-position-x: calc(var(--bird-w) * -6);
+    }
 }
 
 @keyframes flapBodyBounce {
-    0% { transform: translateY(5px) rotate(0.8deg); }
-    50% { transform: translateY(-7px) rotate(-1.2deg); }
-    100% { transform: translateY(5px) rotate(0.8deg); }
+    0% {
+        transform: translateY(5px) rotate(0.8deg);
+    }
+
+    50% {
+        transform: translateY(-7px) rotate(-1.2deg);
+    }
+
+    100% {
+        transform: translateY(5px) rotate(0.8deg);
+    }
 }
 
 /* Gliding State */
 .gliding .bird-sprite {
-    background-position-x: calc(var(--bird-w) * -2); /* Frame 3 */
+    background-position-x: calc(var(--bird-w) * -2);
+    /* Frame 3 */
     animation: none;
 }
 
@@ -212,14 +243,22 @@
 }
 
 @keyframes glideBodyWave {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-5px) rotate(-0.8deg); }
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-5px) rotate(-0.8deg);
+    }
 }
 
 /* POSTER / BANNER ATTACHED DIRECTLY TO BIRD'S FEET */
 .carried-poster-assembly {
     position: absolute;
-    top: 76%; /* Claws / feet position */
+    top: 76%;
+    /* Claws / feet position */
     left: 50%;
     transform: translateX(-50%);
     transform-origin: top center;
@@ -243,7 +282,7 @@
     stroke: #d97706;
     stroke-width: 1.8;
     stroke-linecap: round;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.18));
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
     fill: none;
 }
 
@@ -287,8 +326,15 @@
 }
 
 @keyframes fadeSparkle {
-    0% { transform: scale(1) translate(0, 0); opacity: 1; }
-    100% { transform: scale(0.1) translate(var(--svx, -20px), var(--svy, 30px)); opacity: 0; }
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.1) translate(var(--svx, -20px), var(--svy, 30px));
+        opacity: 0;
+    }
 }
 
 /* Landing celebration burst */
@@ -308,8 +354,15 @@
 }
 
 @keyframes burstPop {
-    0% { transform: translate(0, 0) scale(0.2) rotate(0deg); opacity: 1; }
-    100% { transform: translate(var(--bx), var(--by)) scale(1.3) rotate(var(--brot)); opacity: 0; }
+    0% {
+        transform: translate(0, 0) scale(0.2) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--bx), var(--by)) scale(1.3) rotate(var(--brot));
+        opacity: 0;
+    }
 }
 
 @media (max-width: 768px) {
@@ -317,7 +370,9 @@
         top: 15px;
         right: 15px;
     }
-    .poster-pill-badge, .carried-poster-badge {
+
+    .poster-pill-badge,
+    .carried-poster-badge {
         font-size: 0.82rem;
         padding: 6px 14px;
     }
