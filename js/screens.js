@@ -508,20 +508,20 @@ let s5IsWalking = false;
 
 // Waypoints along winding trail on parchment map (% left, % top)
 const s5StageWaypoints = [
-    // Stage 0: START Signpost
+    // Stage 0: START Signpost (on trail)
     [{ left: 11, top: 72 }],
 
-    // Stage 1: Level 1 - Screening Test (Tent)
-    [{ left: 13, top: 70 }, { left: 15, top: 62 }, { left: 18.5, top: 56 }],
+    // Stage 1: Level 1 - Screening Test (Pink Tent - path in front of tent)
+    [{ left: 13, top: 70 }, { left: 15, top: 66 }, { left: 18.5, top: 64 }],
 
-    // Stage 2: Level 2 - Learning Round (Tech Cottage)
-    [{ left: 24, top: 68 }, { left: 31, top: 72 }, { left: 37, top: 62 }, { left: 40.5, top: 52 }],
+    // Stage 2: Level 2 - Learning Round (Tech Cottage - path in front of cottage)
+    [{ left: 24, top: 68 }, { left: 31, top: 72 }, { left: 37, top: 66 }, { left: 40.5, top: 62 }],
 
-    // Stage 3: Level 3 - Culture-fit Round (Gazebo)
-    [{ left: 46, top: 58 }, { left: 51, top: 67 }, { left: 59.5, top: 60 }],
+    // Stage 3: Level 3 - Culture-fit Round (Gazebo - path in front of gazebo)
+    [{ left: 46, top: 64 }, { left: 51, top: 67 }, { left: 59.5, top: 66 }],
 
-    // Stage 4: Final Destination - Campus Welcome (Gurukul)
-    [{ left: 66, top: 68 }, { left: 74, top: 65 }, { left: 80, top: 52 }, { left: 86.5, top: 46 }]
+    // Stage 4: Final Destination - Campus Welcome (path in front of campus gate)
+    [{ left: 66, top: 68 }, { left: 74, top: 65 }, { left: 78, top: 58 }, { left: 80, top: 55 }]
 ];
 
 const s5BannerMessages = [
