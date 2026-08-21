@@ -116,7 +116,13 @@
         // Unlock next level button on Screen 5
         const nextLevelBtn = document.getElementById('nextLevelBtn');
         if (nextLevelBtn) {
-            nextLevelBtn.addEventListener('click', () => go(5));
+            nextLevelBtn.addEventListener('click', () => {
+                if (typeof window.s5AdvanceMilestone === 'function') {
+                    window.s5AdvanceMilestone();
+                } else {
+                    go(5);
+                }
+            });
         }
 
         // Final registration CTA on Screen 6

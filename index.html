@@ -373,9 +373,6 @@
                     <!-- Parchment Background Map -->
                     <img src="css/Map.png" alt="Admission Journey Map" class="s5-map-bg-img">
 
-                    <!-- Compass Rose Badge (Top Left Corner) -->
-                    <div class="s5-compass-badge" title="Admission Compass">🧭</div>
-
                     <!-- Stage 0: START Signpost -->
                     <div class="s5-stage-spot spot-0 active" data-stage="0" onclick="s5GoToStage(0)">
                         <div class="s5-spot-pulse"></div>
@@ -409,7 +406,6 @@
 
                     <!-- Bottom Wooden Guide Scroll Banner -->
                     <div class="s5-wooden-banner" id="s5WoodenBanner" onclick="s5AdvanceMilestone()">
-                        <div class="s5-banner-compass">🧭</div>
                         <div class="s5-banner-text" id="s5BannerText">
                             Aao Asha! <span class="s5-highlight-pink">Level 1: Screening Test (ST)</span> explore karein! 🚀
                         </div>
@@ -519,6 +515,46 @@
             </div>
             <div class="sm-footer">
                 <button class="sm-apply-btn" id="smApplyBtn">Apply to this School</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adventurous Stage Quest Process Details Modal (Popup) -->
+    <div id="stageQuestModal" class="sq-overlay" onclick="if(event.target===this)closeStageQuestModal()" role="dialog"
+        aria-modal="true">
+        <div class="sq-card">
+            <button class="sq-close" onclick="closeStageQuestModal()" aria-label="Close modal">✕</button>
+
+            <div class="sq-header" id="sqHeader">
+                <div class="sq-badge" id="sqBadge">LEVEL 1 QUEST</div>
+                <h2 class="sq-title" id="sqTitle">Level 1: Screening Test (ST)</h2>
+                <div class="sq-subtitle" id="sqSubtitle">⛺ Your First Treasure Hunt Milestone</div>
+            </div>
+
+            <div class="sq-body">
+                <!-- Left Avatar Guide Column -->
+                <div class="sq-avatar-col">
+                    <div class="sq-avatar-frame">
+                        <img src="mentor-avatar2.png" alt="Guide Asha" class="sq-avatar-img">
+                        <div class="sq-avatar-pulse"></div>
+                    </div>
+                    <div class="sq-avatar-name">Guide Asha 🧭</div>
+                    <div class="sq-speech-bubble" id="sqAvatarMsg">
+                        Welcome to Screening Test! Sabse pehle aapka basic problem-solving check hota hai.
+                    </div>
+                </div>
+
+                <!-- Right Process Details Column -->
+                <div class="sq-details-col">
+                    <div class="sq-sections-grid" id="sqSectionsGrid">
+                        <!-- Dynamic quest details cards populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="sq-footer">
+                <button class="sq-secondary-btn" onclick="closeStageQuestModal()">Explore Map 🗺️</button>
+                <button class="sq-primary-btn" id="sqCtaBtn">Walk to Next Milestone →</button>
             </div>
         </div>
     </div>
