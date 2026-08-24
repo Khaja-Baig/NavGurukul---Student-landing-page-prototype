@@ -1659,49 +1659,113 @@
 .s5-avatar-runner {
     position: absolute;
     z-index: 25;
-    width: 60px;
-    transform: translate(-50%, -85%);
-    transition: left 0.75s ease-in-out, top 0.75s ease-in-out;
+    width: 44px;
+    height: 83px;
+    transform-origin: 50% 100%;
+    transform: translate(-50%, -100%);
     pointer-events: none;
+    will-change: left, top, transform;
 }
 
-.s5-asha-img {
+/* Realistic ground footstep shadow on road */
+.s5-ground-shadow {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 7px;
+    background: radial-gradient(ellipse at center, rgba(30, 15, 5, 0.55) 0%, rgba(30, 15, 5, 0) 75%);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.s5-char-rig {
     width: 100%;
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
+    height: 100%;
+    position: relative;
+    transform-origin: 50% 100%;
+    transition: transform 0.2s ease-out;
 }
 
-.s5-avatar-runner.is-idle .s5-asha-img {
-    animation: s5AvatarIdle 2.4s ease-in-out infinite alternate;
+.s5-asha-sprite {
+    width: 44px;
+    height: 83px;
+    background-image: url('asha_walk/asha_walk_strip.png');
+    background-size: 352px 83px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+    transform-origin: 50% 100%;
+    will-change: background-position, transform;
 }
 
-.s5-avatar-runner.is-walking .s5-asha-img {
-    animation: s5AvatarWalk 0.35s ease-in-out infinite alternate;
+/* ==================== IDLE STATE ==================== */
+.s5-avatar-runner.is-idle .s5-asha-sprite {
+    background-image: url('asha_walk/asha_idle.png');
+    background-size: 44px 83px;
+    background-position: 0 0;
+    animation: s5AshaIdle 2.5s ease-in-out infinite alternate;
 }
 
-@keyframes s5AvatarIdle {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-6px); }
+.s5-avatar-runner.is-idle .s5-ground-shadow {
+    animation: s5ShadowIdle 2.5s ease-in-out infinite alternate;
 }
 
-@keyframes s5AvatarWalk {
-    0% { transform: translateY(0) rotate(-4deg) scaleY(0.96); }
-    100% { transform: translateY(-10px) rotate(4deg) scaleY(1.04); }
+@keyframes s5AshaIdle {
+    0% { transform: translate3d(0, 0, 0) scale(1, 1); }
+    100% { transform: translate3d(0, -1.5px, 0) scale(0.99, 1.015); }
+}
+
+@keyframes s5ShadowIdle {
+    0% { transform: translateX(-50%) scale(1, 1); opacity: 0.5; }
+    100% { transform: translateX(-50%) scale(0.92, 0.92); opacity: 0.38; }
+}
+
+/* ==================== WALKING STATE ==================== */
+/* Relaxed & slower natural walking cadence: 0.84s complete 8-frame walk cycle with sub-pixel vertical blending */
+.s5-avatar-runner.is-walking .s5-asha-sprite {
+    animation: s5AshaWalkSprite 0.84s steps(8) infinite, s5AshaSubpixelBob 0.42s ease-in-out infinite alternate;
+}
+
+@keyframes s5AshaWalkSprite {
+    from { background-position: 0px 0; }
+    to { background-position: -352px 0; }
+}
+
+@keyframes s5AshaSubpixelBob {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-1.5px); }
+}
+
+.s5-avatar-runner.is-walking .s5-ground-shadow {
+    animation: s5ShadowWalkCycle 0.42s ease-in-out infinite alternate;
+}
+
+@keyframes s5ShadowWalkCycle {
+    0% {
+        transform: translateX(-50%) scale(1.12, 1.12);
+        opacity: 0.55;
+    }
+    100% {
+        transform: translateX(-50%) scale(0.85, 0.85);
+        opacity: 0.32;
+    }
 }
 
 /* Avatar Name Tag */
 .s5-avatar-tag {
     position: absolute;
-    bottom: -18px;
+    bottom: -13px;
     left: 50%;
     transform: translateX(-50%);
     background: #e91e63;
     color: #ffffff;
     font-family: var(--font-main);
     font-weight: 800;
-    font-size: 10px;
-    padding: 2px 8px;
+    font-size: 9.5px;
+    padding: 1.5px 7px;
     border-radius: 12px;
     white-space: nowrap;
     box-shadow: 0 4px 10px rgba(233, 30, 99, 0.5);

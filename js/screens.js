@@ -505,23 +505,26 @@ function runScreen4() {
 // ===================== SCREEN 5: ADVENTUROUS ROADMAP CONTROLLER =====================
 let s5CurrentStage = 0;
 let s5IsWalking = false;
+let s5WalkAnimFrame = null;
 
-// Waypoints along winding trail on parchment map (% left, % top)
-const s5StageWaypoints = [
-    // Stage 0: START Signpost (on trail)
-    [{ left: 11, top: 72 }],
+// High-precision Bézier SVG path segments tracing the exact physical road on Map.png in 0..1000 coordinate space
+const s5RoadSegments = {
+    // Stage 0 -> 1: START on dirt road -> Level 1 in front of Screening Tent
+    '0-1': 'M 105 750 C 125 730, 150 690, 185 635',
+    // Stage 1 -> 2: Level 1 in front of tent -> Wooden Bridge -> Level 2 road in front of Learning Cottage
+    '1-2': 'M 185 635 C 215 645, 245 642, 275 620 C 295 605, 335 605, 360 615 C 390 635, 420 648, 450 645',
+    // Stage 2 -> 3: Level 2 road -> Level 3 cobblestone road in front of CFR Gazebo table
+    '2-3': 'M 450 645 C 480 665, 530 695, 575 702 C 600 705, 615 702, 630 700',
+    // Stage 3 -> 4: Level 3 CFR road -> Past treasure chest -> Up to Campus entrance steps
+    '3-4': 'M 630 700 C 665 695, 715 665, 755 605 C 785 540, 810 480, 835 420'
+};
 
-    // Stage 1: Level 1 - Screening Test (Pink Tent - path in front of tent)
-    [{ left: 13, top: 70 }, { left: 15, top: 66 }, { left: 18.5, top: 64 }],
-
-    // Stage 2: Level 2 - Learning Round (Tech Cottage - path in front of cottage)
-    [{ left: 24, top: 68 }, { left: 31, top: 72 }, { left: 37, top: 66 }, { left: 40.5, top: 62 }],
-
-    // Stage 3: Level 3 - Culture-fit Round (Gazebo - path in front of gazebo)
-    [{ left: 46, top: 64 }, { left: 51, top: 67 }, { left: 59.5, top: 66 }],
-
-    // Stage 4: Final Destination - Campus Welcome (path in front of campus gate)
-    [{ left: 66, top: 68 }, { left: 74, top: 65 }, { left: 78, top: 58 }, { left: 80, top: 55 }]
+const s5CheckpointCoordinates = [
+    { left: 10.5, top: 75.0 },  // Stage 0: START (on dirt road)
+    { left: 18.5, top: 63.5 },  // Stage 1: Level 1 (on road in front of tent)
+    { left: 45.0, top: 64.5 },  // Stage 2: Level 2 (on road in front of cottage)
+    { left: 63.0, top: 70.0 },  // Stage 3: Level 3 (on cobblestone road in front of CFR gazebo)
+    { left: 83.5, top: 42.0 }   // Stage 4: Final Destination (on campus entrance steps)
 ];
 
 const s5BannerMessages = [
@@ -537,6 +540,32 @@ function updateS5AvatarPosition(left, top) {
     if (!runner) return;
     runner.style.left = left + '%';
     runner.style.top = top + '%';
+}
+
+// Build compound SVG path across any stage range
+function createS5RoadPath(fromStage, toStage) {
+    let fullD = '';
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const pathEl = document.createElementNS(svgNS, 'path');
+    const isReversed = fromStage > toStage;
+
+    const startS = isReversed ? toStage : fromStage;
+    const endS = isReversed ? fromStage : toStage;
+
+    for (let s = startS; s < endS; s++) {
+        const segKey = `${s}-${s+1}`;
+        const segD = s5RoadSegments[segKey];
+        if (!segD) continue;
+        if (fullD === '') {
+            fullD = segD;
+        } else {
+            const stripped = segD.replace(/^M\s*[\d\.]+\s+[\d\.]+\s*/, ' ');
+            fullD += stripped;
+        }
+    }
+
+    pathEl.setAttribute('d', fullD);
+    return { pathEl, isReversed };
 }
 
 // ===================== STAGE QUEST PROCESS DETAILS POPUP CONTROLLER =====================
@@ -726,30 +755,36 @@ window.closeStageQuestModal = function () {
     if (modal) modal.classList.remove('open');
 };
 
-function updateS5AvatarPosition(left, top) {
-    const runner = document.getElementById('s5AvatarRunner');
-    if (!runner) return;
-    runner.style.left = left + '%';
-    runner.style.top = top + '%';
-}
-
 function s5GoToStage(targetStage) {
     if (s5IsWalking) return;
     targetStage = Math.max(0, Math.min(4, targetStage));
     const runner = document.getElementById('s5AvatarRunner');
+    const charRig = document.getElementById('s5CharRig');
     const bannerText = document.getElementById('s5BannerText');
     const tag = document.getElementById('s5AvatarTag');
     const name = window.studentName || 'Asha';
     if (tag) tag.textContent = name;
 
+    // If already at stage, show brief standing step and open modal
     if (targetStage === s5CurrentStage) {
         if (runner) {
+            runner.classList.remove('is-idle');
             runner.classList.add('is-walking');
             setTimeout(() => {
                 runner.classList.remove('is-walking');
+                runner.classList.add('is-idle');
                 if (targetStage > 0) window.openStageQuestModal(targetStage);
-            }, 500);
+            }, 450);
         }
+        return;
+    }
+
+    const { pathEl, isReversed } = createS5RoadPath(s5CurrentStage, targetStage);
+    const totalLength = pathEl.getTotalLength();
+    if (!totalLength || totalLength <= 0) {
+        s5CurrentStage = targetStage;
+        const cp = s5CheckpointCoordinates[targetStage];
+        updateS5AvatarPosition(cp.left, cp.top);
         return;
     }
 
@@ -759,49 +794,109 @@ function s5GoToStage(targetStage) {
         runner.classList.add('is-walking');
     }
 
-    let waypointsToWalk = [];
-    if (targetStage > s5CurrentStage) {
-        for (let s = s5CurrentStage + 1; s <= targetStage; s++) {
-            waypointsToWalk = waypointsToWalk.concat(s5StageWaypoints[s]);
-        }
-    } else {
-        for (let s = s5CurrentStage; s > targetStage; s--) {
-            const reversed = [...s5StageWaypoints[s]].reverse();
-            waypointsToWalk = waypointsToWalk.concat(reversed);
+    // Relaxed, slower natural human walking speed: ~70-85 path units per second
+    const stageDiff = Math.abs(targetStage - s5CurrentStage);
+    const duration = Math.max(3600, Math.min(7200, totalLength * 11.0 + stageDiff * 450));
+    const startTime = performance.now();
+
+    let currentFacing = 1;
+
+    // Trapezoidal speed profile: smooth acceleration (15%) -> steady constant walking pace (70%) -> smooth deceleration (15%)
+    function getWalkPathProgress(t) {
+        if (t <= 0) return 0;
+        if (t >= 1) return 1;
+        const a = 0.15; // 15% acceleration
+        const d = 0.15; // 15% deceleration
+        const s = 1 - a - d;
+        const vMax = 1 / (s + 0.5 * (a + d));
+
+        if (t < a) {
+            const u = t / a;
+            return 0.5 * vMax * a * (u * u * (2 - u));
+        } else if (t <= 1 - d) {
+            const sAccel = 0.5 * vMax * a;
+            return sAccel + vMax * (t - a);
+        } else {
+            const u = (1 - t) / d;
+            const sRemaining = 0.5 * vMax * d * (u * u * (2 - u));
+            return 1 - sRemaining;
         }
     }
 
-    let stepIndex = 0;
-    function walkStep() {
-        if (stepIndex >= waypointsToWalk.length) {
+    function animateWalk(now) {
+        const elapsed = now - startTime;
+        const linearT = Math.min(1, elapsed / duration);
+        const progressT = getWalkPathProgress(linearT);
+
+        // Calculate distance along path
+        const currentDist = isReversed ? (1 - progressT) * totalLength : progressT * totalLength;
+        const pt = pathEl.getPointAtLength(Math.max(0, Math.min(totalLength, currentDist)));
+
+        // Calculate tangent vector along the true direction of physical motion
+        const lookAheadDist = isReversed 
+            ? Math.max(0, currentDist - 4.0)
+            : Math.min(totalLength, currentDist + 4.0);
+        const ptNext = pathEl.getPointAtLength(lookAheadDist);
+
+        const dx = ptNext.x - pt.x;
+        const dy = ptNext.y - pt.y;
+
+        if (dx > 0.05) {
+            currentFacing = 1;  // Facing forward to the right
+        } else if (dx < -0.05) {
+            currentFacing = -1; // Turned around, facing and walking forward to the left
+        }
+
+        // Natural subtle body tilt along inclines (clamped to [-8deg, +8deg])
+        const slopeAngle = Math.max(-8, Math.min(8, Math.atan2(dy, Math.abs(dx) + 0.01) * (180 / Math.PI) * 0.25));
+
+        // Update avatar position along road (% left, % top)
+        const leftPercent = pt.x / 10;
+        const topPercent = pt.y / 10;
+        updateS5AvatarPosition(leftPercent, topPercent);
+
+        // Update directional facing & subtle slope rotation
+        if (charRig) {
+            charRig.style.transform = `scaleX(${currentFacing}) rotate(${slopeAngle}deg)`;
+        }
+
+        if (linearT < 1) {
+            s5WalkAnimFrame = requestAnimationFrame(animateWalk);
+        } else {
+            // Arrived at checkpoint destination
             s5CurrentStage = targetStage;
             s5IsWalking = false;
+
+            const finalCp = s5CheckpointCoordinates[targetStage];
+            updateS5AvatarPosition(finalCp.left, finalCp.top);
+
             if (runner) {
                 runner.classList.remove('is-walking');
                 runner.classList.add('is-idle');
             }
+            if (charRig) {
+                charRig.style.transform = `scaleX(${currentFacing}) rotate(0deg)`;
+            }
+
             if (bannerText && s5BannerMessages[targetStage]) {
                 bannerText.innerHTML = s5BannerMessages[targetStage](name);
             }
+
             document.querySelectorAll('.s5-stage-spot').forEach((spot, idx) => {
                 spot.classList.toggle('active', idx === targetStage);
             });
 
+            // Gentle brief pause before opening the quest milestone modal
             if (targetStage > 0) {
                 setTimeout(() => {
                     window.openStageQuestModal(targetStage);
-                }, 300);
+                }, 380);
             }
-            return;
         }
-
-        const wp = waypointsToWalk[stepIndex];
-        updateS5AvatarPosition(wp.left, wp.top);
-        stepIndex++;
-        setTimeout(walkStep, 320);
     }
 
-    walkStep();
+    if (s5WalkAnimFrame) cancelAnimationFrame(s5WalkAnimFrame);
+    s5WalkAnimFrame = requestAnimationFrame(animateWalk);
 }
 
 function s5AdvanceMilestone() {
@@ -817,8 +912,18 @@ function runScreen5() {
     const tag = document.getElementById('s5AvatarTag');
     if (tag) tag.textContent = name;
 
-    const initialWp = s5StageWaypoints[s5CurrentStage][0];
-    updateS5AvatarPosition(initialWp.left, initialWp.top);
+    const initialCp = s5CheckpointCoordinates[s5CurrentStage];
+    updateS5AvatarPosition(initialCp.left, initialCp.top);
+
+    const runner = document.getElementById('s5AvatarRunner');
+    const charRig = document.getElementById('s5CharRig');
+    if (runner) {
+        runner.classList.remove('is-walking');
+        runner.classList.add('is-idle');
+    }
+    if (charRig) {
+        charRig.style.transform = 'scaleX(1) rotate(0deg)';
+    }
 
     const bannerText = document.getElementById('s5BannerText');
     if (bannerText && s5BannerMessages[s5CurrentStage]) {
