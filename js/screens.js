@@ -740,7 +740,9 @@ window.openStageQuestModal = function (stageIdx) {
                     window.s5GoToStage(q.nextStage);
                 }, 350);
             } else {
-                if (typeof window.go === 'function') {
+                if (typeof window.openLoginModal === 'function') {
+                    window.openLoginModal();
+                } else if (typeof window.go === 'function') {
                     window.go(5);
                 }
             }

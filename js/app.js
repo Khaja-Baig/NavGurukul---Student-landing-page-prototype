@@ -125,13 +125,6 @@
             });
         }
 
-        // Final registration CTA on Screen 6
-        const finalRegisterBtn = document.getElementById('finalRegisterBtn');
-        if (finalRegisterBtn) {
-            finalRegisterBtn.addEventListener('click', () => {
-                alert('Congratulations ' + window.studentName + '! The NavGurukul Admissions Team will contact you shortly.');
-            });
-        }
     }
 
     if (document.readyState === 'loading') {
