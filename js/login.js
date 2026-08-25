@@ -298,15 +298,69 @@
         }
     };
 
+    // Live Entrance Test Questions Data
+    const etQuestions = [
+        {
+            id: 1,
+            topic: 'Logic & Calculation',
+            text: 'If 5 coders can write 5 programs in 5 minutes, how many minutes will 100 coders take to write 100 programs?',
+            options: ['100 minutes', '5 minutes', '50 minutes', '20 minutes'],
+            correct: 1,
+            mentorMsg: 'Dhyan se calculate karein! Har 1 coder ko 1 program banane me 5 minutes hi lagte hain! 💡'
+        },
+        {
+            id: 2,
+            topic: 'Pattern Recognition',
+            text: 'What is the next number in this logical sequence: 3, 7, 15, 31, 63, ...?',
+            options: ['127', '125', '128', '95'],
+            correct: 0,
+            mentorMsg: 'Sequence pattern dekhein: (Previous x 2) + 1. Next number bohot easy hai! 🔢'
+        },
+        {
+            id: 3,
+            topic: 'Algorithmic Thinking',
+            text: 'A frog is at the bottom of a 30ft well. Each day it climbs up 3ft and slips back 2ft at night. On which day will it reach the top?',
+            options: ['30th day', '28th day', '27th day', '29th day'],
+            correct: 1,
+            mentorMsg: 'Jaise hi 28th day frog 30ft top par pahoochega, wo slip nahi karega! Rough paper use karein! ✏️'
+        },
+        {
+            id: 4,
+            topic: 'Data Sets & Logic',
+            text: 'In a coding bootcamp of 60 students, 60% know Python and 50% know JavaScript. If 20% know both, how many students know NEITHER language?',
+            options: ['6 students', '12 students', '10 students', '18 students'],
+            correct: 0,
+            mentorMsg: 'Total % Formula: (60% + 50% - 20%) = 90% at least 1 jante hain. Baaki 10% calculate karein! 📊'
+        },
+        {
+            id: 5,
+            topic: 'Computational Thinking',
+            text: 'Which of the following best describes "Decomposition" in computational problem solving?',
+            options: [
+                'Writing code as fast as possible without planning',
+                'Breaking down a complex problem into smaller manageable parts',
+                'Fixing syntax errors in a program',
+                'Storing data in a cloud database'
+            ],
+            correct: 1,
+            mentorMsg: 'Complex problem ko chote-chote steps me todna hi Decomposition hota hai! 🧠'
+        }
+    ];
+
+    let currentEtQIndex = 0;
+    let userEtAnswers = {};
+    let etRemainingSeconds = 3600; // 1 Hour Timer
+    let etTimerInterval = null;
+
     window.goToEtStep = function (stepNum) {
-        // Activate step panes (Step 1 & Step 2)
-        for (let i = 1; i <= 2; i++) {
+        // Activate step panes (Step 1, Step 2, Step 3, Step 4)
+        for (let i = 1; i <= 4; i++) {
             const pane = document.getElementById('etStep' + i);
             const node = document.getElementById('etNode' + i);
 
             if (pane) pane.classList.toggle('active', i === stepNum);
             if (node) {
-                node.classList.toggle('active', i === stepNum);
+                node.classList.toggle('active', i === stepNum || (stepNum === 4 && i === 3));
                 node.classList.toggle('passed', i < stepNum);
             }
         }
@@ -314,14 +368,15 @@
         // Update top HUD progress track fill bar & Rocket Vehicle position
         const hudFill = document.getElementById('etHudFill');
         const vehicle = document.getElementById('etHudVehicleWrapper');
-        if (hudFill) {
-            hudFill.style.width = stepNum === 1 ? '0%' : '100%';
-        }
-        if (vehicle) {
-            vehicle.style.left = stepNum === 1 ? '0%' : '100%';
-        }
+        let pct = '0%';
+        if (stepNum === 1) pct = '0%';
+        else if (stepNum === 2) pct = '50%';
+        else if (stepNum >= 3) pct = '100%';
 
-        // Speech bubble updates for Asha mentor in full-screen portal
+        if (hudFill) hudFill.style.width = pct;
+        if (vehicle) vehicle.style.left = pct;
+
+        // Speech bubble updates for Asha mentor
         const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
         const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
 
@@ -329,8 +384,20 @@
             window.startGuidedRuleSequence();
         } else if (stepNum === 2) {
             window.clearAllRuleTimeouts();
+            window.setupFormFocusGuidance();
             if (bubble) {
                 bubble.innerHTML = `Apni details bharein <span class="student-name-placeholder">${name}</span>! Taaki hum campus & scholarship assign kar sakein! 📋`;
+                bubble.classList.remove('speech-bounce');
+                void bubble.offsetWidth;
+                bubble.classList.add('speech-bounce');
+            }
+        } else if (stepNum === 3) {
+            window.clearAllRuleTimeouts();
+            loadEtQuestion(currentEtQIndex);
+        } else if (stepNum === 4) {
+            window.clearAllRuleTimeouts();
+            if (bubble) {
+                bubble.innerHTML = `🎉 Shabash <span class="student-name-placeholder">${name}</span>! Aapne Entrance Test 100% complete kar liya hai! Scholarship confirm!`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
@@ -350,9 +417,168 @@
             window.runConfetti();
         }
 
-        alert(`🎉 Badhai Ho ${(window.studentName || 'Friend')}! Aapka NavGurukul Registration safaltapoorvak submit ho gaya hai!\n\nOfficial Screening Test team aapko WhatsApp par contact karegi.`);
-        window.closeEntranceTestPortal();
+        // Start Live 1-Hour MCQ Test
+        startLiveEtQuiz();
     };
+
+    function startLiveEtQuiz() {
+        currentEtQIndex = 0;
+        userEtAnswers = {};
+        etRemainingSeconds = 3600; // Reset 1-hour countdown
+
+        if (etTimerInterval) clearInterval(etTimerInterval);
+        etTimerInterval = setInterval(updateEtTimer, 1000);
+        updateEtTimer();
+
+        window.goToEtStep(3);
+    }
+
+    function updateEtTimer() {
+        if (etRemainingSeconds <= 0) {
+            clearInterval(etTimerInterval);
+            finishEtQuiz();
+            return;
+        }
+
+        const mins = Math.floor(etRemainingSeconds / 60);
+        const secs = etRemainingSeconds % 60;
+        const timerText = document.getElementById('etQuizTimerText');
+        const timerCard = document.getElementById('etQuizTimerCard');
+
+        const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        if (timerText) timerText.innerText = formatted;
+
+        if (etRemainingSeconds < 300 && timerCard) {
+            timerCard.classList.add('low-time-pulse');
+        } else if (timerCard) {
+            timerCard.classList.remove('low-time-pulse');
+        }
+
+        etRemainingSeconds--;
+    }
+
+    function loadEtQuestion(index) {
+        if (index < 0 || index >= etQuestions.length) return;
+        currentEtQIndex = index;
+
+        const qData = etQuestions[index];
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+
+        const numBadge = document.getElementById('etQNumBadge');
+        const topicBadge = document.getElementById('etQTopicBadge');
+        const qText = document.getElementById('etQuestionText');
+
+        if (numBadge) numBadge.innerText = `Question ${index + 1} of ${etQuestions.length}`;
+        if (topicBadge) topicBadge.innerText = qData.topic;
+        if (qText) qText.innerText = qData.text;
+
+        const grid = document.getElementById('etOptionsGrid');
+        if (grid) {
+            grid.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            qData.options.forEach((optText, oIdx) => {
+                const btn = document.createElement('div');
+                btn.className = `et-option-card ${userEtAnswers[index] === oIdx ? 'selected' : ''}`;
+                btn.onclick = () => selectEtOption(oIdx);
+                btn.innerHTML = `
+                    <div class="opt-badge">${labels[oIdx]}</div>
+                    <span class="opt-text">${optText}</span>
+                    <div class="opt-radio-dot"></div>
+                `;
+                grid.appendChild(btn);
+            });
+        }
+
+        renderEtPalette();
+
+        const prevBtn = document.getElementById('etPrevQBtn');
+        const nextBtn = document.getElementById('etNextQBtn');
+
+        if (prevBtn) prevBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
+        if (nextBtn) {
+            const nextSpan = nextBtn.querySelector('span');
+            if (index === etQuestions.length - 1) {
+                if (nextSpan) nextSpan.innerText = 'Finish & Submit Test 🏁';
+            } else {
+                if (nextSpan) nextSpan.innerText = 'Next Question →';
+            }
+        }
+
+        const bubble = document.getElementById('etPortalSpeechBubble');
+        if (bubble) {
+            bubble.innerHTML = `<span class="student-name-placeholder">${name}</span>, ${qData.mentorMsg}`;
+            bubble.classList.remove('speech-bounce');
+            void bubble.offsetWidth;
+            bubble.classList.add('speech-bounce');
+        }
+    }
+
+    function selectEtOption(optIdx) {
+        userEtAnswers[currentEtQIndex] = optIdx;
+        loadEtQuestion(currentEtQIndex);
+    }
+
+    function renderEtPalette() {
+        const pal = document.getElementById('etQPalette');
+        if (!pal) return;
+        pal.innerHTML = '';
+
+        etQuestions.forEach((q, idx) => {
+            const dot = document.createElement('div');
+            let cls = 'et-q-dot';
+            if (idx === currentEtQIndex) cls += ' active';
+            if (userEtAnswers[idx] !== undefined) cls += ' answered';
+            dot.className = cls;
+            dot.innerText = idx + 1;
+            dot.onclick = () => loadEtQuestion(idx);
+            pal.appendChild(dot);
+        });
+    }
+
+    window.nextEtQuestion = function () {
+        if (currentEtQIndex < etQuestions.length - 1) {
+            loadEtQuestion(currentEtQIndex + 1);
+        } else {
+            finishEtQuiz();
+        }
+    };
+
+    window.prevEtQuestion = function () {
+        if (currentEtQIndex > 0) {
+            loadEtQuestion(currentEtQIndex - 1);
+        }
+    };
+
+    function finishEtQuiz() {
+        if (etTimerInterval) clearInterval(etTimerInterval);
+
+        let score = 0;
+        etQuestions.forEach((q, idx) => {
+            if (userEtAnswers[idx] === q.correct) {
+                score++;
+            }
+        });
+
+        const pct = Math.round((score / etQuestions.length) * 100);
+        const elapsed = 3600 - etRemainingSeconds;
+        const eMins = Math.floor(elapsed / 60);
+        const eSecs = elapsed % 60;
+        const timeFormatted = `${String(eMins).padStart(2, '0')}:${String(eSecs).padStart(2, '0')}`;
+
+        const scoreEl = document.getElementById('etFinalScore');
+        const accEl = document.getElementById('etAccuracy');
+        const timeEl = document.getElementById('etTimeTaken');
+
+        if (scoreEl) scoreEl.innerText = `${score}/${etQuestions.length}`;
+        if (accEl) accEl.innerText = `${pct}%`;
+        if (timeEl) timeEl.innerText = timeFormatted;
+
+        if (typeof window.runConfetti === 'function') {
+            window.runConfetti();
+        }
+
+        window.goToEtStep(4);
+    }
 
     window.selectQuizOption = function (btnEl, isCorrect) {
         const allOpts = document.querySelectorAll('.et-opt-btn');
@@ -439,6 +665,86 @@
                 e.stopPropagation();
                 openLoginModal();
             });
+        }
+        // Setup interactive Step 2 form guidance for Asha mentor
+        window.setupFormFocusGuidance();
+    }
+
+    // Interactive Form Field Guidance for Step 2 Form (Asha Mentor)
+    const formFieldGuidance = {
+        'etFirstName': 'Yahan apna First Name bharein jaisa aapke ID proof par hai! ✍️',
+        'etMiddleName': 'Yahan apna Middle Name likhein, ya khali chhod sakte hain! 📝',
+        'etLastName': 'Yahan apna Surname ya Last Name bharein! 👤',
+        'etDob': 'Apni asli Date of Birth (Janm Tithi) select karein! 📅',
+        'etWhatsapp': 'Apka WhatsApp number bilkul sahi bharein, test result & schedule SMS ispe aayega! 📱',
+        'etPhone': 'Alternate contact/calling phone number enter karein! 📞',
+        'etEmail': 'Apni valid email address enter karein update alerts ke liye! 📧',
+        'etPincode': 'Apne ilake ka 6-digit PIN code enter karein! 📍',
+        'etDistrict': 'Apne District (Jila) ka naam likhein! 🏡',
+        'etState': 'Apni State (Rajya) ka naam select karein! 🗺️',
+        'etCurrentStatus': 'Apna current status (Student / Job Seeker) select karein! 🎓',
+        'etQualification': 'Apni highest qualification (10th/12th/Graduate) choose karein! 📜',
+        'etMedium': 'Apni school education medium (Hindi / English / Regional) choose karein! 📚',
+        'etCategory': 'Apni Caste / Category select karein scholarship eligibility ke liye! 🏷️'
+    };
+
+    window.setupFormFocusGuidance = function () {
+        const profileForm = document.getElementById('etProfileForm');
+        if (!profileForm || profileForm.dataset.guidanceAttached) return;
+        profileForm.dataset.guidanceAttached = "true";
+
+        // Radios for gender
+        const genderRadios = profileForm.querySelectorAll('input[name="etGender"]');
+        genderRadios.forEach(radio => {
+            radio.addEventListener('focus', function () {
+                showMentorGuidance('Apni Gender preference select karein! 🚻');
+            });
+            radio.addEventListener('blur', function () {
+                resetMentorGuidanceDefault();
+            });
+        });
+
+        // Photo upload wrap
+        const photoWrap = document.querySelector('.et-photo-upload-wrap');
+        if (photoWrap) {
+            photoWrap.addEventListener('mouseenter', function () {
+                showMentorGuidance('Apni ek saaf passport size photo upload karein admit card ke liye! 📷');
+            });
+            photoWrap.addEventListener('mouseleave', function () {
+                resetMentorGuidanceDefault();
+            });
+        }
+
+        // All form inputs & selects
+        for (const [fieldId, msg] of Object.entries(formFieldGuidance)) {
+            const el = document.getElementById(fieldId);
+            if (el) {
+                el.addEventListener('focus', function () {
+                    showMentorGuidance(msg);
+                });
+                el.addEventListener('blur', function () {
+                    resetMentorGuidanceDefault();
+                });
+            }
+        }
+    };
+
+    function showMentorGuidance(msg) {
+        const bubble = document.getElementById('etPortalSpeechBubble');
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+        if (bubble) {
+            bubble.innerHTML = `<span class="student-name-placeholder">${name}</span>, ${msg}`;
+            bubble.classList.remove('speech-bounce');
+            void bubble.offsetWidth;
+            bubble.classList.add('speech-bounce');
+        }
+    }
+
+    function resetMentorGuidanceDefault() {
+        const bubble = document.getElementById('etPortalSpeechBubble');
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+        if (bubble) {
+            bubble.innerHTML = `Apni details bharein <span class="student-name-placeholder">${name}</span>! Taaki hum campus & scholarship assign kar sakein! 📋`;
         }
     }
 
