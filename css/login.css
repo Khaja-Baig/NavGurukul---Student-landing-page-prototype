@@ -320,7 +320,7 @@
 /* Right Panel (Form Controls) */
 .login-right-panel {
     flex: 1.2;
-    padding: 32px 40px;
+    padding: 24px 36px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -344,7 +344,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 .login-status-badge {
@@ -412,18 +412,17 @@
 }
 
 .login-form-header {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     text-align: left;
-    min-height: 64px;
 }
 
 .login-title {
     font-family: var(--font-display);
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     color: #0f172a;
     letter-spacing: -0.4px;
-    margin: 0 0 4px 0;
+    margin: 0 0 2px 0;
 }
 
 .gradient-text {
@@ -433,11 +432,10 @@
 }
 
 .login-subtitle {
-    font-size: 13px;
+    font-size: 12.5px;
     color: #64748b;
     margin: 0;
-    line-height: 1.4;
-    min-height: 36px;
+    line-height: 1.35;
     display: flex;
     align-items: center;
 }
@@ -453,7 +451,7 @@
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 16px 0;
+    margin: 10px 0;
     color: #94a3b8;
     font-size: 11px;
     font-weight: 700;
@@ -521,19 +519,19 @@
 .google-btn {
     position: relative;
     width: 100%;
-    padding: 13px 20px;
+    padding: 10px 16px;
     background: #ffffff;
     border: 1.5px solid #e2e8f0;
-    border-radius: 14px;
+    border-radius: 12px;
     font-family: var(--font-display);
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 700;
     color: #1e293b;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
     overflow: hidden;
     transition: all 0.22s ease;
@@ -631,25 +629,25 @@
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
 }
 
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 10px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
     text-align: left;
 }
 
 .form-label {
     font-family: var(--font-display);
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 700;
     color: #334155;
 }
@@ -669,9 +667,9 @@
 
 .input-svg-icon {
     position: absolute;
-    left: 14px;
-    width: 18px;
-    height: 18px;
+    left: 12px;
+    width: 16px;
+    height: 16px;
     color: #94a3b8;
     pointer-events: none;
     transition: color 0.2s ease;
@@ -679,12 +677,12 @@
 
 .form-input {
     width: 100%;
-    padding: 12px 14px 12px 42px;
+    padding: 10px 12px 10px 38px;
     background: #f8fafc;
     border: 1.5px solid #e2e8f0;
-    border-radius: 14px;
+    border-radius: 12px;
     font-family: var(--font-body);
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
     color: #0f172a;
     transition: all 0.22s ease;
@@ -699,16 +697,16 @@
 
 .phone-prefix {
     position: absolute;
-    left: 14px;
+    left: 12px;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
     color: var(--pink-primary);
     pointer-events: none;
 }
 
 .form-input.phone-input {
-    padding-left: 54px;
+    padding-left: 48px;
 }
 
 .input-wrapper:focus-within .input-svg-icon {
@@ -730,13 +728,13 @@
 .submit-glow-btn {
     position: relative;
     width: 100%;
-    margin-top: 8px;
-    padding: 14px 24px;
+    margin-top: 4px;
+    padding: 11px 20px;
     background: var(--pink-primary);
     border: none;
-    border-radius: 16px;
+    border-radius: 14px;
     font-family: var(--font-display);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
     color: #ffffff;
     cursor: pointer;
@@ -744,7 +742,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 8px 24px rgba(233, 30, 99, 0.3);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.25);
     transition: all 0.25s ease;
     overflow: hidden;
 }
@@ -883,13 +881,13 @@
 
 /* Footer Help Section (Image 1 Style) */
 .login-footer-help {
-    margin-top: 24px;
-    padding-top: 16px;
+    margin-top: 12px;
+    padding-top: 10px;
     border-top: 1px solid #f1f5f9;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
 }
 
 .help-question {
