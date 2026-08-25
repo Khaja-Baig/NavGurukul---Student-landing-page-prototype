@@ -109,9 +109,9 @@
             if (btnText) btnText.textContent = 'Signed in with Google ✓';
 
             setTimeout(() => {
-                showSuccessState('Google One-Click');
-            }, 700);
-        }, 900);
+                startEntranceTestFlow();
+            }, 600);
+        }, 800);
     };
 
     window.handleManualSubmit = function (e) {
@@ -134,32 +134,252 @@
 
         setTimeout(() => {
             if (spinner) spinner.style.display = 'none';
-            showSuccessState('Manual Registration');
-        }, 950);
+            if (btn) btn.style.pointerEvents = 'auto';
+            startEntranceTestFlow();
+        }, 700);
     };
 
-    function showSuccessState(mode) {
-        const secGoogle = document.getElementById('googleAuthSection');
-        const divider = document.getElementById('loginDivider');
-        const secManual = document.getElementById('manualAuthSection');
-        const successCard = document.getElementById('loginSuccessCard');
-        const bubble = document.getElementById('loginSpeechBubble');
-        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+    window.startEntranceTestFlow = function () {
+        // Close small popup modal
+        window.closeLoginModal();
 
-        if (secGoogle) secGoogle.style.display = 'none';
-        if (divider) divider.style.display = 'none';
-        if (secManual) secManual.style.display = 'none';
-        if (successCard) successCard.style.display = 'block';
-
-        if (bubble) {
-            bubble.innerHTML = `Badhai Ho <span class="student-name-placeholder">${name}</span>! ${translations[currentLang].bubbleSuccess}`;
+        // Reveal Full-Screen Entrance Test Portal Screen
+        const portalScreen = document.getElementById('entranceTestPortalScreen');
+        if (portalScreen) {
+            portalScreen.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
 
-        // Trigger celebration confetti burst!
+        // Auto pre-fill Profile form inputs if initial form was filled
+        const fnInput = document.getElementById('loginFirstName');
+        const lnInput = document.getElementById('loginLastName');
+        const mnInput = document.getElementById('loginMiddleName');
+        const phoneInput = document.getElementById('loginPhone');
+
+        const etFn = document.getElementById('etFirstName');
+        const etLn = document.getElementById('etLastName');
+        const etMn = document.getElementById('etMiddleName');
+        const etPhone = document.getElementById('etPhone');
+        const etWhatsapp = document.getElementById('etWhatsapp');
+
+        if (etFn && fnInput && fnInput.value) etFn.value = fnInput.value;
+        if (etLn && lnInput && lnInput.value) etLn.value = lnInput.value;
+        if (etMn && mnInput && mnInput.value) etMn.value = mnInput.value;
+        if (etPhone && phoneInput && phoneInput.value) etPhone.value = phoneInput.value;
+        if (etWhatsapp && phoneInput && phoneInput.value) etWhatsapp.value = phoneInput.value;
+
+        window.goToEtStep(1);
+        window.startGuidedRuleSequence();
+    };
+
+    window.closeEntranceTestPortal = function () {
+        const portalScreen = document.getElementById('entranceTestPortalScreen');
+        if (portalScreen) {
+            portalScreen.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        window.clearAllRuleTimeouts();
+    };
+
+    // Interactive Asha Mentor Guided Sequence
+    const ruleDetails = [
+        {
+            title: "1 Hour Complete Test ⏱️",
+            text: "1 ghanta shant jagah par baith kar bina distraction test solve karein! ⏱️"
+        },
+        {
+            title: "Notebook & Pen Required 📝",
+            text: "Rough math aur logic questions solve karne ke liye notebook aur pen zaroor paas rakhein! 📝"
+        },
+        {
+            title: "Mobile / Laptop Online Mode 📱",
+            text: "Aap ye entrance test direct apne Phone ya Laptop screen par aasaani se de sakte hain! 📱"
+        },
+        {
+            title: "Honesty Policy 🤝",
+            text: "Imandari se test dein! NavGurukul me aapki seekhne ki sacchi koshish aur potential evaluate hota hai! 🤝"
+        }
+    ];
+
+    let ruleSequenceTimeouts = [];
+    let isUserInteracting = false;
+
+    window.clearAllRuleTimeouts = function () {
+        ruleSequenceTimeouts.forEach(t => clearTimeout(t));
+        ruleSequenceTimeouts = [];
+    };
+
+    window.startGuidedRuleSequence = function () {
+        window.clearAllRuleTimeouts();
+        isUserInteracting = false;
+
+        const cards = document.querySelectorAll('.et-rules-grid .et-rule-card');
+        const bubble = document.getElementById('etPortalSpeechBubble');
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+
+        // Stage 1: Welcome intro message
+        cards.forEach(card => card.classList.remove('active-guide'));
+        if (bubble) {
+            bubble.innerHTML = `Aao <span class="student-name-placeholder">${name}</span>! Rules dhyan se padhein aur Entrance Test start karein! 📝`;
+            bubble.classList.remove('speech-bounce');
+            void bubble.offsetWidth;
+            bubble.classList.add('speech-bounce');
+        }
+
+        // Stage 2: 1 Single Round through the 4 rules
+        let delay = 2600;
+
+        ruleDetails.forEach((detail, index) => {
+            const t = setTimeout(() => {
+                if (isUserInteracting) return;
+
+                cards.forEach((card, idx) => {
+                    card.classList.toggle('active-guide', idx === index);
+                });
+
+                if (bubble) {
+                    bubble.innerHTML = `<span class="student-name-placeholder">${name}</span>, ${detail.text}`;
+                    bubble.classList.remove('speech-bounce');
+                    void bubble.offsetWidth;
+                    bubble.classList.add('speech-bounce');
+                }
+            }, delay);
+            ruleSequenceTimeouts.push(t);
+            delay += 3500;
+        });
+
+        // Stage 3: End summary after 1 round
+        const finalTimeout = setTimeout(() => {
+            if (isUserInteracting) return;
+
+            cards.forEach(card => card.classList.remove('active-guide'));
+            if (bubble) {
+                bubble.innerHTML = `Kisi bhi rule card par hover karke uski details padhein ya niche button se Sign Up start karein! ✨`;
+                bubble.classList.remove('speech-bounce');
+                void bubble.offsetWidth;
+                bubble.classList.add('speech-bounce');
+            }
+        }, delay);
+        ruleSequenceTimeouts.push(finalTimeout);
+    };
+
+    window.highlightRuleCard = function (index, isManual = false) {
+        if (isManual) {
+            isUserInteracting = true;
+            window.clearAllRuleTimeouts();
+        }
+
+        const cards = document.querySelectorAll('.et-rules-grid .et-rule-card');
+        const bubble = document.getElementById('etPortalSpeechBubble');
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+
+        if (!cards.length || index < 0 || index >= ruleDetails.length) return;
+
+        cards.forEach((card, idx) => {
+            card.classList.toggle('active-guide', idx === index);
+        });
+
+        if (bubble) {
+            const detail = ruleDetails[index];
+            bubble.innerHTML = `<span class="student-name-placeholder">${name}</span>, ${detail.text}`;
+            bubble.classList.remove('speech-bounce');
+            void bubble.offsetWidth;
+            bubble.classList.add('speech-bounce');
+        }
+    };
+
+    window.resetRuleCardHover = function () {
+        if (!isUserInteracting) return;
+        const cards = document.querySelectorAll('.et-rules-grid .et-rule-card');
+        const bubble = document.getElementById('etPortalSpeechBubble');
+        cards.forEach(card => card.classList.remove('active-guide'));
+        if (bubble) {
+            bubble.innerHTML = `Kisi bhi rule card par hover karke uski details padhein ya niche button se Sign Up start karein! ✨`;
+        }
+    };
+
+    window.goToEtStep = function (stepNum) {
+        // Activate step panes (Step 1 & Step 2)
+        for (let i = 1; i <= 2; i++) {
+            const pane = document.getElementById('etStep' + i);
+            const node = document.getElementById('etNode' + i);
+
+            if (pane) pane.classList.toggle('active', i === stepNum);
+            if (node) {
+                node.classList.toggle('active', i === stepNum);
+                node.classList.toggle('passed', i < stepNum);
+            }
+        }
+
+        // Update top HUD progress track fill bar & Rocket Vehicle position
+        const hudFill = document.getElementById('etHudFill');
+        const vehicle = document.getElementById('etHudVehicleWrapper');
+        if (hudFill) {
+            hudFill.style.width = stepNum === 1 ? '0%' : '100%';
+        }
+        if (vehicle) {
+            vehicle.style.left = stepNum === 1 ? '0%' : '100%';
+        }
+
+        // Speech bubble updates for Asha mentor in full-screen portal
+        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+
+        if (stepNum === 1) {
+            window.startGuidedRuleSequence();
+        } else if (stepNum === 2) {
+            window.clearAllRuleTimeouts();
+            if (bubble) {
+                bubble.innerHTML = `Apni details bharein <span class="student-name-placeholder">${name}</span>! Taaki hum campus & scholarship assign kar sakein! 📋`;
+                bubble.classList.remove('speech-bounce');
+                void bubble.offsetWidth;
+                bubble.classList.add('speech-bounce');
+            }
+        }
+    };
+
+    window.handleEtProfileSubmit = function (e) {
+        e.preventDefault();
+        const fn = document.getElementById('etFirstName');
+        if (fn && fn.value.trim()) {
+            window.studentName = fn.value.trim();
+            updateNamePlaceholders();
+        }
+
         if (typeof window.runConfetti === 'function') {
             window.runConfetti();
         }
-    }
+
+        alert(`🎉 Badhai Ho ${(window.studentName || 'Friend')}! Aapka NavGurukul Registration safaltapoorvak submit ho gaya hai!\n\nOfficial Screening Test team aapko WhatsApp par contact karegi.`);
+        window.closeEntranceTestPortal();
+    };
+
+    window.selectQuizOption = function (btnEl, isCorrect) {
+        const allOpts = document.querySelectorAll('.et-opt-btn');
+        allOpts.forEach(btn => btn.classList.remove('correct', 'wrong'));
+
+        if (isCorrect) {
+            btnEl.classList.add('correct');
+            const fbBox = document.getElementById('quizFeedbackBox');
+            if (fbBox) fbBox.style.display = 'flex';
+            const finishBtn = document.getElementById('finishQuizBtn');
+            if (finishBtn) finishBtn.disabled = false;
+
+            if (typeof window.runConfetti === 'function') {
+                window.runConfetti();
+            }
+        } else {
+            btnEl.classList.add('wrong');
+        }
+    };
+
+    window.startOfficialTestNow = function () {
+        if (typeof window.runConfetti === 'function') {
+            window.runConfetti();
+        }
+        alert("🚀 Redirecting to Official NavGurukul Screening Test Portal! Good luck!");
+        window.closeEntranceTestPortal();
+    };
 
     window.setLoginLanguage = function (lang) {
         currentLang = lang;
