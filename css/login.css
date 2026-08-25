@@ -1405,21 +1405,111 @@
 }
 
 .et-rules-grid .et-rule-card {
-    background: rgba(255, 255, 255, 0.92);
-    border: 1.5px solid rgba(233, 30, 99, 0.15);
     border-radius: 20px;
-    padding: 20px 22px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(233, 30, 99, 0.04);
+    padding: 16px 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
     backdrop-filter: blur(12px);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.et-rule-card .card-header-tag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.et-rule-card .card-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+.et-rule-card .card-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    opacity: 0.5;
     transition: all 0.25s ease;
 }
 
-.et-rules-grid .et-rule-card:hover,
-.et-rules-grid .et-rule-card.active-guide {
-    background: #ffffff;
-    border-color: #be185d;
+.et-rule-card:hover .card-check,
+.et-rule-card.active-guide .card-check {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.et-rule-card .card-body-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+/* Color Theme 1: Cyan (Duration) */
+.card-theme-cyan {
+    background: linear-gradient(135deg, rgba(240, 249, 255, 0.95), rgba(224, 242, 254, 0.85));
+    border: 1.5px solid rgba(2, 132, 199, 0.25);
+}
+.card-theme-cyan .card-tag { color: #0284c7; }
+.card-theme-cyan .et-rule-badge { background: linear-gradient(135deg, #0284c7, #38bdf8); color: #ffffff; }
+.card-theme-cyan .card-check { background: rgba(2, 132, 199, 0.15); color: #0284c7; }
+.card-theme-cyan:hover, .card-theme-cyan.active-guide {
+    border-color: #0284c7;
     transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(233, 30, 99, 0.18);
+    box-shadow: 0 12px 28px rgba(2, 132, 199, 0.2);
+}
+
+/* Color Theme 2: Orange (Gear) */
+.card-theme-orange {
+    background: linear-gradient(135deg, rgba(255, 251, 235, 0.95), rgba(254, 243, 199, 0.85));
+    border: 1.5px solid rgba(217, 119, 6, 0.25);
+}
+.card-theme-orange .card-tag { color: #d97706; }
+.card-theme-orange .et-rule-badge { background: linear-gradient(135deg, #ea580c, #f97316); color: #ffffff; }
+.card-theme-orange .card-check { background: rgba(217, 119, 6, 0.15); color: #d97706; }
+.card-theme-orange:hover, .card-theme-orange.active-guide {
+    border-color: #d97706;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(217, 119, 6, 0.2);
+}
+
+/* Color Theme 3: Purple (Online Mode) */
+.card-theme-purple {
+    background: linear-gradient(135deg, rgba(250, 245, 255, 0.95), rgba(243, 232, 255, 0.85));
+    border: 1.5px solid rgba(147, 51, 234, 0.25);
+}
+.card-theme-purple .card-tag { color: #9333ea; }
+.card-theme-purple .et-rule-badge { background: linear-gradient(135deg, #9333ea, #c084fc); color: #ffffff; }
+.card-theme-purple .card-check { background: rgba(147, 51, 234, 0.15); color: #9333ea; }
+.card-theme-purple:hover, .card-theme-purple.active-guide {
+    border-color: #9333ea;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(147, 51, 234, 0.2);
+}
+
+/* Color Theme 4: Emerald (Honor) */
+.card-theme-green {
+    background: linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(220, 252, 231, 0.85));
+    border: 1.5px solid rgba(16, 185, 129, 0.25);
+}
+.card-theme-green .card-tag { color: #047857; }
+.card-theme-green .et-rule-badge { background: linear-gradient(135deg, #059669, #34d399); color: #ffffff; }
+.card-theme-green .card-check { background: rgba(16, 185, 129, 0.15); color: #047857; }
+.card-theme-green:hover, .card-theme-green.active-guide {
+    border-color: #047857;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(16, 185, 129, 0.2);
 }
 
 .et-rules-grid .et-rule-card.active-guide .et-rule-badge {
