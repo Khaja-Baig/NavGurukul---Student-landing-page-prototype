@@ -355,19 +355,20 @@
         const bodyGrid = document.querySelector('.et-portal-body');
         const portalScreen = document.getElementById('entranceTestPortalScreen');
         const trackWrap = document.querySelector('.et-hud-track-wrapper');
+        const isQuizActive = (stepNum === 5);
 
         if (bodyGrid) {
-            bodyGrid.classList.toggle('step2-active', stepNum === 2);
-            bodyGrid.classList.toggle('step3-active', stepNum === 3);
+            bodyGrid.classList.toggle('step2-active', stepNum >= 2 && stepNum <= 4);
+            bodyGrid.classList.toggle('step3-active', isQuizActive);
             bodyGrid.scrollTop = 0;
         }
 
         if (portalScreen) {
-            portalScreen.classList.toggle('step3-active', stepNum === 3);
+            portalScreen.classList.toggle('step3-active', isQuizActive);
         }
 
         if (trackWrap) {
-            trackWrap.style.display = (stepNum === 3) ? 'none' : 'block';
+            trackWrap.style.display = isQuizActive ? 'none' : 'block';
         }
 
         const step2Pane = document.getElementById('etStep2');
@@ -375,27 +376,37 @@
             step2Pane.scrollTop = 0;
         }
 
-        // Activate step panes (Step 1, Step 2, Step 3, Step 4)
+        // Handle Main Panes (Step 1 Instructions, Step 2 Form Profile, Step 3 Quiz)
+        const step1Pane = document.getElementById('etStep1');
+        const step3Pane = document.getElementById('etStep3');
+
+        if (step1Pane) step1Pane.classList.toggle('active', stepNum === 1);
+        if (step2Pane) step2Pane.classList.toggle('active', stepNum >= 2 && stepNum <= 4);
+        if (step3Pane) step3Pane.classList.toggle('active', isQuizActive);
+
+        // Switch Sub-Quest Panes inside Step 2 Form
+        if (stepNum >= 2 && stepNum <= 4) {
+            const subNum = stepNum - 1; // step 2 -> sub 1, step 3 -> sub 2, step 4 -> sub 3
+            for (let s = 1; s <= 3; s++) {
+                const subPane = document.getElementById('subQuestPane' + s);
+                if (subPane) subPane.classList.toggle('active', s === subNum);
+            }
+        }
+
+        // Activate HUD Nodes (1. Instructions, 2. Basic Details, 3. Contact Info, 4. Education & Location)
         for (let i = 1; i <= 4; i++) {
-            const pane = document.getElementById('etStep2');
-            if (pane && i === 2 && stepNum === 2) pane.scrollTop = 0;
-
-            const targetPane = document.getElementById('etStep' + i);
             const node = document.getElementById('etNode' + i);
-
-            if (targetPane) targetPane.classList.toggle('active', i === stepNum);
             if (node) {
                 node.classList.toggle('active', i === stepNum);
                 node.classList.toggle('passed', i < stepNum);
             }
         }
 
-        // Update top HUD progress track fill bar & Rocket Vehicle position (2 Checkpoints: 1. Instructions = 0%, 2. Profile = 100%)
+        // Update top HUD progress track fill bar & Rocket Vehicle position
         const hudFill = document.getElementById('etHudFill');
         const vehicle = document.getElementById('etHudVehicleWrapper');
-        let pct = '0%';
-        if (stepNum === 1) pct = '0%';
-        else if (stepNum >= 2) pct = '100%';
+        const positions = ['0%', '33.3%', '66.6%', '100%'];
+        const pct = positions[Math.min(stepNum - 1, 3)] || '0%';
 
         if (hudFill) hudFill.style.width = pct;
         if (vehicle) vehicle.style.left = pct;
@@ -408,24 +419,38 @@
             window.startGuidedRuleSequence();
         } else if (stepNum === 2) {
             window.clearAllRuleTimeouts();
-            window.setupFormFocusGuidance();
             if (bubble) {
-                bubble.innerHTML = `Apni details bharein <span class="student-name-placeholder">${name}</span>! Taaki hum campus & scholarship assign kar sakein! 📋`;
+                bubble.innerHTML = `Aao <span class="student-name-placeholder">${name}</span>! Sabse pehle apni basic details fill karo! 👤`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
             }
         } else if (stepNum === 3) {
             window.clearAllRuleTimeouts();
-            loadEtQuestion(currentEtQIndex);
-        } else if (stepNum === 4) {
-            window.clearAllRuleTimeouts();
+            // Capture name if entered
+            const fNameInput = document.getElementById('etFirstName');
+            if (fNameInput && fNameInput.value.trim() !== '') {
+                window.studentName = fNameInput.value.trim();
+                const placeholders = document.querySelectorAll('.student-name-placeholder');
+                placeholders.forEach(el => el.innerText = window.studentName);
+            }
             if (bubble) {
-                bubble.innerHTML = `🎉 Shabash <span class="student-name-placeholder">${name}</span>! Aapne Entrance Test 100% complete kar liya hai! Scholarship confirm!`;
+                bubble.innerHTML = `Shabash <span class="student-name-placeholder">${name}</span>! Ab apna WhatsApp number aur contact details share karo! 📞`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
             }
+        } else if (stepNum === 4) {
+            window.clearAllRuleTimeouts();
+            if (bubble) {
+                bubble.innerHTML = `Almost done <span class="student-name-placeholder">${name}</span>! Apni education details bharo aur Entrance Test launch karo! 🚀`;
+                bubble.classList.remove('speech-bounce');
+                void bubble.offsetWidth;
+                bubble.classList.add('speech-bounce');
+            }
+        } else if (stepNum === 5) {
+            window.clearAllRuleTimeouts();
+            loadEtQuestion(currentEtQIndex);
         }
     };
 
@@ -454,7 +479,7 @@
         etTimerInterval = setInterval(updateEtTimer, 1000);
         updateEtTimer();
 
-        window.goToEtStep(3);
+        window.goToEtStep(5);
     }
 
     function updateEtTimer() {
@@ -774,6 +799,67 @@
             bubble.innerHTML = `Apni details bharein <span class="student-name-placeholder">${name}</span>! Taaki hum campus & scholarship assign kar sakein! 📋`;
         }
     }
+
+    /* Sub-Quest Navigation for Step 2 Gamified Quest Flow */
+    window.currentSubQuest = 1;
+
+    window.switchSubQuest = function (num) {
+        window.currentSubQuest = num;
+
+        // Update HUD Pills
+        for (let i = 1; i <= 3; i++) {
+            const pill = document.getElementById('questPill' + i);
+            const pane = document.getElementById('subQuestPane' + i);
+            if (pill) {
+                pill.classList.toggle('active', i === num);
+                pill.classList.toggle('passed', i < num);
+            }
+            if (pane) {
+                pane.classList.toggle('active', i === num);
+            }
+        }
+
+        // Update Progress Fill
+        const fill = document.getElementById('etQuestProgressFill');
+        const indicator = document.getElementById('etSubQuestIndicator');
+        const pcts = ['33%', '66%', '100%'];
+        const titles = [
+            'STAGE 1 OF 3 • BASIC DETAILS',
+            'STAGE 2 OF 3 • CONTACT INFORMATION',
+            'STAGE 3 OF 3 • EDUCATION & LOCATION'
+        ];
+
+        if (fill) fill.style.width = pcts[num - 1];
+        if (indicator) indicator.innerText = titles[num - 1];
+
+        // Asha Speech Bubble Dialogue per Sub-Quest
+        const bubble = document.getElementById('etPortalSpeechBubble');
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+        const dialogues = [
+            `Aao ${name}! Sabse pehle apni basic details fill karo! 👤`,
+            `Shabash ${name}! Ab apna WhatsApp number aur contact details share karo! 📞`,
+            `Almost done! Apni education details bharo aur Entrance Test launch karo! 🚀`
+        ];
+
+        if (bubble) {
+            bubble.innerHTML = dialogues[num - 1];
+            bubble.classList.remove('speech-bounce');
+            void bubble.offsetWidth;
+            bubble.classList.add('speech-bounce');
+        }
+    };
+
+    window.nextSubQuest = function (targetNum) {
+        if (window.currentSubQuest === 1) {
+            const fNameInput = document.getElementById('etFirstName');
+            if (fNameInput && fNameInput.value.trim() !== '') {
+                window.studentName = fNameInput.value.trim();
+                const placeholders = document.querySelectorAll('.student-name-placeholder');
+                placeholders.forEach(el => el.innerText = window.studentName);
+            }
+        }
+        window.switchSubQuest(targetNum);
+    };
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initLoginEvents);

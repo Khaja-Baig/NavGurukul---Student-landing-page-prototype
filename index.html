@@ -736,17 +736,27 @@
                 <div class="et-hud-track" id="etHudTrack">
                     <div class="et-hud-fill" id="etHudFill" style="width: 0%;"></div>
 
-                    <!-- Milestone Checkpoints (1. Instructions, 2. Profile) -->
+                    <!-- Milestone Checkpoints (1. Instructions, 2. Basic Details, 3. Contact Info, 4. Education & Location) -->
                     <div class="et-hud-checkpoints">
                         <button class="et-hud-node active" id="etNode1" style="left: 0%;" onclick="goToEtStep(1)"
                             aria-label="1. Instructions">
                             <span class="node-icon">🌱</span>
                             <span class="node-tooltip">1. Instructions</span>
                         </button>
-                        <button class="et-hud-node" id="etNode2" style="left: 100%;" onclick="goToEtStep(2)"
-                            aria-label="2. Sign Up Profile">
-                            <span class="node-icon">📋</span>
-                            <span class="node-tooltip">2. Sign Up Profile</span>
+                        <button class="et-hud-node" id="etNode2" style="left: 33.3%;" onclick="goToEtStep(2)"
+                            aria-label="2. Basic Details">
+                            <span class="node-icon">👤</span>
+                            <span class="node-tooltip">2. Basic Details</span>
+                        </button>
+                        <button class="et-hud-node" id="etNode3" style="left: 66.6%;" onclick="goToEtStep(3)"
+                            aria-label="3. Contact Info">
+                            <span class="node-icon">📞</span>
+                            <span class="node-tooltip">3. Contact Info</span>
+                        </button>
+                        <button class="et-hud-node" id="etNode4" style="left: 100%;" onclick="goToEtStep(4)"
+                            aria-label="4. Education & Location">
+                            <span class="node-icon">🏫</span>
+                            <span class="node-tooltip">4. Education & Location</span>
                         </button>
                     </div>
 
@@ -940,213 +950,204 @@
                     </div>
                 </div>
 
-                <!-- STEP 2: DETAILED SIGN UP PROFILE (Spacious & Multi-Column) -->
+                <!-- STEP 2: GAMIFIED CHARACTER SETUP & PROFILE QUEST -->
                 <div class="et-step-pane" id="etStep2">
-                    <div class="et-pane-header">
-                        <h2 class="et-pane-title">
-                            <span class="title-burst left">💥</span>
-                            Student Profile & Preferences
-                            <span class="title-burst right">💥</span>
-                        </h2>
-                        <p class="et-pane-sub">Complete your details so we can assign your campus preferences and
-                            scholarship eligibility.</p>
-                        <div class="et-title-accent-bar"></div>
-                    </div>
-
                     <form id="etProfileForm" class="et-spacious-form" onsubmit="handleEtProfileSubmit(event)">
-                        <!-- Animated Photo Upload Card -->
-                        <div class="et-photo-tile-container">
-                            <label for="etPhotoInput" class="et-photo-tile-card"
-                                title="Click to upload passport photo for admit card">
-                                <input type="file" id="etPhotoInput" accept="image/*" style="display:none;"
-                                    onchange="if(this.files[0]){ alert('Photo selected: ' + this.files[0].name); }">
-                                <div class="et-photo-tile-badge">
-                                    <span class="photo-cam-icon">📷</span>
-                                    <span class="photo-plus-badge">+</span>
-                                </div>
-                                <span class="photo-tile-label">Add Photo</span>
-                            </label>
-                        </div>
+                        <!-- SUB-QUEST 1: BASIC DETAILS -->
+                        <div class="sub-quest-pane active" id="subQuestPane1">
+                            <!-- Animated Photo Upload Card -->
+                            <div class="et-photo-tile-container mb-16">
+                                <label for="etPhotoInput" class="et-photo-tile-card" title="Click to upload passport photo for admit card">
+                                    <input type="file" id="etPhotoInput" accept="image/*" style="display:none;"
+                                        onchange="if(this.files[0]){ alert('Photo selected: ' + this.files[0].name); }">
+                                    <div class="et-photo-tile-badge">
+                                        <span class="photo-cam-icon">📷</span>
+                                        <span class="photo-plus-badge">+</span>
+                                    </div>
+                                    <span class="photo-tile-label">Add Profile Photo</span>
+                                </label>
+                            </div>
 
-                        <!-- Section 1: BASIC DETAILS -->
-                        <div class="et-form-section sec-card-pink">
-                            <div class="sec-corner-icon icon-pink">
-                                <span>👤</span>
-                            </div>
-                            <h4 class="et-section-title sec-title-pink">
-                                <span class="sec-num-badge num-pink">1</span>
-                                BASIC DETAILS
-                            </h4>
-                            <div class="form-grid-3">
-                                <div class="form-group">
-                                    <label class="form-label">First Name</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-pink-fill">👤</span>
-                                        <input type="text" id="etFirstName" class="form-input et-input"
-                                            placeholder="Sujit">
+                            <div class="et-form-section sec-card-pink">
+                                <div class="sec-corner-icon icon-pink"><span>👤</span></div>
+                                <h4 class="et-section-title sec-title-pink">
+                                    <span class="sec-num-badge num-pink">1</span> BASIC DETAILS
+                                </h4>
+                                <div class="form-grid-3">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-pink-fill">👤</span>
+                                            <input type="text" id="etFirstName" class="form-input et-input" placeholder="Sujit">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Middle Name</label>
+                                        <input type="text" id="etMiddleName" class="form-input et-input" placeholder="Optional">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" id="etLastName" class="form-input et-input" placeholder="Kumar">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Middle Name</label>
-                                    <input type="text" id="etMiddleName" class="form-input et-input"
-                                        placeholder="Optional">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Last Name</label>
-                                    <input type="text" id="etLastName" class="form-input et-input" placeholder="Kumar">
-                                </div>
-                            </div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">Date of Birth</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-pink-fill">📅</span>
-                                        <input type="date" id="etDob" class="form-input et-input">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Date of Birth</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-pink-fill">📅</span>
+                                            <input type="date" id="etDob" class="form-input et-input">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Gender</label>
-                                    <div class="et-gender-pills">
-                                        <label class="et-gender-pill"><input type="radio" name="etGender" value="Male"
-                                                checked> <span>Male</span></label>
-                                        <label class="et-gender-pill"><input type="radio" name="etGender"
-                                                value="Female"> <span>Female</span></label>
-                                        <label class="et-gender-pill"><input type="radio" name="etGender" value="Other">
-                                            <span>Other</span></label>
+                                    <div class="form-group">
+                                        <label class="form-label">Gender</label>
+                                        <div class="et-gender-pills">
+                                            <label class="et-gender-pill"><input type="radio" name="etGender" value="Male" checked> <span>Male</span></label>
+                                            <label class="et-gender-pill"><input type="radio" name="etGender" value="Female"> <span>Female</span></label>
+                                            <label class="et-gender-pill"><input type="radio" name="etGender" value="Other"> <span>Other</span></label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Section 2: CONTACT INFORMATION -->
-                        <div class="et-form-section sec-card-orange">
-                            <div class="sec-corner-icon icon-orange">
-                                <span>📞</span>
-                            </div>
-                            <h4 class="et-section-title sec-title-orange">
-                                <span class="sec-num-badge num-orange">2</span>
-                                CONTACT INFORMATION
-                            </h4>
-                            <div class="form-grid-3">
-                                <div class="form-group">
-                                    <label class="form-label">WhatsApp Number</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-orange-fill">💬</span>
-                                        <input type="tel" id="etWhatsapp" class="form-input et-input"
-                                            placeholder="3512313132">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Phone Number</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-orange-fill">📞</span>
-                                        <input type="tel" id="etPhone" class="form-input et-input"
-                                            placeholder="3512313132">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Email Address</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-orange-fill">✉️</span>
-                                        <input type="email" id="etEmail" class="form-input et-input"
-                                            placeholder="student@example.com">
-                                    </div>
-                                </div>
+                            <div class="et-pane-actions flex-between mt-20">
+                                <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(1)">
+                                    ← Back to Instructions
+                                </button>
+                                <button type="button" class="submit-glow-btn quest-next-btn" onclick="nextSubQuest(2)">
+                                    <span>Next: Contact Info → (+50 XP)</span>
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Section 3: EDUCATION & LOCATION DETAILS -->
-                        <div class="et-form-section sec-card-green">
-                            <div class="sec-corner-icon icon-green">
-                                <span>🏫</span>
-                            </div>
-                            <h4 class="et-section-title sec-title-green">
-                                <span class="sec-num-badge num-green">3</span>
-                                EDUCATION & LOCATION DETAILS
-                            </h4>
-                            <div class="form-grid-3">
-                                <div class="form-group">
-                                    <label class="form-label">Pin Code</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-green-fill">📍</span>
-                                        <input type="text" id="etPincode" class="form-input et-input"
-                                            placeholder="6-digit PIN" maxlength="6">
+                        <!-- SUB-QUEST 2: CONTACT INFORMATION -->
+                        <div class="sub-quest-pane" id="subQuestPane2">
+                            <div class="et-form-section sec-card-orange">
+                                <div class="sec-corner-icon icon-orange"><span>📞</span></div>
+                                <h4 class="et-section-title sec-title-orange">
+                                    <span class="sec-num-badge num-orange">2</span> CONTACT INFORMATION
+                                </h4>
+                                <div class="form-grid-3">
+                                    <div class="form-group">
+                                        <label class="form-label">WhatsApp Number</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-orange-fill">💬</span>
+                                            <input type="tel" id="etWhatsapp" class="form-input et-input" placeholder="3512313132">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">District</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-green-fill">🏙️</span>
-                                        <input type="text" id="etDistrict" class="form-input et-input"
-                                            placeholder="District name">
+                                    <div class="form-group">
+                                        <label class="form-label">Phone Number</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-orange-fill">📞</span>
+                                            <input type="tel" id="etPhone" class="form-input et-input" placeholder="3512313132">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">State</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-green-fill">🗺️</span>
-                                        <input type="text" id="etState" class="form-input et-input"
-                                            placeholder="State name">
+                                    <div class="form-group">
+                                        <label class="form-label">Email Address</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-orange-fill">✉️</span>
+                                            <input type="email" id="etEmail" class="form-input et-input" placeholder="student@example.com">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-grid-4">
-                                <div class="form-group">
-                                    <label class="form-label">Current Status</label>
-                                    <select id="etCurrentStatus" class="form-input et-select">
-                                        <option value="">Select Option</option>
-                                        <option value="Student">Student</option>
-                                        <option value="Job Seeker">Job Seeker</option>
-                                        <option value="Other">Other</option>
-                                    </select>
+
+                            <div class="et-pane-actions flex-between mt-20">
+                                <button type="button" class="et-sec-btn back-inst-btn" onclick="nextSubQuest(1)">
+                                    ← Back to Basic Details
+                                </button>
+                                <button type="button" class="submit-glow-btn quest-next-btn" onclick="nextSubQuest(3)">
+                                    <span>Next: Education & Location → (+50 XP)</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- SUB-QUEST 3: EDUCATION & LOCATION DETAILS -->
+                        <div class="sub-quest-pane" id="subQuestPane3">
+                            <div class="et-form-section sec-card-green">
+                                <div class="sec-corner-icon icon-green"><span>🏫</span></div>
+                                <h4 class="et-section-title sec-title-green">
+                                    <span class="sec-num-badge num-green">3</span> EDUCATION & LOCATION DETAILS
+                                </h4>
+                                <div class="form-grid-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Pin Code</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-green-fill">📍</span>
+                                            <input type="text" id="etPincode" class="form-input et-input" placeholder="6-digit PIN" maxlength="6">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">District</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-green-fill">🏙️</span>
+                                            <input type="text" id="etDistrict" class="form-input et-input" placeholder="District name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">State</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-green-fill">🗺️</span>
+                                            <input type="text" id="etState" class="form-input et-input" placeholder="State name">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Highest Qualification</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-green-fill select-icon-shift">🎓</span>
-                                        <select id="etQualification" class="form-input et-select has-icon-select">
-                                            <option value="">Select Qualification</option>
-                                            <option value="10th Pass">10th Pass</option>
-                                            <option value="12th Pass">12th Pass</option>
-                                            <option value="Graduate">Graduate / Diploma</option>
+                                <div class="form-grid-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Current Status</label>
+                                        <select id="etCurrentStatus" class="form-input et-select">
+                                            <option value="">Select Option</option>
+                                            <option value="Student">Student</option>
+                                            <option value="Job Seeker">Job Seeker</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">School Medium</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-green-fill select-icon-shift">📚</span>
-                                        <select id="etMedium" class="form-input et-select has-icon-select">
-                                            <option value="">Select Medium</option>
-                                            <option value="Hindi">Hindi</option>
-                                            <option value="English">English</option>
-                                            <option value="Vernacular/Regional">Regional Language</option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label class="form-label">Highest Qualification</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-green-fill select-icon-shift">🎓</span>
+                                            <select id="etQualification" class="form-input et-select has-icon-select">
+                                                <option value="">Select Qualification</option>
+                                                <option value="10th Pass">10th Pass</option>
+                                                <option value="12th Pass">12th Pass</option>
+                                                <option value="Graduate">Graduate / Diploma</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Caste / Category</label>
-                                    <div class="input-icon-group">
-                                        <span class="input-icon icon-green-fill select-icon-shift">👥</span>
-                                        <select id="etCategory" class="form-input et-select has-icon-select">
-                                            <option value="">Select Category</option>
-                                            <option value="General">General</option>
-                                            <option value="OBC">OBC</option>
-                                            <option value="SC/ST">SC / ST</option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label class="form-label">School Medium</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-green-fill select-icon-shift">📚</span>
+                                            <select id="etMedium" class="form-input et-select has-icon-select">
+                                                <option value="">Select Medium</option>
+                                                <option value="Hindi">Hindi</option>
+                                                <option value="English">English</option>
+                                                <option value="Vernacular/Regional">Regional Language</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Caste / Category</label>
+                                        <div class="input-icon-group">
+                                            <span class="input-icon icon-green-fill select-icon-shift">👥</span>
+                                            <select id="etCategory" class="form-input et-select has-icon-select">
+                                                <option value="">Select Category</option>
+                                                <option value="General">General</option>
+                                                <option value="OBC">OBC</option>
+                                                <option value="SC/ST">SC / ST</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Action Bar -->
-                        <div class="et-pane-actions flex-between mt-16">
-                            <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(1)">
-                                ← Back to Instructions
-                            </button>
-                            <button type="submit" class="submit-glow-btn compact-btn rocket-submit-btn">
-                                <span>Submit Profile & Start Entrance Test 🚀</span>
-                            </button>
+                            <div class="et-pane-actions flex-between mt-20">
+                                <button type="button" class="et-sec-btn back-inst-btn" onclick="nextSubQuest(2)">
+                                    ← Back to Contact Details
+                                </button>
+                                <button type="submit" class="submit-glow-btn compact-btn rocket-submit-btn">
+                                    <span>Submit Profile & Start Entrance Test 🚀 (+100 XP)</span>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
