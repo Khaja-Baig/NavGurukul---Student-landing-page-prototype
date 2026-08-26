@@ -356,19 +356,22 @@
         const portalScreen = document.getElementById('entranceTestPortalScreen');
         const trackWrap = document.querySelector('.et-hud-track-wrapper');
         const isQuizActive = (stepNum === 5);
+        const isResultActive = (stepNum === 4);
 
         if (bodyGrid) {
-            bodyGrid.classList.toggle('step2-active', stepNum >= 2 && stepNum <= 4);
+            bodyGrid.classList.toggle('step2-active', stepNum >= 2 && stepNum <= 3);
             bodyGrid.classList.toggle('step3-active', isQuizActive);
+            bodyGrid.classList.toggle('step4-active', isResultActive);
             bodyGrid.scrollTop = 0;
         }
 
         if (portalScreen) {
             portalScreen.classList.toggle('step3-active', isQuizActive);
+            portalScreen.classList.toggle('step4-active', isResultActive);
         }
 
         if (trackWrap) {
-            trackWrap.style.display = isQuizActive ? 'none' : 'block';
+            trackWrap.style.display = (isQuizActive || isResultActive) ? 'none' : 'block';
         }
 
         const step2Pane = document.getElementById('etStep2');
@@ -376,25 +379,27 @@
             step2Pane.scrollTop = 0;
         }
 
-        // Handle Main Panes (Step 1 Instructions, Step 2 Form Profile, Step 3 Quiz)
+        // Handle Main Panes (Step 1 Instructions, Step 2 Form Profile, Step 3 Quiz, Step 4 Results)
         const step1Pane = document.getElementById('etStep1');
         const step3Pane = document.getElementById('etStep3');
+        const step4Pane = document.getElementById('etStep4');
 
         if (step1Pane) step1Pane.classList.toggle('active', stepNum === 1);
-        if (step2Pane) step2Pane.classList.toggle('active', stepNum >= 2 && stepNum <= 4);
+        if (step2Pane) step2Pane.classList.toggle('active', stepNum >= 2 && stepNum <= 3);
         if (step3Pane) step3Pane.classList.toggle('active', isQuizActive);
+        if (step4Pane) step4Pane.classList.toggle('active', isResultActive);
 
         // Switch Sub-Quest Panes inside Step 2 Form
-        if (stepNum >= 2 && stepNum <= 4) {
-            const subNum = stepNum - 1; // step 2 -> sub 1, step 3 -> sub 2, step 4 -> sub 3
-            for (let s = 1; s <= 3; s++) {
+        if (stepNum >= 2 && stepNum <= 3) {
+            const subNum = stepNum - 1; // step 2 -> sub 1, step 3 -> sub 2
+            for (let s = 1; s <= 2; s++) {
                 const subPane = document.getElementById('subQuestPane' + s);
                 if (subPane) subPane.classList.toggle('active', s === subNum);
             }
         }
 
-        // Activate HUD Nodes (1. Instructions, 2. Basic Details, 3. Contact Info, 4. Education & Location)
-        for (let i = 1; i <= 4; i++) {
+        // Activate HUD Nodes (1. Instructions, 2. Basic Details, 3. Contact & Location)
+        for (let i = 1; i <= 3; i++) {
             const node = document.getElementById('etNode' + i);
             if (node) {
                 node.classList.toggle('active', i === stepNum);
@@ -405,8 +410,8 @@
         // Update top HUD progress track fill bar & Rocket Vehicle position
         const hudFill = document.getElementById('etHudFill');
         const vehicle = document.getElementById('etHudVehicleWrapper');
-        const positions = ['0%', '33.3%', '66.6%', '100%'];
-        const pct = positions[Math.min(stepNum - 1, 3)] || '0%';
+        const positions = ['0%', '50%', '100%'];
+        const pct = positions[Math.min(stepNum - 1, 2)] || '0%';
 
         if (hudFill) hudFill.style.width = pct;
         if (vehicle) vehicle.style.left = pct;
@@ -435,15 +440,7 @@
                 placeholders.forEach(el => el.innerText = window.studentName);
             }
             if (bubble) {
-                bubble.innerHTML = `Shabash <span class="student-name-placeholder">${name}</span>! Ab apna WhatsApp number aur contact details share karo! 📞`;
-                bubble.classList.remove('speech-bounce');
-                void bubble.offsetWidth;
-                bubble.classList.add('speech-bounce');
-            }
-        } else if (stepNum === 4) {
-            window.clearAllRuleTimeouts();
-            if (bubble) {
-                bubble.innerHTML = `Almost done <span class="student-name-placeholder">${name}</span>! Apni education details bharo aur Entrance Test launch karo! 🚀`;
+                bubble.innerHTML = `Shabash <span class="student-name-placeholder">${name}</span>! Ab contact & location details bharein aur test start karein! 🚀`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
@@ -517,8 +514,8 @@
         const topicBadge = document.getElementById('etQTopicBadge');
         const qText = document.getElementById('etQuestionText');
 
-        if (numBadge) numBadge.innerText = `Question ${index + 1}`;
-        if (topicBadge) topicBadge.innerHTML = `<span class="badge-icon">💬</span> ${qData.topic}`;
+        if (numBadge) numBadge.innerText = `Question ${index + 1}/16`;
+        if (topicBadge) topicBadge.style.display = 'none';
         if (qText) qText.innerText = qData.text;
 
         const tipSub = document.getElementById('etStep3TipSub');
@@ -601,6 +598,10 @@
         }
     };
 
+    window.startLiveEtQuiz = function () {
+        startLiveEtQuiz();
+    };
+
     function finishEtQuiz() {
         if (etTimerInterval) clearInterval(etTimerInterval);
 
@@ -611,26 +612,170 @@
             }
         });
 
-        const pct = Math.round((score / etQuestions.length) * 100);
-        const elapsed = 3600 - etRemainingSeconds;
-        const eMins = Math.floor(elapsed / 60);
-        const eSecs = elapsed % 60;
-        const timeFormatted = `${String(eMins).padStart(2, '0')}:${String(eSecs).padStart(2, '0')}`;
+        window.etAttemptHistory = window.etAttemptHistory || [];
+        window.bookedInterviewSlot = window.bookedInterviewSlot || null;
 
-        const scoreEl = document.getElementById('etFinalScore');
-        const accEl = document.getElementById('etAccuracy');
-        const timeEl = document.getElementById('etTimeTaken');
+        const isPassed = (score >= Math.ceil(etQuestions.length / 2));
+        const marks = Math.round((score / etQuestions.length) * 25);
+        const now = new Date();
+        const timeStr = now.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }) + ', ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
-        if (scoreEl) scoreEl.innerText = `${score}/${etQuestions.length}`;
-        if (accEl) accEl.innerText = `${pct}%`;
-        if (timeEl) timeEl.innerText = timeFormatted;
+        const sName = (window.studentName && window.studentName !== 'Friend') ? window.studentName : (document.getElementById('etFirstName')?.value.trim() || 'Sujit Kumar');
+        const sEmail = document.getElementById('etEmail')?.value.trim() || 'student@example.com';
+        const sPhone = document.getElementById('etPhone')?.value.trim() || document.getElementById('etWhatsapp')?.value.trim() || '9915694098';
+        const sState = document.getElementById('etState')?.value.trim() || 'Bihar';
+
+        const nameEl = document.getElementById('resStudentName');
+        const emailEl = document.getElementById('resStudentEmail');
+        const phoneEl = document.getElementById('resStudentPhone');
+        const stateEl = document.getElementById('resStudentState');
+
+        if (nameEl) nameEl.innerText = sName;
+        if (emailEl) emailEl.innerText = sEmail;
+        if (phoneEl) phoneEl.innerText = sPhone;
+        if (stateEl) stateEl.innerText = sState;
+
+        // Push new attempt record to history
+        window.etAttemptHistory.push({
+            attemptNum: window.etAttemptHistory.length + 1,
+            timeStr: timeStr,
+            marks: marks,
+            isPassed: isPassed
+        });
+
+        // Render dynamic attempt history table
+        window.renderEtResultTable();
+
+        if (isPassed && typeof window.runConfetti === 'function') {
+            window.runConfetti();
+        }
+
+        window.goToEtStep(4);
+    };
+
+    // Render Dynamic Results Table with Attempt History & LR Row
+    window.renderEtResultTable = function () {
+        const tbody = document.getElementById('resTableBody');
+        if (!tbody) return;
+
+        let html = '';
+        const history = window.etAttemptHistory || [];
+        const hasAnyPassed = history.some(a => a.isPassed);
+
+        history.forEach((attempt, index) => {
+            const isLatest = (index === history.length - 1);
+            const stageName = (history.length > 1) 
+                ? `Screening Test (Attempt ${attempt.attemptNum})` 
+                : `Screening Test`;
+
+            const statusBadge = attempt.isPassed 
+                ? `<span class="res-status-badge status-pass">✔ Pass</span>` 
+                : `<span class="res-status-badge status-fail">✖ Fail</span>`;
+
+            let actionCell = '-';
+            if (!attempt.isPassed && isLatest && !hasAnyPassed) {
+                actionCell = `<button type="button" class="res-action-btn btn-retest" onclick="startLiveEtQuiz()">Retest</button>`;
+            }
+
+            html += `
+                <tr>
+                    <td class="td-stage">${stageName}</td>
+                    <td class="td-status">${statusBadge}</td>
+                    <td class="td-time">${attempt.timeStr}</td>
+                    <td class="td-actions">${actionCell}</td>
+                    <td class="td-marks">${attempt.marks}</td>
+                </tr>
+            `;
+        });
+
+        // If ANY attempt was passed, show Learning Round row!
+        if (hasAnyPassed) {
+            let lrStatus = `<span class="res-status-badge status-pending">⏳ Pending</span>`;
+            let lrTime = `Not Scheduled`;
+            let lrAction = `<button type="button" class="res-action-btn btn-book-slot" onclick="openSlotBookingModal()">Book Slot</button>`;
+
+            if (window.bookedInterviewSlot) {
+                lrStatus = `<span class="res-status-badge status-scheduled">✔ Scheduled</span>`;
+                lrTime = window.bookedInterviewSlot;
+                lrAction = `-`;
+            }
+
+            html += `
+                <tr id="resRowLearning">
+                    <td class="td-stage">Learning Round</td>
+                    <td class="td-status">${lrStatus}</td>
+                    <td class="td-time">${lrTime}</td>
+                    <td class="td-actions">${lrAction}</td>
+                    <td class="td-marks">-</td>
+                </tr>
+            `;
+        }
+
+        tbody.innerHTML = html;
+    };
+
+    // Book Interview Slot Modal Handlers
+    window.openSlotBookingModal = function () {
+        const modal = document.getElementById('slotBookingModal');
+        if (modal) modal.style.display = 'flex';
+
+        const sName = document.getElementById('resStudentName')?.innerText || 'Sujit Kumar';
+        const sEmail = document.getElementById('resStudentEmail')?.innerText || 'student@example.com';
+        const userInfo = document.getElementById('slotModalUserInfo');
+        if (userInfo) userInfo.innerText = `👤 ${sName} • ${sEmail}`;
+
+        const dateInput = document.getElementById('slotDatePicker');
+        if (dateInput) {
+            const tmrw = new Date();
+            tmrw.setDate(tmrw.getDate() + 1);
+            dateInput.valueAsDate = tmrw;
+            window.updateSelectedDatePreview();
+        }
+    };
+
+    window.closeSlotBookingModal = function () {
+        const modal = document.getElementById('slotBookingModal');
+        if (modal) modal.style.display = 'none';
+    };
+
+    window.updateSelectedDatePreview = function () {
+        const dateInput = document.getElementById('slotDatePicker');
+        const preview = document.getElementById('slotDatePreview');
+        if (dateInput && dateInput.value && preview) {
+            const d = new Date(dateInput.value);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            preview.innerText = `Selected Date: ${d.toLocaleDateString('en-US', options)}`;
+        }
+    };
+
+    window.selectSlotChip = function (el) {
+        document.querySelectorAll('.slot-chip').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    };
+
+    window.confirmSlotBooking = function () {
+        const dateInput = document.getElementById('slotDatePicker');
+        const selectedChip = document.querySelector('.slot-chip.selected');
+
+        const dateStr = dateInput?.value ? new Date(dateInput.value).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }) : '08/27/2026';
+        const slotTime = selectedChip ? selectedChip.innerText : '05:00 PM - 06:00 PM';
+
+        window.bookedInterviewSlot = `${dateStr}, ${slotTime}`;
+        window.renderEtResultTable();
+        window.closeSlotBookingModal();
 
         if (typeof window.runConfetti === 'function') {
             window.runConfetti();
         }
 
-        window.goToEtStep(4);
-    }
+        const sName = document.getElementById('resStudentName')?.innerText || 'Friend';
+        const bubble = document.getElementById('ashaMentorBubble');
+        if (bubble) {
+            bubble.innerHTML = `Bahut Badhiya <strong>${sName}</strong>! 🎉 Aapka Interview Slot (${dateStr}) successfully book ho gaya hai!`;
+        }
+
+        alert(`🎉 Interview Slot Booked Successfully!\n\nDate: ${dateStr}\nTime: ${slotTime}\n\nConfirmation sent to your email & WhatsApp!`);
+    };
 
     window.selectQuizOption = function (btnEl, isCorrect) {
         const allOpts = document.querySelectorAll('.et-opt-btn');
@@ -807,7 +952,7 @@
         window.currentSubQuest = num;
 
         // Update HUD Pills
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= 2; i++) {
             const pill = document.getElementById('questPill' + i);
             const pane = document.getElementById('subQuestPane' + i);
             if (pill) {
@@ -822,11 +967,10 @@
         // Update Progress Fill
         const fill = document.getElementById('etQuestProgressFill');
         const indicator = document.getElementById('etSubQuestIndicator');
-        const pcts = ['33%', '66%', '100%'];
+        const pcts = ['50%', '100%'];
         const titles = [
-            'STAGE 1 OF 3 • BASIC DETAILS',
-            'STAGE 2 OF 3 • CONTACT INFORMATION',
-            'STAGE 3 OF 3 • EDUCATION & LOCATION'
+            'STAGE 1 OF 2 • BASIC DETAILS',
+            'STAGE 2 OF 2 • CONTACT, EDUCATION & LOCATION'
         ];
 
         if (fill) fill.style.width = pcts[num - 1];
@@ -837,8 +981,7 @@
         const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
         const dialogues = [
             `Aao ${name}! Sabse pehle apni basic details fill karo! 👤`,
-            `Shabash ${name}! Ab apna WhatsApp number aur contact details share karo! 📞`,
-            `Almost done! Apni education details bharo aur Entrance Test launch karo! 🚀`
+            `Shabash ${name}! Ab contact & location details bharein aur test start karein! 🚀`
         ];
 
         if (bubble) {
