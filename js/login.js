@@ -424,8 +424,11 @@
             window.startGuidedRuleSequence();
         } else if (stepNum === 2) {
             window.clearAllRuleTimeouts();
+            if (typeof window.validateStep1Progress === 'function') {
+                window.validateStep1Progress();
+            }
             if (bubble) {
-                bubble.innerHTML = `Aao <span class="student-name-placeholder">${name}</span>! Sabse pehle apni basic details fill karo! 👤`;
+                bubble.innerHTML = `Aao <span class="student-name-placeholder">${name}</span>! Sabse pehle apni basic details fill karo! 👋`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
@@ -453,6 +456,102 @@
 
     window.handleEtProfileSubmit = function (e) {
         e.preventDefault();
+
+        // Validate Stage 2 fields
+        const whatsapp = document.getElementById('etWhatsapp');
+        const phone = document.getElementById('etPhone');
+        const email = document.getElementById('etEmail');
+        const pincode = document.getElementById('etPincode');
+        const district = document.getElementById('etDistrict');
+        const state = document.getElementById('etState');
+        const currentStatus = document.getElementById('etCurrentStatus');
+        const qualification = document.getElementById('etQualification');
+        const medium = document.getElementById('etMedium');
+        const category = document.getElementById('etCategory');
+
+        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
+        document.querySelectorAll('.field-error-shake').forEach(el => el.classList.remove('field-error-shake'));
+
+        if (!whatsapp || !whatsapp.value.trim()) {
+            const grp = document.getElementById('groupWhatsapp');
+            if (grp) grp.classList.add('field-error-shake');
+            if (whatsapp) whatsapp.focus();
+            if (bubble) bubble.innerHTML = `Almost there! Please enter your WhatsApp number 📱`;
+            return;
+        }
+
+        if (!phone || !phone.value.trim()) {
+            const grp = document.getElementById('groupPhone');
+            if (grp) grp.classList.add('field-error-shake');
+            if (phone) phone.focus();
+            if (bubble) bubble.innerHTML = `Almost there! Enter your phone number 📞`;
+            return;
+        }
+
+        if (!email || !email.value.trim()) {
+            const grp = document.getElementById('groupEmail');
+            if (grp) grp.classList.add('field-error-shake');
+            if (email) email.focus();
+            if (bubble) bubble.innerHTML = `Almost there! Enter your email address 📧`;
+            return;
+        }
+
+        if (!pincode || !pincode.value.trim()) {
+            const grp = document.getElementById('groupPincode');
+            if (grp) grp.classList.add('field-error-shake');
+            if (pincode) pincode.focus();
+            if (bubble) bubble.innerHTML = `Almost there! Enter your 6-digit PIN code 📍`;
+            return;
+        }
+
+        if (!district || !district.value.trim()) {
+            const grp = document.getElementById('groupDistrict');
+            if (grp) grp.classList.add('field-error-shake');
+            if (district) district.focus();
+            if (bubble) bubble.innerHTML = `Almost there! Enter your District name 🏡`;
+            return;
+        }
+
+        if (!state || !state.value.trim()) {
+            const grp = document.getElementById('groupState');
+            if (grp) grp.classList.add('field-error-shake');
+            if (state) state.focus();
+            if (bubble) bubble.innerHTML = `Almost there! Enter your State name 🗺️`;
+            return;
+        }
+
+        if (!currentStatus || !currentStatus.value) {
+            const grp = document.getElementById('groupCurrentStatus');
+            if (grp) grp.classList.add('field-error-shake');
+            if (currentStatus) currentStatus.focus();
+            if (bubble) bubble.innerHTML = `Just one detail — select your Current Status 🎓`;
+            return;
+        }
+
+        if (!qualification || !qualification.value) {
+            const grp = document.getElementById('groupQualification');
+            if (grp) grp.classList.add('field-error-shake');
+            if (qualification) qualification.focus();
+            if (bubble) bubble.innerHTML = `Select your Highest Qualification 📜`;
+            return;
+        }
+
+        if (!medium || !medium.value) {
+            const grp = document.getElementById('groupMedium');
+            if (grp) grp.classList.add('field-error-shake');
+            if (medium) medium.focus();
+            if (bubble) bubble.innerHTML = `Select your School Medium 📚`;
+            return;
+        }
+
+        if (!category || !category.value) {
+            const grp = document.getElementById('groupCategory');
+            if (grp) grp.classList.add('field-error-shake');
+            if (category) category.focus();
+            if (bubble) bubble.innerHTML = `Select your Caste / Category 👥`;
+            return;
+        }
+
         const fn = document.getElementById('etFirstName');
         if (fn && fn.value.trim()) {
             window.studentName = fn.value.trim();
@@ -867,12 +966,213 @@
         window.setupFormFocusGuidance();
     }
 
+    // ==========================================================================
+    // STEP 1 GAMIFIED & INTERACTIVE LOGIC (Basic Details & Admit Card Photo)
+    // ==========================================================================
+    let step1CelebrationTriggered = false;
+
+    window.handleEtPhotoUpload = function (event) {
+        const file = event.target && event.target.files && event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewWrap = document.getElementById('etPhotoPreviewWrap');
+            const imgEl = document.getElementById('etPhotoImg');
+            const badgeEl = document.getElementById('etPhotoTileBadge');
+            const labelEl = document.getElementById('etPhotoLabel');
+            const subEl = document.getElementById('etPhotoSub');
+            const cardEl = document.getElementById('etPhotoCard');
+
+            if (imgEl) imgEl.src = e.target.result;
+            if (previewWrap) previewWrap.style.display = 'block';
+            if (badgeEl) badgeEl.style.display = 'none';
+            if (labelEl) labelEl.textContent = 'Looks great! ✓';
+            if (subEl) subEl.textContent = 'Change Photo ✏️';
+            if (cardEl) cardEl.classList.add('photo-uploaded');
+
+            const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
+            if (bubble) {
+                bubble.innerHTML = `Looking great! 😄`;
+                bubble.classList.remove('speech-bounce');
+                void bubble.offsetWidth;
+                bubble.classList.add('speech-bounce');
+            }
+
+            window.validateStep1Progress();
+        };
+        reader.readAsDataURL(file);
+    };
+
+    window.validateStep1Progress = function () {
+        const fnInput = document.getElementById('etFirstName');
+        const lnInput = document.getElementById('etLastName');
+        const dobInput = document.getElementById('etDob');
+        const genderChecked = document.querySelector('input[name="etGender"]:checked');
+        const photoCard = document.getElementById('etPhotoCard');
+        const photoUploaded = photoCard && photoCard.classList.contains('photo-uploaded');
+
+        const isFnValid = !!(fnInput && fnInput.value.trim().length > 0);
+        const isLnValid = !!(lnInput && lnInput.value.trim().length > 0);
+        const isDobValid = !!(dobInput && dobInput.value !== '');
+        const isGenderValid = !!genderChecked;
+        const isPhotoValid = !!photoUploaded;
+
+        // Update Group Checkmarks
+        const groupFn = document.getElementById('groupFirstName');
+        if (groupFn) groupFn.classList.toggle('is-valid', isFnValid);
+
+        const groupLn = document.getElementById('groupLastName');
+        if (groupLn) groupLn.classList.toggle('is-valid', isLnValid);
+
+        const groupDob = document.getElementById('groupDob');
+        if (groupDob) groupDob.classList.toggle('is-valid', isDobValid);
+
+        // Gender Pills Selection Highlight
+        const pills = document.querySelectorAll('.et-gender-pill');
+        pills.forEach(pill => {
+            const radio = pill.querySelector('input[name="etGender"]');
+            pill.classList.toggle('pill-selected', !!(radio && radio.checked));
+        });
+
+        // Calculate completed count out of 5 required items
+        let completedCount = 0;
+        if (isFnValid) completedCount++;
+        if (isLnValid) completedCount++;
+        if (isDobValid) completedCount++;
+        if (isGenderValid) completedCount++;
+        if (isPhotoValid) completedCount++;
+
+        // Next Button readiness style
+        const nextBtn = document.getElementById('etStep1NextBtn');
+        if (nextBtn) {
+            nextBtn.classList.toggle('ready-to-proceed', completedCount === 5);
+        }
+
+        // Small local celebration on completion (rocket stays at Stop 1/Node 2!)
+        if (completedCount === 5 && !step1CelebrationTriggered) {
+            step1CelebrationTriggered = true;
+            window.triggerStep1Celebration();
+        } else if (completedCount < 5) {
+            step1CelebrationTriggered = false;
+        }
+    };
+
+    window.triggerStep1Celebration = function () {
+        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
+        if (bubble) {
+            bubble.innerHTML = `Awesome! You're ready for the next step! 🎉`;
+            bubble.classList.remove('speech-bounce');
+            void bubble.offsetWidth;
+            bubble.classList.add('speech-bounce');
+        }
+
+        const card = document.getElementById('etStep1FormCard');
+        if (!card) return;
+
+        const sparkles = ['✨', '✦', '⭐'];
+        for (let i = 0; i < 3; i++) {
+            const el = document.createElement('span');
+            el.className = 'step1-micro-sparkle';
+            el.textContent = sparkles[i % sparkles.length];
+            el.style.left = (20 + Math.random() * 60) + '%';
+            el.style.top = (15 + Math.random() * 70) + '%';
+            card.appendChild(el);
+
+            setTimeout(() => {
+                if (el.parentNode) el.parentNode.removeChild(el);
+            }, 1200);
+        }
+    };
+
+    window.handleStep1Next = function (e) {
+        if (e) e.preventDefault();
+
+        const fnInput = document.getElementById('etFirstName');
+        const lnInput = document.getElementById('etLastName');
+        const dobInput = document.getElementById('etDob');
+        const genderChecked = document.querySelector('input[name="etGender"]:checked');
+        const photoCard = document.getElementById('etPhotoCard');
+        const photoUploaded = photoCard && photoCard.classList.contains('photo-uploaded');
+
+        const isFnValid = !!(fnInput && fnInput.value.trim().length > 0);
+        const isLnValid = !!(lnInput && lnInput.value.trim().length > 0);
+        const isDobValid = !!(dobInput && dobInput.value !== '');
+        const isGenderValid = !!genderChecked;
+        const isPhotoValid = !!photoUploaded;
+
+        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
+
+        // Clear previous error shakes
+        document.querySelectorAll('.field-error-shake').forEach(el => el.classList.remove('field-error-shake'));
+
+        if (!isFnValid) {
+            const group = document.getElementById('groupFirstName');
+            if (group) group.classList.add('field-error-shake');
+            if (fnInput) fnInput.focus();
+            if (bubble) bubble.innerHTML = `Almost there! What should we call you? 😊`;
+            return;
+        }
+
+        if (!isLnValid) {
+            const group = document.getElementById('groupLastName');
+            if (group) group.classList.add('field-error-shake');
+            if (lnInput) lnInput.focus();
+            if (bubble) bubble.innerHTML = `Almost there! Add your last name 😊`;
+            return;
+        }
+
+        if (!isDobValid) {
+            const group = document.getElementById('groupDob');
+            if (group) group.classList.add('field-error-shake');
+            if (dobInput) dobInput.focus();
+            if (bubble) bubble.innerHTML = `Almost there! When were you born? 📅`;
+            return;
+        }
+
+        if (!isGenderValid) {
+            const group = document.getElementById('groupGender');
+            if (group) group.classList.add('field-error-shake');
+            if (bubble) bubble.innerHTML = `Just one more thing — select your gender. 🚻`;
+            return;
+        }
+
+        if (!isPhotoValid) {
+            if (photoCard) photoCard.classList.add('field-error-shake');
+            if (bubble) bubble.innerHTML = `Don't forget to add your photo! 📷`;
+            return;
+        }
+
+        // Capture name if entered
+        if (fnInput && fnInput.value.trim()) {
+            window.studentName = fnInput.value.trim();
+            const placeholders = document.querySelectorAll('.student-name-placeholder');
+            placeholders.forEach(el => el.innerText = window.studentName);
+        }
+
+        // Animate Rocket smoothly from Stop 2 (50%) to Stop 3 (100%), then move to step 3
+        const hudFill = document.getElementById('etHudFill');
+        const vehicle = document.getElementById('etHudVehicleWrapper');
+        if (hudFill && vehicle) {
+            hudFill.style.transition = 'width 0.8s cubic-bezier(0.34, 1.25, 0.64, 1)';
+            vehicle.style.transition = 'left 0.8s cubic-bezier(0.34, 1.25, 0.64, 1)';
+            vehicle.classList.add('is-zooming-forward');
+            hudFill.style.width = '100%';
+            vehicle.style.left = '100%';
+        }
+
+        setTimeout(() => {
+            if (vehicle) vehicle.classList.remove('is-zooming-forward');
+            window.goToEtStep(3);
+        }, 800);
+    };
+
     // Interactive Form Field Guidance for Step 2 Form (Asha Mentor)
     const formFieldGuidance = {
-        'etFirstName': 'Yahan apna First Name bharein jaisa aapke ID proof par hai! ✍️',
-        'etMiddleName': 'Yahan apna Middle Name likhein, ya khali chhod sakte hain! 📝',
-        'etLastName': 'Yahan apna Surname ya Last Name bharein! 👤',
-        'etDob': 'Apni asli Date of Birth (Janm Tithi) select karein! 📅',
+        'etFirstName': "What should we call you? 😊",
+        'etMiddleName': 'Optional middle name 📝',
+        'etLastName': 'Enter your last name 👤',
+        'etDob': 'Just one more detail! 📅',
         'etWhatsapp': 'Apka WhatsApp number bilkul sahi bharein, test result & schedule SMS ispe aayega! 📱',
         'etPhone': 'Alternate contact/calling phone number enter karein! 📞',
         'etEmail': 'Apni valid email address enter karein update alerts ke liye! 📧',
@@ -890,29 +1190,50 @@
         if (!profileForm || profileForm.dataset.guidanceAttached) return;
         profileForm.dataset.guidanceAttached = "true";
 
+        // Step 1 Inputs live listeners
+        const step1Inputs = ['etFirstName', 'etMiddleName', 'etLastName', 'etDob'];
+        step1Inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', function () {
+                    if (id === 'etFirstName' && el.value.trim().length > 0) {
+                        showMentorGuidance("Nice! Great start ✨");
+                    }
+                    window.validateStep1Progress();
+                });
+                el.addEventListener('change', function () {
+                    window.validateStep1Progress();
+                });
+            }
+        });
+
         // Radios for gender
         const genderRadios = profileForm.querySelectorAll('input[name="etGender"]');
         genderRadios.forEach(radio => {
             radio.addEventListener('focus', function () {
-                showMentorGuidance('Apni Gender preference select karein! 🚻');
+                showMentorGuidance('Tell us a little about you 🚻');
+            });
+            radio.addEventListener('change', function () {
+                showMentorGuidance('Got it! 👍');
+                window.validateStep1Progress();
             });
             radio.addEventListener('blur', function () {
                 resetMentorGuidanceDefault();
             });
         });
 
-        // Photo upload wrap
-        const photoWrap = document.querySelector('.et-photo-upload-wrap');
-        if (photoWrap) {
-            photoWrap.addEventListener('mouseenter', function () {
-                showMentorGuidance('Apni ek saaf passport size photo upload karein admit card ke liye! 📷');
+        // Photo upload card hover & focus
+        const photoCard = document.getElementById('etPhotoCard');
+        if (photoCard) {
+            photoCard.addEventListener('mouseenter', function () {
+                showMentorGuidance('Help us recognize you! 👋');
             });
-            photoWrap.addEventListener('mouseleave', function () {
+            photoCard.addEventListener('mouseleave', function () {
                 resetMentorGuidanceDefault();
             });
         }
 
-        // All form inputs & selects
+        // All form inputs & selects focus guidance
         for (const [fieldId, msg] of Object.entries(formFieldGuidance)) {
             const el = document.getElementById(fieldId);
             if (el) {
@@ -924,10 +1245,57 @@
                 });
             }
         }
+
+        // Stage 2 Inputs live listeners
+        const stage2Inputs = ['etWhatsapp', 'etPhone', 'etEmail', 'etPincode', 'etDistrict', 'etState', 'etCurrentStatus', 'etQualification', 'etMedium', 'etCategory'];
+        stage2Inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', function () {
+                    window.validateStep2Progress();
+                });
+                el.addEventListener('change', function () {
+                    window.validateStep2Progress();
+                });
+            }
+        });
+
+        // Initial validation run
+        window.validateStep1Progress();
+        window.validateStep2Progress();
+    };
+
+    window.validateStep2Progress = function () {
+        const fields = [
+            { id: 'etWhatsapp', group: 'groupWhatsapp' },
+            { id: 'etPhone', group: 'groupPhone' },
+            { id: 'etEmail', group: 'groupEmail' },
+            { id: 'etPincode', group: 'groupPincode' },
+            { id: 'etDistrict', group: 'groupDistrict' },
+            { id: 'etState', group: 'groupState' },
+            { id: 'etCurrentStatus', group: 'groupCurrentStatus' },
+            { id: 'etQualification', group: 'groupQualification' },
+            { id: 'etMedium', group: 'groupMedium' },
+            { id: 'etCategory', group: 'groupCategory' }
+        ];
+
+        let validCount = 0;
+        fields.forEach(f => {
+            const el = document.getElementById(f.id);
+            const grp = document.getElementById(f.group);
+            const isValid = !!(el && el.value.trim() !== '');
+            if (grp) grp.classList.toggle('is-valid', isValid);
+            if (isValid) validCount++;
+        });
+
+        const submitBtn = document.getElementById('etSubmitProfileBtn');
+        if (submitBtn) {
+            submitBtn.classList.toggle('ready-to-proceed', validCount === fields.length);
+        }
     };
 
     function showMentorGuidance(msg) {
-        const bubble = document.getElementById('etPortalSpeechBubble');
+        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
         const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
         if (bubble) {
             bubble.innerHTML = `<span class="student-name-placeholder">${name}</span>, ${msg}`;
@@ -938,10 +1306,15 @@
     }
 
     function resetMentorGuidanceDefault() {
-        const bubble = document.getElementById('etPortalSpeechBubble');
+        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
         const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+        const isPane2Active = document.getElementById('subQuestPane2')?.classList.contains('active');
         if (bubble) {
-            bubble.innerHTML = `Apni details bharein <span class="student-name-placeholder">${name}</span>! Taaki hum campus & scholarship assign kar sakein! 📋`;
+            if (isPane2Active) {
+                bubble.innerHTML = `Shabash <span class="student-name-placeholder">${name}</span>! Ab contact & location details bharein aur test start karein! 🚀`;
+            } else {
+                bubble.innerHTML = `Aao <span class="student-name-placeholder">${name}</span>! Sabse pehle apni basic details fill karo! 👋`;
+            }
         }
     }
 
