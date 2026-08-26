@@ -736,21 +736,17 @@
                 <div class="et-hud-track" id="etHudTrack">
                     <div class="et-hud-fill" id="etHudFill" style="width: 0%;"></div>
 
-                    <!-- Milestone Checkpoints (1. Instructions, 2. Profile, 3. Entrance Test) -->
+                    <!-- Milestone Checkpoints (1. Instructions, 2. Profile) -->
                     <div class="et-hud-checkpoints">
                         <button class="et-hud-node active" id="etNode1" style="left: 0%;" onclick="goToEtStep(1)"
                             aria-label="1. Instructions">
                             <span class="node-icon">🌱</span>
                             <span class="node-tooltip">1. Instructions</span>
                         </button>
-                        <button class="et-hud-node" id="etNode2" style="left: 50%;" onclick="goToEtStep(2)"
+                        <button class="et-hud-node" id="etNode2" style="left: 100%;" onclick="goToEtStep(2)"
                             aria-label="2. Sign Up Profile">
                             <span class="node-icon">📋</span>
                             <span class="node-tooltip">2. Sign Up Profile</span>
-                        </button>
-                        <button class="et-hud-node" id="etNode3" style="left: 100%;" aria-label="3. Entrance Test">
-                            <span class="node-icon">⚡</span>
-                            <span class="node-tooltip">3. Entrance Test</span>
                         </button>
                     </div>
 
@@ -817,6 +813,46 @@
                     <div class="et-speech-bubble" id="etPortalSpeechBubble">
                         Aao <span class="student-name-placeholder">Friend</span>! Rules dhyan se padhein aur Entrance
                         Test start karein! 📝
+                    </div>
+                </div>
+
+                <!-- Pixel-Perfect Step 3 Mentor Sidebar Layout -->
+                <div class="et-step3-sidebar-wrapper">
+                    <!-- Top Speech Bubble above Asha -->
+                    <div class="et-step3-top-bubble">
+                        <div class="top-bubble-header">
+                            Chalo <span class="student-name-placeholder">Sujit</span>! 💡
+                        </div>
+                        <div class="top-bubble-body">
+                            Logic lagao, best answer chuno aur apna score badhao!
+                        </div>
+                        <div class="step3-paper-plane" title="Paper plane decoration">
+                            <svg class="plane-svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M22 2L11 13" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z" fill="#ffe4e6" stroke="#f43f5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Center Avatar Stage with Floating Decorations -->
+                    <div class="et-step3-avatar-stage">
+                        <div class="floating-icon icon-lightbulb" title="Logic bulb">💡</div>
+                        <div class="floating-sparkle sparkle-1">✨</div>
+                        <div class="floating-sparkle sparkle-2">✦</div>
+                        <img src="mentor-avatar2.png" alt="Mentor Asha" class="et-step3-avatar-img">
+                    </div>
+
+                    <!-- Bottom Tip Card below Asha -->
+                    <div class="et-step3-bottom-tip">
+                        <div class="tip-star-badge">⭐</div>
+                        <div class="tip-content">
+                            <div class="tip-header-text">
+                                <span class="tip-bold-pink">Tip:</span> <span class="tip-bold-dark" id="etStep3TipHeader">Dhyan se calculate karein! 🚀</span>
+                            </div>
+                            <div class="tip-sub-text" id="etStep3TipSub">
+                                Har sahi answer aapko aage badhata hai!
+                            </div>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -1140,8 +1176,8 @@
 
                             <!-- Question Number & Topic Badges -->
                             <div class="et-question-header">
-                                <span id="etQNumBadge" class="et-qnum-badge">Question 1 of 5</span>
                                 <span id="etQTopicBadge" class="et-qtopic-badge">Logic & Calculation</span>
+                                <span id="etQNumBadge" class="et-qnum-badge">Question 1</span>
                             </div>
 
                             <!-- Blue Question Box with Q Badge -->
@@ -1169,18 +1205,24 @@
                                     <div class="enc-divider"></div>
                                 </div>
 
-                                <div class="et-next-btn-wrap">
-                                    <button type="button" class="submit-glow-btn compact-btn gradient-next-btn"
-                                        id="etNextQBtn" onclick="nextEtQuestion()">
-                                        <span>Next Question →</span>
+                                <div class="et-footer-nav-btns" style="display: flex; align-items: center; gap: 12px;">
+                                    <button type="button" class="et-prev-btn" id="etPrevQBtn" onclick="prevEtQuestion()" style="visibility: hidden;">
+                                        ← Previous Question
                                     </button>
-                                    <span class="btn-sparkle">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffb703"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                                        </svg>
-                                    </span>
+
+                                    <div class="et-next-btn-wrap">
+                                        <button type="button" class="submit-glow-btn compact-btn gradient-next-btn"
+                                            id="etNextQBtn" onclick="nextEtQuestion()">
+                                            <span>Next Question →</span>
+                                        </button>
+                                        <span class="btn-sparkle">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffb703"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                                            </svg>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

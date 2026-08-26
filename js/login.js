@@ -353,9 +353,21 @@
 
     window.goToEtStep = function (stepNum) {
         const bodyGrid = document.querySelector('.et-portal-body');
+        const portalScreen = document.getElementById('entranceTestPortalScreen');
+        const trackWrap = document.querySelector('.et-hud-track-wrapper');
+
         if (bodyGrid) {
             bodyGrid.classList.toggle('step2-active', stepNum === 2);
+            bodyGrid.classList.toggle('step3-active', stepNum === 3);
             bodyGrid.scrollTop = 0;
+        }
+
+        if (portalScreen) {
+            portalScreen.classList.toggle('step3-active', stepNum === 3);
+        }
+
+        if (trackWrap) {
+            trackWrap.style.display = (stepNum === 3) ? 'none' : 'block';
         }
 
         const step2Pane = document.getElementById('etStep2');
@@ -373,18 +385,17 @@
 
             if (targetPane) targetPane.classList.toggle('active', i === stepNum);
             if (node) {
-                node.classList.toggle('active', i === stepNum || (stepNum === 4 && i === 3));
+                node.classList.toggle('active', i === stepNum);
                 node.classList.toggle('passed', i < stepNum);
             }
         }
 
-        // Update top HUD progress track fill bar & Rocket Vehicle position
+        // Update top HUD progress track fill bar & Rocket Vehicle position (2 Checkpoints: 1. Instructions = 0%, 2. Profile = 100%)
         const hudFill = document.getElementById('etHudFill');
         const vehicle = document.getElementById('etHudVehicleWrapper');
         let pct = '0%';
         if (stepNum === 1) pct = '0%';
-        else if (stepNum === 2) pct = '50%';
-        else if (stepNum >= 3) pct = '100%';
+        else if (stepNum >= 2) pct = '100%';
 
         if (hudFill) hudFill.style.width = pct;
         if (vehicle) vehicle.style.left = pct;
@@ -481,9 +492,12 @@
         const topicBadge = document.getElementById('etQTopicBadge');
         const qText = document.getElementById('etQuestionText');
 
-        if (numBadge) numBadge.innerText = `Question ${index + 1} of ${etQuestions.length}`;
-        if (topicBadge) topicBadge.innerText = qData.topic;
+        if (numBadge) numBadge.innerText = `Question ${index + 1}`;
+        if (topicBadge) topicBadge.innerHTML = `<span class="badge-icon">💬</span> ${qData.topic}`;
         if (qText) qText.innerText = qData.text;
+
+        const tipSub = document.getElementById('etStep3TipSub');
+        if (tipSub) tipSub.innerText = qData.mentorMsg;
 
         const grid = document.getElementById('etOptionsGrid');
         if (grid) {
