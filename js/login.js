@@ -117,10 +117,9 @@
     window.handleManualSubmit = function (e) {
         e.preventDefault();
         const fnInput = document.getElementById('loginFirstName');
-        const phoneInput = document.getElementById('loginPhone');
-        if (!fnInput || !fnInput.value.trim() || !phoneInput || !phoneInput.value.trim()) return;
-
-        window.studentName = fnInput.value.trim();
+        if (fnInput && fnInput.value.trim()) {
+            window.studentName = fnInput.value.trim();
+        }
         updateNamePlaceholders();
 
         const btn = document.getElementById('loginSubmitBtn');
@@ -353,12 +352,26 @@
     let etTimerInterval = null;
 
     window.goToEtStep = function (stepNum) {
+        const bodyGrid = document.querySelector('.et-portal-body');
+        if (bodyGrid) {
+            bodyGrid.classList.toggle('step2-active', stepNum === 2);
+            bodyGrid.scrollTop = 0;
+        }
+
+        const step2Pane = document.getElementById('etStep2');
+        if (step2Pane) {
+            step2Pane.scrollTop = 0;
+        }
+
         // Activate step panes (Step 1, Step 2, Step 3, Step 4)
         for (let i = 1; i <= 4; i++) {
-            const pane = document.getElementById('etStep' + i);
+            const pane = document.getElementById('etStep2');
+            if (pane && i === 2 && stepNum === 2) pane.scrollTop = 0;
+
+            const targetPane = document.getElementById('etStep' + i);
             const node = document.getElementById('etNode' + i);
 
-            if (pane) pane.classList.toggle('active', i === stepNum);
+            if (targetPane) targetPane.classList.toggle('active', i === stepNum);
             if (node) {
                 node.classList.toggle('active', i === stepNum || (stepNum === 4 && i === 3));
                 node.classList.toggle('passed', i < stepNum);

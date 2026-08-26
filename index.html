@@ -644,7 +644,7 @@
                     <form class="login-form" id="loginManualForm" onsubmit="handleManualSubmit(event)">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label for="loginFirstName" class="form-label" id="fnLabel">First Name *</label>
+                                <label for="loginFirstName" class="form-label" id="fnLabel">First Name</label>
                                 <div class="input-wrapper">
                                     <svg class="input-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -652,12 +652,12 @@
                                         <circle cx="12" cy="7" r="4" />
                                     </svg>
                                     <input type="text" id="loginFirstName" class="form-input"
-                                        placeholder="Enter first name" required autocomplete="given-name">
+                                        placeholder="Enter first name" autocomplete="given-name">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="loginLastName" class="form-label" id="lnLabel">Last Name *</label>
+                                <label for="loginLastName" class="form-label" id="lnLabel">Last Name</label>
                                 <div class="input-wrapper">
                                     <svg class="input-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -665,7 +665,7 @@
                                         <circle cx="12" cy="7" r="4" />
                                     </svg>
                                     <input type="text" id="loginLastName" class="form-input"
-                                        placeholder="Enter last name" required autocomplete="family-name">
+                                        placeholder="Enter last name" autocomplete="family-name">
                                 </div>
                             </div>
                         </div>
@@ -688,12 +688,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="loginPhone" class="form-label" id="phoneLabel">Phone Number *</label>
+                                <label for="loginPhone" class="form-label" id="phoneLabel">Phone Number</label>
                                 <div class="input-wrapper phone-wrapper">
                                     <span class="phone-prefix">+91</span>
                                     <input type="tel" id="loginPhone" class="form-input phone-input"
-                                        placeholder="10-digit phone number" required pattern="[0-9]{10}" maxlength="10"
-                                        autocomplete="tel">
+                                        placeholder="10-digit phone number" maxlength="10" autocomplete="tel">
                                 </div>
                             </div>
                         </div>
@@ -739,11 +738,13 @@
 
                     <!-- Milestone Checkpoints (1. Instructions, 2. Profile, 3. Entrance Test) -->
                     <div class="et-hud-checkpoints">
-                        <button class="et-hud-node active" id="etNode1" style="left: 0%;" onclick="goToEtStep(1)" aria-label="1. Instructions">
+                        <button class="et-hud-node active" id="etNode1" style="left: 0%;" onclick="goToEtStep(1)"
+                            aria-label="1. Instructions">
                             <span class="node-icon">🌱</span>
                             <span class="node-tooltip">1. Instructions</span>
                         </button>
-                        <button class="et-hud-node" id="etNode2" style="left: 50%;" onclick="goToEtStep(2)" aria-label="2. Sign Up Profile">
+                        <button class="et-hud-node" id="etNode2" style="left: 50%;" onclick="goToEtStep(2)"
+                            aria-label="2. Sign Up Profile">
                             <span class="node-icon">📋</span>
                             <span class="node-tooltip">2. Sign Up Profile</span>
                         </button>
@@ -831,7 +832,8 @@
                     </div>
 
                     <div class="et-rules-grid" onmouseleave="resetRuleCardHover()">
-                        <div class="et-rule-card card-theme-cyan" onmouseenter="highlightRuleCard(0, true)" onclick="highlightRuleCard(0, true)">
+                        <div class="et-rule-card card-theme-cyan" onmouseenter="highlightRuleCard(0, true)"
+                            onclick="highlightRuleCard(0, true)">
                             <div class="card-header-tag">
                                 <span class="card-tag">⏱️ DURATION</span>
                                 <span class="card-check">✓</span>
@@ -840,12 +842,14 @@
                                 <div class="et-rule-badge">1</div>
                                 <div class="et-rule-content">
                                     <strong>1 Hour Complete Test ⏱️</strong>
-                                    <p>The test takes approximately 1 hour. Please complete it in a quiet place free from disruptions.</p>
+                                    <p>The test takes approximately 1 hour. Please complete it in a quiet place free
+                                        from disruptions.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="et-rule-card card-theme-orange" onmouseenter="highlightRuleCard(1, true)" onclick="highlightRuleCard(1, true)">
+                        <div class="et-rule-card card-theme-orange" onmouseenter="highlightRuleCard(1, true)"
+                            onclick="highlightRuleCard(1, true)">
                             <div class="card-header-tag">
                                 <span class="card-tag">📝 REQUIRED GEAR</span>
                                 <span class="card-check">✓</span>
@@ -854,12 +858,14 @@
                                 <div class="et-rule-badge">2</div>
                                 <div class="et-rule-content">
                                     <strong>Notebook & Pen Required 📝</strong>
-                                    <p>Keep a rough notebook and pen handy for quick mathematical and logic calculations.</p>
+                                    <p>Keep a rough notebook and pen handy for quick mathematical and logic
+                                        calculations.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="et-rule-card card-theme-purple" onmouseenter="highlightRuleCard(2, true)" onclick="highlightRuleCard(2, true)">
+                        <div class="et-rule-card card-theme-purple" onmouseenter="highlightRuleCard(2, true)"
+                            onclick="highlightRuleCard(2, true)">
                             <div class="card-header-tag">
                                 <span class="card-tag">📱 BATTLE STATION</span>
                                 <span class="card-check">✓</span>
@@ -868,12 +874,14 @@
                                 <div class="et-rule-badge">3</div>
                                 <div class="et-rule-content">
                                     <strong>Mobile / Laptop Online Mode 📱</strong>
-                                    <p>You can solve all multiple-choice questions directly on your mobile device or laptop screen.</p>
+                                    <p>You can solve all multiple-choice questions directly on your mobile device or
+                                        laptop screen.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="et-rule-card card-theme-green" onmouseenter="highlightRuleCard(3, true)" onclick="highlightRuleCard(3, true)">
+                        <div class="et-rule-card card-theme-green" onmouseenter="highlightRuleCard(3, true)"
+                            onclick="highlightRuleCard(3, true)">
                             <div class="card-header-tag">
                                 <span class="card-tag">🤝 CODE OF HONOR</span>
                                 <span class="card-check">✓</span>
@@ -882,7 +890,8 @@
                                 <div class="et-rule-badge">4</div>
                                 <div class="et-rule-content">
                                     <strong>Honesty Policy 🤝</strong>
-                                    <p>We evaluate true learning potential. Give your best effort without any unfair means or cheating.</p>
+                                    <p>We evaluate true learning potential. Give your best effort without any unfair
+                                        means or cheating.</p>
                                 </div>
                             </div>
                         </div>
@@ -898,30 +907,48 @@
                 <!-- STEP 2: DETAILED SIGN UP PROFILE (Spacious & Multi-Column) -->
                 <div class="et-step-pane" id="etStep2">
                     <div class="et-pane-header">
-                        <h2 class="et-pane-title">Student Profile & Preferences</h2>
+                        <h2 class="et-pane-title">
+                            <span class="title-burst left">💥</span>
+                            Student Profile & Preferences
+                            <span class="title-burst right">💥</span>
+                        </h2>
                         <p class="et-pane-sub">Complete your details so we can assign your campus preferences and
                             scholarship eligibility.</p>
+                        <div class="et-title-accent-bar"></div>
                     </div>
 
                     <form id="etProfileForm" class="et-spacious-form" onsubmit="handleEtProfileSubmit(event)">
-                        <!-- Photo Upload Banner -->
-                        <div class="et-photo-upload-wrap">
-                            <div class="et-photo-circle">
-                                <span class="et-photo-icon">📷</span>
-                            </div>
-                            <div class="et-photo-info">
-                                <strong>Upload Profile Photo (Optional)</strong>
-                                <span>Click to upload a clear passport photo for your admit card.</span>
-                            </div>
+                        <!-- Animated Photo Upload Card -->
+                        <div class="et-photo-tile-container">
+                            <label for="etPhotoInput" class="et-photo-tile-card"
+                                title="Click to upload passport photo for admit card">
+                                <input type="file" id="etPhotoInput" accept="image/*" style="display:none;"
+                                    onchange="if(this.files[0]){ alert('Photo selected: ' + this.files[0].name); }">
+                                <div class="et-photo-tile-badge">
+                                    <span class="photo-cam-icon">📷</span>
+                                    <span class="photo-plus-badge">+</span>
+                                </div>
+                                <span class="photo-tile-label">Add Photo</span>
+                            </label>
                         </div>
 
-                        <div class="et-form-section">
-                            <h4 class="et-section-title">1. Basic Details</h4>
+                        <!-- Section 1: BASIC DETAILS -->
+                        <div class="et-form-section sec-card-pink">
+                            <div class="sec-corner-icon icon-pink">
+                                <span>👤</span>
+                            </div>
+                            <h4 class="et-section-title sec-title-pink">
+                                <span class="sec-num-badge num-pink">1</span>
+                                BASIC DETAILS
+                            </h4>
                             <div class="form-grid-3">
                                 <div class="form-group">
-                                    <label class="form-label">First Name *</label>
-                                    <input type="text" id="etFirstName" class="form-input et-input"
-                                        placeholder="e.g. Sujit" required>
+                                    <label class="form-label">First Name</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-pink-fill">👤</span>
+                                        <input type="text" id="etFirstName" class="form-input et-input"
+                                            placeholder="Sujit">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Middle Name</label>
@@ -929,18 +956,20 @@
                                         placeholder="Optional">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Last Name *</label>
-                                    <input type="text" id="etLastName" class="form-input et-input"
-                                        placeholder="e.g. Kumar" required>
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" id="etLastName" class="form-input et-input" placeholder="Kumar">
                                 </div>
                             </div>
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label">Date of Birth *</label>
-                                    <input type="date" id="etDob" class="form-input et-input" required>
+                                    <label class="form-label">Date of Birth</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-pink-fill">📅</span>
+                                        <input type="date" id="etDob" class="form-input et-input">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Gender *</label>
+                                    <label class="form-label">Gender</label>
                                     <div class="et-gender-pills">
                                         <label class="et-gender-pill"><input type="radio" name="etGender" value="Male"
                                                 checked> <span>Male</span></label>
@@ -953,50 +982,82 @@
                             </div>
                         </div>
 
-                        <div class="et-form-section">
-                            <h4 class="et-section-title">2. Contact Information</h4>
+                        <!-- Section 2: CONTACT INFORMATION -->
+                        <div class="et-form-section sec-card-orange">
+                            <div class="sec-corner-icon icon-orange">
+                                <span>📞</span>
+                            </div>
+                            <h4 class="et-section-title sec-title-orange">
+                                <span class="sec-num-badge num-orange">2</span>
+                                CONTACT INFORMATION
+                            </h4>
                             <div class="form-grid-3">
                                 <div class="form-group">
-                                    <label class="form-label">WhatsApp Number *</label>
-                                    <input type="tel" id="etWhatsapp" class="form-input et-input"
-                                        placeholder="10-digit WhatsApp" required pattern="[0-9]{10}">
+                                    <label class="form-label">WhatsApp Number</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-orange-fill">💬</span>
+                                        <input type="tel" id="etWhatsapp" class="form-input et-input"
+                                            placeholder="3512313132">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Phone Number *</label>
-                                    <input type="tel" id="etPhone" class="form-input et-input"
-                                        placeholder="10-digit Phone" required pattern="[0-9]{10}">
+                                    <label class="form-label">Phone Number</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-orange-fill">📞</span>
+                                        <input type="tel" id="etPhone" class="form-input et-input"
+                                            placeholder="3512313132">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Email Address</label>
-                                    <input type="email" id="etEmail" class="form-input et-input"
-                                        placeholder="student@example.com">
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-orange-fill">✉️</span>
+                                        <input type="email" id="etEmail" class="form-input et-input"
+                                            placeholder="student@example.com">
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="et-form-section">
-                            <h4 class="et-section-title">3. Education & Location Details</h4>
+                        <!-- Section 3: EDUCATION & LOCATION DETAILS -->
+                        <div class="et-form-section sec-card-green">
+                            <div class="sec-corner-icon icon-green">
+                                <span>🏫</span>
+                            </div>
+                            <h4 class="et-section-title sec-title-green">
+                                <span class="sec-num-badge num-green">3</span>
+                                EDUCATION & LOCATION DETAILS
+                            </h4>
                             <div class="form-grid-3">
                                 <div class="form-group">
-                                    <label class="form-label">Pin Code *</label>
-                                    <input type="text" id="etPincode" class="form-input et-input"
-                                        placeholder="6-digit PIN" required maxlength="6">
+                                    <label class="form-label">Pin Code</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-green-fill">📍</span>
+                                        <input type="text" id="etPincode" class="form-input et-input"
+                                            placeholder="6-digit PIN" maxlength="6">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">District</label>
-                                    <input type="text" id="etDistrict" class="form-input et-input"
-                                        placeholder="District name">
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-green-fill">🏙️</span>
+                                        <input type="text" id="etDistrict" class="form-input et-input"
+                                            placeholder="District name">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">State *</label>
-                                    <input type="text" id="etState" class="form-input et-input" placeholder="State name"
-                                        required>
+                                    <label class="form-label">State</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-green-fill">🗺️</span>
+                                        <input type="text" id="etState" class="form-input et-input"
+                                            placeholder="State name">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-grid-4">
                                 <div class="form-group">
-                                    <label class="form-label">Current Status *</label>
-                                    <select id="etCurrentStatus" class="form-input et-select" required>
+                                    <label class="form-label">Current Status</label>
+                                    <select id="etCurrentStatus" class="form-input et-select">
                                         <option value="">Select Option</option>
                                         <option value="Student">Student</option>
                                         <option value="Job Seeker">Job Seeker</option>
@@ -1004,39 +1065,50 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Highest Qualification *</label>
-                                    <select id="etQualification" class="form-input et-select" required>
-                                        <option value="">Select Qualification</option>
-                                        <option value="10th Pass">10th Pass</option>
-                                        <option value="12th Pass">12th Pass</option>
-                                        <option value="Graduate">Graduate / Diploma</option>
-                                    </select>
+                                    <label class="form-label">Highest Qualification</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-green-fill select-icon-shift">🎓</span>
+                                        <select id="etQualification" class="form-input et-select has-icon-select">
+                                            <option value="">Select Qualification</option>
+                                            <option value="10th Pass">10th Pass</option>
+                                            <option value="12th Pass">12th Pass</option>
+                                            <option value="Graduate">Graduate / Diploma</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">School Medium *</label>
-                                    <select id="etMedium" class="form-input et-select" required>
-                                        <option value="">Select Medium</option>
-                                        <option value="Hindi">Hindi</option>
-                                        <option value="English">English</option>
-                                        <option value="Vernacular/Regional">Regional Language</option>
-                                    </select>
+                                    <label class="form-label">School Medium</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-green-fill select-icon-shift">📚</span>
+                                        <select id="etMedium" class="form-input et-select has-icon-select">
+                                            <option value="">Select Medium</option>
+                                            <option value="Hindi">Hindi</option>
+                                            <option value="English">English</option>
+                                            <option value="Vernacular/Regional">Regional Language</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Caste / Category *</label>
-                                    <select id="etCategory" class="form-input et-select" required>
-                                        <option value="">Select Category</option>
-                                        <option value="General">General</option>
-                                        <option value="OBC">OBC</option>
-                                        <option value="SC/ST">SC / ST</option>
-                                    </select>
+                                    <label class="form-label">Caste / Category</label>
+                                    <div class="input-icon-group">
+                                        <span class="input-icon icon-green-fill select-icon-shift">👥</span>
+                                        <select id="etCategory" class="form-input et-select has-icon-select">
+                                            <option value="">Select Category</option>
+                                            <option value="General">General</option>
+                                            <option value="OBC">OBC</option>
+                                            <option value="SC/ST">SC / ST</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="et-pane-actions flex-between mt-20">
-                            <button type="button" class="et-sec-btn" onclick="goToEtStep(1)">← Back to
-                                Instructions</button>
-                            <button type="submit" class="submit-glow-btn compact-btn">
+                        <!-- Action Bar -->
+                        <div class="et-pane-actions flex-between mt-16">
+                            <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(1)">
+                                ← Back to Instructions
+                            </button>
+                            <button type="submit" class="submit-glow-btn compact-btn rocket-submit-btn">
                                 <span>Submit Profile & Start Entrance Test 🚀</span>
                             </button>
                         </div>
@@ -1046,47 +1118,70 @@
                 <!-- STEP 3: LIVE MCQ ENTRANCE TEST PANE -->
                 <div class="et-step-pane" id="etStep3">
                     <div class="et-quiz-wrapper">
-                        <!-- Quiz Header & 1-Hour Live Countdown Timer -->
-                        <div class="et-quiz-topbar">
-                            <div class="et-quiz-meta">
-                                <h3 class="et-quiz-subject">🧮 NavGurukul Logic & Problem Solving Test</h3>
-                            </div>
+                        <!-- Single Unified Question Card Container -->
+                        <div class="et-question-card">
+                            <!-- Quiz Header & 1-Hour Live Countdown Timer -->
+                            <div class="et-quiz-topbar">
+                                <div class="et-quiz-meta">
+                                    <h3 class="et-quiz-subject">🧮 NavGurukul Logic & Problem Solving Test</h3>
+                                </div>
 
-                            <!-- Live 1-Hour Timer Card -->
-                            <div class="et-quiz-timer-card" id="etQuizTimerCard">
-                                <span class="timer-label">Time Remaining</span>
-                                <div class="timer-display">
-                                    <span class="timer-icon">⏱️</span>
-                                    <span id="etQuizTimerText" class="timer-numbers">60:00</span>
+                                <!-- Live 1-Hour Timer Pill Badge -->
+                                <div class="et-quiz-timer-card" id="etQuizTimerCard">
+                                    <div class="timer-ring-icon">⌛</div>
+                                    <div class="timer-text-wrap">
+                                        <span class="timer-label">TIME REMAINING</span>
+                                        <span id="etQuizTimerText" class="timer-numbers">59:34</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Live Question Card Container -->
-                        <div class="et-question-card">
+                            <div class="et-topbar-divider"></div>
+
+                            <!-- Question Number & Topic Badges -->
                             <div class="et-question-header">
                                 <span id="etQNumBadge" class="et-qnum-badge">Question 1 of 5</span>
-                                <span id="etQTopicBadge" class="et-qtopic-badge">Logical Reasoning</span>
+                                <span id="etQTopicBadge" class="et-qtopic-badge">Logic & Calculation</span>
                             </div>
 
-                            <h3 id="etQuestionText" class="et-question-text">
-                                Loading question...
-                            </h3>
+                            <!-- Blue Question Box with Q Badge -->
+                            <div class="et-question-box">
+                                <div class="q-circle-badge">Q</div>
+                                <h3 id="etQuestionText" class="et-question-text">
+                                    Loading question...
+                                </h3>
+                            </div>
 
-                            <!-- 4 Glassmorphic Option Buttons -->
+                            <!-- 4 Option Buttons -->
                             <div class="et-options-grid" id="etOptionsGrid">
                                 <!-- Populated dynamically -->
                             </div>
 
                             <!-- Quiz Action Footer -->
                             <div class="et-quiz-footer">
-                                <button type="button" class="et-sec-btn" id="etPrevQBtn" onclick="prevEtQuestion()">← Previous Question</button>
-                                <div class="et-q-palette" id="etQPalette">
-                                    <!-- Q1, Q2, Q3, Q4, Q5 indicators -->
+                                <div class="et-footer-encouragement">
+                                    <div class="target-icon-wrap">🎯</div>
+                                    <div class="encouragement-text">
+                                        <div class="enc-title">You can do it, <span
+                                                class="student-name-placeholder">Sujit</span>!</div>
+                                        <div class="enc-sub">Think smart, not just hard! 💪</div>
+                                    </div>
+                                    <div class="enc-divider"></div>
                                 </div>
-                                <button type="button" class="submit-glow-btn compact-btn" id="etNextQBtn" onclick="nextEtQuestion()">
-                                    <span>Next Question →</span>
-                                </button>
+
+                                <div class="et-next-btn-wrap">
+                                    <button type="button" class="submit-glow-btn compact-btn gradient-next-btn"
+                                        id="etNextQBtn" onclick="nextEtQuestion()">
+                                        <span>Next Question →</span>
+                                    </button>
+                                    <span class="btn-sparkle">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffb703"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                                        </svg>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1098,8 +1193,10 @@
                         <div class="result-badge-wrap">
                             <span class="result-emoji">🎓</span>
                         </div>
-                        <h2 class="result-title">Congratulations <span class="student-name-placeholder">Friend</span>! 🎉</h2>
-                        <p class="result-sub">You have successfully completed the NavGurukul Official Screening Test!</p>
+                        <h2 class="result-title">Congratulations <span class="student-name-placeholder">Friend</span>!
+                            🎉</h2>
+                        <p class="result-sub">You have successfully completed the NavGurukul Official Screening Test!
+                        </p>
 
                         <div class="result-score-box">
                             <div class="score-item">
@@ -1122,12 +1219,14 @@
                             <span class="sch-icon">🏆</span>
                             <div class="sch-info">
                                 <strong>100% Fully-Funded Residential Scholarship Qualified!</strong>
-                                <p>Our Admissions Council will contact your WhatsApp number shortly for final campus interview onboarding.</p>
+                                <p>Our Admissions Council will contact your WhatsApp number shortly for final campus
+                                    interview onboarding.</p>
                             </div>
                         </div>
 
                         <div class="et-pane-actions flex-center gap-16 mt-24">
-                            <button type="button" class="submit-glow-btn compact-btn" onclick="alert('📄 Downloading your NavGurukul Entrance Admit Card & Hall Ticket...')">
+                            <button type="button" class="submit-glow-btn compact-btn"
+                                onclick="alert('📄 Downloading your NavGurukul Entrance Admit Card & Hall Ticket...')">
                                 <span>📄 Download Admit Card & Result</span>
                             </button>
                             <button type="button" class="et-sec-btn" onclick="closeEntranceTestPortal()">
