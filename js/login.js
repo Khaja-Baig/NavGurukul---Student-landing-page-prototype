@@ -273,7 +273,7 @@
             if (readyBtn) readyBtn.classList.add('visible');
 
             if (bubble) {
-                bubble.innerHTML = `Jab aap ready ho, niche button daba kar test start karein! 🚀`;
+                bubble.innerHTML = `Jab aap ready ho, circular <strong>START</strong> button par click karke test start karein! 🚀`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
@@ -316,7 +316,7 @@
         cards.forEach(card => card.classList.remove('active-guide'));
         if (readyBtn) readyBtn.classList.add('visible');
         if (bubble) {
-            bubble.innerHTML = `Kisi bhi instruction par hover karke details padhein ya niche button se test start karein! ✨`;
+            bubble.innerHTML = `Kisi bhi instruction par hover karke details padhein ya circular <strong>START</strong> button par click karein! ✨`;
         }
     };
 
@@ -786,12 +786,12 @@
 
         history.forEach((attempt, index) => {
             const isLatest = (index === history.length - 1);
-            const stageName = (history.length > 1) 
-                ? `Screening Test (Attempt ${attempt.attemptNum})` 
+            const stageName = (history.length > 1)
+                ? `Screening Test (Attempt ${attempt.attemptNum})`
                 : `Screening Test`;
 
-            const statusBadge = attempt.isPassed 
-                ? `<span class="res-status-badge status-pass">✔ Pass</span>` 
+            const statusBadge = attempt.isPassed
+                ? `<span class="res-status-badge status-pass">✔ Pass</span>`
                 : `<span class="res-status-badge status-fail">✖ Fail</span>`;
 
             let actionCell = '-';

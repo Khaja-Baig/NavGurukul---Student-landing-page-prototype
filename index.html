@@ -875,68 +875,89 @@
                             starting your screening test.</p>
                     </div>
 
-                    <div class="et-rules-grid" onmouseleave="resetRuleCardHover()">
-                        <!-- Stripe 1: Duration (Pink Theme) -->
-                        <div class="et-rule-card card-theme-pink" id="ruleStripe0" onmouseenter="highlightRuleCard(0, true)"
-                            onclick="highlightRuleCard(0, true)">
-                            <div class="stripe-left-icon">⏱️</div>
-                            <div class="stripe-main-content">
-                                <div class="stripe-header-row">
-                                    <span class="card-tag">DURATION</span>
-                                    <span class="card-check">✓</span>
+                    <div class="et-rules-grid-stage">
+                        <!-- Gamified Animated Circle START CTA (Positioned on the left side between Avatar & Stripes) -->
+                        <div class="et-circle-start-wrap">
+                            <button type="button" class="et-circle-start-btn et-ready-btn" id="etStartBtn"
+                                onclick="goToEtStep(2)" aria-label="Start Entrance Test">
+                                <div class="circle-pulse-ring ring-1"></div>
+                                <div class="circle-pulse-ring ring-2"></div>
+                                <div class="circle-sparkle s1">✨</div>
+                                <div class="circle-sparkle s2">⭐</div>
+                                <div class="circle-sparkle s3">⚡</div>
+                                <div class="circle-content">
+                                    <div class="circle-icon">🚀</div>
+                                    <span class="circle-text">START</span>
+                                    <span class="circle-sub">TEST</span>
                                 </div>
-                                <strong class="stripe-title">1 Hour Complete Test ⏱️</strong>
-                                <p class="stripe-desc">The test takes approximately 1 hour. Please complete it in a quiet place free from disruptions.</p>
-                            </div>
+                                <div class="circle-hover-tooltip">
+                                    <span>Tap to Start! 🎯</span>
+                                </div>
+                            </button>
                         </div>
 
-                        <!-- Stripe 2: Required Gear (Orange Theme) -->
-                        <div class="et-rule-card card-theme-orange" id="ruleStripe1" onmouseenter="highlightRuleCard(1, true)"
-                            onclick="highlightRuleCard(1, true)">
-                            <div class="stripe-left-icon">📝</div>
-                            <div class="stripe-main-content">
-                                <div class="stripe-header-row">
-                                    <span class="card-tag">REQUIRED GEAR</span>
-                                    <span class="card-check">✓</span>
+                        <!-- Stripes Grid (Restored flush to right screen edge) -->
+                        <div class="et-rules-grid" onmouseleave="resetRuleCardHover()">
+                            <!-- Stripe 1: Duration (Pink Theme) -->
+                            <div class="et-rule-card card-theme-pink" id="ruleStripe0"
+                                onmouseenter="highlightRuleCard(0, true)" onclick="highlightRuleCard(0, true)">
+                                <div class="stripe-left-icon">⏱️</div>
+                                <div class="stripe-main-content">
+                                    <div class="stripe-header-row">
+                                        <span class="card-tag">DURATION</span>
+                                        <span class="card-check">✓</span>
+                                    </div>
+                                    <strong class="stripe-title">1 Hour Complete Test ⏱️</strong>
+                                    <p class="stripe-desc">The test takes approximately 1 hour. Please complete it in a
+                                        quiet place free from disruptions.</p>
                                 </div>
-                                <strong class="stripe-title">Notebook & Pen Required 📝</strong>
-                                <p class="stripe-desc">Keep a rough notebook and pen handy for quick mathematical and logic calculations.</p>
+                            </div>
+
+                            <!-- Stripe 2: Required Gear (Orange Theme) -->
+                            <div class="et-rule-card card-theme-orange" id="ruleStripe1"
+                                onmouseenter="highlightRuleCard(1, true)" onclick="highlightRuleCard(1, true)">
+                                <div class="stripe-left-icon">📝</div>
+                                <div class="stripe-main-content">
+                                    <div class="stripe-header-row">
+                                        <span class="card-tag">REQUIRED GEAR</span>
+                                        <span class="card-check">✓</span>
+                                    </div>
+                                    <strong class="stripe-title">Notebook & Pen Required 📝</strong>
+                                    <p class="stripe-desc">Keep a rough notebook and pen handy for quick mathematical and
+                                        logic calculations.</p>
+                                </div>
+                            </div>
+
+                            <!-- Stripe 3: Online Mode (Purple Theme) -->
+                            <div class="et-rule-card card-theme-purple" id="ruleStripe2"
+                                onmouseenter="highlightRuleCard(2, true)" onclick="highlightRuleCard(2, true)">
+                                <div class="stripe-left-icon">📱</div>
+                                <div class="stripe-main-content">
+                                    <div class="stripe-header-row">
+                                        <span class="card-tag">BATTLE STATION</span>
+                                        <span class="card-check">✓</span>
+                                    </div>
+                                    <strong class="stripe-title">Mobile / Laptop Online Mode 📱</strong>
+                                    <p class="stripe-desc">You can solve all multiple-choice questions directly on your
+                                        mobile device or laptop screen.</p>
+                                </div>
+                            </div>
+
+                            <!-- Stripe 4: Code of Honor (Green Theme) -->
+                            <div class="et-rule-card card-theme-green" id="ruleStripe3"
+                                onmouseenter="highlightRuleCard(3, true)" onclick="highlightRuleCard(3, true)">
+                                <div class="stripe-left-icon">🤝</div>
+                                <div class="stripe-main-content">
+                                    <div class="stripe-header-row">
+                                        <span class="card-tag">CODE OF HONOR</span>
+                                        <span class="card-check">✓</span>
+                                    </div>
+                                    <strong class="stripe-title">Honesty Policy 🤝</strong>
+                                    <p class="stripe-desc">We evaluate true learning potential. Give your best effort
+                                        without any unfair means or cheating.</p>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Stripe 3: Online Mode (Purple Theme) -->
-                        <div class="et-rule-card card-theme-purple" id="ruleStripe2" onmouseenter="highlightRuleCard(2, true)"
-                            onclick="highlightRuleCard(2, true)">
-                            <div class="stripe-left-icon">📱</div>
-                            <div class="stripe-main-content">
-                                <div class="stripe-header-row">
-                                    <span class="card-tag">BATTLE STATION</span>
-                                    <span class="card-check">✓</span>
-                                </div>
-                                <strong class="stripe-title">Mobile / Laptop Online Mode 📱</strong>
-                                <p class="stripe-desc">You can solve all multiple-choice questions directly on your mobile device or laptop screen.</p>
-                            </div>
-                        </div>
-
-                        <!-- Stripe 4: Code of Honor (Green Theme) -->
-                        <div class="et-rule-card card-theme-green" id="ruleStripe3" onmouseenter="highlightRuleCard(3, true)"
-                            onclick="highlightRuleCard(3, true)">
-                            <div class="stripe-left-icon">🤝</div>
-                            <div class="stripe-main-content">
-                                <div class="stripe-header-row">
-                                    <span class="card-tag">CODE OF HONOR</span>
-                                    <span class="card-check">✓</span>
-                                </div>
-                                <strong class="stripe-title">Honesty Policy 🤝</strong>
-                                <p class="stripe-desc">We evaluate true learning potential. Give your best effort without any unfair means or cheating.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="et-pane-actions">
-                        <button type="button" class="submit-glow-btn et-ready-btn" id="etStartBtn" onclick="goToEtStep(2)">
-                            <span>I'M READY TO START</span>
-                        </button>
                     </div>
                 </div>
 
@@ -967,8 +988,10 @@
                                         <input type="file" id="etPhotoInput" accept="image/*" style="display:none;"
                                             onchange="handleEtPhotoUpload(event)">
 
-                                        <div class="et-photo-preview-wrap" id="etPhotoPreviewWrap" style="display:none;">
-                                            <img id="etPhotoImg" src="" alt="Admit Card Photo" class="et-photo-img-preview">
+                                        <div class="et-photo-preview-wrap" id="etPhotoPreviewWrap"
+                                            style="display:none;">
+                                            <img id="etPhotoImg" src="" alt="Admit Card Photo"
+                                                class="et-photo-img-preview">
                                             <span class="photo-edit-badge" title="Change Photo">✏️</span>
                                         </div>
 
@@ -983,11 +1006,13 @@
 
                                 <div class="form-grid-3">
                                     <div class="form-group" id="groupFirstName">
-                                        <label for="etFirstName" class="form-label">First Name <span class="req-star">*</span></label>
+                                        <label for="etFirstName" class="form-label">First Name <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-pink-fill">👤</span>
                                             <input type="text" id="etFirstName" class="form-input et-input"
-                                                placeholder="What should we call you? (e.g. Sujit)" autocomplete="given-name">
+                                                placeholder="What should we call you? (e.g. Sujit)"
+                                                autocomplete="given-name">
                                             <span class="input-valid-check" id="checkFirstName">✓</span>
                                         </div>
                                     </div>
@@ -1001,7 +1026,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupLastName">
-                                        <label for="etLastName" class="form-label">Last Name <span class="req-star">*</span></label>
+                                        <label for="etLastName" class="form-label">Last Name <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-pink-fill">👤</span>
                                             <input type="text" id="etLastName" class="form-input et-input"
@@ -1012,7 +1038,8 @@
                                 </div>
                                 <div class="form-grid">
                                     <div class="form-group" id="groupDob">
-                                        <label for="etDob" class="form-label">Date of Birth <span class="req-star">*</span></label>
+                                        <label for="etDob" class="form-label">Date of Birth <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-pink-fill">📅</span>
                                             <input type="date" id="etDob" class="form-input et-input">
@@ -1046,7 +1073,8 @@
                                 <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(1)">
                                     ← Back to Instructions
                                 </button>
-                                <button type="button" class="submit-glow-btn quest-next-btn compact-btn" id="etStep1NextBtn" onclick="handleStep1Next(event)">
+                                <button type="button" class="submit-glow-btn quest-next-btn compact-btn"
+                                    id="etStep1NextBtn" onclick="handleStep1Next(event)">
                                     <span>Next: Contact & Location →</span>
                                 </button>
                             </div>
@@ -1070,7 +1098,8 @@
                                 </h4>
                                 <div class="form-grid-3">
                                     <div class="form-group" id="groupWhatsapp">
-                                        <label for="etWhatsapp" class="form-label">WhatsApp Number <span class="req-star">*</span></label>
+                                        <label for="etWhatsapp" class="form-label">WhatsApp Number <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-orange-fill">💬</span>
                                             <input type="tel" id="etWhatsapp" class="form-input et-input"
@@ -1079,7 +1108,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupPhone">
-                                        <label for="etPhone" class="form-label">Phone Number <span class="req-star">*</span></label>
+                                        <label for="etPhone" class="form-label">Phone Number <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-orange-fill">📞</span>
                                             <input type="tel" id="etPhone" class="form-input et-input"
@@ -1088,7 +1118,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupEmail">
-                                        <label for="etEmail" class="form-label">Email Address <span class="req-star">*</span></label>
+                                        <label for="etEmail" class="form-label">Email Address <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-orange-fill">✉️</span>
                                             <input type="email" id="etEmail" class="form-input et-input"
@@ -1107,7 +1138,8 @@
                                 </h4>
                                 <div class="form-grid-3 mb-16">
                                     <div class="form-group" id="groupPincode">
-                                        <label for="etPincode" class="form-label">Pin Code <span class="req-star">*</span></label>
+                                        <label for="etPincode" class="form-label">Pin Code <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-green-fill">📍</span>
                                             <input type="text" id="etPincode" class="form-input et-input"
@@ -1116,7 +1148,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupDistrict">
-                                        <label for="etDistrict" class="form-label">District <span class="req-star">*</span></label>
+                                        <label for="etDistrict" class="form-label">District <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-green-fill">🏙️</span>
                                             <input type="text" id="etDistrict" class="form-input et-input"
@@ -1125,7 +1158,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupState">
-                                        <label for="etState" class="form-label">State <span class="req-star">*</span></label>
+                                        <label for="etState" class="form-label">State <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-green-fill">🗺️</span>
                                             <input type="text" id="etState" class="form-input et-input"
@@ -1136,7 +1170,8 @@
                                 </div>
                                 <div class="form-grid-4">
                                     <div class="form-group" id="groupCurrentStatus">
-                                        <label for="etCurrentStatus" class="form-label">Current Status <span class="req-star">*</span></label>
+                                        <label for="etCurrentStatus" class="form-label">Current Status <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <select id="etCurrentStatus" class="form-input et-select">
                                                 <option value="">Select Option</option>
@@ -1148,7 +1183,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupQualification">
-                                        <label for="etQualification" class="form-label">Highest Qualification <span class="req-star">*</span></label>
+                                        <label for="etQualification" class="form-label">Highest Qualification <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-green-fill select-icon-shift">🎓</span>
                                             <select id="etQualification" class="form-input et-select has-icon-select">
@@ -1161,7 +1197,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupMedium">
-                                        <label for="etMedium" class="form-label">School Medium <span class="req-star">*</span></label>
+                                        <label for="etMedium" class="form-label">School Medium <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-green-fill select-icon-shift">📚</span>
                                             <select id="etMedium" class="form-input et-select has-icon-select">
@@ -1174,7 +1211,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group" id="groupCategory">
-                                        <label for="etCategory" class="form-label">Caste / Category <span class="req-star">*</span></label>
+                                        <label for="etCategory" class="form-label">Caste / Category <span
+                                                class="req-star">*</span></label>
                                         <div class="input-icon-group">
                                             <span class="input-icon icon-green-fill select-icon-shift">👥</span>
                                             <select id="etCategory" class="form-input et-select has-icon-select">
@@ -1193,7 +1231,8 @@
                                 <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(2)">
                                     ← Back to Basic Details
                                 </button>
-                                <button type="submit" class="submit-glow-btn compact-btn rocket-submit-btn" id="etSubmitProfileBtn">
+                                <button type="submit" class="submit-glow-btn compact-btn rocket-submit-btn"
+                                    id="etSubmitProfileBtn">
                                     <span>Submit Profile & Start Entrance Test 🚀</span>
                                 </button>
                             </div>
@@ -1288,7 +1327,8 @@
                                 <div class="res-header-icon">📄</div>
                                 <div>
                                     <h2 class="res-page-title">Student Results</h2>
-                                    <p class="res-page-sub">Track your test results and interview slot booking status.</p>
+                                    <p class="res-page-sub">Track your test results and interview slot booking status.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -1318,7 +1358,8 @@
                                 </div>
                                 <div class="res-detail-item full-width">
                                     <span class="res-detail-label">Selected School:</span>
-                                    <span class="res-detail-val" id="resStudentSchool">School of Programming (SOP)</span>
+                                    <span class="res-detail-val" id="resStudentSchool">School of Programming
+                                        (SOP)</span>
                                 </div>
                             </div>
                         </div>
@@ -1356,7 +1397,8 @@
                         <div class="slot-modal-header">
                             <div>
                                 <h3 class="slot-modal-title">Book Interview Slot (Learning Round)</h3>
-                                <div class="slot-modal-user" id="slotModalUserInfo">👤 Sujit Kumar • student@example.com</div>
+                                <div class="slot-modal-user" id="slotModalUserInfo">👤 Sujit Kumar • student@example.com
+                                </div>
                             </div>
                             <button type="button" class="slot-modal-close" onclick="closeSlotBookingModal()">✕</button>
                         </div>
@@ -1364,15 +1406,18 @@
                             <div class="form-group mb-16">
                                 <label class="form-label">📅 Select Date</label>
                                 <div class="slot-date-picker-wrap">
-                                    <input type="date" id="slotDatePicker" class="form-input et-input" onchange="updateSelectedDatePreview()">
-                                    <div class="slot-date-preview" id="slotDatePreview">Selected Date: Thursday, August 27, 2026</div>
+                                    <input type="date" id="slotDatePicker" class="form-input et-input"
+                                        onchange="updateSelectedDatePreview()">
+                                    <div class="slot-date-preview" id="slotDatePreview">Selected Date: Thursday, August
+                                        27, 2026</div>
                                 </div>
                             </div>
 
                             <div class="form-group mb-20">
                                 <label class="form-label">⏰ Available Time Slots</label>
                                 <div class="slot-chips-grid">
-                                    <div class="slot-chip selected" onclick="selectSlotChip(this)">10:00 AM - 11:00 AM</div>
+                                    <div class="slot-chip selected" onclick="selectSlotChip(this)">10:00 AM - 11:00 AM
+                                    </div>
                                     <div class="slot-chip" onclick="selectSlotChip(this)">02:00 PM - 03:00 PM</div>
                                     <div class="slot-chip" onclick="selectSlotChip(this)">05:00 PM - 06:00 PM</div>
                                 </div>
