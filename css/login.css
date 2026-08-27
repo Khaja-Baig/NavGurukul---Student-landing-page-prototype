@@ -1258,7 +1258,7 @@
     display: grid;
     grid-template-columns: 410px 1fr;
     gap: 28px;
-    padding: 24px 32px;
+    padding: 24px 0 24px 32px;
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 5;
@@ -1404,11 +1404,19 @@
     border: none;
     backdrop-filter: none;
     border-radius: 0;
-    padding: 12px 18px 24px 18px;
+    padding: 12px 0 24px 18px;
     overflow-y: auto;
     overflow-x: hidden;
     max-height: calc(100vh - 110px);
     box-shadow: none;
+}
+
+#etStep1 .et-pane-header,
+#etStep1 .et-pane-actions,
+#etStep2,
+#etStep3,
+#etStep4 {
+    padding-right: 32px;
 }
 
 .et-pane-badge {
@@ -1449,16 +1457,19 @@
 .et-rules-grid {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     margin-bottom: 16px;
-    padding: 2px;
+    padding: 2px 0 2px 0;
     width: 100%;
 }
 
 .et-rules-grid .et-rule-card {
-    border-radius: 16px;
-    padding: 13px 18px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    border-radius: 28px 0 0 28px;
+    border-right: none !important;
+    padding: 14px 36px 14px 20px;
+    margin-right: 0;
+    width: 100%;
+    box-shadow: -6px 8px 24px rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(12px);
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, border-color 0.25s, box-shadow 0.25s;
     display: flex;
@@ -1467,8 +1478,7 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    width: 100%;
-    transform: translateX(100px);
+    transform: translateX(100%);
     opacity: 0;
 }
 
@@ -1479,7 +1489,7 @@
 
 .et-rules-grid .et-rule-card.visible:hover,
 .et-rules-grid .et-rule-card.active-guide {
-    transform: translateX(0) scale(1.015);
+    transform: translateX(-10px);
 }
 
 .stripe-left-icon {
@@ -1532,6 +1542,7 @@
 .card-theme-pink {
     background: linear-gradient(135deg, rgba(255, 241, 246, 0.95), rgba(252, 231, 243, 0.85));
     border: 1.5px solid rgba(233, 30, 99, 0.25);
+    border-right: none !important;
 }
 
 .card-theme-pink .card-tag {
@@ -1565,7 +1576,7 @@
 .card-theme-pink:hover,
 .card-theme-pink.active-guide {
     border-color: #be185d;
-    box-shadow: 0 10px 28px rgba(233, 30, 99, 0.2);
+    box-shadow: -8px 10px 28px rgba(233, 30, 99, 0.22);
 }
 
 .card-theme-pink:hover .card-check,
@@ -1578,6 +1589,7 @@
 .card-theme-orange {
     background: linear-gradient(135deg, rgba(255, 251, 235, 0.95), rgba(254, 243, 199, 0.85));
     border: 1.5px solid rgba(217, 119, 6, 0.25);
+    border-right: none !important;
 }
 
 .card-theme-orange .card-tag {
@@ -1611,7 +1623,7 @@
 .card-theme-orange:hover,
 .card-theme-orange.active-guide {
     border-color: #d97706;
-    box-shadow: 0 10px 28px rgba(217, 119, 6, 0.2);
+    box-shadow: -8px 10px 28px rgba(217, 119, 6, 0.22);
 }
 
 .card-theme-orange:hover .card-check,
@@ -1624,6 +1636,7 @@
 .card-theme-purple {
     background: linear-gradient(135deg, rgba(250, 245, 255, 0.95), rgba(243, 232, 255, 0.85));
     border: 1.5px solid rgba(147, 51, 234, 0.25);
+    border-right: none !important;
 }
 
 .card-theme-purple .card-tag {
@@ -1657,7 +1670,7 @@
 .card-theme-purple:hover,
 .card-theme-purple.active-guide {
     border-color: #9333ea;
-    box-shadow: 0 10px 28px rgba(147, 51, 234, 0.2);
+    box-shadow: -8px 10px 28px rgba(147, 51, 234, 0.22);
 }
 
 .card-theme-purple:hover .card-check,
@@ -1670,6 +1683,7 @@
 .card-theme-green {
     background: linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(220, 252, 231, 0.85));
     border: 1.5px solid rgba(16, 185, 129, 0.25);
+    border-right: none !important;
 }
 
 .card-theme-green .card-tag {
@@ -1703,7 +1717,7 @@
 .card-theme-green:hover,
 .card-theme-green.active-guide {
     border-color: #047857;
-    box-shadow: 0 10px 28px rgba(16, 185, 129, 0.2);
+    box-shadow: -8px 10px 28px rgba(16, 185, 129, 0.22);
 }
 
 .card-theme-green:hover .card-check,
