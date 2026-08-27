@@ -273,7 +273,7 @@
             if (readyBtn) readyBtn.classList.add('visible');
 
             if (bubble) {
-                bubble.innerHTML = `Jab aap ready ho, circular <strong>START</strong> button par click karke test start karein! 🚀`;
+                bubble.innerHTML = `Jab aap ready ho jai, toh <strong>START Mission</strong> par click karke apna mission start karein! 🚀`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
@@ -316,7 +316,7 @@
         cards.forEach(card => card.classList.remove('active-guide'));
         if (readyBtn) readyBtn.classList.add('visible');
         if (bubble) {
-            bubble.innerHTML = `Kisi bhi instruction par hover karke details padhein ya circular <strong>START</strong> button par click karein! ✨`;
+            bubble.innerHTML = `Kisi bhi instruction par hover karke details padhein ya <strong>START Mission</strong> par click karke apna mission start karein! ✨`;
         }
     };
 
