@@ -1492,9 +1492,9 @@
     padding: 0 !important;
     background: linear-gradient(135deg, #e91e63 0%, #be185d 45%, #ea580c 100%);
     border: 4.5px solid #ffffff;
-    box-shadow: 0 16px 42px rgba(233, 30, 99, 0.52), 
-                0 0 32px rgba(245, 158, 11, 0.42), 
-                inset 0 5px 12px rgba(255, 255, 255, 0.65);
+    box-shadow: 0 16px 42px rgba(233, 30, 99, 0.52),
+        0 0 32px rgba(245, 158, 11, 0.42),
+        inset 0 5px 12px rgba(255, 255, 255, 0.65);
     cursor: pointer;
     position: relative;
     display: flex;
@@ -1502,9 +1502,9 @@
     align-items: center;
     justify-content: center;
     outline: none;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                box-shadow 0.35s ease, 
-                opacity 0.5s ease;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease,
+        opacity 0.5s ease;
     opacity: 0;
     transform: scale(0);
     pointer-events: none;
@@ -1513,8 +1513,8 @@
 .et-circle-start-btn.visible {
     opacity: 1;
     pointer-events: auto;
-    animation: circlePopEntrance 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, 
-               circleFloat 3.8s ease-in-out infinite 1.4s;
+    animation: circlePopEntrance 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+        circleFloat 3.8s ease-in-out infinite 1.4s;
 }
 
 /* Gamified Silky Smooth & Gentle Zoom-In Spring Entrance Animation */
@@ -1525,33 +1525,36 @@
         filter: blur(12px);
         box-shadow: 0 0 0 rgba(233, 30, 99, 0);
     }
+
     55% {
         opacity: 0.95;
         transform: scale(1.12) rotate(3deg);
         filter: blur(0px);
-        box-shadow: 0 22px 52px rgba(233, 30, 99, 0.65), 
-                    0 0 40px rgba(245, 158, 11, 0.55), 
-                    inset 0 6px 14px rgba(255, 255, 255, 0.9);
+        box-shadow: 0 22px 52px rgba(233, 30, 99, 0.65),
+            0 0 40px rgba(245, 158, 11, 0.55),
+            inset 0 6px 14px rgba(255, 255, 255, 0.9);
     }
+
     80% {
         transform: scale(0.97) rotate(-1deg);
     }
+
     100% {
         opacity: 1;
         transform: scale(1) rotate(0deg);
         filter: blur(0px);
-        box-shadow: 0 16px 42px rgba(233, 30, 99, 0.52), 
-                    0 0 32px rgba(245, 158, 11, 0.42), 
-                    inset 0 5px 12px rgba(255, 255, 255, 0.65);
+        box-shadow: 0 16px 42px rgba(233, 30, 99, 0.52),
+            0 0 32px rgba(245, 158, 11, 0.42),
+            inset 0 5px 12px rgba(255, 255, 255, 0.65);
     }
 }
 
 /* Hover & Active Gamified Micro-Interactions */
 .et-circle-start-btn:hover {
     transform: scale(1.14) rotate(-4deg);
-    box-shadow: 0 20px 54px rgba(233, 30, 99, 0.72), 
-                0 0 48px rgba(245, 158, 11, 0.65), 
-                inset 0 6px 14px rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 54px rgba(233, 30, 99, 0.72),
+        0 0 48px rgba(245, 158, 11, 0.65),
+        inset 0 6px 14px rgba(255, 255, 255, 0.9);
 }
 
 .et-circle-start-btn:active {
@@ -1579,6 +1582,7 @@
         transform: scale(0.95);
         opacity: 0.8;
     }
+
     100% {
         transform: scale(1.48);
         opacity: 0;
@@ -1586,9 +1590,12 @@
 }
 
 @keyframes circleFloat {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0px);
     }
+
     50% {
         transform: translateY(-8px);
     }
@@ -1602,13 +1609,35 @@
     animation: sparkleTwinkle 2.5s ease-in-out infinite alternate;
 }
 
-.circle-sparkle.s1 { top: -12px; right: 14px; animation-delay: 0.2s; }
-.circle-sparkle.s2 { bottom: 10px; left: -10px; animation-delay: 0.7s; }
-.circle-sparkle.s3 { top: 18px; left: -14px; animation-delay: 1.2s; }
+.circle-sparkle.s1 {
+    top: -12px;
+    right: 14px;
+    animation-delay: 0.2s;
+}
+
+.circle-sparkle.s2 {
+    bottom: 10px;
+    left: -10px;
+    animation-delay: 0.7s;
+}
+
+.circle-sparkle.s3 {
+    top: 18px;
+    left: -14px;
+    animation-delay: 1.2s;
+}
 
 @keyframes sparkleTwinkle {
-    0% { transform: scale(0.8) rotate(0deg); opacity: 0.6; }
-    100% { transform: scale(1.25) rotate(20deg); opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9)); }
+    0% {
+        transform: scale(0.8) rotate(0deg);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1.25) rotate(20deg);
+        opacity: 1;
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+    }
 }
 
 /* Content inside Circle Button */
@@ -1626,7 +1655,7 @@
     line-height: 1;
     margin-bottom: 10px;
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
 
 .et-circle-start-btn:hover .circle-icon {
@@ -1705,15 +1734,25 @@
     position: relative;
 }
 
+.et-rules-grid .et-rule-card,
+.et-rules-grid .et-rule-card:hover,
+.et-rules-grid .et-rule-card.active-guide {
+    border: none !important;
+    border-color: transparent !important;
+    outline: none !important;
+    border-radius: 0 !important;
+}
+
 .et-rules-grid .et-rule-card {
-    border-radius: 28px 0 0 28px;
-    border-right: none !important;
-    padding: 18px 36px 18px 22px;
+    padding: 18px 64px 18px 44px;
     margin-right: 0;
     width: 100%;
-    box-shadow: -6px 8px 24px rgba(0, 0, 0, 0.05);
+    min-height: 96px;
+    height: 96px;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 26px 50%);
+    filter: drop-shadow(-6px 8px 16px rgba(0, 0, 0, 0.08));
     backdrop-filter: blur(12px);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, border-color 0.25s, box-shadow 0.25s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.25s;
     display: flex;
     align-items: center;
     gap: 18px;
@@ -1773,7 +1812,8 @@
 
 .card-check {
     position: absolute;
-    top: 18px;
+    top: 50%;
+    transform: translateY(-50%);
     right: 28px;
     z-index: 5;
 }
@@ -1793,15 +1833,14 @@
     margin-top: 2px;
 }
 
-/* Color Theme 1: Pink (Duration) */
+/* Color Theme 1: Pink (Duration - NavGurukul Logo Pink #d81b60) */
 .card-theme-pink {
-    background: linear-gradient(135deg, rgba(255, 241, 246, 0.95), rgba(252, 231, 243, 0.85));
-    border: 1.5px solid rgba(233, 30, 99, 0.25);
-    border-right: none !important;
+    background: linear-gradient(135deg, rgba(254, 235, 243, 0.98), rgba(248, 187, 215, 0.92));
+    border: none !important;
 }
 
 .card-theme-pink .card-tag {
-    color: #be185d;
+    color: #d81b60;
     font-family: var(--font-mono);
     font-size: 10.5px;
     font-weight: 800;
@@ -1809,7 +1848,7 @@
 }
 
 .card-theme-pink .stripe-left-icon {
-    background: linear-gradient(135deg, #be185d, #e91e63);
+    background: linear-gradient(135deg, #d81b60, #e91e63);
     color: #ffffff;
 }
 
@@ -1817,8 +1856,8 @@
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: rgba(233, 30, 99, 0.15);
-    color: #be185d;
+    background: rgba(216, 27, 96, 0.15);
+    color: #d81b60;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1830,21 +1869,19 @@
 
 .card-theme-pink:hover,
 .card-theme-pink.active-guide {
-    border-color: #be185d;
-    box-shadow: -8px 10px 28px rgba(233, 30, 99, 0.22);
+    filter: drop-shadow(-8px 10px 24px rgba(216, 27, 96, 0.35));
 }
 
 .card-theme-pink:hover .card-check,
 .card-theme-pink.active-guide .card-check {
     opacity: 1;
-    transform: scale(1.15);
+    transform: translateY(-50%) scale(1.15);
 }
 
 /* Color Theme 2: Orange (Gear) */
 .card-theme-orange {
-    background: linear-gradient(135deg, rgba(255, 251, 235, 0.95), rgba(254, 243, 199, 0.85));
-    border: 1.5px solid rgba(217, 119, 6, 0.25);
-    border-right: none !important;
+    background: linear-gradient(135deg, rgba(254, 226, 185, 0.96), rgba(251, 191, 120, 0.9));
+    border: none !important;
 }
 
 .card-theme-orange .card-tag {
@@ -1877,21 +1914,19 @@
 
 .card-theme-orange:hover,
 .card-theme-orange.active-guide {
-    border-color: #d97706;
-    box-shadow: -8px 10px 28px rgba(217, 119, 6, 0.22);
+    filter: drop-shadow(-8px 10px 24px rgba(217, 119, 6, 0.35));
 }
 
 .card-theme-orange:hover .card-check,
 .card-theme-orange.active-guide .card-check {
     opacity: 1;
-    transform: scale(1.15);
+    transform: translateY(-50%) scale(1.15);
 }
 
 /* Color Theme 3: Purple (Online Mode) */
 .card-theme-purple {
     background: linear-gradient(135deg, rgba(250, 245, 255, 0.95), rgba(243, 232, 255, 0.85));
-    border: 1.5px solid rgba(147, 51, 234, 0.25);
-    border-right: none !important;
+    border: none !important;
 }
 
 .card-theme-purple .card-tag {
@@ -1924,21 +1959,19 @@
 
 .card-theme-purple:hover,
 .card-theme-purple.active-guide {
-    border-color: #9333ea;
-    box-shadow: -8px 10px 28px rgba(147, 51, 234, 0.22);
+    filter: drop-shadow(-8px 10px 24px rgba(147, 51, 234, 0.35));
 }
 
 .card-theme-purple:hover .card-check,
 .card-theme-purple.active-guide .card-check {
     opacity: 1;
-    transform: scale(1.15);
+    transform: translateY(-50%) scale(1.15);
 }
 
 /* Color Theme 4: Emerald Green (Honor) */
 .card-theme-green {
     background: linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(220, 252, 231, 0.85));
-    border: 1.5px solid rgba(16, 185, 129, 0.25);
-    border-right: none !important;
+    border: none !important;
 }
 
 .card-theme-green .card-tag {
@@ -1971,14 +2004,13 @@
 
 .card-theme-green:hover,
 .card-theme-green.active-guide {
-    border-color: #047857;
-    box-shadow: -8px 10px 28px rgba(16, 185, 129, 0.22);
+    filter: drop-shadow(-8px 10px 24px rgba(16, 185, 129, 0.35));
 }
 
 .card-theme-green:hover .card-check,
 .card-theme-green.active-guide .card-check {
     opacity: 1;
-    transform: scale(1.15);
+    transform: translateY(-50%) scale(1.15);
 }
 
 .speech-bounce {
@@ -2310,7 +2342,7 @@
     margin: 6px 0;
 }
 
-.et-rule-card {
+.et-rules-list .et-rule-card {
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -2321,7 +2353,7 @@
     transition: all 0.22s ease;
 }
 
-.et-rule-card:hover {
+.et-rules-list .et-rule-card:hover {
     border-color: var(--pink-primary);
     background: #ffffff;
     transform: translateY(-2px);
