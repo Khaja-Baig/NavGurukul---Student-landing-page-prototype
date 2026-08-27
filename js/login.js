@@ -382,6 +382,7 @@
         const isResultActive = (stepNum === 4);
 
         if (bodyGrid) {
+            bodyGrid.classList.toggle('step1-active', stepNum === 1);
             bodyGrid.classList.toggle('step2-active', stepNum >= 2 && stepNum <= 3);
             bodyGrid.classList.toggle('step3-active', isQuizActive);
             bodyGrid.classList.toggle('step4-active', isResultActive);
