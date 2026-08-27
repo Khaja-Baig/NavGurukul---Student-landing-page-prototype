@@ -184,19 +184,19 @@
     const ruleDetails = [
         {
             title: "1 Hour Complete Test ⏱️",
-            text: "1 ghanta shant jagah par baith kar bina distraction test solve karein! ⏱️"
+            text: "Sabse pehle, test complete karne ke liye 1 hour milega."
         },
         {
             title: "Notebook & Pen Required 📝",
-            text: "Rough math aur logic questions solve karne ke liye notebook aur pen zaroor paas rakhein! 📝"
+            text: "Notebook aur pen paas mein zaroor rakhna."
         },
         {
             title: "Mobile / Laptop Online Mode 📱",
-            text: "Aap ye entrance test direct apne Phone ya Laptop screen par aasaani se de sakte hain! 📱"
+            text: "Test mobile ya laptop par online hoga."
         },
         {
             title: "Honesty Policy 🤝",
-            text: "Imandari se test dein! NavGurukul me aapki seekhne ki sacchi koshish aur potential evaluate hota hai! 🤝"
+            text: "Aur honestly test dena — bina cheating ke."
         }
     ];
 
@@ -213,47 +213,67 @@
         isUserInteracting = false;
 
         const cards = document.querySelectorAll('.et-rules-grid .et-rule-card');
+        const readyBtn = document.getElementById('etStartBtn') || document.querySelector('.et-ready-btn');
         const bubble = document.getElementById('etPortalSpeechBubble');
-        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
+        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'friend';
 
-        // Stage 1: Welcome intro message
-        cards.forEach(card => card.classList.remove('active-guide'));
+        // Reset state: Hide all stripes & ready button initially
+        cards.forEach(card => {
+            card.classList.remove('visible', 'active-guide');
+        });
+        if (readyBtn) readyBtn.classList.remove('visible');
+
+        // Stage 0: Initial intro speech
         if (bubble) {
-            bubble.innerHTML = `Aao <span class="student-name-placeholder">${name}</span>! Rules dhyan se padhein aur Entrance Test start karein! 📝`;
+            bubble.innerHTML = `Hey <span class="student-name-placeholder">${name}</span>! Aage badhne se pehle kuch important instructions padh lo. 💡`;
             bubble.classList.remove('speech-bounce');
             void bubble.offsetWidth;
             bubble.classList.add('speech-bounce');
         }
 
-        // Stage 2: 1 Single Round through the 4 rules
-        let delay = 2600;
+        // Sequential slide-in of the 4 stripes from right
+        let delay = 1800;
 
         ruleDetails.forEach((detail, index) => {
             const t = setTimeout(() => {
                 if (isUserInteracting) return;
 
-                cards.forEach((card, idx) => {
-                    card.classList.toggle('active-guide', idx === index);
-                });
+                // Slide in current stripe
+                if (cards[index]) {
+                    cards[index].classList.add('visible', 'active-guide');
+                }
+
+                // Deactivate highlight from previous stripe
+                if (index > 0 && cards[index - 1]) {
+                    cards[index - 1].classList.remove('active-guide');
+                }
 
                 if (bubble) {
-                    bubble.innerHTML = `<span class="student-name-placeholder">${name}</span>, ${detail.text}`;
+                    bubble.innerHTML = detail.text;
                     bubble.classList.remove('speech-bounce');
                     void bubble.offsetWidth;
                     bubble.classList.add('speech-bounce');
                 }
             }, delay);
             ruleSequenceTimeouts.push(t);
-            delay += 3500;
+            delay += 2200;
         });
 
-        // Stage 3: End summary after 1 round
+        // Stage 5: Final completion & Reveal Ready Button
         const finalTimeout = setTimeout(() => {
             if (isUserInteracting) return;
 
-            cards.forEach(card => card.classList.remove('active-guide'));
+            // Make sure all 4 stripes stay visible
+            cards.forEach(card => {
+                card.classList.add('visible');
+                card.classList.remove('active-guide');
+            });
+
+            // Smoothly reveal Ready Button
+            if (readyBtn) readyBtn.classList.add('visible');
+
             if (bubble) {
-                bubble.innerHTML = `Kisi bhi rule card par hover karke uski details padhein ya niche button se Sign Up start karein! ✨`;
+                bubble.innerHTML = `Jab aap ready ho, niche button daba kar test start karein! 🚀`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
@@ -269,18 +289,19 @@
         }
 
         const cards = document.querySelectorAll('.et-rules-grid .et-rule-card');
+        const readyBtn = document.getElementById('etStartBtn') || document.querySelector('.et-ready-btn');
         const bubble = document.getElementById('etPortalSpeechBubble');
-        const name = (window.studentName && window.studentName !== 'Friend') ? window.studentName : 'Friend';
 
-        if (!cards.length || index < 0 || index >= ruleDetails.length) return;
-
+        // Make all stripes & ready button visible on manual hover/click
         cards.forEach((card, idx) => {
+            card.classList.add('visible');
             card.classList.toggle('active-guide', idx === index);
         });
+        if (readyBtn) readyBtn.classList.add('visible');
 
-        if (bubble) {
+        if (bubble && index >= 0 && index < ruleDetails.length) {
             const detail = ruleDetails[index];
-            bubble.innerHTML = `<span class="student-name-placeholder">${name}</span>, ${detail.text}`;
+            bubble.innerHTML = detail.text;
             bubble.classList.remove('speech-bounce');
             void bubble.offsetWidth;
             bubble.classList.add('speech-bounce');
@@ -290,10 +311,12 @@
     window.resetRuleCardHover = function () {
         if (!isUserInteracting) return;
         const cards = document.querySelectorAll('.et-rules-grid .et-rule-card');
+        const readyBtn = document.getElementById('etStartBtn') || document.querySelector('.et-ready-btn');
         const bubble = document.getElementById('etPortalSpeechBubble');
         cards.forEach(card => card.classList.remove('active-guide'));
+        if (readyBtn) readyBtn.classList.add('visible');
         if (bubble) {
-            bubble.innerHTML = `Kisi bhi rule card par hover karke uski details padhein ya niche button se Sign Up start karein! ✨`;
+            bubble.innerHTML = `Kisi bhi instruction par hover karke details padhein ya niche button se test start karein! ✨`;
         }
     };
 

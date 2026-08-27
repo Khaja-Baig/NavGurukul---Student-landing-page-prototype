@@ -876,73 +876,65 @@
                     </div>
 
                     <div class="et-rules-grid" onmouseleave="resetRuleCardHover()">
-                        <div class="et-rule-card card-theme-cyan" onmouseenter="highlightRuleCard(0, true)"
+                        <!-- Stripe 1: Duration (Pink Theme) -->
+                        <div class="et-rule-card card-theme-pink" id="ruleStripe0" onmouseenter="highlightRuleCard(0, true)"
                             onclick="highlightRuleCard(0, true)">
-                            <div class="card-header-tag">
-                                <span class="card-tag">⏱️ DURATION</span>
-                                <span class="card-check">✓</span>
-                            </div>
-                            <div class="card-body-wrap">
-                                <div class="et-rule-badge">1</div>
-                                <div class="et-rule-content">
-                                    <strong>1 Hour Complete Test ⏱️</strong>
-                                    <p>The test takes approximately 1 hour. Please complete it in a quiet place free
-                                        from disruptions.</p>
+                            <div class="stripe-left-icon">⏱️</div>
+                            <div class="stripe-main-content">
+                                <div class="stripe-header-row">
+                                    <span class="card-tag">DURATION</span>
+                                    <span class="card-check">✓</span>
                                 </div>
+                                <strong class="stripe-title">1 Hour Complete Test ⏱️</strong>
+                                <p class="stripe-desc">The test takes approximately 1 hour. Please complete it in a quiet place free from disruptions.</p>
                             </div>
                         </div>
 
-                        <div class="et-rule-card card-theme-orange" onmouseenter="highlightRuleCard(1, true)"
+                        <!-- Stripe 2: Required Gear (Orange Theme) -->
+                        <div class="et-rule-card card-theme-orange" id="ruleStripe1" onmouseenter="highlightRuleCard(1, true)"
                             onclick="highlightRuleCard(1, true)">
-                            <div class="card-header-tag">
-                                <span class="card-tag">📝 REQUIRED GEAR</span>
-                                <span class="card-check">✓</span>
-                            </div>
-                            <div class="card-body-wrap">
-                                <div class="et-rule-badge">2</div>
-                                <div class="et-rule-content">
-                                    <strong>Notebook & Pen Required 📝</strong>
-                                    <p>Keep a rough notebook and pen handy for quick mathematical and logic
-                                        calculations.</p>
+                            <div class="stripe-left-icon">📝</div>
+                            <div class="stripe-main-content">
+                                <div class="stripe-header-row">
+                                    <span class="card-tag">REQUIRED GEAR</span>
+                                    <span class="card-check">✓</span>
                                 </div>
+                                <strong class="stripe-title">Notebook & Pen Required 📝</strong>
+                                <p class="stripe-desc">Keep a rough notebook and pen handy for quick mathematical and logic calculations.</p>
                             </div>
                         </div>
 
-                        <div class="et-rule-card card-theme-purple" onmouseenter="highlightRuleCard(2, true)"
+                        <!-- Stripe 3: Online Mode (Purple Theme) -->
+                        <div class="et-rule-card card-theme-purple" id="ruleStripe2" onmouseenter="highlightRuleCard(2, true)"
                             onclick="highlightRuleCard(2, true)">
-                            <div class="card-header-tag">
-                                <span class="card-tag">📱 BATTLE STATION</span>
-                                <span class="card-check">✓</span>
-                            </div>
-                            <div class="card-body-wrap">
-                                <div class="et-rule-badge">3</div>
-                                <div class="et-rule-content">
-                                    <strong>Mobile / Laptop Online Mode 📱</strong>
-                                    <p>You can solve all multiple-choice questions directly on your mobile device or
-                                        laptop screen.</p>
+                            <div class="stripe-left-icon">📱</div>
+                            <div class="stripe-main-content">
+                                <div class="stripe-header-row">
+                                    <span class="card-tag">BATTLE STATION</span>
+                                    <span class="card-check">✓</span>
                                 </div>
+                                <strong class="stripe-title">Mobile / Laptop Online Mode 📱</strong>
+                                <p class="stripe-desc">You can solve all multiple-choice questions directly on your mobile device or laptop screen.</p>
                             </div>
                         </div>
 
-                        <div class="et-rule-card card-theme-green" onmouseenter="highlightRuleCard(3, true)"
+                        <!-- Stripe 4: Code of Honor (Green Theme) -->
+                        <div class="et-rule-card card-theme-green" id="ruleStripe3" onmouseenter="highlightRuleCard(3, true)"
                             onclick="highlightRuleCard(3, true)">
-                            <div class="card-header-tag">
-                                <span class="card-tag">🤝 CODE OF HONOR</span>
-                                <span class="card-check">✓</span>
-                            </div>
-                            <div class="card-body-wrap">
-                                <div class="et-rule-badge">4</div>
-                                <div class="et-rule-content">
-                                    <strong>Honesty Policy 🤝</strong>
-                                    <p>We evaluate true learning potential. Give your best effort without any unfair
-                                        means or cheating.</p>
+                            <div class="stripe-left-icon">🤝</div>
+                            <div class="stripe-main-content">
+                                <div class="stripe-header-row">
+                                    <span class="card-tag">CODE OF HONOR</span>
+                                    <span class="card-check">✓</span>
                                 </div>
+                                <strong class="stripe-title">Honesty Policy 🤝</strong>
+                                <p class="stripe-desc">We evaluate true learning potential. Give your best effort without any unfair means or cheating.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="et-pane-actions">
-                        <button type="button" class="submit-glow-btn et-ready-btn" onclick="goToEtStep(2)">
+                        <button type="button" class="submit-glow-btn et-ready-btn" id="etStartBtn" onclick="goToEtStep(2)">
                             <span>I'M READY TO START</span>
                         </button>
                     </div>

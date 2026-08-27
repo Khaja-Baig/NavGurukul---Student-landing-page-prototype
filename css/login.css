@@ -1430,52 +1430,129 @@
     margin-bottom: 6px;
 }
 
-.et-portal-canvas .et-pane-sub {
-    font-size: 14px;
-    color: #475569;
-    margin-bottom: 24px;
+#etStep1 {
+    padding-top: 10px;
+    gap: 10px;
 }
 
-/* Rules Grid 2x2 for Step 1 */
+#etStep1 .et-pane-header {
+    margin-bottom: 12px;
+}
+
+.et-portal-canvas .et-pane-sub {
+    font-size: 13.5px;
+    color: #475569;
+    margin-bottom: 14px;
+}
+
+/* Rules Grid Vertical Horizontal Stripes for Step 1 */
 .et-rules-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 28px;
-    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 2px;
+    width: 100%;
 }
 
 .et-rules-grid .et-rule-card {
-    border-radius: 20px;
-    padding: 16px 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
+    padding: 13px 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
     backdrop-filter: blur(12px);
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, border-color 0.25s, box-shadow 0.25s;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 16px;
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    width: 100%;
+    transform: translateX(100px);
+    opacity: 0;
 }
 
-.et-rule-card .card-header-tag {
+.et-rules-grid .et-rule-card.visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.et-rules-grid .et-rule-card.visible:hover,
+.et-rules-grid .et-rule-card.active-guide {
+    transform: translateX(0) scale(1.015);
+}
+
+.stripe-left-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.et-rule-card:hover .stripe-left-icon,
+.et-rule-card.active-guide .stripe-left-icon {
+    transform: scale(1.12) rotate(-4deg);
+}
+
+.stripe-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.stripe-header-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 1px;
 }
 
-.et-rule-card .card-tag {
+.stripe-title {
+    font-size: 14.5px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.stripe-desc {
+    font-size: 12.5px;
+    color: #475569;
+    line-height: 1.42;
+    margin-top: 1px;
+}
+
+/* Color Theme 1: Pink (Duration) */
+.card-theme-pink {
+    background: linear-gradient(135deg, rgba(255, 241, 246, 0.95), rgba(252, 231, 243, 0.85));
+    border: 1.5px solid rgba(233, 30, 99, 0.25);
+}
+
+.card-theme-pink .card-tag {
+    color: #be185d;
     font-family: var(--font-mono);
     font-size: 10.5px;
     font-weight: 800;
     letter-spacing: 0.6px;
 }
 
-.et-rule-card .card-check {
-    width: 20px;
-    height: 20px;
+.card-theme-pink .stripe-left-icon {
+    background: linear-gradient(135deg, #be185d, #e91e63);
+    color: #ffffff;
+}
+
+.card-theme-pink .card-check {
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
+    background: rgba(233, 30, 99, 0.15);
+    color: #be185d;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1485,43 +1562,16 @@
     transition: all 0.25s ease;
 }
 
-.et-rule-card:hover .card-check,
-.et-rule-card.active-guide .card-check {
+.card-theme-pink:hover,
+.card-theme-pink.active-guide {
+    border-color: #be185d;
+    box-shadow: 0 10px 28px rgba(233, 30, 99, 0.2);
+}
+
+.card-theme-pink:hover .card-check,
+.card-theme-pink.active-guide .card-check {
     opacity: 1;
     transform: scale(1.15);
-}
-
-.et-rule-card .card-body-wrap {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-}
-
-/* Color Theme 1: Cyan (Duration) */
-.card-theme-cyan {
-    background: linear-gradient(135deg, rgba(240, 249, 255, 0.95), rgba(224, 242, 254, 0.85));
-    border: 1.5px solid rgba(2, 132, 199, 0.25);
-}
-
-.card-theme-cyan .card-tag {
-    color: #0284c7;
-}
-
-.card-theme-cyan .et-rule-badge {
-    background: linear-gradient(135deg, #0284c7, #38bdf8);
-    color: #ffffff;
-}
-
-.card-theme-cyan .card-check {
-    background: rgba(2, 132, 199, 0.15);
-    color: #0284c7;
-}
-
-.card-theme-cyan:hover,
-.card-theme-cyan.active-guide {
-    border-color: #0284c7;
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(2, 132, 199, 0.2);
 }
 
 /* Color Theme 2: Orange (Gear) */
@@ -1532,23 +1582,42 @@
 
 .card-theme-orange .card-tag {
     color: #d97706;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
 }
 
-.card-theme-orange .et-rule-badge {
+.card-theme-orange .stripe-left-icon {
     background: linear-gradient(135deg, #ea580c, #f97316);
     color: #ffffff;
 }
 
 .card-theme-orange .card-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
     background: rgba(217, 119, 6, 0.15);
     color: #d97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    opacity: 0.5;
+    transition: all 0.25s ease;
 }
 
 .card-theme-orange:hover,
 .card-theme-orange.active-guide {
     border-color: #d97706;
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(217, 119, 6, 0.2);
+    box-shadow: 0 10px 28px rgba(217, 119, 6, 0.2);
+}
+
+.card-theme-orange:hover .card-check,
+.card-theme-orange.active-guide .card-check {
+    opacity: 1;
+    transform: scale(1.15);
 }
 
 /* Color Theme 3: Purple (Online Mode) */
@@ -1559,26 +1628,45 @@
 
 .card-theme-purple .card-tag {
     color: #9333ea;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
 }
 
-.card-theme-purple .et-rule-badge {
+.card-theme-purple .stripe-left-icon {
     background: linear-gradient(135deg, #9333ea, #c084fc);
     color: #ffffff;
 }
 
 .card-theme-purple .card-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
     background: rgba(147, 51, 234, 0.15);
     color: #9333ea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    opacity: 0.5;
+    transition: all 0.25s ease;
 }
 
 .card-theme-purple:hover,
 .card-theme-purple.active-guide {
     border-color: #9333ea;
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(147, 51, 234, 0.2);
+    box-shadow: 0 10px 28px rgba(147, 51, 234, 0.2);
 }
 
-/* Color Theme 4: Emerald (Honor) */
+.card-theme-purple:hover .card-check,
+.card-theme-purple.active-guide .card-check {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* Color Theme 4: Emerald Green (Honor) */
 .card-theme-green {
     background: linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(220, 252, 231, 0.85));
     border: 1.5px solid rgba(16, 185, 129, 0.25);
@@ -1586,29 +1674,42 @@
 
 .card-theme-green .card-tag {
     color: #047857;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
 }
 
-.card-theme-green .et-rule-badge {
+.card-theme-green .stripe-left-icon {
     background: linear-gradient(135deg, #059669, #34d399);
     color: #ffffff;
 }
 
 .card-theme-green .card-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
     background: rgba(16, 185, 129, 0.15);
     color: #047857;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    opacity: 0.5;
+    transition: all 0.25s ease;
 }
 
 .card-theme-green:hover,
 .card-theme-green.active-guide {
     border-color: #047857;
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 10px 28px rgba(16, 185, 129, 0.2);
 }
 
-.et-rules-grid .et-rule-card.active-guide .et-rule-badge {
-    background: linear-gradient(135deg, #be185d, #e91e63);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.4);
+.card-theme-green:hover .card-check,
+.card-theme-green.active-guide .card-check {
+    opacity: 1;
+    transform: scale(1.15);
 }
 
 .speech-bounce {
@@ -1860,16 +1961,41 @@
 .et-pane-actions {
     display: flex;
     justify-content: center;
-    margin-top: 14px;
+    margin-top: 6px;
 }
 
 .et-ready-btn {
     width: auto !important;
-    min-width: 320px;
+    min-width: 280px;
     max-width: 100%;
-    padding: 14px 42px;
+    padding: 11px 36px;
     border-radius: 999px;
-    box-shadow: 0 10px 28px rgba(233, 30, 99, 0.35);
+    box-shadow: 0 8px 24px rgba(233, 30, 99, 0.35);
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.et-ready-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    animation: readyBtnGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes readyBtnGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 10px 28px rgba(233, 30, 99, 0.35);
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        box-shadow: 0 14px 36px rgba(233, 30, 99, 0.55);
+        transform: translateY(-2px) scale(1.02);
+    }
 }
 
 @keyframes etPaneSlide {
@@ -4312,8 +4438,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes fadeInModal {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .et-slot-modal-card {
@@ -4327,8 +4458,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes popInModalCard {
-    from { transform: scale(0.9) translateY(20px); }
-    to { transform: scale(1) translateY(0); }
+    from {
+        transform: scale(0.9) translateY(20px);
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+    }
 }
 
 .slot-modal-header {
@@ -4437,6 +4573,7 @@ select.et-select::-ms-expand,
         opacity: 0;
         transform: translateY(-16px) scale(0.98);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -4468,8 +4605,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes iconFloatBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .res-hero-info {
@@ -4550,6 +4694,7 @@ select.et-select::-ms-expand,
         opacity: 0;
         transform: translateY(14px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -4724,8 +4869,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes photoTileFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-4px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
 }
 
 .et-photo-tile-card:hover {
@@ -4741,8 +4893,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes photoCamPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
 }
 
 .et-photo-preview-wrap {
@@ -4881,9 +5040,21 @@ select.et-select::-ms-expand,
 
 /* Field Shake Error State */
 @keyframes fieldShake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-5px); }
-    40%, 80% { transform: translateX(5px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-5px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(5px);
+    }
 }
 
 .field-error-shake {
@@ -4917,8 +5088,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes btnInvitePulse {
-    0% { transform: scale(1); box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4); }
-    100% { transform: scale(1.03); box-shadow: 0 12px 30px rgba(233, 30, 99, 0.6); }
+    0% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
+    }
+
+    100% {
+        transform: scale(1.03);
+        box-shadow: 0 12px 30px rgba(233, 30, 99, 0.6);
+    }
 }
 
 #etStep1NextBtn:hover {
@@ -4948,10 +5126,12 @@ select.et-select::-ms-expand,
         opacity: 0;
         transform: translateY(0) scale(0.4) rotate(0deg);
     }
+
     30% {
         opacity: 1;
         transform: translateY(-12px) scale(1.2) rotate(15deg);
     }
+
     100% {
         opacity: 0;
         transform: translateY(-32px) scale(0.6) rotate(45deg);
