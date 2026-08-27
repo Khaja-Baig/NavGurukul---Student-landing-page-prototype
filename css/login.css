@@ -425,6 +425,10 @@
     margin: 0 0 2px 0;
 }
 
+.login-title .nav-brand-pink {
+    color: var(--pink-primary);
+}
+
 .gradient-text {
     background: linear-gradient(135deg, #e91e63 0%, #ea580c 100%);
     -webkit-background-clip: text;
@@ -1835,7 +1839,7 @@
 
 /* Color Theme 1: Pink (Duration - NavGurukul Logo Pink #d81b60) */
 .card-theme-pink {
-    background: linear-gradient(135deg, rgba(254, 235, 243, 0.98), rgba(248, 187, 215, 0.92));
+    background: linear-gradient(135deg, rgba(254, 215, 226, 0.92) 0%, rgba(251, 182, 206, 0.9) 50%, rgba(248, 160, 195, 0.88) 100%);
     border: none !important;
 }
 
@@ -1853,17 +1857,18 @@
 }
 
 .card-theme-pink .card-check {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: rgba(216, 27, 96, 0.15);
+    background: #ffffff;
     color: #d81b60;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
-    opacity: 0.5;
+    opacity: 0.95;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
     transition: all 0.25s ease;
 }
 
@@ -1880,7 +1885,7 @@
 
 /* Color Theme 2: Orange (Gear) */
 .card-theme-orange {
-    background: linear-gradient(135deg, rgba(254, 226, 185, 0.96), rgba(251, 191, 120, 0.9));
+    background: linear-gradient(135deg, rgba(254, 226, 195, 0.92) 0%, rgba(254, 215, 170, 0.9) 50%, rgba(253, 195, 140, 0.88) 100%);
     border: none !important;
 }
 
@@ -1898,17 +1903,18 @@
 }
 
 .card-theme-orange .card-check {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: rgba(217, 119, 6, 0.15);
-    color: #d97706;
+    background: #ffffff;
+    color: #ea580c;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
-    opacity: 0.5;
+    opacity: 0.95;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
     transition: all 0.25s ease;
 }
 
@@ -1925,7 +1931,7 @@
 
 /* Color Theme 3: Purple (Online Mode) */
 .card-theme-purple {
-    background: linear-gradient(135deg, rgba(250, 245, 255, 0.95), rgba(243, 232, 255, 0.85));
+    background: linear-gradient(135deg, rgba(243, 232, 255, 0.92) 0%, rgba(233, 213, 255, 0.9) 50%, rgba(216, 180, 254, 0.88) 100%);
     border: none !important;
 }
 
@@ -1943,17 +1949,18 @@
 }
 
 .card-theme-purple .card-check {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: rgba(147, 51, 234, 0.15);
+    background: #ffffff;
     color: #9333ea;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
-    opacity: 0.5;
+    opacity: 0.95;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
     transition: all 0.25s ease;
 }
 
@@ -1970,7 +1977,7 @@
 
 /* Color Theme 4: Emerald Green (Honor) */
 .card-theme-green {
-    background: linear-gradient(135deg, rgba(240, 253, 244, 0.95), rgba(220, 252, 231, 0.85));
+    background: linear-gradient(135deg, rgba(209, 250, 229, 0.92) 0%, rgba(167, 243, 208, 0.9) 50%, rgba(135, 235, 190, 0.88) 100%);
     border: none !important;
 }
 
@@ -1988,17 +1995,18 @@
 }
 
 .card-theme-green .card-check {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: rgba(16, 185, 129, 0.15);
-    color: #047857;
+    background: #ffffff;
+    color: #059669;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
-    opacity: 0.5;
+    opacity: 0.95;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
     transition: all 0.25s ease;
 }
 

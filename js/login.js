@@ -5,7 +5,7 @@
 
     const translations = {
         en: {
-            title: 'Welcome to NavGurukul',
+            title: 'Welcome to <span class="nav-brand-pink">Nav</span>Gurukul',
             subtitle: 'Sign in to complete your free screening test.',
             tabGoogle: '✨ Quick Google Sign-In',
             tabManual: '📝 Register / Check Result',
@@ -22,7 +22,7 @@
             bubbleSuccess: 'Shabaash! Aapka registration confirm ho gaya hai! 🎉'
         },
         hi: {
-            title: 'NavGurukul Me Swagat Hai',
+            title: '<span class="nav-brand-pink">Nav</span>Gurukul Me Swagat Hai',
             subtitle: 'Apna free screening test complete karne ke liye sign in karein.',
             tabGoogle: '✨ Quick Google Sign-In',
             tabManual: '📝 Register / Result Dekhein',
@@ -938,7 +938,7 @@
 
         const title = document.getElementById('loginTitle');
         if (title) {
-            title.textContent = lang === 'hi' ? 'NavGurukul Me Swagat Hai' : 'Welcome to NavGurukul';
+            title.innerHTML = lang === 'hi' ? '<span class="nav-brand-pink">Nav</span>Gurukul Me Swagat Hai' : 'Welcome to <span class="nav-brand-pink">Nav</span>Gurukul';
         }
 
         const sub = document.getElementById('loginSubtitle');
