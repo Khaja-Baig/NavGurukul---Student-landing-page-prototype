@@ -995,28 +995,25 @@
                                     </div>
                                 </div>
 
-                                <!-- 3. Floating Interaction Stage (No Dark Box Backdrop!) -->
+                                <!-- 3. Floating Interaction Stage Container -->
                                 <div class="cockpit-floating-stage">
                                     <div class="cockpit-stage-viewport">
 
                                         <!-- TASK 1: NAME STEP -->
                                         <div class="floating-step-card active" id="missionStep1">
                                             <div class="floating-step-header text-center">
-                                                <span class="cockpit-tag-badge">🚀 WELCOME ABOARD</span>
                                                 <h2 class="floating-prompt-title" id="missionPrompt1">What’s your name?</h2>
-                                                <p class="floating-subprompt" id="missionSubprompt1">First, tell us what to call you during the mission.</p>
                                             </div>
 
                                             <div class="floating-step-body">
                                                 <div class="floating-input-group">
-                                                    <label for="cockpitFirstName" class="floating-input-label">Explorer Name</label>
                                                     <div class="floating-input-wrapper">
                                                         <span class="floating-icon">👤</span>
                                                         <input type="text" id="cockpitFirstName" class="floating-text-input"
-                                                            placeholder="What should we call you?" autocomplete="given-name"
+                                                            placeholder="First Name (e.g. Rahul)" autocomplete="given-name"
                                                             oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
                                                     </div>
-                                                    <div class="floating-input-wrapper secondary-wrap" style="margin-top: 12px;">
+                                                    <div class="floating-input-wrapper secondary-wrap" style="margin-top: 8px;">
                                                         <span class="floating-icon">📝</span>
                                                         <input type="text" id="cockpitLastName" class="floating-text-input"
                                                             placeholder="Last Name (e.g. Kumar)" autocomplete="family-name"
@@ -1041,9 +1038,7 @@
                                         <!-- TASK 2: PHOTO STEP -->
                                         <div class="floating-step-card" id="missionStep2">
                                             <div class="floating-step-header text-center">
-                                                <span class="cockpit-tag-badge">📸 EXPLORER IDENTITY</span>
-                                                <h2 class="floating-prompt-title">Let’s add your photo 📸</h2>
-                                                <p class="floating-subprompt">Upload a photo for your official NavGurukul admit card.</p>
+                                                <h2 class="floating-prompt-title">Add your photo 📸</h2>
                                             </div>
 
                                             <div class="floating-step-body">
@@ -1075,9 +1070,7 @@
                                         <!-- TASK 3: DATE OF BIRTH STEP -->
                                         <div class="floating-step-card" id="missionStep3">
                                             <div class="floating-step-header text-center">
-                                                <span class="cockpit-tag-badge">🎂 BIRTHDAY LOG</span>
                                                 <h2 class="floating-prompt-title">When’s your birthday? 🎂</h2>
-                                                <p class="floating-subprompt">Select your date of birth for mission records.</p>
                                             </div>
 
                                             <div class="floating-step-body">
@@ -1100,9 +1093,7 @@
                                         <!-- TASK 4: GENDER STEP -->
                                         <div class="floating-step-card" id="missionStep4">
                                             <div class="floating-step-header text-center">
-                                                <span class="cockpit-tag-badge">🌟 EXPLORER PROFILE</span>
                                                 <h2 class="floating-prompt-title">How should we identify you? ✨</h2>
-                                                <p class="floating-subprompt">Choose the option that describes you best.</p>
                                             </div>
 
                                             <div class="floating-step-body">
@@ -1138,9 +1129,7 @@
                                         <!-- TASK 5: FINAL PROFILE COMPLETION -->
                                         <div class="floating-step-card" id="missionStep5">
                                             <div class="floating-step-header text-center">
-                                                <span class="cockpit-tag-badge ready-badge">🚀 MISSION READY</span>
                                                 <h2 class="floating-prompt-title ready-sparkle-title">Profile ready, Explorer! 🚀</h2>
-                                                <p class="floating-subprompt bold-subprompt">Your mission profile is locked in and ready for takeoff.</p>
                                             </div>
 
                                             <div class="floating-step-body text-center">

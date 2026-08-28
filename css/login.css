@@ -5483,9 +5483,19 @@ select.et-select::-ms-expand,
 }
 
 @keyframes speedLinesWarp {
-    0% { transform: scale(1); opacity: 0.3; }
-    50% { opacity: 0.8; }
-    100% { transform: scale(2.8); opacity: 0; }
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(2.8);
+        opacity: 0;
+    }
 }
 
 .launch-glow-pulse {
@@ -5499,8 +5509,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes glowPulseRing {
-    0% { transform: scale(0.8); opacity: 0.6; }
-    100% { transform: scale(1.3); opacity: 1; }
+    0% {
+        transform: scale(0.8);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
 }
 
 .launch-rocket-stage {
@@ -5526,15 +5543,18 @@ select.et-select::-ms-expand,
         filter: blur(10px);
         opacity: 0;
     }
+
     30% {
         transform: scale(1.1) translateY(0px) rotate(0deg);
         filter: blur(0px);
         opacity: 1;
     }
+
     70% {
         transform: scale(1.8) translateY(-40px);
         opacity: 1;
     }
+
     100% {
         transform: scale(4) translateY(-220px);
         filter: blur(16px);
@@ -5543,8 +5563,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes rocketThrusterShake {
-    0% { transform: translate(-2px, -1px); }
-    100% { transform: translate(2px, 1px); }
+    0% {
+        transform: translate(-2px, -1px);
+    }
+
+    100% {
+        transform: translate(2px, 1px);
+    }
 }
 
 .launch-thruster-flame {
@@ -5641,8 +5666,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes cabinDrift {
-    0% { transform: scale(1) translateY(0); }
-    100% { transform: scale(1.012) translateY(-5px); }
+    0% {
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        transform: scale(1.012) translateY(-5px);
+    }
 }
 
 .cockpit-space-stars {
@@ -5651,12 +5681,12 @@ select.et-select::-ms-expand,
     left: 15%;
     width: 70%;
     height: 48%;
-    background-image: 
-        radial-gradient(2px 2px at 40px 60px, #ffffff, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 120px 180px, #fef08a, rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 240px 90px, #ffffff, rgba(0,0,0,0)),
-        radial-gradient(2.5px 2.5px at 350px 220px, #f472b6, rgba(0,0,0,0)),
-        radial-gradient(1px 1px at 480px 110px, #38bdf8, rgba(0,0,0,0));
+    background-image:
+        radial-gradient(2px 2px at 40px 60px, #ffffff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 120px 180px, #fef08a, rgba(0, 0, 0, 0)),
+        radial-gradient(1.5px 1.5px at 240px 90px, #ffffff, rgba(0, 0, 0, 0)),
+        radial-gradient(2.5px 2.5px at 350px 220px, #f472b6, rgba(0, 0, 0, 0)),
+        radial-gradient(1px 1px at 480px 110px, #38bdf8, rgba(0, 0, 0, 0));
     background-repeat: repeat;
     background-size: 320px 320px;
     animation: spaceStarFloat 40s linear infinite;
@@ -5664,8 +5694,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes spaceStarFloat {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(320px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(320px);
+    }
 }
 
 .cockpit-nebula-pulse {
@@ -5680,8 +5715,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes nebulaSoftPulse {
-    0% { opacity: 0.5; transform: scale(0.95); }
-    100% { opacity: 0.85; transform: scale(1.1); }
+    0% {
+        opacity: 0.5;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 0.85;
+        transform: scale(1.1);
+    }
 }
 
 /* 2. Asha Flight Co-Pilot Floating Header Bar */
@@ -5760,13 +5802,13 @@ select.et-select::-ms-expand,
 /* 3. Rocket Cockpit Physical Monitor Screen Container (Centered on Dashboard Screen) */
 .cockpit-floating-stage {
     position: absolute;
-    top: 58.5%;
-    left: 50.2%;
+    top: 58.3%;
+    left: 50.0%;
     transform: translate(-50%, -50%);
-    width: 25.5vw;
-    min-width: 280px;
-    max-width: 330px;
-    height: 195px;
+    width: 27.2vw;
+    min-width: 320px;
+    max-width: 375px;
+    height: 205px;
     z-index: 20;
     pointer-events: none;
     display: flex;
@@ -5779,10 +5821,10 @@ select.et-select::-ms-expand,
     width: 100%;
     height: 100%;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
-/* Screen Display Content - Rendered Directly On Physical Cockpit Monitor Glass */
+/* Screen Display Content - Covers 100% of Physical Cockpit Monitor Glass (NO POPUP CARD BORDER!) */
 .floating-step-card {
     position: absolute;
     inset: 0;
@@ -5792,18 +5834,31 @@ select.et-select::-ms-expand,
     opacity: 0;
     display: none;
     pointer-events: none;
-    background: transparent;
+    background: rgba(6, 12, 28, 0.65);
     border: none;
     border-radius: 0;
-    padding: 6px 10px 4px;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    padding: 14px 18px 12px;
+    box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(56, 189, 248, 0.15);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.38s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.floating-step-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,
+            rgba(56, 189, 248, 0.025),
+            rgba(56, 189, 248, 0.025) 1px,
+            transparent 1px,
+            transparent 3px);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .floating-step-card.enter-left {
@@ -5863,65 +5918,58 @@ select.et-select::-ms-expand,
 }
 
 @keyframes cockpitBgFadeIn {
-    from { opacity: 0; filter: blur(12px); }
-    to { opacity: 1; filter: blur(0); }
+    from {
+        opacity: 0;
+        filter: blur(12px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
 }
 
 @keyframes copilotSlideDown {
-    from { opacity: 0; transform: translate(-50%, -18px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 @keyframes stepElementFadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Floating Typography & Badges */
-.cockpit-tag-badge {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 800;
-    color: #fef08a;
-    background: rgba(233, 30, 99, 0.22);
-    border: 1px solid rgba(233, 30, 99, 0.4);
-    padding: 2px 9px;
-    border-radius: 999px;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-}
-
+/* Floating Typography */
 .floating-prompt-title {
     font-family: var(--font-display);
-    font-size: 16.5px;
-    font-weight: 800;
+    font-size: 15px;
+    font-weight: 700;
     color: #ffffff;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     line-height: 1.2;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
-.floating-subprompt {
-    font-size: 11px;
-    color: #cbd5e1;
-    margin-bottom: 6px;
-    line-height: 1.2;
-}
-
-/* Floating Inputs */
+/* Floating Inputs Matching Image 2 */
 .floating-input-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     text-align: left;
-}
-
-.floating-input-label {
-    font-size: 10px;
-    font-weight: 700;
-    color: #fef08a;
-    letter-spacing: 0.5px;
 }
 
 .floating-input-wrapper {
@@ -5935,27 +5983,33 @@ select.et-select::-ms-expand,
     left: 12px;
     font-size: 13px;
     pointer-events: none;
+    opacity: 0.75;
 }
 
 .floating-text-input {
     width: 100%;
-    height: 32px;
-    padding: 5px 10px 5px 34px;
-    background: rgba(15, 23, 42, 0.88);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(233, 30, 99, 0.4);
-    border-radius: 9px;
+    height: 34px;
+    padding: 4px 10px 4px 34px;
+    background: rgba(10, 16, 36, 0.85);
+    border: 1.5px solid rgba(236, 72, 153, 0.65);
+    border-radius: 10px;
     color: #ffffff;
     font-family: var(--font-display);
     font-size: 12.5px;
-    font-weight: 600;
+    font-weight: 500;
     outline: none;
     transition: all 0.25s ease;
 }
 
+.floating-text-input::placeholder {
+    color: #94a3b8;
+    opacity: 0.85;
+}
+
 .floating-text-input:focus {
-    border-color: #e91e63;
-    box-shadow: 0 0 14px rgba(233, 30, 99, 0.5);
+    border-color: #ec4899;
+    box-shadow: 0 0 14px rgba(236, 72, 153, 0.6);
+    background: rgba(12, 20, 44, 0.95);
 }
 
 /* Floating Photo Dropzone */
@@ -6116,8 +6170,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes genderBtnStagger {
-    from { opacity: 0; transform: translateY(14px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .floating-gender-btn:hover {
@@ -6221,6 +6282,7 @@ select.et-select::-ms-expand,
 
 /* Accessibility: Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
     .floating-step-card,
     .cockpit-copilot-floating-bar,
     .floating-gender-btn,
@@ -6505,14 +6567,19 @@ select.et-select::-ms-expand,
     height: 80px;
     border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #f472b6 0%, #be185d 50%, #1e1035 90%);
-    box-shadow: 0 0 30px rgba(244, 114, 182, 0.6), inset -6px -6px 12px rgba(0,0,0,0.6);
+    box-shadow: 0 0 30px rgba(244, 114, 182, 0.6), inset -6px -6px 12px rgba(0, 0, 0, 0.6);
     opacity: 0.85;
     animation: planetOrbFloat 12s ease-in-out infinite alternate;
 }
 
 @keyframes planetOrbFloat {
-    0% { transform: translateY(0) scale(1); }
-    100% { transform: translateY(10px) scale(1.05); }
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        transform: translateY(10px) scale(1.05);
+    }
 }
 
 .space-shooting-star {
@@ -6521,17 +6588,30 @@ select.et-select::-ms-expand,
     left: -20%;
     width: 120px;
     height: 2px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), transparent);
     transform: rotate(-25deg);
     animation: shootingStarPass 7s ease-in-out infinite;
     opacity: 0;
 }
 
 @keyframes shootingStarPass {
-    0% { transform: translateX(0) translateY(0) rotate(-25deg); opacity: 0; }
-    10% { opacity: 1; }
-    20% { transform: translateX(800px) translateY(380px) rotate(-25deg); opacity: 0; }
-    100% { opacity: 0; }
+    0% {
+        transform: translateX(0) translateY(0) rotate(-25deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    20% {
+        transform: translateX(800px) translateY(380px) rotate(-25deg);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 
 .cockpit-window-frame-overlay {
@@ -6540,7 +6620,7 @@ select.et-select::-ms-expand,
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: inset 0 0 60px rgba(15, 23, 42, 0.8),
-                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
     pointer-events: none;
 }
 
@@ -6603,13 +6683,31 @@ select.et-select::-ms-expand,
     animation: statusPulse 2s ease-in-out infinite alternate;
 }
 
-.green-dot { background: #10b981; color: #10b981; }
-.pink-dot { background: #e91e63; color: #e91e63; }
-.yellow-dot { background: #f59e0b; color: #f59e0b; }
+.green-dot {
+    background: #10b981;
+    color: #10b981;
+}
+
+.pink-dot {
+    background: #e91e63;
+    color: #e91e63;
+}
+
+.yellow-dot {
+    background: #f59e0b;
+    color: #f59e0b;
+}
 
 @keyframes statusPulse {
-    0% { opacity: 0.5; transform: scale(0.9); }
-    100% { opacity: 1; transform: scale(1.25); }
+    0% {
+        opacity: 0.5;
+        transform: scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.25);
+    }
 }
 
 /* Cockpit Main Layout Grid */
@@ -6652,8 +6750,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes bubbleBounce {
-    0% { transform: scale(0.9) translateY(4px); }
-    100% { transform: scale(1) translateY(0); }
+    0% {
+        transform: scale(0.9) translateY(4px);
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+    }
 }
 
 .copilot-bubble-arrow {
@@ -6707,8 +6810,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes copilotIdle {
-    0% { transform: translateY(0) rotate(0deg); }
-    100% { transform: translateY(-6px) rotate(2deg); }
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(-6px) rotate(2deg);
+    }
 }
 
 .copilot-badge {
@@ -6733,7 +6841,7 @@ select.et-select::-ms-expand,
     border-radius: 24px;
     padding: 22px 24px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3),
-                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        inset 0 1px 1px rgba(255, 255, 255, 0.15);
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -6763,8 +6871,13 @@ select.et-select::-ms-expand,
 }
 
 @keyframes miniRocketFloat {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-3px) rotate(8deg); }
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-3px) rotate(8deg);
+    }
 }
 
 .hud-profile-title {
@@ -6813,7 +6926,9 @@ select.et-select::-ms-expand,
     transition: all 0.3s ease;
 }
 
-.cockpit-step-dot.active { opacity: 1; }
+.cockpit-step-dot.active {
+    opacity: 1;
+}
 
 .cockpit-step-dot .dot-num {
     width: 20px;
@@ -6866,13 +6981,16 @@ select.et-select::-ms-expand,
     animation: stepCardFadeIn 0.4s ease-out forwards;
 }
 
-.mission-step-card.active { display: flex; }
+.mission-step-card.active {
+    display: flex;
+}
 
 @keyframes stepCardFadeIn {
     0% {
         opacity: 0;
         transform: translateY(16px) scale(0.98);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -6977,8 +7095,15 @@ select.et-select::-ms-expand,
 }
 
 @keyframes ackPopIn {
-    0% { transform: scale(0.9); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .cockpit-photo-upload-box {
@@ -7124,7 +7249,9 @@ select.et-select::-ms-expand,
     box-shadow: 0 0 20px rgba(233, 30, 99, 0.4);
 }
 
-.gender-card-icon { font-size: 32px; }
+.gender-card-icon {
+    font-size: 32px;
+}
 
 .gender-card-label {
     font-size: 14px;
@@ -7266,12 +7393,27 @@ select.et-select::-ms-expand,
     animation: lightPulse 1.5s ease-in-out infinite alternate;
 }
 
-.control-light.light-2 { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation-delay: 0.5s; }
-.control-light.light-3 { background: #10b981; box-shadow: 0 0 8px #10b981; animation-delay: 1s; }
+.control-light.light-2 {
+    background: #f59e0b;
+    box-shadow: 0 0 8px #f59e0b;
+    animation-delay: 0.5s;
+}
+
+.control-light.light-3 {
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation-delay: 1s;
+}
 
 @keyframes lightPulse {
-    0% { opacity: 0.4; }
-    100% { opacity: 1; transform: scale(1.2); }
+    0% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 }
 
 .cockpit-status-tag {
@@ -7287,10 +7429,27 @@ select.et-select::-ms-expand,
 }
 
 @keyframes errorShake {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-    40%, 60% { transform: translate3d(4px, 0, 0); }
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }
 
 @media (max-width: 768px) {
@@ -7299,34 +7458,44 @@ select.et-select::-ms-expand,
         gap: 16px;
         padding: 12px 14px 20px;
     }
+
     .cockpit-copilot-zone {
         flex-direction: row;
         justify-content: flex-start;
         gap: 12px;
     }
+
     .copilot-avatar-img {
         height: 100px;
     }
+
     .copilot-speech-bubble {
         max-width: 100%;
         flex: 1;
         text-align: left;
     }
+
     .copilot-bubble-arrow {
         display: none;
     }
+
     .cockpit-mission-console {
         padding: 16px 14px;
     }
-    .mission-prompt-typing, .mission-prompt-title {
+
+    .mission-prompt-typing,
+    .mission-prompt-title {
         font-size: 20px;
     }
+
     .cockpit-gender-grid {
         grid-template-columns: 1fr;
     }
+
     .hud-profile-title {
         display: none;
     }
+
     .cockpit-status-bar {
         display: none;
     }
