@@ -974,122 +974,86 @@
                         <!-- SUB-QUEST 1: ROCKET COCKPIT MISSION INTERFACE -->
                         <div class="sub-quest-pane active" id="subQuestPane1">
 
-                            <!-- ROCKET COCKPIT STAGE WRAPPER -->
-                            <div class="rocket-cockpit-wrapper">
-                                <!-- Starry Viewport in Background -->
-                                <div class="cockpit-viewport">
-                                    <div class="viewport-stars-bg"></div>
-                                    <div class="viewport-nebula-glow"></div>
+                            <!-- FULL ROCKET INTERIOR COCKPIT ENVIRONMENT -->
+                            <div class="rocket-interior-environment" id="rocketInteriorEnv">
+                                
+                                <!-- 1. Rocket Cockpit Widescreen Background Layer -->
+                                <div class="cockpit-bg-layer">
+                                    <div class="cockpit-bg-img" style="background-image: url('rocket-cockpit-bg.png');"></div>
+                                    <div class="cockpit-space-stars"></div>
+                                    <div class="cockpit-nebula-pulse"></div>
                                 </div>
 
-                                <!-- Glowing Cockpit Dashboard Frame -->
-                                <div class="cockpit-dashboard-frame">
-                                    <!-- Cockpit Top HUD Progress Bar -->
-                                    <div class="cockpit-hud-header">
-                                        <div class="hud-profile-badge">
-                                            <span class="hud-rocket-icon">🚀</span>
-                                            <span class="hud-profile-title">MISSION PROFILE</span>
-                                        </div>
-                                        <div class="cockpit-progress-container">
-                                            <div class="cockpit-progress-bar">
-                                                <div class="cockpit-progress-fill" id="cockpitProgressFill"
-                                                    style="width: 25%;"></div>
-                                            </div>
-                                            <div class="cockpit-steps-dots">
-                                                <div class="cockpit-step-dot active" id="cockpitDot1">
-                                                    <span class="dot-num">1</span>
-                                                    <span class="dot-label">Name</span>
-                                                </div>
-                                                <div class="cockpit-step-dot" id="cockpitDot2">
-                                                    <span class="dot-num">2</span>
-                                                    <span class="dot-label">Photo</span>
-                                                </div>
-                                                <div class="cockpit-step-dot" id="cockpitDot3">
-                                                    <span class="dot-num">3</span>
-                                                    <span class="dot-label">DOB</span>
-                                                </div>
-                                                <div class="cockpit-step-dot" id="cockpitDot4">
-                                                    <span class="dot-num">4</span>
-                                                    <span class="dot-label">Gender</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="hud-step-counter" id="hudStepCounter">1 / 4</div>
+                                <!-- 2. Asha Flight Co-Pilot Guide Header -->
+                                <div class="cockpit-copilot-floating-bar">
+                                    <div class="copilot-avatar-mini">
+                                        <img src="mentor-avatar2.png" alt="Asha Co-Pilot" class="copilot-mini-img">
                                     </div>
+                                    <div class="copilot-bubble" id="copilotSpeechBubble">
+                                        <span class="copilot-bubble-arrow"></span>
+                                        <span class="copilot-bubble-text" id="copilotBubbleText">Welcome aboard! 🚀 What’s your name?</span>
+                                    </div>
+                                </div>
 
-                                    <!-- Cockpit Central Interaction Stage -->
-                                    <div class="cockpit-stage-content">
+                                <!-- 3. Floating Interaction Stage (No Dark Box Backdrop!) -->
+                                <div class="cockpit-floating-stage">
+                                    <div class="cockpit-stage-viewport">
 
-                                        <!-- COCKPIT STEP 1: ENTER YOUR NAME -->
-                                        <div class="mission-step-card active" id="missionStep1">
-                                            <div class="mission-step-header">
-                                                <span class="greeting-badge">🚀 EXPLORER ONBOARDING</span>
-                                                <h2 class="mission-prompt-typing" id="missionPrompt1">Welcome, Explorer!
-                                                    🚀</h2>
-                                                <p class="mission-subprompt" id="missionSubprompt1">First, tell us your
-                                                    name.</p>
+                                        <!-- TASK 1: NAME STEP -->
+                                        <div class="floating-step-card active" id="missionStep1">
+                                            <div class="floating-step-header text-center">
+                                                <span class="cockpit-tag-badge">🚀 WELCOME ABOARD</span>
+                                                <h2 class="floating-prompt-title" id="missionPrompt1">What’s your name?</h2>
+                                                <p class="floating-subprompt" id="missionSubprompt1">First, tell us what to call you during the mission.</p>
                                             </div>
 
-                                            <div class="mission-step-body">
-                                                <div class="mission-input-card">
-                                                    <label for="cockpitFirstName" class="mission-input-label">Enter your
-                                                        name</label>
-                                                    <div class="mission-input-wrapper">
-                                                        <span class="mission-input-icon">👤</span>
-                                                        <input type="text" id="cockpitFirstName"
-                                                            class="mission-text-input"
-                                                            placeholder="What should we call you?"
-                                                            autocomplete="given-name" oninput="syncCockpitNameInputs()"
-                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                            <div class="floating-step-body">
+                                                <div class="floating-input-group">
+                                                    <label for="cockpitFirstName" class="floating-input-label">Explorer Name</label>
+                                                    <div class="floating-input-wrapper">
+                                                        <span class="floating-icon">👤</span>
+                                                        <input type="text" id="cockpitFirstName" class="floating-text-input"
+                                                            placeholder="What should we call you?" autocomplete="given-name"
+                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
                                                     </div>
-                                                    <div class="mission-input-wrapper secondary-name-wrap"
-                                                        style="margin-top: 10px;">
-                                                        <span class="mission-input-icon">📝</span>
-                                                        <input type="text" id="cockpitLastName"
-                                                            class="mission-text-input"
-                                                            placeholder="Last Name (e.g. Kumar)"
-                                                            autocomplete="family-name" oninput="syncCockpitNameInputs()"
-                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                                    <div class="floating-input-wrapper secondary-wrap" style="margin-top: 12px;">
+                                                        <span class="floating-icon">📝</span>
+                                                        <input type="text" id="cockpitLastName" class="floating-text-input"
+                                                            placeholder="Last Name (e.g. Kumar)" autocomplete="family-name"
+                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
                                                     </div>
                                                 </div>
 
-                                                <div class="mission-greeting-ack" id="missionGreetingAck"
-                                                    style="display:none;">
+                                                <div class="mission-greeting-ack" id="missionGreetingAck" style="display:none;">
                                                     <span class="ack-icon">👋</span>
-                                                    <span class="ack-text" id="ackText">Nice to meet you,
-                                                        Explorer!</span>
+                                                    <span class="ack-text" id="ackText">Nice to meet you!</span>
                                                     <div class="ack-sparkles">✨ ✦ ⭐</div>
                                                 </div>
                                             </div>
 
-                                            <div class="mission-step-footer align-end">
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
-                                                    onclick="advanceCockpitStep(1)">
+                                            <div class="floating-step-footer center-footer">
+                                                <button type="button" class="floating-action-btn primary-glow-btn" onclick="advanceCockpitStep(1)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <!-- COCKPIT STEP 2: PHOTO STEP -->
-                                        <div class="mission-step-card" id="missionStep2">
-                                            <div class="mission-step-header">
-                                                <span class="greeting-badge">📸 EXPLORER IDENTITY</span>
-                                                <h2 class="mission-prompt-title">Let’s add your explorer photo 📸</h2>
-                                                <p class="mission-subprompt">Upload a photo for your official NavGurukul
-                                                    admit card.</p>
+                                        <!-- TASK 2: PHOTO STEP -->
+                                        <div class="floating-step-card" id="missionStep2">
+                                            <div class="floating-step-header text-center">
+                                                <span class="cockpit-tag-badge">📸 EXPLORER IDENTITY</span>
+                                                <h2 class="floating-prompt-title">Let’s add your photo 📸</h2>
+                                                <p class="floating-subprompt">Upload a photo for your official NavGurukul admit card.</p>
                                             </div>
 
-                                            <div class="mission-step-body">
-                                                <div class="cockpit-photo-upload-box">
-                                                    <label for="etPhotoInput" class="cockpit-photo-dropzone"
-                                                        id="cockpitPhotoDropzone" title="Click to upload photo">
-                                                        <div class="cockpit-photo-preview" id="cockpitPhotoPreview"
-                                                            style="display:none;">
+                                            <div class="floating-step-body">
+                                                <div class="floating-photo-box">
+                                                    <label for="etPhotoInput" class="floating-photo-dropzone" id="cockpitPhotoDropzone" title="Click to upload photo">
+                                                        <div class="floating-photo-preview" id="cockpitPhotoPreview" style="display:none;">
                                                             <img id="cockpitPhotoImg" src="" alt="Explorer Photo">
                                                             <span class="photo-change-overlay">✏️ Change Photo</span>
                                                         </div>
-                                                        <div class="cockpit-photo-placeholder"
-                                                            id="cockpitPhotoPlaceholder">
+                                                        <div class="floating-photo-placeholder" id="cockpitPhotoPlaceholder">
                                                             <div class="photo-cam-icon-glow">📷</div>
                                                             <span class="photo-main-text">Add Your Photo</span>
                                                             <span class="photo-sub-text">Click to select photo</span>
@@ -1098,126 +1062,110 @@
                                                 </div>
                                             </div>
 
-                                            <div class="mission-step-footer flex-between">
-                                                <button type="button" class="cockpit-btn cockpit-btn-secondary"
-                                                    onclick="prevCockpitStep(2)">
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn" onclick="prevCockpitStep(2)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
-                                                    id="cockpitPhotoContinueBtn" onclick="advanceCockpitStep(2)">
+                                                <button type="button" class="floating-action-btn primary-glow-btn" id="cockpitPhotoContinueBtn" onclick="advanceCockpitStep(2)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <!-- COCKPIT STEP 3: DATE OF BIRTH STEP -->
-                                        <div class="mission-step-card" id="missionStep3">
-                                            <div class="mission-step-header">
-                                                <span class="greeting-badge">🎂 BIRTHDAY LOG</span>
-                                                <h2 class="mission-prompt-title">When is your birthday? 🎂</h2>
-                                                <p class="mission-subprompt">Select your date of birth for mission
-                                                    records.</p>
+                                        <!-- TASK 3: DATE OF BIRTH STEP -->
+                                        <div class="floating-step-card" id="missionStep3">
+                                            <div class="floating-step-header text-center">
+                                                <span class="cockpit-tag-badge">🎂 BIRTHDAY LOG</span>
+                                                <h2 class="floating-prompt-title">When’s your birthday? 🎂</h2>
+                                                <p class="floating-subprompt">Select your date of birth for mission records.</p>
                                             </div>
 
-                                            <div class="mission-step-body">
-                                                <div class="cockpit-dob-card">
-                                                    <div class="dob-input-group">
-                                                        <span class="dob-calendar-icon">📅</span>
-                                                        <input type="date" id="cockpitDobInput"
-                                                            class="cockpit-date-picker"
-                                                            onchange="syncCockpitDobInput()">
-                                                    </div>
+                                            <div class="floating-step-body">
+                                                <div class="floating-dob-group">
+                                                    <span class="dob-calendar-icon">📅</span>
+                                                    <input type="date" id="cockpitDobInput" class="floating-date-picker" onchange="syncCockpitDobInput()">
                                                 </div>
                                             </div>
 
-                                            <div class="mission-step-footer flex-between">
-                                                <button type="button" class="cockpit-btn cockpit-btn-secondary"
-                                                    onclick="prevCockpitStep(3)">
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn" onclick="prevCockpitStep(3)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
-                                                    onclick="advanceCockpitStep(3)">
+                                                <button type="button" class="floating-action-btn primary-glow-btn" onclick="advanceCockpitStep(3)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <!-- COCKPIT STEP 4: GENDER STEP -->
-                                        <div class="mission-step-card" id="missionStep4">
-                                            <div class="mission-step-header">
-                                                <span class="greeting-badge">🌟 EXPLORER PROFILE</span>
-                                                <h2 class="mission-prompt-title">How should we identify you? 🌟</h2>
-                                                <p class="mission-subprompt">Select an option below to finalize your
-                                                    mission profile.</p>
+                                        <!-- TASK 4: GENDER STEP -->
+                                        <div class="floating-step-card" id="missionStep4">
+                                            <div class="floating-step-header text-center">
+                                                <span class="cockpit-tag-badge">🌟 EXPLORER PROFILE</span>
+                                                <h2 class="floating-prompt-title">How should we identify you? ✨</h2>
+                                                <p class="floating-subprompt">Choose the option that describes you best.</p>
                                             </div>
 
-                                            <div class="mission-step-body">
-                                                <div class="cockpit-gender-grid">
-                                                    <button type="button" class="gender-mission-card" data-gender="Male"
-                                                        onclick="selectCockpitGender('Male')">
-                                                        <span class="gender-card-icon">👨‍🚀</span>
-                                                        <span class="gender-card-label">Male</span>
-                                                        <span class="gender-card-check">✓</span>
+                                            <div class="floating-step-body">
+                                                <div class="floating-gender-row">
+                                                    <button type="button" class="floating-gender-btn" data-gender="Male" onclick="selectCockpitGender('Male')">
+                                                        <span class="gender-btn-icon">👨‍🚀</span>
+                                                        <span class="gender-btn-label">Male</span>
+                                                        <span class="gender-btn-check">✓</span>
                                                     </button>
-                                                    <button type="button" class="gender-mission-card"
-                                                        data-gender="Female" onclick="selectCockpitGender('Female')">
-                                                        <span class="gender-card-icon">👩‍🚀</span>
-                                                        <span class="gender-card-label">Female</span>
-                                                        <span class="gender-card-check">✓</span>
+                                                    <button type="button" class="floating-gender-btn" data-gender="Female" onclick="selectCockpitGender('Female')">
+                                                        <span class="gender-btn-icon">👩‍🚀</span>
+                                                        <span class="gender-btn-label">Female</span>
+                                                        <span class="gender-btn-check">✓</span>
                                                     </button>
-                                                    <button type="button" class="gender-mission-card"
-                                                        data-gender="Other" onclick="selectCockpitGender('Other')">
-                                                        <span class="gender-card-icon">🧑‍🚀</span>
-                                                        <span class="gender-card-label">Other</span>
-                                                        <span class="gender-card-check">✓</span>
+                                                    <button type="button" class="floating-gender-btn" data-gender="Other" onclick="selectCockpitGender('Other')">
+                                                        <span class="gender-btn-icon">🧑‍🚀</span>
+                                                        <span class="gender-btn-label">Other</span>
+                                                        <span class="gender-btn-check">✓</span>
                                                     </button>
                                                 </div>
                                             </div>
 
-                                            <div class="mission-step-footer flex-between">
-                                                <button type="button" class="cockpit-btn cockpit-btn-secondary"
-                                                    onclick="prevCockpitStep(4)">
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn" onclick="prevCockpitStep(4)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
-                                                    onclick="advanceCockpitStep(4)">
+                                                <button type="button" class="floating-action-btn primary-glow-btn" onclick="advanceCockpitStep(4)">
                                                     <span>Complete Profile →</span>
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <!-- COCKPIT STEP 5: FINAL PROFILE COMPLETION -->
-                                        <div class="mission-step-card" id="missionStep5">
-                                            <div class="mission-step-header text-center">
-                                                <span class="greeting-badge ready-badge">🚀 MISSION READY</span>
-                                                <h2 class="mission-prompt-title ready-sparkle-title">Profile ready,
-                                                    Explorer! 🚀</h2>
-                                                <p class="mission-subprompt bold-subprompt">Your mission is ready to
-                                                    begin.</p>
+                                        <!-- TASK 5: FINAL PROFILE COMPLETION -->
+                                        <div class="floating-step-card" id="missionStep5">
+                                            <div class="floating-step-header text-center">
+                                                <span class="cockpit-tag-badge ready-badge">🚀 MISSION READY</span>
+                                                <h2 class="floating-prompt-title ready-sparkle-title">Profile ready, Explorer! 🚀</h2>
+                                                <p class="floating-subprompt bold-subprompt">Your mission profile is locked in and ready for takeoff.</p>
                                             </div>
 
-                                            <div class="mission-step-body text-center">
-                                                <div class="cockpit-summary-badge">
-                                                    <div class="summary-avatar-preview" id="summaryAvatarPreview">👤
-                                                    </div>
+                                            <div class="floating-step-body text-center">
+                                                <div class="floating-summary-seal">
+                                                    <div class="summary-avatar-preview" id="summaryAvatarPreview">👤</div>
                                                     <div class="summary-details">
-                                                        <div class="summary-name" id="summaryExplorerName">Explorer Name
-                                                        </div>
+                                                        <div class="summary-name" id="summaryExplorerName">Explorer Name</div>
                                                         <div class="summary-sub">NavGurukul Entrance Mission</div>
                                                     </div>
                                                     <span class="summary-check-seal">✓ READY</span>
                                                 </div>
                                             </div>
 
-                                            <div class="mission-step-footer center-footer">
-                                                <button type="button" class="cockpit-btn cockpit-btn-launch"
-                                                    onclick="finishCockpitOnboarding()">
+                                            <div class="floating-step-footer center-footer">
+                                                <button type="button" class="floating-action-btn launch-glow-btn" onclick="finishCockpitOnboarding()">
                                                     <span>Continue Mission →</span>
                                                 </button>
                                             </div>
                                         </div>
 
                                     </div>
+                                </div>
+
+                            </div>
+                        </div>
 
                                     <!-- Cockpit Bottom Control Bar & Pulsing Lights -->
                                     <div class="cockpit-controls-bar">

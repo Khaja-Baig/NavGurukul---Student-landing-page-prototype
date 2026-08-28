@@ -420,6 +420,15 @@
                 const subPane = document.getElementById('subQuestPane' + s);
                 if (subPane) subPane.classList.toggle('active', s === subNum);
             }
+            if (portalScreen) {
+                if (subNum === 1) {
+                    portalScreen.classList.add('et-cockpit-mode');
+                } else {
+                    portalScreen.classList.remove('et-cockpit-mode');
+                }
+            }
+        } else {
+            if (portalScreen) portalScreen.classList.remove('et-cockpit-mode');
         }
 
         // Activate HUD Nodes (1. Instructions, 2. Basic Details, 3. Contact & Location)
@@ -1028,6 +1037,12 @@
     window.initCockpitOnboarding = function () {
         currentCockpitStep = 1;
 
+        const env = document.getElementById('rocketInteriorEnv');
+        if (env) {
+            env.classList.add('cockpit-intro-sequence');
+            setTimeout(() => env.classList.remove('cockpit-intro-sequence'), 1500);
+        }
+
         const sName = window.studentName && window.studentName !== 'Friend' ? window.studentName : '';
         const cockpitFn = document.getElementById('cockpitFirstName');
         const cockpitLn = document.getElementById('cockpitLastName');
@@ -1046,37 +1061,90 @@
             window.selectCockpitGender(checkedGender.value);
         }
 
-        updateCockpitStepView();
+        updateCockpitStepView(1, 1, 'next');
     };
 
-    function updateCockpitStepView() {
-        for (let i = 1; i <= 5; i++) {
-            const stepCard = document.getElementById('missionStep' + i);
-            if (stepCard) {
-                stepCard.classList.toggle('active', i === currentCockpitStep);
+    function updateCockpitStepView(prevStep, nextStep, direction = 'next') {
+        const oldCard = document.getElementById('missionStep' + prevStep);
+        const newCard = document.getElementById('missionStep' + nextStep);
+
+        currentCockpitStep = nextStep;
+
+        if (oldCard && newCard && prevStep !== nextStep) {
+            if (direction === 'next') {
+                // Exit current to the RIGHT, enter new from the LEFT
+                oldCard.classList.remove('active', 'enter-left', 'enter-right', 'exit-left');
+                oldCard.classList.add('exit-right');
+
+                newCard.classList.remove('active', 'exit-left', 'exit-right', 'enter-right');
+                newCard.classList.add('enter-left');
+                
+                setTimeout(() => {
+                    newCard.classList.remove('enter-left');
+                    newCard.classList.add('active');
+                }, 30);
+            } else {
+                // Exit current to the LEFT, enter new from the RIGHT
+                oldCard.classList.remove('active', 'enter-left', 'enter-right', 'exit-right');
+                oldCard.classList.add('exit-left');
+
+                newCard.classList.remove('active', 'exit-left', 'exit-right', 'enter-left');
+                newCard.classList.add('enter-right');
+                
+                setTimeout(() => {
+                    newCard.classList.remove('enter-right');
+                    newCard.classList.add('active');
+                }, 30);
+            }
+
+            setTimeout(() => {
+                for (let i = 1; i <= 5; i++) {
+                    if (i !== nextStep) {
+                        const card = document.getElementById('missionStep' + i);
+                        if (card) card.classList.remove('active', 'exit-right', 'exit-left', 'enter-left', 'enter-right');
+                    }
+                }
+            }, 480);
+        } else {
+            for (let i = 1; i <= 5; i++) {
+                const card = document.getElementById('missionStep' + i);
+                if (card) {
+                    card.classList.toggle('active', i === nextStep);
+                    card.classList.remove('exit-right', 'exit-left', 'enter-left', 'enter-right');
+                }
             }
         }
 
-        const progressFill = document.getElementById('cockpitProgressFill');
-        const stepCounter = document.getElementById('hudStepCounter');
-
-        const pctMap = { 1: 25, 2: 50, 3: 75, 4: 100, 5: 100 };
-        if (progressFill) progressFill.style.width = (pctMap[currentCockpitStep] || 25) + '%';
-        if (stepCounter) stepCounter.innerText = (currentCockpitStep > 4 ? 4 : currentCockpitStep) + ' / 4';
-
-        for (let d = 1; d <= 4; d++) {
-            const dot = document.getElementById('cockpitDot' + d);
-            if (dot) {
-                dot.classList.toggle('active', d === currentCockpitStep);
-                dot.classList.toggle('passed', d < currentCockpitStep);
+        // Update Asha Co-Pilot Speech Bubble Text with smooth transition
+        const copilotBubble = document.getElementById('copilotBubbleText');
+        const bubbleContainer = document.getElementById('copilotSpeechBubble');
+        const studentName = window.studentName || 'Explorer';
+        if (copilotBubble) {
+            const copilotMsgs = {
+                1: `Welcome aboard! 🚀 What’s your name?`,
+                2: `Looking great, ${studentName}! Let’s add your photo 📸`,
+                3: `Awesome! When is your birthday? 🎂`,
+                4: `Almost ready, ${studentName}! Which option describes you best? ✨`,
+                5: `Woohoo ${studentName}! Your rocket profile is locked in! 🚀`
+            };
+            if (bubbleContainer) bubbleContainer.classList.add('bubble-updating');
+            setTimeout(() => {
+                copilotBubble.innerText = copilotMsgs[nextStep] || `Ready for launch! 🚀`;
+                if (bubbleContainer) bubbleContainer.classList.remove('bubble-updating');
+            }, 150);
+            const bubbleEl = document.getElementById('copilotSpeechBubble');
+            if (bubbleEl) {
+                bubbleEl.classList.remove('speech-bounce');
+                void bubbleEl.offsetWidth;
+                bubbleEl.classList.add('speech-bounce');
             }
         }
 
-        const wrapper = document.querySelector('.rocket-cockpit-wrapper');
-        if (wrapper) {
-            wrapper.classList.remove('thrust-nudge');
-            void wrapper.offsetWidth;
-            wrapper.classList.add('thrust-nudge');
+        const env = document.getElementById('rocketInteriorEnv');
+        if (env) {
+            env.classList.remove('thrust-nudge');
+            void env.offsetWidth;
+            env.classList.add('thrust-nudge');
         }
     }
 
@@ -1118,13 +1186,11 @@
             if (ack) ack.style.display = 'flex';
 
             setTimeout(() => {
-                currentCockpitStep = 2;
-                updateCockpitStepView();
-            }, 650);
+                updateCockpitStepView(1, 2, 'next');
+            }, 600);
 
         } else if (stepNum === 2) {
-            currentCockpitStep = 3;
-            updateCockpitStepView();
+            updateCockpitStepView(2, 3, 'next');
 
         } else if (stepNum === 3) {
             const dob = document.getElementById('cockpitDobInput');
@@ -1135,8 +1201,7 @@
                 return;
             }
             window.syncCockpitDobInput();
-            currentCockpitStep = 4;
-            updateCockpitStepView();
+            updateCockpitStepView(3, 4, 'next');
 
         } else if (stepNum === 4) {
             const checked = document.querySelector('input[name="etGender"]:checked');
@@ -1147,8 +1212,7 @@
                 return;
             }
 
-            currentCockpitStep = 5;
-            updateCockpitStepView();
+            updateCockpitStepView(4, 5, 'next');
 
             const sNameEl = document.getElementById('summaryExplorerName');
             if (sNameEl) sNameEl.innerText = window.studentName || 'Explorer';
@@ -1157,8 +1221,9 @@
 
     window.prevCockpitStep = function (stepNum) {
         if (currentCockpitStep > 1) {
-            currentCockpitStep--;
-            updateCockpitStepView();
+            const prev = currentCockpitStep;
+            const next = currentCockpitStep - 1;
+            updateCockpitStepView(prev, next, 'prev');
         }
     };
 
@@ -1169,7 +1234,7 @@
     };
 
     window.selectCockpitGender = function (genderVal) {
-        const cards = document.querySelectorAll('.gender-mission-card');
+        const cards = document.querySelectorAll('.floating-gender-btn, .gender-mission-card');
         cards.forEach(c => {
             c.classList.toggle('selected', c.getAttribute('data-gender') === genderVal);
         });
@@ -1181,6 +1246,9 @@
     window.finishCockpitOnboarding = function () {
         window.syncCockpitNameInputs();
         window.syncCockpitDobInput();
+
+        const portalScreen = document.getElementById('entranceTestPortalScreen');
+        if (portalScreen) portalScreen.classList.remove('et-cockpit-mode');
 
         // Advance to subQuestPane2 (Contact, Location & Education stage)
         const sub1 = document.getElementById('subQuestPane1');
@@ -1221,14 +1289,15 @@
             const cockpitPreview = document.getElementById('cockpitPhotoPreview');
             const cockpitImg = document.getElementById('cockpitPhotoImg');
             const cockpitPlaceholder = document.getElementById('cockpitPhotoPlaceholder');
+            const summaryAvatar = document.getElementById('summaryAvatarPreview');
 
             if (cockpitImg) cockpitImg.src = e.target.result;
-            if (cockpitPreview) cockpitPreview.style.display = 'block';
+            if (cockpitPreview) cockpitPreview.style.display = 'flex';
             if (cockpitPlaceholder) cockpitPlaceholder.style.display = 'none';
+            if (summaryAvatar) summaryAvatar.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="Avatar">`;
 
-            const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
+            const bubble = document.getElementById('copilotSpeechBubble');
             if (bubble) {
-                bubble.innerHTML = `Looking great! 😄`;
                 bubble.classList.remove('speech-bounce');
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
