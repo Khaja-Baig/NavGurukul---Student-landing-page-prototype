@@ -991,9 +991,211 @@
     }
 
     // ==========================================================================
-    // STEP 1 GAMIFIED & INTERACTIVE LOGIC (Basic Details & Admit Card Photo)
+    // ROCKET MISSION LAUNCH TRANSITION & COCKPIT ONBOARDING MANAGER
     // ==========================================================================
-    let step1CelebrationTriggered = false;
+    let currentCockpitStep = 1;
+
+    window.startRocketLaunchTransition = function () {
+        const overlay = document.getElementById('etLaunchTransitionOverlay');
+        const startBtn = document.getElementById('etStartBtn');
+
+        if (startBtn) {
+            startBtn.style.transform = 'scale(2.2)';
+            startBtn.style.opacity = '0';
+        }
+
+        if (overlay) {
+            overlay.style.display = 'flex';
+            void overlay.offsetWidth;
+            overlay.classList.add('active');
+        }
+
+        setTimeout(() => {
+            if (overlay) {
+                overlay.classList.remove('active');
+                setTimeout(() => { overlay.style.display = 'none'; }, 400);
+            }
+            if (startBtn) {
+                startBtn.style.transform = '';
+                startBtn.style.opacity = '';
+            }
+
+            window.goToEtStep(2);
+            window.initCockpitOnboarding();
+        }, 1800);
+    };
+
+    window.initCockpitOnboarding = function () {
+        currentCockpitStep = 1;
+
+        const sName = window.studentName && window.studentName !== 'Friend' ? window.studentName : '';
+        const cockpitFn = document.getElementById('cockpitFirstName');
+        const cockpitLn = document.getElementById('cockpitLastName');
+        const origFn = document.getElementById('etFirstName');
+        const origLn = document.getElementById('etLastName');
+
+        if (cockpitFn) cockpitFn.value = sName || (origFn ? origFn.value : '');
+        if (cockpitLn) cockpitLn.value = (origLn ? origLn.value : '');
+
+        const origDob = document.getElementById('etDob');
+        const cockpitDob = document.getElementById('cockpitDobInput');
+        if (cockpitDob && origDob && origDob.value) cockpitDob.value = origDob.value;
+
+        const checkedGender = document.querySelector('input[name="etGender"]:checked');
+        if (checkedGender) {
+            window.selectCockpitGender(checkedGender.value);
+        }
+
+        updateCockpitStepView();
+    };
+
+    function updateCockpitStepView() {
+        for (let i = 1; i <= 5; i++) {
+            const stepCard = document.getElementById('missionStep' + i);
+            if (stepCard) {
+                stepCard.classList.toggle('active', i === currentCockpitStep);
+            }
+        }
+
+        const progressFill = document.getElementById('cockpitProgressFill');
+        const stepCounter = document.getElementById('hudStepCounter');
+
+        const pctMap = { 1: 25, 2: 50, 3: 75, 4: 100, 5: 100 };
+        if (progressFill) progressFill.style.width = (pctMap[currentCockpitStep] || 25) + '%';
+        if (stepCounter) stepCounter.innerText = (currentCockpitStep > 4 ? 4 : currentCockpitStep) + ' / 4';
+
+        for (let d = 1; d <= 4; d++) {
+            const dot = document.getElementById('cockpitDot' + d);
+            if (dot) {
+                dot.classList.toggle('active', d === currentCockpitStep);
+                dot.classList.toggle('passed', d < currentCockpitStep);
+            }
+        }
+
+        const wrapper = document.querySelector('.rocket-cockpit-wrapper');
+        if (wrapper) {
+            wrapper.classList.remove('thrust-nudge');
+            void wrapper.offsetWidth;
+            wrapper.classList.add('thrust-nudge');
+        }
+    }
+
+    window.syncCockpitNameInputs = function () {
+        const cockpitFn = document.getElementById('cockpitFirstName');
+        const cockpitLn = document.getElementById('cockpitLastName');
+        const origFn = document.getElementById('etFirstName');
+        const origLn = document.getElementById('etLastName');
+
+        if (origFn && cockpitFn) origFn.value = cockpitFn.value.trim();
+        if (origLn && cockpitLn) origLn.value = cockpitLn.value.trim();
+
+        if (cockpitFn && cockpitFn.value.trim()) {
+            window.studentName = cockpitFn.value.trim();
+            const placeholders = document.querySelectorAll('.student-name-placeholder');
+            placeholders.forEach(p => p.textContent = window.studentName);
+        }
+    };
+
+    window.advanceCockpitStep = function (stepNum) {
+        if (stepNum === 1) {
+            const cockpitFn = document.getElementById('cockpitFirstName');
+            const val = cockpitFn ? cockpitFn.value.trim() : '';
+
+            if (!val) {
+                if (cockpitFn) cockpitFn.focus();
+                const card = document.getElementById('missionStep1');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+
+            window.studentName = val;
+            window.syncCockpitNameInputs();
+
+            const ack = document.getElementById('missionGreetingAck');
+            const ackText = document.getElementById('ackText');
+            if (ackText) ackText.innerText = `Nice to meet you, ${val}! 👋`;
+            if (ack) ack.style.display = 'flex';
+
+            setTimeout(() => {
+                currentCockpitStep = 2;
+                updateCockpitStepView();
+            }, 650);
+
+        } else if (stepNum === 2) {
+            currentCockpitStep = 3;
+            updateCockpitStepView();
+
+        } else if (stepNum === 3) {
+            const dob = document.getElementById('cockpitDobInput');
+            if (!dob || !dob.value) {
+                const card = document.getElementById('missionStep3');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+            window.syncCockpitDobInput();
+            currentCockpitStep = 4;
+            updateCockpitStepView();
+
+        } else if (stepNum === 4) {
+            const checked = document.querySelector('input[name="etGender"]:checked');
+            if (!checked) {
+                const card = document.getElementById('missionStep4');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+
+            currentCockpitStep = 5;
+            updateCockpitStepView();
+
+            const sNameEl = document.getElementById('summaryExplorerName');
+            if (sNameEl) sNameEl.innerText = window.studentName || 'Explorer';
+        }
+    };
+
+    window.prevCockpitStep = function (stepNum) {
+        if (currentCockpitStep > 1) {
+            currentCockpitStep--;
+            updateCockpitStepView();
+        }
+    };
+
+    window.syncCockpitDobInput = function () {
+        const cockpitDob = document.getElementById('cockpitDobInput');
+        const origDob = document.getElementById('etDob');
+        if (origDob && cockpitDob) origDob.value = cockpitDob.value;
+    };
+
+    window.selectCockpitGender = function (genderVal) {
+        const cards = document.querySelectorAll('.gender-mission-card');
+        cards.forEach(c => {
+            c.classList.toggle('selected', c.getAttribute('data-gender') === genderVal);
+        });
+
+        const radio = document.querySelector(`input[name="etGender"][value="${genderVal}"]`);
+        if (radio) radio.checked = true;
+    };
+
+    window.finishCockpitOnboarding = function () {
+        window.syncCockpitNameInputs();
+        window.syncCockpitDobInput();
+
+        // Advance to subQuestPane2 (Contact, Location & Education stage)
+        const sub1 = document.getElementById('subQuestPane1');
+        const sub2 = document.getElementById('subQuestPane2');
+        if (sub1) sub1.classList.remove('active');
+        if (sub2) sub2.classList.add('active');
+
+        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
+        if (bubble) {
+            bubble.innerHTML = `Great job ${window.studentName || 'Explorer'}! Now fill in your contact & location details! 📍`;
+            bubble.classList.remove('speech-bounce');
+            void bubble.offsetWidth;
+            bubble.classList.add('speech-bounce');
+        }
+    };
 
     window.handleEtPhotoUpload = function (event) {
         const file = event.target && event.target.files && event.target.files[0];
@@ -1015,6 +1217,15 @@
             if (subEl) subEl.textContent = 'Change Photo ✏️';
             if (cardEl) cardEl.classList.add('photo-uploaded');
 
+            // Sync Cockpit Photo View
+            const cockpitPreview = document.getElementById('cockpitPhotoPreview');
+            const cockpitImg = document.getElementById('cockpitPhotoImg');
+            const cockpitPlaceholder = document.getElementById('cockpitPhotoPlaceholder');
+
+            if (cockpitImg) cockpitImg.src = e.target.result;
+            if (cockpitPreview) cockpitPreview.style.display = 'block';
+            if (cockpitPlaceholder) cockpitPlaceholder.style.display = 'none';
+
             const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
             if (bubble) {
                 bubble.innerHTML = `Looking great! 😄`;
@@ -1022,8 +1233,6 @@
                 void bubble.offsetWidth;
                 bubble.classList.add('speech-bounce');
             }
-
-            window.validateStep1Progress();
         };
         reader.readAsDataURL(file);
     };

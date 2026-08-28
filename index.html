@@ -720,6 +720,23 @@
 
     <!-- Full-Screen Creative Entrance Test Portal Overlay (Top-Level Body Element) -->
     <div id="entranceTestPortalScreen" class="et-portal-screen" style="display: none;">
+        <!-- ROCKET MISSION LAUNCH TRANSITION OVERLAY -->
+        <div id="etLaunchTransitionOverlay" class="et-launch-overlay" style="display: none;">
+            <div class="launch-stars-bg"></div>
+            <div class="launch-speed-lines"></div>
+            <div class="launch-glow-pulse"></div>
+            <div class="launch-rocket-stage">
+                <div class="launch-rocket-body">
+                    <div class="launch-thruster-flame">
+                        <span class="launch-flame-core"></span>
+                        <span class="launch-flame-glow"></span>
+                    </div>
+                    <div class="launch-rocket-icon">🚀</div>
+                </div>
+                <div class="launch-status-text">INITIATING ROCKET LAUNCH...</div>
+            </div>
+        </div>
+
         <!-- Ambient Glowing Background FX matching Landing Page -->
         <div class="world-overlay" style="opacity: 0.5;"></div>
         <div class="et-portal-glow glow-1"></div>
@@ -879,7 +896,7 @@
                         <!-- Gamified Animated Circle START CTA (Positioned on the left side between Avatar & Stripes) -->
                         <div class="et-circle-start-wrap">
                             <button type="button" class="et-circle-start-btn et-ready-btn" id="etStartBtn"
-                                onclick="goToEtStep(2)" aria-label="Start Entrance Test">
+                                onclick="startRocketLaunchTransition()" aria-label="Start Entrance Test">
                                 <div class="circle-pulse-ring ring-1"></div>
                                 <div class="circle-pulse-ring ring-2"></div>
                                 <div class="circle-sparkle s1">✨</div>
@@ -952,118 +969,252 @@
                 <!-- STEP 2: GAMIFIED CHARACTER SETUP & PROFILE QUEST -->
                 <div class="et-step-pane" id="etStep2">
                     <form id="etProfileForm" class="et-spacious-form" onsubmit="handleEtProfileSubmit(event)">
-                        <!-- SUB-QUEST 1: BASIC DETAILS -->
+                        <!-- SUB-QUEST 1: ROCKET COCKPIT MISSION INTERFACE -->
                         <div class="sub-quest-pane active" id="subQuestPane1">
-                            <!-- Gamified Banner Header -->
-                            <div class="subquest-banner banner-pink mb-16">
-                                <div class="banner-left">
-                                    <span class="banner-badge badge-pink">✨ STAGE 1 / 2</span>
-                                    <h3 class="banner-title">Basic Details & Photo</h3>
+                            
+                            <!-- ROCKET COCKPIT STAGE WRAPPER -->
+                            <div class="rocket-cockpit-wrapper">
+                                <!-- Starry Viewport in Background -->
+                                <div class="cockpit-viewport">
+                                    <div class="viewport-stars-bg"></div>
+                                    <div class="viewport-nebula-glow"></div>
+                                </div>
+
+                                <!-- Glowing Cockpit Dashboard Frame -->
+                                <div class="cockpit-dashboard-frame">
+                                    <!-- Cockpit Top HUD Progress Bar -->
+                                    <div class="cockpit-hud-header">
+                                        <div class="hud-profile-badge">
+                                            <span class="hud-rocket-icon">🚀</span>
+                                            <span class="hud-profile-title">MISSION PROFILE</span>
+                                        </div>
+                                        <div class="cockpit-progress-container">
+                                            <div class="cockpit-progress-bar">
+                                                <div class="cockpit-progress-fill" id="cockpitProgressFill" style="width: 25%;"></div>
+                                            </div>
+                                            <div class="cockpit-steps-dots">
+                                                <div class="cockpit-step-dot active" id="cockpitDot1">
+                                                    <span class="dot-num">1</span>
+                                                    <span class="dot-label">Name</span>
+                                                </div>
+                                                <div class="cockpit-step-dot" id="cockpitDot2">
+                                                    <span class="dot-num">2</span>
+                                                    <span class="dot-label">Photo</span>
+                                                </div>
+                                                <div class="cockpit-step-dot" id="cockpitDot3">
+                                                    <span class="dot-num">3</span>
+                                                    <span class="dot-label">DOB</span>
+                                                </div>
+                                                <div class="cockpit-step-dot" id="cockpitDot4">
+                                                    <span class="dot-num">4</span>
+                                                    <span class="dot-label">Gender</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hud-step-counter" id="hudStepCounter">1 / 4</div>
+                                    </div>
+
+                                    <!-- Cockpit Central Interaction Stage -->
+                                    <div class="cockpit-stage-content">
+
+                                        <!-- COCKPIT STEP 1: ENTER YOUR NAME -->
+                                        <div class="mission-step-card active" id="missionStep1">
+                                            <div class="mission-step-header">
+                                                <span class="greeting-badge">🚀 EXPLORER ONBOARDING</span>
+                                                <h2 class="mission-prompt-typing" id="missionPrompt1">Welcome, Explorer! 🚀</h2>
+                                                <p class="mission-subprompt" id="missionSubprompt1">First, tell us your name.</p>
+                                            </div>
+
+                                            <div class="mission-step-body">
+                                                <div class="mission-input-card">
+                                                    <label for="cockpitFirstName" class="mission-input-label">Enter your name</label>
+                                                    <div class="mission-input-wrapper">
+                                                        <span class="mission-input-icon">👤</span>
+                                                        <input type="text" id="cockpitFirstName" class="mission-text-input"
+                                                            placeholder="What should we call you?" autocomplete="given-name"
+                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                                    </div>
+                                                    <div class="mission-input-wrapper secondary-name-wrap" style="margin-top: 10px;">
+                                                        <span class="mission-input-icon">📝</span>
+                                                        <input type="text" id="cockpitLastName" class="mission-text-input"
+                                                            placeholder="Last Name (e.g. Kumar)" autocomplete="family-name"
+                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="mission-greeting-ack" id="missionGreetingAck" style="display:none;">
+                                                    <span class="ack-icon">👋</span>
+                                                    <span class="ack-text" id="ackText">Nice to meet you, Explorer!</span>
+                                                    <div class="ack-sparkles">✨ ✦ ⭐</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mission-step-footer align-end">
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary" onclick="advanceCockpitStep(1)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- COCKPIT STEP 2: PHOTO STEP -->
+                                        <div class="mission-step-card" id="missionStep2">
+                                            <div class="mission-step-header">
+                                                <span class="greeting-badge">📸 EXPLORER IDENTITY</span>
+                                                <h2 class="mission-prompt-title">Let’s add your explorer photo 📸</h2>
+                                                <p class="mission-subprompt">Upload a photo for your official NavGurukul admit card.</p>
+                                            </div>
+
+                                            <div class="mission-step-body">
+                                                <div class="cockpit-photo-upload-box">
+                                                    <label for="etPhotoInput" class="cockpit-photo-dropzone" id="cockpitPhotoDropzone" title="Click to upload photo">
+                                                        <div class="cockpit-photo-preview" id="cockpitPhotoPreview" style="display:none;">
+                                                            <img id="cockpitPhotoImg" src="" alt="Explorer Photo">
+                                                            <span class="photo-change-overlay">✏️ Change Photo</span>
+                                                        </div>
+                                                        <div class="cockpit-photo-placeholder" id="cockpitPhotoPlaceholder">
+                                                            <div class="photo-cam-icon-glow">📷</div>
+                                                            <span class="photo-main-text">Add Your Photo</span>
+                                                            <span class="photo-sub-text">Click to select photo</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="mission-step-footer flex-between">
+                                                <button type="button" class="cockpit-btn cockpit-btn-secondary" onclick="prevCockpitStep(2)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary" id="cockpitPhotoContinueBtn" onclick="advanceCockpitStep(2)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- COCKPIT STEP 3: DATE OF BIRTH STEP -->
+                                        <div class="mission-step-card" id="missionStep3">
+                                            <div class="mission-step-header">
+                                                <span class="greeting-badge">🎂 BIRTHDAY LOG</span>
+                                                <h2 class="mission-prompt-title">When is your birthday? 🎂</h2>
+                                                <p class="mission-subprompt">Select your date of birth for mission records.</p>
+                                            </div>
+
+                                            <div class="mission-step-body">
+                                                <div class="cockpit-dob-card">
+                                                    <div class="dob-input-group">
+                                                        <span class="dob-calendar-icon">📅</span>
+                                                        <input type="date" id="cockpitDobInput" class="cockpit-date-picker" onchange="syncCockpitDobInput()">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mission-step-footer flex-between">
+                                                <button type="button" class="cockpit-btn cockpit-btn-secondary" onclick="prevCockpitStep(3)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary" onclick="advanceCockpitStep(3)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- COCKPIT STEP 4: GENDER STEP -->
+                                        <div class="mission-step-card" id="missionStep4">
+                                            <div class="mission-step-header">
+                                                <span class="greeting-badge">🌟 EXPLORER PROFILE</span>
+                                                <h2 class="mission-prompt-title">How should we identify you? 🌟</h2>
+                                                <p class="mission-subprompt">Select an option below to finalize your mission profile.</p>
+                                            </div>
+
+                                            <div class="mission-step-body">
+                                                <div class="cockpit-gender-grid">
+                                                    <button type="button" class="gender-mission-card" data-gender="Male" onclick="selectCockpitGender('Male')">
+                                                        <span class="gender-card-icon">👨‍🚀</span>
+                                                        <span class="gender-card-label">Male</span>
+                                                        <span class="gender-card-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="gender-mission-card" data-gender="Female" onclick="selectCockpitGender('Female')">
+                                                        <span class="gender-card-icon">👩‍🚀</span>
+                                                        <span class="gender-card-label">Female</span>
+                                                        <span class="gender-card-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="gender-mission-card" data-gender="Other" onclick="selectCockpitGender('Other')">
+                                                        <span class="gender-card-icon">🧑‍🚀</span>
+                                                        <span class="gender-card-label">Other</span>
+                                                        <span class="gender-card-check">✓</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="mission-step-footer flex-between">
+                                                <button type="button" class="cockpit-btn cockpit-btn-secondary" onclick="prevCockpitStep(4)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary" onclick="advanceCockpitStep(4)">
+                                                    <span>Complete Profile →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- COCKPIT STEP 5: FINAL PROFILE COMPLETION -->
+                                        <div class="mission-step-card" id="missionStep5">
+                                            <div class="mission-step-header text-center">
+                                                <span class="greeting-badge ready-badge">🚀 MISSION READY</span>
+                                                <h2 class="mission-prompt-title ready-sparkle-title">Profile ready, Explorer! 🚀</h2>
+                                                <p class="mission-subprompt bold-subprompt">Your mission is ready to begin.</p>
+                                            </div>
+
+                                            <div class="mission-step-body text-center">
+                                                <div class="cockpit-summary-badge">
+                                                    <div class="summary-avatar-preview" id="summaryAvatarPreview">👤</div>
+                                                    <div class="summary-details">
+                                                        <div class="summary-name" id="summaryExplorerName">Explorer Name</div>
+                                                        <div class="summary-sub">NavGurukul Entrance Mission</div>
+                                                    </div>
+                                                    <span class="summary-check-seal">✓ READY</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mission-step-footer center-footer">
+                                                <button type="button" class="cockpit-btn cockpit-btn-launch" onclick="finishCockpitOnboarding()">
+                                                    <span>Continue Mission →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Cockpit Bottom Control Bar & Pulsing Lights -->
+                                    <div class="cockpit-controls-bar">
+                                        <div class="control-light light-1"></div>
+                                        <div class="control-light light-2"></div>
+                                        <span class="cockpit-status-tag">SYSTEM STATUS: READY ⚡</span>
+                                        <div class="control-light light-3"></div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Animated Photo Upload & Basic Details Card -->
-                            <div class="et-form-section sec-card-pink" id="etStep1FormCard">
-                                <div class="sec-corner-icon icon-pink"><span>👤</span></div>
-                                <h4 class="et-section-title sec-title-pink">
-                                    <span class="sec-num-badge num-pink">1</span> BASIC DETAILS & ADMIT CARD PHOTO
-                                </h4>
-
-                                <!-- Animated Photo Tile inside form section -->
-                                <div class="et-photo-tile-container mb-20">
-                                    <label for="etPhotoInput" class="et-photo-tile-card" id="etPhotoCard"
-                                        title="Click to upload admit card photo">
-                                        <input type="file" id="etPhotoInput" accept="image/*" style="display:none;"
-                                            onchange="handleEtPhotoUpload(event)">
-
-                                        <div class="et-photo-preview-wrap" id="etPhotoPreviewWrap"
-                                            style="display:none;">
-                                            <img id="etPhotoImg" src="" alt="Admit Card Photo"
-                                                class="et-photo-img-preview">
-                                            <span class="photo-edit-badge" title="Change Photo">✏️</span>
-                                        </div>
-
-                                        <div class="et-photo-tile-badge" id="etPhotoTileBadge">
-                                            <span class="photo-cam-icon">📷</span>
-                                            <span class="photo-plus-badge">+</span>
-                                        </div>
-                                        <span class="photo-tile-label" id="etPhotoLabel">Add Your Photo</span>
-                                        <span class="photo-tile-sub" id="etPhotoSub"></span>
-                                    </label>
+                            <!-- HIDDEN ORIGINAL FORM FIELDS FOR FULL COMPATIBILITY & FORM SUBMISSION -->
+                            <div class="et-original-hidden-fields" style="display: none;">
+                                <input type="file" id="etPhotoInput" accept="image/*" onchange="handleEtPhotoUpload(event)">
+                                <div id="etPhotoCard" class="et-photo-tile-card">
+                                    <div id="etPhotoPreviewWrap" style="display:none;"><img id="etPhotoImg" src=""></div>
+                                    <div id="etPhotoTileBadge"></div>
+                                    <span id="etPhotoLabel"></span>
+                                    <span id="etPhotoSub"></span>
                                 </div>
-
-                                <div class="form-grid-3">
-                                    <div class="form-group" id="groupFirstName">
-                                        <label for="etFirstName" class="form-label">First Name <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-pink-fill">👤</span>
-                                            <input type="text" id="etFirstName" class="form-input et-input"
-                                                placeholder="What should we call you? (e.g. Sujit)"
-                                                autocomplete="given-name">
-                                            <span class="input-valid-check" id="checkFirstName">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupMiddleName">
-                                        <label for="etMiddleName" class="form-label">Middle Name <span
-                                                class="opt-tag">(Optional)</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-pink-fill">📝</span>
-                                            <input type="text" id="etMiddleName" class="form-input et-input"
-                                                placeholder="Optional middle name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupLastName">
-                                        <label for="etLastName" class="form-label">Last Name <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-pink-fill">👤</span>
-                                            <input type="text" id="etLastName" class="form-input et-input"
-                                                placeholder="Enter last name (e.g. Kumar)" autocomplete="family-name">
-                                            <span class="input-valid-check" id="checkLastName">✓</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-grid">
-                                    <div class="form-group" id="groupDob">
-                                        <label for="etDob" class="form-label">Date of Birth <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-pink-fill">📅</span>
-                                            <input type="date" id="etDob" class="form-input et-input">
-                                            <span class="input-valid-check" id="checkDob">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupGender">
-                                        <label class="form-label">Gender <span class="req-star">*</span></label>
-                                        <div class="et-gender-pills" id="etGenderGroup">
-                                            <label class="et-gender-pill" id="pillGenderMale">
-                                                <input type="radio" name="etGender" value="Male">
-                                                <span>Male</span>
-                                                <span class="pill-check-icon">✓</span>
-                                            </label>
-                                            <label class="et-gender-pill" id="pillGenderFemale">
-                                                <input type="radio" name="etGender" value="Female">
-                                                <span>Female</span>
-                                                <span class="pill-check-icon">✓</span>
-                                            </label>
-                                            <label class="et-gender-pill" id="pillGenderOther">
-                                                <input type="radio" name="etGender" value="Other">
-                                                <span>Other</span>
-                                                <span class="pill-check-icon">✓</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+                                <input type="text" id="etFirstName">
+                                <input type="text" id="etMiddleName">
+                                <input type="text" id="etLastName">
+                                <input type="date" id="etDob">
+                                <input type="radio" name="etGender" value="Male">
+                                <input type="radio" name="etGender" value="Female">
+                                <input type="radio" name="etGender" value="Other">
+                                <button type="button" id="etStep1NextBtn" onclick="handleStep1Next(event)">Next</button>
                             </div>
 
-                            <div class="et-pane-actions flex-between mt-20">
+                            <div class="et-pane-actions flex-between mt-20" style="display: none;">
                                 <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(1)">
                                     ← Back to Instructions
-                                </button>
-                                <button type="button" class="submit-glow-btn quest-next-btn compact-btn"
-                                    id="etStep1NextBtn" onclick="handleStep1Next(event)">
-                                    <span>Next: Contact & Location →</span>
                                 </button>
                             </div>
                         </div>
