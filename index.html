@@ -604,7 +604,8 @@
                 </div>
 
                 <div class="login-form-header">
-                    <h2 class="login-title" id="loginTitle">Welcome to <span class="nav-brand-pink">Nav</span>Gurukul</h2>
+                    <h2 class="login-title" id="loginTitle">Welcome to <span class="nav-brand-pink">Nav</span>Gurukul
+                    </h2>
                     <p class="login-subtitle" id="loginSubtitle">Sign in to complete your screening test.</p>
                 </div>
 
@@ -933,7 +934,8 @@
                                 <div class="stripe-left-icon">📝</div>
                                 <div class="stripe-main-content">
                                     <strong class="stripe-title">Notebook & Pen Required 📝</strong>
-                                    <p class="stripe-desc">Keep a rough notebook and pen handy for quick mathematical and
+                                    <p class="stripe-desc">Keep a rough notebook and pen handy for quick mathematical
+                                        and
                                         logic calculations.</p>
                                 </div>
                                 <span class="card-check">✓</span>
@@ -971,7 +973,7 @@
                     <form id="etProfileForm" class="et-spacious-form" onsubmit="handleEtProfileSubmit(event)">
                         <!-- SUB-QUEST 1: ROCKET COCKPIT MISSION INTERFACE -->
                         <div class="sub-quest-pane active" id="subQuestPane1">
-                            
+
                             <!-- ROCKET COCKPIT STAGE WRAPPER -->
                             <div class="rocket-cockpit-wrapper">
                                 <!-- Starry Viewport in Background -->
@@ -990,7 +992,8 @@
                                         </div>
                                         <div class="cockpit-progress-container">
                                             <div class="cockpit-progress-bar">
-                                                <div class="cockpit-progress-fill" id="cockpitProgressFill" style="width: 25%;"></div>
+                                                <div class="cockpit-progress-fill" id="cockpitProgressFill"
+                                                    style="width: 25%;"></div>
                                             </div>
                                             <div class="cockpit-steps-dots">
                                                 <div class="cockpit-step-dot active" id="cockpitDot1">
@@ -1021,36 +1024,47 @@
                                         <div class="mission-step-card active" id="missionStep1">
                                             <div class="mission-step-header">
                                                 <span class="greeting-badge">🚀 EXPLORER ONBOARDING</span>
-                                                <h2 class="mission-prompt-typing" id="missionPrompt1">Welcome, Explorer! 🚀</h2>
-                                                <p class="mission-subprompt" id="missionSubprompt1">First, tell us your name.</p>
+                                                <h2 class="mission-prompt-typing" id="missionPrompt1">Welcome, Explorer!
+                                                    🚀</h2>
+                                                <p class="mission-subprompt" id="missionSubprompt1">First, tell us your
+                                                    name.</p>
                                             </div>
 
                                             <div class="mission-step-body">
                                                 <div class="mission-input-card">
-                                                    <label for="cockpitFirstName" class="mission-input-label">Enter your name</label>
+                                                    <label for="cockpitFirstName" class="mission-input-label">Enter your
+                                                        name</label>
                                                     <div class="mission-input-wrapper">
                                                         <span class="mission-input-icon">👤</span>
-                                                        <input type="text" id="cockpitFirstName" class="mission-text-input"
-                                                            placeholder="What should we call you?" autocomplete="given-name"
-                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                                        <input type="text" id="cockpitFirstName"
+                                                            class="mission-text-input"
+                                                            placeholder="What should we call you?"
+                                                            autocomplete="given-name" oninput="syncCockpitNameInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
                                                     </div>
-                                                    <div class="mission-input-wrapper secondary-name-wrap" style="margin-top: 10px;">
+                                                    <div class="mission-input-wrapper secondary-name-wrap"
+                                                        style="margin-top: 10px;">
                                                         <span class="mission-input-icon">📝</span>
-                                                        <input type="text" id="cockpitLastName" class="mission-text-input"
-                                                            placeholder="Last Name (e.g. Kumar)" autocomplete="family-name"
-                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                                        <input type="text" id="cockpitLastName"
+                                                            class="mission-text-input"
+                                                            placeholder="Last Name (e.g. Kumar)"
+                                                            autocomplete="family-name" oninput="syncCockpitNameInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
                                                     </div>
                                                 </div>
 
-                                                <div class="mission-greeting-ack" id="missionGreetingAck" style="display:none;">
+                                                <div class="mission-greeting-ack" id="missionGreetingAck"
+                                                    style="display:none;">
                                                     <span class="ack-icon">👋</span>
-                                                    <span class="ack-text" id="ackText">Nice to meet you, Explorer!</span>
+                                                    <span class="ack-text" id="ackText">Nice to meet you,
+                                                        Explorer!</span>
                                                     <div class="ack-sparkles">✨ ✦ ⭐</div>
                                                 </div>
                                             </div>
 
                                             <div class="mission-step-footer align-end">
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary" onclick="advanceCockpitStep(1)">
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
+                                                    onclick="advanceCockpitStep(1)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
@@ -1061,17 +1075,21 @@
                                             <div class="mission-step-header">
                                                 <span class="greeting-badge">📸 EXPLORER IDENTITY</span>
                                                 <h2 class="mission-prompt-title">Let’s add your explorer photo 📸</h2>
-                                                <p class="mission-subprompt">Upload a photo for your official NavGurukul admit card.</p>
+                                                <p class="mission-subprompt">Upload a photo for your official NavGurukul
+                                                    admit card.</p>
                                             </div>
 
                                             <div class="mission-step-body">
                                                 <div class="cockpit-photo-upload-box">
-                                                    <label for="etPhotoInput" class="cockpit-photo-dropzone" id="cockpitPhotoDropzone" title="Click to upload photo">
-                                                        <div class="cockpit-photo-preview" id="cockpitPhotoPreview" style="display:none;">
+                                                    <label for="etPhotoInput" class="cockpit-photo-dropzone"
+                                                        id="cockpitPhotoDropzone" title="Click to upload photo">
+                                                        <div class="cockpit-photo-preview" id="cockpitPhotoPreview"
+                                                            style="display:none;">
                                                             <img id="cockpitPhotoImg" src="" alt="Explorer Photo">
                                                             <span class="photo-change-overlay">✏️ Change Photo</span>
                                                         </div>
-                                                        <div class="cockpit-photo-placeholder" id="cockpitPhotoPlaceholder">
+                                                        <div class="cockpit-photo-placeholder"
+                                                            id="cockpitPhotoPlaceholder">
                                                             <div class="photo-cam-icon-glow">📷</div>
                                                             <span class="photo-main-text">Add Your Photo</span>
                                                             <span class="photo-sub-text">Click to select photo</span>
@@ -1081,10 +1099,12 @@
                                             </div>
 
                                             <div class="mission-step-footer flex-between">
-                                                <button type="button" class="cockpit-btn cockpit-btn-secondary" onclick="prevCockpitStep(2)">
+                                                <button type="button" class="cockpit-btn cockpit-btn-secondary"
+                                                    onclick="prevCockpitStep(2)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary" id="cockpitPhotoContinueBtn" onclick="advanceCockpitStep(2)">
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
+                                                    id="cockpitPhotoContinueBtn" onclick="advanceCockpitStep(2)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
@@ -1095,23 +1115,28 @@
                                             <div class="mission-step-header">
                                                 <span class="greeting-badge">🎂 BIRTHDAY LOG</span>
                                                 <h2 class="mission-prompt-title">When is your birthday? 🎂</h2>
-                                                <p class="mission-subprompt">Select your date of birth for mission records.</p>
+                                                <p class="mission-subprompt">Select your date of birth for mission
+                                                    records.</p>
                                             </div>
 
                                             <div class="mission-step-body">
                                                 <div class="cockpit-dob-card">
                                                     <div class="dob-input-group">
                                                         <span class="dob-calendar-icon">📅</span>
-                                                        <input type="date" id="cockpitDobInput" class="cockpit-date-picker" onchange="syncCockpitDobInput()">
+                                                        <input type="date" id="cockpitDobInput"
+                                                            class="cockpit-date-picker"
+                                                            onchange="syncCockpitDobInput()">
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="mission-step-footer flex-between">
-                                                <button type="button" class="cockpit-btn cockpit-btn-secondary" onclick="prevCockpitStep(3)">
+                                                <button type="button" class="cockpit-btn cockpit-btn-secondary"
+                                                    onclick="prevCockpitStep(3)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary" onclick="advanceCockpitStep(3)">
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
+                                                    onclick="advanceCockpitStep(3)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
@@ -1122,22 +1147,26 @@
                                             <div class="mission-step-header">
                                                 <span class="greeting-badge">🌟 EXPLORER PROFILE</span>
                                                 <h2 class="mission-prompt-title">How should we identify you? 🌟</h2>
-                                                <p class="mission-subprompt">Select an option below to finalize your mission profile.</p>
+                                                <p class="mission-subprompt">Select an option below to finalize your
+                                                    mission profile.</p>
                                             </div>
 
                                             <div class="mission-step-body">
                                                 <div class="cockpit-gender-grid">
-                                                    <button type="button" class="gender-mission-card" data-gender="Male" onclick="selectCockpitGender('Male')">
+                                                    <button type="button" class="gender-mission-card" data-gender="Male"
+                                                        onclick="selectCockpitGender('Male')">
                                                         <span class="gender-card-icon">👨‍🚀</span>
                                                         <span class="gender-card-label">Male</span>
                                                         <span class="gender-card-check">✓</span>
                                                     </button>
-                                                    <button type="button" class="gender-mission-card" data-gender="Female" onclick="selectCockpitGender('Female')">
+                                                    <button type="button" class="gender-mission-card"
+                                                        data-gender="Female" onclick="selectCockpitGender('Female')">
                                                         <span class="gender-card-icon">👩‍🚀</span>
                                                         <span class="gender-card-label">Female</span>
                                                         <span class="gender-card-check">✓</span>
                                                     </button>
-                                                    <button type="button" class="gender-mission-card" data-gender="Other" onclick="selectCockpitGender('Other')">
+                                                    <button type="button" class="gender-mission-card"
+                                                        data-gender="Other" onclick="selectCockpitGender('Other')">
                                                         <span class="gender-card-icon">🧑‍🚀</span>
                                                         <span class="gender-card-label">Other</span>
                                                         <span class="gender-card-check">✓</span>
@@ -1146,10 +1175,12 @@
                                             </div>
 
                                             <div class="mission-step-footer flex-between">
-                                                <button type="button" class="cockpit-btn cockpit-btn-secondary" onclick="prevCockpitStep(4)">
+                                                <button type="button" class="cockpit-btn cockpit-btn-secondary"
+                                                    onclick="prevCockpitStep(4)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="cockpit-btn cockpit-btn-primary" onclick="advanceCockpitStep(4)">
+                                                <button type="button" class="cockpit-btn cockpit-btn-primary"
+                                                    onclick="advanceCockpitStep(4)">
                                                     <span>Complete Profile →</span>
                                                 </button>
                                             </div>
@@ -1159,15 +1190,19 @@
                                         <div class="mission-step-card" id="missionStep5">
                                             <div class="mission-step-header text-center">
                                                 <span class="greeting-badge ready-badge">🚀 MISSION READY</span>
-                                                <h2 class="mission-prompt-title ready-sparkle-title">Profile ready, Explorer! 🚀</h2>
-                                                <p class="mission-subprompt bold-subprompt">Your mission is ready to begin.</p>
+                                                <h2 class="mission-prompt-title ready-sparkle-title">Profile ready,
+                                                    Explorer! 🚀</h2>
+                                                <p class="mission-subprompt bold-subprompt">Your mission is ready to
+                                                    begin.</p>
                                             </div>
 
                                             <div class="mission-step-body text-center">
                                                 <div class="cockpit-summary-badge">
-                                                    <div class="summary-avatar-preview" id="summaryAvatarPreview">👤</div>
+                                                    <div class="summary-avatar-preview" id="summaryAvatarPreview">👤
+                                                    </div>
                                                     <div class="summary-details">
-                                                        <div class="summary-name" id="summaryExplorerName">Explorer Name</div>
+                                                        <div class="summary-name" id="summaryExplorerName">Explorer Name
+                                                        </div>
                                                         <div class="summary-sub">NavGurukul Entrance Mission</div>
                                                     </div>
                                                     <span class="summary-check-seal">✓ READY</span>
@@ -1175,7 +1210,8 @@
                                             </div>
 
                                             <div class="mission-step-footer center-footer">
-                                                <button type="button" class="cockpit-btn cockpit-btn-launch" onclick="finishCockpitOnboarding()">
+                                                <button type="button" class="cockpit-btn cockpit-btn-launch"
+                                                    onclick="finishCockpitOnboarding()">
                                                     <span>Continue Mission →</span>
                                                 </button>
                                             </div>
@@ -1195,9 +1231,11 @@
 
                             <!-- HIDDEN ORIGINAL FORM FIELDS FOR FULL COMPATIBILITY & FORM SUBMISSION -->
                             <div class="et-original-hidden-fields" style="display: none;">
-                                <input type="file" id="etPhotoInput" accept="image/*" onchange="handleEtPhotoUpload(event)">
+                                <input type="file" id="etPhotoInput" accept="image/*"
+                                    onchange="handleEtPhotoUpload(event)">
                                 <div id="etPhotoCard" class="et-photo-tile-card">
-                                    <div id="etPhotoPreviewWrap" style="display:none;"><img id="etPhotoImg" src=""></div>
+                                    <div id="etPhotoPreviewWrap" style="display:none;"><img id="etPhotoImg" src="">
+                                    </div>
                                     <div id="etPhotoTileBadge"></div>
                                     <span id="etPhotoLabel"></span>
                                     <span id="etPhotoSub"></span>

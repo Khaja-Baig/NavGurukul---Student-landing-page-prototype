@@ -248,6 +248,18 @@ h1.headline {
     max-width: 820px;
 }
 
+/* ===================== SCREEN 5: SPACING OVERRIDES ===================== */
+.screen[data-i="4"] {
+    padding-top: 90px;
+    justify-content: flex-start;
+}
+
+.screen[data-i="4"] h1.headline {
+    font-size: clamp(22px, 3.2vw, 38px);
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
 h1.headline span.highlight-pink {
     color: var(--pink-primary);
     background: linear-gradient(120deg, var(--pink-primary), var(--pink-dark));
