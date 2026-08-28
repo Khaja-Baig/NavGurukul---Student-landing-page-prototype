@@ -1034,6 +1034,35 @@
         }, 1800);
     };
 
+    window.startHologramProjectionSequence = function () {
+        const holoSys = document.getElementById('cockpitHologramSystem');
+        if (!holoSys) return;
+
+        holoSys.className = 'cockpit-hologram-system holo-stage-off';
+
+        setTimeout(() => {
+            holoSys.className = 'cockpit-hologram-system holo-stage-powering';
+        }, 50);
+
+        setTimeout(() => {
+            holoSys.className = 'cockpit-hologram-system holo-stage-powering holo-stage-beam';
+        }, 250);
+
+        setTimeout(() => {
+            holoSys.className = 'cockpit-hologram-system holo-stage-powering holo-stage-beam holo-stage-forming';
+        }, 500);
+
+        setTimeout(() => {
+            holoSys.className = 'cockpit-hologram-system holo-stage-ready';
+            const caption = document.getElementById('holoGuideCaption');
+            if (caption) {
+                caption.classList.remove('caption-pop');
+                void caption.offsetWidth;
+                caption.classList.add('caption-pop');
+            }
+        }, 850);
+    };
+
     window.initCockpitOnboarding = function () {
         currentCockpitStep = 1;
 
@@ -1042,6 +1071,9 @@
             env.classList.add('cockpit-intro-sequence');
             setTimeout(() => env.classList.remove('cockpit-intro-sequence'), 1500);
         }
+
+        // Start Hologram Projection System Sequence
+        window.startHologramProjectionSequence();
 
         const sName = window.studentName && window.studentName !== 'Friend' ? window.studentName : '';
         const cockpitFn = document.getElementById('cockpitFirstName');
@@ -1115,17 +1147,49 @@
             }
         }
 
+        // Update Holographic Guide Caption & Avatar Gesture
+        const holoCaptionText = document.getElementById('holoCaptionText');
+        const holoCaptionEl = document.getElementById('holoGuideCaption');
+        const holoAvatarWrap = document.getElementById('holoAvatarWrapper');
+        const sName = window.studentName || 'Explorer';
+
+        const holoMsgs = {
+            1: `Hey Explorer! 👋<br>What’s your name?`,
+            2: `Great, ${sName}! 📸<br>Let’s add your photo`,
+            3: `Awesome! 🎂<br>When’s your birthday?`,
+            4: `One last detail ✨<br>Select your option`,
+            5: `Profile ready! 🚀<br>Let’s launch your test`
+        };
+
+        if (holoCaptionText && holoMsgs[nextStep]) {
+            if (holoCaptionEl) holoCaptionEl.classList.add('caption-updating');
+            
+            setTimeout(() => {
+                holoCaptionText.innerHTML = holoMsgs[nextStep];
+                if (holoCaptionEl) {
+                    holoCaptionEl.classList.remove('caption-updating', 'caption-pop');
+                    void holoCaptionEl.offsetWidth;
+                    holoCaptionEl.classList.add('caption-pop');
+                }
+            }, 180);
+        }
+
+        if (holoAvatarWrap) {
+            holoAvatarWrap.classList.remove('holo-gesture-react');
+            void holoAvatarWrap.offsetWidth;
+            holoAvatarWrap.classList.add('holo-gesture-react');
+        }
+
         // Update Asha Co-Pilot Speech Bubble Text with smooth transition
         const copilotBubble = document.getElementById('copilotBubbleText');
         const bubbleContainer = document.getElementById('copilotSpeechBubble');
-        const studentName = window.studentName || 'Explorer';
         if (copilotBubble) {
             const copilotMsgs = {
                 1: `Welcome aboard! 🚀 What’s your name?`,
-                2: `Looking great, ${studentName}! Let’s add your photo 📸`,
+                2: `Looking great, ${sName}! Let’s add your photo 📸`,
                 3: `Awesome! When is your birthday? 🎂`,
-                4: `Almost ready, ${studentName}! Which option describes you best? ✨`,
-                5: `Woohoo ${studentName}! Your rocket profile is locked in! 🚀`
+                4: `Almost ready, ${sName}! Which option describes you best? ✨`,
+                5: `Woohoo ${sName}! Your rocket profile is locked in! 🚀`
             };
             if (bubbleContainer) bubbleContainer.classList.add('bubble-updating');
             setTimeout(() => {

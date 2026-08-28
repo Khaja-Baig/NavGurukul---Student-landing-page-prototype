@@ -985,13 +985,60 @@
                                 </div>
 
                                 <!-- 2. Asha Flight Co-Pilot Guide Header -->
-                                <div class="cockpit-copilot-floating-bar">
+                                <div class="cockpit-copilot-floating-bar" style="display: none;">
                                     <div class="copilot-avatar-mini">
                                         <img src="mentor-avatar2.png" alt="Asha Co-Pilot" class="copilot-mini-img">
                                     </div>
                                     <div class="copilot-bubble" id="copilotSpeechBubble">
                                         <span class="copilot-bubble-arrow"></span>
                                         <span class="copilot-bubble-text" id="copilotBubbleText">Welcome aboard! 🚀 What’s your name?</span>
+                                    </div>
+                                </div>
+
+                                <!-- Holographic Avatar Guide System (Console Projector on Left Side) -->
+                                <div class="cockpit-hologram-system holo-stage-off" id="cockpitHologramSystem">
+                                    <!-- Console Ambient Surface Glow -->
+                                    <div class="holo-console-glow"></div>
+
+                                    <!-- Holographic Projection Stage -->
+                                    <div class="holo-projection-assembly">
+                                        <!-- Elegant Holographic Guide Caption -->
+                                        <div class="holo-guide-caption" id="holoGuideCaption">
+                                            <div class="holo-caption-glow"></div>
+                                            <div class="holo-caption-content" id="holoCaptionText">
+                                                Hey Explorer! 👋<br>What’s your name?
+                                            </div>
+                                            <div class="holo-caption-pointer"></div>
+                                        </div>
+
+                                        <!-- Floating Holographic Avatar Unit -->
+                                        <div class="holo-avatar-wrapper" id="holoAvatarWrapper">
+                                            <div class="holo-particle-field">
+                                                <span class="holo-particle p1"></span>
+                                                <span class="holo-particle p2"></span>
+                                                <span class="holo-particle p3"></span>
+                                                <span class="holo-particle p4"></span>
+                                                <span class="holo-particle p5"></span>
+                                            </div>
+                                            <div class="holo-scanlines"></div>
+                                            <div class="holo-light-sweep"></div>
+                                            <img src="mentor-avatar2.png" alt="Holographic Guide" class="holo-avatar-img" id="holoAvatarImg">
+                                        </div>
+
+                                        <!-- Focused Vertical Light Beam -->
+                                        <div class="holo-light-beam" id="holoLightBeam">
+                                            <div class="beam-cone"></div>
+                                            <div class="beam-core-glow"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Physical Projector Base Unit on Console -->
+                                    <div class="holo-projector-base" id="holoProjectorBase">
+                                        <div class="projector-bezel">
+                                            <div class="projector-glow-ring"></div>
+                                            <div class="projector-lens-core"></div>
+                                            <div class="projector-pulse-emitter"></div>
+                                        </div>
                                     </div>
                                 </div>
 
