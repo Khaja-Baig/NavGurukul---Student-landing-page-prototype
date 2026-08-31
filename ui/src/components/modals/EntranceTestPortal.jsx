@@ -345,15 +345,79 @@ export const EntranceTestPortal = () => {
                     {portalStep === 2 && (
                         <div className="et-step-pane active" id="etStep2">
                             <div className="rocket-interior-environment active" id="rocketInteriorEnv">
+                                {/* 1. Background Space Starfield Layer */}
                                 <div className="cockpit-bg-layer">
                                     <div className="cockpit-bg-img" style={{ backgroundImage: "url('/rocket.png')" }}></div>
                                     <div className="cockpit-space-stars"></div>
                                     <div className="cockpit-nebula-pulse"></div>
                                 </div>
 
+                                {/* 2. Holographic Avatar Guide System (Console Projector on Left Side) */}
+                                <div className="cockpit-hologram-system holo-stage-ready" id="cockpitHologramSystem">
+                                    <div className="holo-console-glow"></div>
+
+                                    <div className="holo-projection-assembly">
+                                        {/* Holographic Speech Bubble Caption */}
+                                        <div className="holo-guide-caption caption-pop" id="holoGuideCaption">
+                                            <div className="holo-caption-glow"></div>
+                                            <div
+                                                className="holo-caption-content"
+                                                id="holoCaptionText"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: {
+                                                        1: `Hey Explorer! 👋<br>What’s your name?`,
+                                                        2: `Great, ${userProfile.firstName || name}! 📸<br>Let’s add your photo`,
+                                                        3: `Awesome! 🎂<br>When’s your birthday?`,
+                                                        4: `Select your option ✨<br>Almost done with basic details`,
+                                                        5: `Contact Phone 📱<br>How can we reach you?`,
+                                                        6: `Email & PIN Code ✉️<br>Enter your email and PIN code`,
+                                                        7: `Location Details 🏙️<br>Where are you located?`,
+                                                        8: `Current Status 💼<br>Are you a student or job seeker?`,
+                                                        9: `Qualification 📜<br>What is your education level?`,
+                                                        10: `School Medium 📚<br>In which language did you study?`,
+                                                        11: `Category Info 👥<br>Select your caste / category`,
+                                                        12: `All Systems Ready! 🚀<br>Launch Entrance Test`
+                                                    }[cockpitStep] || `Ready for launch! 🚀`
+                                                }}
+                                            />
+                                            <div className="holo-caption-pointer"></div>
+                                        </div>
+
+                                        {/* Floating Holographic Avatar Unit */}
+                                        <div className="holo-avatar-wrapper holo-gesture-react" id="holoAvatarWrapper">
+                                            <div className="holo-particle-field">
+                                                <span className="holo-particle p1"></span>
+                                                <span className="holo-particle p2"></span>
+                                                <span className="holo-particle p3"></span>
+                                                <span className="holo-particle p4"></span>
+                                                <span className="holo-particle p5"></span>
+                                            </div>
+                                            <div className="holo-scanlines"></div>
+                                            <div className="holo-light-sweep"></div>
+                                            <img src="/mentor-avatar2.png" alt="Holographic Guide" className="holo-avatar-img" id="holoAvatarImg" />
+                                        </div>
+
+                                        {/* Focused Vertical Cyan Light Beam */}
+                                        <div className="holo-light-beam" id="holoLightBeam">
+                                            <div className="beam-cone"></div>
+                                            <div className="beam-core-glow"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* Physical Projector Base Unit on Console */}
+                                    <div className="holo-projector-base" id="holoProjectorBase">
+                                        <div className="projector-bezel">
+                                            <div className="projector-glow-ring"></div>
+                                            <div className="projector-lens-core"></div>
+                                            <div className="projector-pulse-emitter"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* 3. Floating Cockpit Screen Viewport */}
                                 <div className="cockpit-floating-stage">
                                     <div className="cockpit-stage-viewport">
-                                        {/* Task 1: Name Step */}
+                                        {/* TASK 1: NAME STEP */}
                                         {cockpitStep === 1 && (
                                             <div className="floating-step-card active" id="missionStep1">
                                                 <div className="floating-step-header text-center">
@@ -369,6 +433,7 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="First Name (e.g. Rahul)"
                                                                 value={userProfile.firstName}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, firstName: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(2); }}
                                                             />
                                                         </div>
                                                         <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '8px' }}>
@@ -379,6 +444,7 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="Last Name (e.g. Kumar)"
                                                                 value={userProfile.lastName}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, lastName: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(2); }}
                                                             />
                                                         </div>
                                                     </div>
@@ -402,7 +468,7 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* Task 2: Photo Step */}
+                                        {/* TASK 2: PHOTO STEP */}
                                         {cockpitStep === 2 && (
                                             <div className="floating-step-card active" id="missionStep2">
                                                 <div className="floating-step-header text-center">
@@ -418,9 +484,9 @@ export const EntranceTestPortal = () => {
                                                             onChange={handlePhotoUpload}
                                                         />
                                                         <label htmlFor="etPhotoInput" className="floating-photo-dropzone">
-                                                            {uploadedPhotoUrl ? (
+                                                            {uploadedPhotoUrl || userProfile.photoUrl ? (
                                                                 <div className="floating-photo-preview">
-                                                                    <img src={uploadedPhotoUrl} alt="Explorer Photo" />
+                                                                    <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Explorer Photo" id="cockpitPhotoImg" />
                                                                     <span className="photo-change-overlay">✏️ Change Photo</span>
                                                                 </div>
                                                             ) : (
@@ -451,11 +517,11 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* Task 3: Date of Birth */}
+                                        {/* TASK 3: DATE OF BIRTH STEP */}
                                         {cockpitStep === 3 && (
                                             <div className="floating-step-card active" id="missionStep3">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">When's your birthday? 🎂</h2>
+                                                    <h2 className="floating-prompt-title">When’s your birthday? 🎂</h2>
                                                 </div>
                                                 <div className="floating-step-body">
                                                     <div className="floating-dob-group">
@@ -487,7 +553,7 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* Task 4: Gender */}
+                                        {/* TASK 4: GENDER STEP */}
                                         {cockpitStep === 4 && (
                                             <div className="floating-step-card active" id="missionStep4">
                                                 <div className="floating-step-header text-center">
@@ -495,15 +561,19 @@ export const EntranceTestPortal = () => {
                                                 </div>
                                                 <div className="floating-step-body">
                                                     <div className="floating-gender-row">
-                                                        {['Male', 'Female', 'Other'].map(g => (
+                                                        {[
+                                                            { label: 'Male', icon: '👨‍🚀' },
+                                                            { label: 'Female', icon: '👩‍🚀' },
+                                                            { label: 'Other', icon: '🧑‍🚀' }
+                                                        ].map(g => (
                                                             <button
-                                                                key={g}
+                                                                key={g.label}
                                                                 type="button"
-                                                                className={`floating-gender-btn ${userProfile.gender === g ? 'active' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, gender: g })}
+                                                                className={`floating-gender-btn ${userProfile.gender === g.label ? 'selected' : ''}`}
+                                                                onClick={() => setUserProfile({ ...userProfile, gender: g.label })}
                                                             >
-                                                                <span className="gender-btn-icon">{g === 'Male' ? '👨‍🚀' : g === 'Female' ? '👩‍🚀' : '🧑‍🚀'}</span>
-                                                                <span className="gender-btn-label">{g}</span>
+                                                                <span className="gender-btn-icon">{g.icon}</span>
+                                                                <span className="gender-btn-label">{g.label}</span>
                                                                 <span className="gender-btn-check">✓</span>
                                                             </button>
                                                         ))}
@@ -528,7 +598,7 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* Task 5: Contact Numbers */}
+                                        {/* TASK 5: CONTACT PHONE NUMBERS STEP */}
                                         {cockpitStep === 5 && (
                                             <div className="floating-step-card active" id="missionStep5">
                                                 <div className="floating-step-header text-center">
@@ -544,6 +614,7 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="WhatsApp Number (e.g. 9876543210)"
                                                                 value={userProfile.whatsapp}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, whatsapp: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(6); }}
                                                             />
                                                         </div>
                                                         <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
@@ -554,6 +625,7 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="Calling Phone Number"
                                                                 value={userProfile.phone}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, phone: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(6); }}
                                                             />
                                                         </div>
                                                     </div>
@@ -577,15 +649,26 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* Task 6: PIN Code & Location */}
+                                        {/* TASK 6: EMAIL & PIN CODE STEP */}
                                         {cockpitStep === 6 && (
                                             <div className="floating-step-card active" id="missionStep6">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">PIN Code & Location 📍</h2>
+                                                    <h2 className="floating-prompt-title">Email & PIN Code ✉️</h2>
                                                 </div>
                                                 <div className="floating-step-body">
                                                     <div className="floating-input-group">
                                                         <div className="floating-input-wrapper">
+                                                            <span className="floating-icon">✉️</span>
+                                                            <input
+                                                                type="email"
+                                                                className="floating-text-input"
+                                                                placeholder="Email Address (e.g. student@gmail.com)"
+                                                                value={userProfile.email}
+                                                                onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(7); }}
+                                                            />
+                                                        </div>
+                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
                                                             <span className="floating-icon">📍</span>
                                                             <input
                                                                 type="text"
@@ -594,16 +677,7 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="6-Digit PIN Code"
                                                                 value={userProfile.pincode}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, pincode: e.target.value })}
-                                                            />
-                                                        </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
-                                                            <span className="floating-icon">🏙️</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="District (e.g. Patna)"
-                                                                value={userProfile.district}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(7); }}
                                                             />
                                                         </div>
                                                     </div>
@@ -619,9 +693,286 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn primary-glow-btn"
-                                                        onClick={startLiveEtQuiz}
+                                                        onClick={() => setCockpitStep(7)}
                                                     >
-                                                        <span>LAUNCH SCREENING TEST NOW 🚀</span>
+                                                        <span>Continue →</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* TASK 7: LOCATION DETAILS (DISTRICT & STATE) */}
+                                        {cockpitStep === 7 && (
+                                            <div className="floating-step-card active" id="missionStep7">
+                                                <div className="floating-step-header text-center">
+                                                    <h2 className="floating-prompt-title">Where are you located? 🏙️</h2>
+                                                </div>
+                                                <div className="floating-step-body">
+                                                    <div className="floating-input-group">
+                                                        <div className="floating-input-wrapper">
+                                                            <span className="floating-icon">🏙️</span>
+                                                            <input
+                                                                type="text"
+                                                                className="floating-text-input"
+                                                                placeholder="District (e.g. Patna)"
+                                                                value={userProfile.district}
+                                                                onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(8); }}
+                                                            />
+                                                        </div>
+                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
+                                                            <span className="floating-icon">🗺️</span>
+                                                            <input
+                                                                type="text"
+                                                                className="floating-text-input"
+                                                                placeholder="State (e.g. Bihar)"
+                                                                value={userProfile.state}
+                                                                onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(8); }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="floating-step-footer flex-between">
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn secondary-btn"
+                                                        onClick={() => setCockpitStep(6)}
+                                                    >
+                                                        <span>← Back</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn primary-glow-btn"
+                                                        onClick={() => setCockpitStep(8)}
+                                                    >
+                                                        <span>Continue →</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* TASK 8: CURRENT STATUS STEP */}
+                                        {cockpitStep === 8 && (
+                                            <div className="floating-step-card active" id="missionStep8">
+                                                <div className="floating-step-header text-center">
+                                                    <h2 className="floating-prompt-title">What is your current status? 💼</h2>
+                                                </div>
+                                                <div className="floating-step-body">
+                                                    <div className="floating-gender-row">
+                                                        {[
+                                                            { label: 'Student', icon: '🎓' },
+                                                            { label: 'Job Seeker', icon: '💼' },
+                                                            { label: 'Other', icon: '🌟' }
+                                                        ].map(st => (
+                                                            <button
+                                                                key={st.label}
+                                                                type="button"
+                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.status === st.label ? 'selected' : ''}`}
+                                                                onClick={() => setUserProfile({ ...userProfile, status: st.label })}
+                                                            >
+                                                                <span className="gender-btn-icon">{st.icon}</span>
+                                                                <span className="gender-btn-label">{st.label}</span>
+                                                                <span className="gender-btn-check">✓</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div className="floating-step-footer flex-between">
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn secondary-btn"
+                                                        onClick={() => setCockpitStep(7)}
+                                                    >
+                                                        <span>← Back</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn primary-glow-btn"
+                                                        onClick={() => setCockpitStep(9)}
+                                                    >
+                                                        <span>Continue →</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* TASK 9: HIGHEST QUALIFICATION STEP */}
+                                        {cockpitStep === 9 && (
+                                            <div className="floating-step-card active" id="missionStep9">
+                                                <div className="floating-step-header text-center">
+                                                    <h2 className="floating-prompt-title">What is your highest qualification? 📜</h2>
+                                                </div>
+                                                <div className="floating-step-body">
+                                                    <div className="floating-gender-row">
+                                                        {[
+                                                            { label: '10th Pass', icon: '📜' },
+                                                            { label: '12th Pass', icon: '📖' },
+                                                            { label: 'Graduate', icon: '🎓' }
+                                                        ].map(q => (
+                                                            <button
+                                                                key={q.label}
+                                                                type="button"
+                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.qualification === q.label ? 'selected' : ''}`}
+                                                                onClick={() => setUserProfile({ ...userProfile, qualification: q.label })}
+                                                            >
+                                                                <span className="gender-btn-icon">{q.icon}</span>
+                                                                <span className="gender-btn-label">{q.label}</span>
+                                                                <span className="gender-btn-check">✓</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div className="floating-step-footer flex-between">
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn secondary-btn"
+                                                        onClick={() => setCockpitStep(8)}
+                                                    >
+                                                        <span>← Back</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn primary-glow-btn"
+                                                        onClick={() => setCockpitStep(10)}
+                                                    >
+                                                        <span>Continue →</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* TASK 10: SCHOOL MEDIUM STEP */}
+                                        {cockpitStep === 10 && (
+                                            <div className="floating-step-card active" id="missionStep10">
+                                                <div className="floating-step-header text-center">
+                                                    <h2 className="floating-prompt-title">What was your school medium? 📚</h2>
+                                                </div>
+                                                <div className="floating-step-body">
+                                                    <div className="floating-gender-row">
+                                                        {[
+                                                            { label: 'Hindi', icon: '📚' },
+                                                            { label: 'English', icon: '🌐' },
+                                                            { label: 'Regional', icon: '🗣️' }
+                                                        ].map(m => (
+                                                            <button
+                                                                key={m.label}
+                                                                type="button"
+                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.medium === m.label ? 'selected' : ''}`}
+                                                                onClick={() => setUserProfile({ ...userProfile, medium: m.label })}
+                                                            >
+                                                                <span className="gender-btn-icon">{m.icon}</span>
+                                                                <span className="gender-btn-label">{m.label}</span>
+                                                                <span className="gender-btn-check">✓</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div className="floating-step-footer flex-between">
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn secondary-btn"
+                                                        onClick={() => setCockpitStep(9)}
+                                                    >
+                                                        <span>← Back</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn primary-glow-btn"
+                                                        onClick={() => setCockpitStep(11)}
+                                                    >
+                                                        <span>Continue →</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* TASK 11: CASTE / CATEGORY STEP */}
+                                        {cockpitStep === 11 && (
+                                            <div className="floating-step-card active" id="missionStep11">
+                                                <div className="floating-step-header text-center">
+                                                    <h2 className="floating-prompt-title">Select your category / caste 👥</h2>
+                                                </div>
+                                                <div className="floating-step-body">
+                                                    <div className="floating-gender-row">
+                                                        {[
+                                                            { label: 'General', icon: '👥' },
+                                                            { label: 'OBC', icon: '👥' },
+                                                            { label: 'SC / ST', icon: '👥' }
+                                                        ].map(cat => (
+                                                            <button
+                                                                key={cat.label}
+                                                                type="button"
+                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.category === cat.label ? 'selected' : ''}`}
+                                                                onClick={() => setUserProfile({ ...userProfile, category: cat.label })}
+                                                            >
+                                                                <span className="gender-btn-icon">{cat.icon}</span>
+                                                                <span className="gender-btn-label">{cat.label}</span>
+                                                                <span className="gender-btn-check">✓</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div className="floating-step-footer flex-between">
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn secondary-btn"
+                                                        onClick={() => setCockpitStep(10)}
+                                                    >
+                                                        <span>← Back</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn primary-glow-btn"
+                                                        onClick={() => setCockpitStep(12)}
+                                                    >
+                                                        <span>Continue →</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* TASK 12: FINAL CONFIRMATION & LAUNCH TEST */}
+                                        {cockpitStep === 12 && (
+                                            <div className="floating-step-card active" id="missionStep12">
+                                                <div className="floating-step-header text-center">
+                                                    <h2 className="floating-prompt-title ready-sparkle-title">All Systems Ready! 🚀</h2>
+                                                </div>
+                                                <div className="floating-step-body text-center">
+                                                    <div className="floating-summary-seal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', background: 'rgba(255, 255, 255, 0.05)', padding: '10px 16px', borderRadius: '12px' }}>
+                                                        <div className="summary-avatar-preview" id="summaryAvatarPreview" style={{ fontSize: '24px' }}>
+                                                            {uploadedPhotoUrl || userProfile.photoUrl ? (
+                                                                <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Preview" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
+                                                            ) : (
+                                                                '👨‍🚀'
+                                                            )}
+                                                        </div>
+                                                        <div className="summary-details" style={{ textAlign: 'left' }}>
+                                                            <div className="summary-name" style={{ fontWeight: '700', fontSize: '13px', color: '#ffffff' }}>
+                                                                {userProfile.firstName ? `${userProfile.firstName} ${userProfile.lastName}` : name}
+                                                            </div>
+                                                            <div className="summary-sub" style={{ fontSize: '11px', color: '#94a3b8' }}>
+                                                                {userProfile.district ? `${userProfile.district}, ${userProfile.state || ''}` : 'Location & Details Verified'}
+                                                            </div>
+                                                        </div>
+                                                        <span className="summary-check-seal" style={{ marginLeft: 'auto', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', padding: '2px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '800' }}>✓ VERIFIED</span>
+                                                    </div>
+                                                </div>
+                                                <div className="floating-step-footer flex-between">
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn secondary-btn"
+                                                        onClick={() => setCockpitStep(11)}
+                                                    >
+                                                        <span>← Back</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn launch-glow-btn"
+                                                        onClick={startLiveEtQuiz}
+                                                        style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#ffffff', boxShadow: '0 4px 16px rgba(16, 185, 129, 0.5)' }}
+                                                    >
+                                                        <span>START Entrance Test 🚀</span>
                                                     </button>
                                                 </div>
                                             </div>
