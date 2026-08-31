@@ -1230,10 +1230,10 @@
                                             </div>
                                         </div>
 
-                                        <!-- TASK 6: EMAIL ADDRESS (DEDICATED STEP) -->
+                                        <!-- TASK 6: EMAIL & PIN CODE STEP -->
                                         <div class="floating-step-card" id="missionStep6">
                                             <div class="floating-step-header text-center">
-                                                <h2 class="floating-prompt-title">What is your email address? ✉️</h2>
+                                                <h2 class="floating-prompt-title">Email & PIN Code ✉️</h2>
                                             </div>
 
                                             <div class="floating-step-body">
@@ -1244,6 +1244,15 @@
                                                             class="floating-text-input"
                                                             placeholder="Email Address (e.g. student@gmail.com)"
                                                             oninput="syncCockpitContactInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(6);}">
+                                                    </div>
+                                                    <div class="floating-input-wrapper secondary-wrap"
+                                                        style="margin-top: 10px;">
+                                                        <span class="floating-icon">📍</span>
+                                                        <input type="text" id="cockpitPincode"
+                                                            class="floating-text-input" maxlength="6"
+                                                            placeholder="6-Digit PIN Code"
+                                                            oninput="syncCockpitLocationInputs()"
                                                             onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(6);}">
                                                     </div>
                                                 </div>
@@ -1261,24 +1270,15 @@
                                             </div>
                                         </div>
 
-                                        <!-- TASK 7: LOCATION DETAILS -->
+                                        <!-- TASK 7: LOCATION DETAILS (DISTRICT & STATE) -->
                                         <div class="floating-step-card" id="missionStep7">
                                             <div class="floating-step-header text-center">
-                                                <h2 class="floating-prompt-title">Where are you located? 📍</h2>
+                                                <h2 class="floating-prompt-title">Where are you located? 🏙️</h2>
                                             </div>
 
                                             <div class="floating-step-body">
                                                 <div class="floating-input-group">
                                                     <div class="floating-input-wrapper">
-                                                        <span class="floating-icon">📍</span>
-                                                        <input type="text" id="cockpitPincode"
-                                                            class="floating-text-input" maxlength="6"
-                                                            placeholder="6-Digit PIN Code"
-                                                            oninput="syncCockpitLocationInputs()"
-                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(7);}">
-                                                    </div>
-                                                    <div class="floating-input-wrapper secondary-wrap"
-                                                        style="margin-top: 8px;">
                                                         <span class="floating-icon">🏙️</span>
                                                         <input type="text" id="cockpitDistrict"
                                                             class="floating-text-input"
@@ -1287,7 +1287,7 @@
                                                             onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(7);}">
                                                     </div>
                                                     <div class="floating-input-wrapper secondary-wrap"
-                                                        style="margin-top: 8px;">
+                                                        style="margin-top: 10px;">
                                                         <span class="floating-icon">🗺️</span>
                                                         <input type="text" id="cockpitState" class="floating-text-input"
                                                             placeholder="State (e.g. Bihar)"

@@ -1258,8 +1258,8 @@
             3: `Awesome! 🎂<br>When’s your birthday?`,
             4: `Select your option ✨<br>Almost done with basic details`,
             5: `Contact Phone 📱<br>How can we reach you?`,
-            6: `Email Address ✉️<br>Enter your email address`,
-            7: `Location Details 📍<br>Where are you located?`,
+            6: `Email & PIN Code ✉️<br>Enter your email and PIN code`,
+            7: `Location Details 🏙️<br>Where are you located?`,
             8: `Current Status 💼<br>Are you a student or job seeker?`,
             9: `Qualification 📜<br>What is your education level?`,
             10: `School Medium 📚<br>In which language did you study?`,
@@ -1296,8 +1296,8 @@
                 3: `Awesome! When is your birthday? 🎂`,
                 4: `Which option describes you best, ${sName}? ✨`,
                 5: `Enter your WhatsApp & calling numbers! 📱`,
-                6: `Enter your email address, ${sName}! ✉️`,
-                7: `Enter your PIN code, district, and state! 📍`,
+                6: `Enter your email and 6-digit PIN code, ${sName}! ✉️`,
+                7: `Enter your district and state! 🏙️`,
                 8: `Select your current status, ${sName}! 💼`,
                 9: `Select your highest qualification! 📜`,
                 10: `Select your school medium! 📚`,
@@ -1458,6 +1458,7 @@
 
         } else if (stepNum === 6) {
             const em = document.getElementById('cockpitEmail');
+            const pin = document.getElementById('cockpitPincode');
 
             if (!em || !em.value.trim()) {
                 if (em) em.focus();
@@ -1467,21 +1468,21 @@
                 return;
             }
 
-            window.syncCockpitContactInputs();
-            updateCockpitStepView(6, 7, 'next');
-
-        } else if (stepNum === 7) {
-            const pin = document.getElementById('cockpitPincode');
-            const dis = document.getElementById('cockpitDistrict');
-            const st = document.getElementById('cockpitState');
-
             if (!pin || !pin.value.trim()) {
                 if (pin) pin.focus();
-                const card = document.getElementById('missionStep7');
+                const card = document.getElementById('missionStep6');
                 if (card) card.classList.add('field-error-shake');
                 setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
                 return;
             }
+
+            window.syncCockpitContactInputs();
+            window.syncCockpitLocationInputs();
+            updateCockpitStepView(6, 7, 'next');
+
+        } else if (stepNum === 7) {
+            const dis = document.getElementById('cockpitDistrict');
+            const st = document.getElementById('cockpitState');
 
             if (!dis || !dis.value.trim()) {
                 if (dis) dis.focus();
