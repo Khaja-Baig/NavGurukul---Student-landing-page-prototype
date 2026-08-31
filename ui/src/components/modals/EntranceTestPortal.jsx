@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp, etQuestionsData } from '../../context/AppContext';
+import { LaunchTransitionOverlay } from './LaunchTransitionOverlay';
 
 export const EntranceTestPortal = () => {
     const {
@@ -43,28 +44,28 @@ export const EntranceTestPortal = () => {
             title: '1 Hour Complete Test ⏱️',
             desc: 'The test takes approximately 1 hour. Please complete it in a quiet place free from disruptions.',
             theme: 'card-theme-pink',
-            msg: 'Sabse pehle, test complete karne ke liye 1 hour milega. ⏱️'
+            msg: 'Sabse pehle, test complete karne ke liye 1 hour milega.'
         },
         {
             icon: '📝',
             title: 'Notebook & Pen Required 📝',
             desc: 'Keep a rough notebook and pen handy for quick mathematical and logic calculations.',
             theme: 'card-theme-orange',
-            msg: 'Notebook aur pen paas mein zaroor rakhna. 📝'
+            msg: 'Notebook aur pen paas mein zaroor rakhna.'
         },
         {
             icon: '📱',
             title: 'Mobile / Laptop Online Mode 📱',
             desc: 'You can solve all multiple-choice questions directly on your mobile device or laptop screen.',
             theme: 'card-theme-purple',
-            msg: 'Test mobile ya laptop par online hoga. 📱'
+            msg: 'Test mobile ya laptop par online hoga.'
         },
         {
             icon: '🤝',
             title: 'Honesty Policy 🤝',
             desc: 'We evaluate true learning potential. Give your best effort without any unfair means or cheating.',
             theme: 'card-theme-green',
-            msg: 'Aur honestly test dena — bina cheating ke. 🤝'
+            msg: 'Aur honestly test dena — bina cheating ke.'
         }
     ];
 
@@ -187,6 +188,9 @@ export const EntranceTestPortal = () => {
 
     return (
         <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
+            {/* ROCKET MISSION LAUNCH TRANSITION OVERLAY */}
+            <LaunchTransitionOverlay />
+
             {/* Ambient Glowing Background FX */}
             <div className="world-overlay" style={{ opacity: 0.5 }}></div>
             <div className="et-portal-glow glow-1"></div>

@@ -74,7 +74,6 @@ const MainAppContent = () => {
             <StageQuestModal />
             <LoginModal />
             <SlotBookingModal />
-            <LaunchTransitionOverlay />
             <EntranceTestPortal />
         </>
     );

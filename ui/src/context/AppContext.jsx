@@ -133,29 +133,60 @@ export const AppProvider = ({ children }) => {
         setLaunchTransitionText('INITIATING ROCKET LAUNCH...');
         setIsLaunchOverlayOpen(true);
 
+        const env = document.getElementById('rocketInteriorEnv');
+        if (env) env.classList.add('cockpit-intro-sequence');
+
         setTimeout(() => {
             setPortalStep(2);
             setCockpitStep(1);
-        }, 1400);
+
+            // Staggered hologram power-on sequence
+            const holoSys = document.getElementById('cockpitHologramSystem');
+            if (holoSys) {
+                holoSys.className = 'cockpit-hologram-system holo-stage-off';
+                setTimeout(() => { if (holoSys) holoSys.className = 'cockpit-hologram-system holo-stage-powering'; }, 50);
+                setTimeout(() => { if (holoSys) holoSys.className = 'cockpit-hologram-system holo-stage-powering holo-stage-beam'; }, 250);
+                setTimeout(() => { if (holoSys) holoSys.className = 'cockpit-hologram-system holo-stage-powering holo-stage-beam holo-stage-forming'; }, 500);
+                setTimeout(() => { if (holoSys) holoSys.className = 'cockpit-hologram-system holo-stage-ready'; }, 850);
+            }
+        }, 1300);
 
         setTimeout(() => {
             setIsLaunchOverlayOpen(false);
+            if (env) setTimeout(() => env.classList.remove('cockpit-intro-sequence'), 500);
         }, 1800);
     };
 
     const startReverseRocketLaunchTransition = () => {
-        setIsLaunchReverse(true);
-        setLaunchTransitionText('RETURNING TO MISSION BASE...');
-        setIsLaunchOverlayOpen(true);
+        const env = document.getElementById('rocketInteriorEnv');
+        if (env) {
+            env.classList.add('cockpit-exit-sequence');
+        }
+
+        // Staggered hologram power down sequence
+        const holoSys = document.getElementById('cockpitHologramSystem');
+        if (holoSys) {
+            holoSys.className = 'cockpit-hologram-system holo-stage-forming';
+            setTimeout(() => { if (holoSys) holoSys.className = 'cockpit-hologram-system holo-stage-beam'; }, 100);
+            setTimeout(() => { if (holoSys) holoSys.className = 'cockpit-hologram-system holo-stage-powering'; }, 200);
+            setTimeout(() => { if (holoSys) holoSys.className = 'cockpit-hologram-system holo-stage-off'; }, 320);
+        }
+
+        setTimeout(() => {
+            setIsLaunchReverse(true);
+            setLaunchTransitionText('RETURNING TO MISSION BASE...');
+            setIsLaunchOverlayOpen(true);
+        }, 320);
 
         setTimeout(() => {
             setPortalStep(1);
-        }, 1400);
+            if (env) env.classList.remove('cockpit-exit-sequence');
+        }, 1650);
 
         setTimeout(() => {
             setIsLaunchOverlayOpen(false);
             setIsLaunchReverse(false);
-        }, 1800);
+        }, 2050);
     };
 
     const startLiveEtQuiz = () => {
