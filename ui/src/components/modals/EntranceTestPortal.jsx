@@ -169,7 +169,7 @@ export const EntranceTestPortal = () => {
     const handleStripeLeave = () => {
         setActiveStripeIdx(null);
         if (isUserInteracting) {
-            setCustomSpeechMsg(`Kisi bhi instruction par hover karke details padhein ya <strong>START Mission</strong> par click karke apna mission start karein! ✨`);
+            setCustomSpeechMsg(`Kisi bhi instruction par hover karke details padhein ya<br/><strong>START Mission</strong> par click karke apna mission start<br/>karein! ✨`);
         } else {
             setCustomSpeechMsg(null);
         }
