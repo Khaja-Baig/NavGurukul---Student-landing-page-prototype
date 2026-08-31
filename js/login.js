@@ -232,7 +232,7 @@
         }
 
         // Sequential slide-in of the 4 stripes from right
-        let delay = 1800;
+        let delay = 400;
 
         ruleDetails.forEach((detail, index) => {
             const t = setTimeout(() => {
@@ -256,7 +256,7 @@
                 }
             }, delay);
             ruleSequenceTimeouts.push(t);
-            delay += 2200;
+            delay += 1000;
         });
 
         // Stage 5: Final completion & Reveal Ready Button
