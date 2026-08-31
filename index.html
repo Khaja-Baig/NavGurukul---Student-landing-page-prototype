@@ -754,22 +754,12 @@
                 <div class="et-hud-track" id="etHudTrack">
                     <div class="et-hud-fill" id="etHudFill" style="width: 0%;"></div>
 
-                    <!-- Milestone Checkpoints (1. Instructions, 2. Basic Details, 3. Contact & Location) -->
+                    <!-- Milestone Checkpoints (1. Instructions) -->
                     <div class="et-hud-checkpoints">
                         <button class="et-hud-node active" id="etNode1" style="left: 0%;" onclick="goToEtStep(1)"
                             aria-label="1. Instructions">
                             <span class="node-icon">🌱</span>
                             <span class="node-tooltip">1. Instructions</span>
-                        </button>
-                        <button class="et-hud-node" id="etNode2" style="left: 50%;" onclick="goToEtStep(2)"
-                            aria-label="2. Basic Details">
-                            <span class="node-icon">👤</span>
-                            <span class="node-tooltip">2. Basic Details</span>
-                        </button>
-                        <button class="et-hud-node" id="etNode3" style="left: 100%;" onclick="goToEtStep(3)"
-                            aria-label="3. Contact & Location">
-                            <span class="node-icon">📞</span>
-                            <span class="node-tooltip">3. Contact & Location</span>
                         </button>
                     </div>
 
@@ -976,7 +966,7 @@
 
                             <!-- FULL ROCKET INTERIOR COCKPIT ENVIRONMENT -->
                             <div class="rocket-interior-environment" id="rocketInteriorEnv">
-                                
+
                                 <!-- 1. Rocket Cockpit Widescreen Background Layer -->
                                 <div class="cockpit-bg-layer">
                                     <div class="cockpit-bg-img" style="background-image: url('rocket.png');"></div>
@@ -991,7 +981,8 @@
                                     </div>
                                     <div class="copilot-bubble" id="copilotSpeechBubble">
                                         <span class="copilot-bubble-arrow"></span>
-                                        <span class="copilot-bubble-text" id="copilotBubbleText">Welcome aboard! 🚀 What’s your name?</span>
+                                        <span class="copilot-bubble-text" id="copilotBubbleText">Welcome aboard! 🚀
+                                            What’s your name?</span>
                                     </div>
                                 </div>
 
@@ -1022,7 +1013,8 @@
                                             </div>
                                             <div class="holo-scanlines"></div>
                                             <div class="holo-light-sweep"></div>
-                                            <img src="mentor-avatar2.png" alt="Holographic Guide" class="holo-avatar-img" id="holoAvatarImg">
+                                            <img src="mentor-avatar2.png" alt="Holographic Guide"
+                                                class="holo-avatar-img" id="holoAvatarImg">
                                         </div>
 
                                         <!-- Focused Vertical Light Beam -->
@@ -1049,26 +1041,33 @@
                                         <!-- TASK 1: NAME STEP -->
                                         <div class="floating-step-card active" id="missionStep1">
                                             <div class="floating-step-header text-center">
-                                                <h2 class="floating-prompt-title" id="missionPrompt1">What’s your name?</h2>
+                                                <h2 class="floating-prompt-title" id="missionPrompt1">What’s your name?
+                                                </h2>
                                             </div>
 
                                             <div class="floating-step-body">
                                                 <div class="floating-input-group">
                                                     <div class="floating-input-wrapper">
                                                         <span class="floating-icon">👤</span>
-                                                        <input type="text" id="cockpitFirstName" class="floating-text-input"
-                                                            placeholder="First Name (e.g. Rahul)" autocomplete="given-name"
-                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                                        <input type="text" id="cockpitFirstName"
+                                                            class="floating-text-input"
+                                                            placeholder="First Name (e.g. Rahul)"
+                                                            autocomplete="given-name" oninput="syncCockpitNameInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
                                                     </div>
-                                                    <div class="floating-input-wrapper secondary-wrap" style="margin-top: 8px;">
+                                                    <div class="floating-input-wrapper secondary-wrap"
+                                                        style="margin-top: 8px;">
                                                         <span class="floating-icon">📝</span>
-                                                        <input type="text" id="cockpitLastName" class="floating-text-input"
-                                                            placeholder="Last Name (e.g. Kumar)" autocomplete="family-name"
-                                                            oninput="syncCockpitNameInputs()" onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
+                                                        <input type="text" id="cockpitLastName"
+                                                            class="floating-text-input"
+                                                            placeholder="Last Name (e.g. Kumar)"
+                                                            autocomplete="family-name" oninput="syncCockpitNameInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(1);}">
                                                     </div>
                                                 </div>
 
-                                                <div class="mission-greeting-ack" id="missionGreetingAck" style="display:none;">
+                                                <div class="mission-greeting-ack" id="missionGreetingAck"
+                                                    style="display:none;">
                                                     <span class="ack-icon">👋</span>
                                                     <span class="ack-text" id="ackText">Nice to meet you!</span>
                                                     <div class="ack-sparkles">✨ ✦ ⭐</div>
@@ -1076,10 +1075,14 @@
                                             </div>
 
                                             <div class="floating-step-footer flex-between">
-                                                <button type="button" class="floating-action-btn secondary-btn" id="cockpitBackBtnStep1" onclick="startReverseRocketLaunchTransition()" aria-label="Back to Instructions">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    id="cockpitBackBtnStep1"
+                                                    onclick="startReverseRocketLaunchTransition()"
+                                                    aria-label="Back to Instructions">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="floating-action-btn primary-glow-btn" id="cockpitContinueBtnStep1" onclick="advanceCockpitStep(1)">
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    id="cockpitContinueBtnStep1" onclick="advanceCockpitStep(1)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
@@ -1093,12 +1096,15 @@
 
                                             <div class="floating-step-body">
                                                 <div class="floating-photo-box">
-                                                    <label for="etPhotoInput" class="floating-photo-dropzone" id="cockpitPhotoDropzone" title="Click to upload photo">
-                                                        <div class="floating-photo-preview" id="cockpitPhotoPreview" style="display:none;">
+                                                    <label for="etPhotoInput" class="floating-photo-dropzone"
+                                                        id="cockpitPhotoDropzone" title="Click to upload photo">
+                                                        <div class="floating-photo-preview" id="cockpitPhotoPreview"
+                                                            style="display:none;">
                                                             <img id="cockpitPhotoImg" src="" alt="Explorer Photo">
                                                             <span class="photo-change-overlay">✏️ Change Photo</span>
                                                         </div>
-                                                        <div class="floating-photo-placeholder" id="cockpitPhotoPlaceholder">
+                                                        <div class="floating-photo-placeholder"
+                                                            id="cockpitPhotoPlaceholder">
                                                             <div class="photo-cam-icon-glow">📷</div>
                                                             <span class="photo-main-text">Add Your Photo</span>
                                                         </div>
@@ -1107,10 +1113,12 @@
                                             </div>
 
                                             <div class="floating-step-footer flex-between">
-                                                <button type="button" class="floating-action-btn secondary-btn" onclick="prevCockpitStep(2)">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(2)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="floating-action-btn primary-glow-btn" id="cockpitPhotoContinueBtn" onclick="advanceCockpitStep(2)">
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    id="cockpitPhotoContinueBtn" onclick="advanceCockpitStep(2)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
@@ -1125,15 +1133,18 @@
                                             <div class="floating-step-body">
                                                 <div class="floating-dob-group">
                                                     <span class="dob-calendar-icon">📅</span>
-                                                    <input type="date" id="cockpitDobInput" class="floating-date-picker" onchange="syncCockpitDobInput()">
+                                                    <input type="date" id="cockpitDobInput" class="floating-date-picker"
+                                                        onchange="syncCockpitDobInput()">
                                                 </div>
                                             </div>
 
                                             <div class="floating-step-footer flex-between">
-                                                <button type="button" class="floating-action-btn secondary-btn" onclick="prevCockpitStep(3)">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(3)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="floating-action-btn primary-glow-btn" onclick="advanceCockpitStep(3)">
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(3)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
@@ -1147,17 +1158,20 @@
 
                                             <div class="floating-step-body">
                                                 <div class="floating-gender-row">
-                                                    <button type="button" class="floating-gender-btn" data-gender="Male" onclick="selectCockpitGender('Male')">
+                                                    <button type="button" class="floating-gender-btn" data-gender="Male"
+                                                        onclick="selectCockpitGender('Male')">
                                                         <span class="gender-btn-icon">👨‍🚀</span>
                                                         <span class="gender-btn-label">Male</span>
                                                         <span class="gender-btn-check">✓</span>
                                                     </button>
-                                                    <button type="button" class="floating-gender-btn" data-gender="Female" onclick="selectCockpitGender('Female')">
+                                                    <button type="button" class="floating-gender-btn"
+                                                        data-gender="Female" onclick="selectCockpitGender('Female')">
                                                         <span class="gender-btn-icon">👩‍🚀</span>
                                                         <span class="gender-btn-label">Female</span>
                                                         <span class="gender-btn-check">✓</span>
                                                     </button>
-                                                    <button type="button" class="floating-gender-btn" data-gender="Other" onclick="selectCockpitGender('Other')">
+                                                    <button type="button" class="floating-gender-btn"
+                                                        data-gender="Other" onclick="selectCockpitGender('Other')">
                                                         <span class="gender-btn-icon">🧑‍🚀</span>
                                                         <span class="gender-btn-label">Other</span>
                                                         <span class="gender-btn-check">✓</span>
@@ -1166,35 +1180,341 @@
                                             </div>
 
                                             <div class="floating-step-footer flex-between">
-                                                <button type="button" class="floating-action-btn secondary-btn" onclick="prevCockpitStep(4)">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(4)">
                                                     <span>← Back</span>
                                                 </button>
-                                                <button type="button" class="floating-action-btn primary-glow-btn" onclick="advanceCockpitStep(4)">
-                                                    <span>Complete Profile →</span>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(4)">
+                                                    <span>Continue →</span>
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <!-- TASK 5: FINAL PROFILE COMPLETION -->
+                                        <!-- TASK 5: CONTACT PHONE NUMBERS -->
                                         <div class="floating-step-card" id="missionStep5">
                                             <div class="floating-step-header text-center">
-                                                <h2 class="floating-prompt-title ready-sparkle-title">Profile ready, Explorer! 🚀</h2>
+                                                <h2 class="floating-prompt-title">How can we reach you? 📱</h2>
+                                            </div>
+
+                                            <div class="floating-step-body">
+                                                <div class="floating-input-group">
+                                                    <div class="floating-input-wrapper">
+                                                        <span class="floating-icon">💬</span>
+                                                        <input type="tel" id="cockpitWhatsapp"
+                                                            class="floating-text-input"
+                                                            placeholder="WhatsApp Number (e.g. 9876543210)"
+                                                            oninput="syncCockpitContactInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(5);}">
+                                                    </div>
+                                                    <div class="floating-input-wrapper secondary-wrap"
+                                                        style="margin-top: 10px;">
+                                                        <span class="floating-icon">📞</span>
+                                                        <input type="tel" id="cockpitPhone" class="floating-text-input"
+                                                            placeholder="Calling Phone Number"
+                                                            oninput="syncCockpitContactInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(5);}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(5)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(5)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- TASK 6: EMAIL ADDRESS (DEDICATED STEP) -->
+                                        <div class="floating-step-card" id="missionStep6">
+                                            <div class="floating-step-header text-center">
+                                                <h2 class="floating-prompt-title">What is your email address? ✉️</h2>
+                                            </div>
+
+                                            <div class="floating-step-body">
+                                                <div class="floating-input-group">
+                                                    <div class="floating-input-wrapper">
+                                                        <span class="floating-icon">✉️</span>
+                                                        <input type="email" id="cockpitEmail"
+                                                            class="floating-text-input"
+                                                            placeholder="Email Address (e.g. student@gmail.com)"
+                                                            oninput="syncCockpitContactInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(6);}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(6)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(6)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- TASK 7: LOCATION DETAILS -->
+                                        <div class="floating-step-card" id="missionStep7">
+                                            <div class="floating-step-header text-center">
+                                                <h2 class="floating-prompt-title">Where are you located? 📍</h2>
+                                            </div>
+
+                                            <div class="floating-step-body">
+                                                <div class="floating-input-group">
+                                                    <div class="floating-input-wrapper">
+                                                        <span class="floating-icon">📍</span>
+                                                        <input type="text" id="cockpitPincode"
+                                                            class="floating-text-input" maxlength="6"
+                                                            placeholder="6-Digit PIN Code"
+                                                            oninput="syncCockpitLocationInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(7);}">
+                                                    </div>
+                                                    <div class="floating-input-wrapper secondary-wrap"
+                                                        style="margin-top: 8px;">
+                                                        <span class="floating-icon">🏙️</span>
+                                                        <input type="text" id="cockpitDistrict"
+                                                            class="floating-text-input"
+                                                            placeholder="District (e.g. Patna)"
+                                                            oninput="syncCockpitLocationInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(7);}">
+                                                    </div>
+                                                    <div class="floating-input-wrapper secondary-wrap"
+                                                        style="margin-top: 8px;">
+                                                        <span class="floating-icon">🗺️</span>
+                                                        <input type="text" id="cockpitState" class="floating-text-input"
+                                                            placeholder="State (e.g. Bihar)"
+                                                            oninput="syncCockpitLocationInputs()"
+                                                            onkeydown="if(event.key==='Enter'){event.preventDefault();advanceCockpitStep(7);}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(7)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(7)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- TASK 8: CURRENT STATUS STEP -->
+                                        <div class="floating-step-card" id="missionStep8">
+                                            <div class="floating-step-header text-center">
+                                                <h2 class="floating-prompt-title">What is your current status? 💼</h2>
+                                            </div>
+
+                                            <div class="floating-step-body">
+                                                <div class="floating-gender-row">
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="status" data-value="Student"
+                                                        onclick="selectCockpitPill('status', 'Student')">
+                                                        <span class="gender-btn-icon">🎓</span>
+                                                        <span class="gender-btn-label">Student</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="status" data-value="Job Seeker"
+                                                        onclick="selectCockpitPill('status', 'Job Seeker')">
+                                                        <span class="gender-btn-icon">💼</span>
+                                                        <span class="gender-btn-label">Job Seeker</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="status" data-value="Other"
+                                                        onclick="selectCockpitPill('status', 'Other')">
+                                                        <span class="gender-btn-icon">🌟</span>
+                                                        <span class="gender-btn-label">Other</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(8)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(8)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- TASK 9: HIGHEST QUALIFICATION STEP -->
+                                        <div class="floating-step-card" id="missionStep9">
+                                            <div class="floating-step-header text-center">
+                                                <h2 class="floating-prompt-title">What is your highest qualification? 📜
+                                                </h2>
+                                            </div>
+
+                                            <div class="floating-step-body">
+                                                <div class="floating-gender-row">
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="qualification" data-value="10th Pass"
+                                                        onclick="selectCockpitPill('qualification', '10th Pass')">
+                                                        <span class="gender-btn-icon">📜</span>
+                                                        <span class="gender-btn-label">10th Pass</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="qualification" data-value="12th Pass"
+                                                        onclick="selectCockpitPill('qualification', '12th Pass')">
+                                                        <span class="gender-btn-icon">📖</span>
+                                                        <span class="gender-btn-label">12th Pass</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="qualification" data-value="Graduate"
+                                                        onclick="selectCockpitPill('qualification', 'Graduate')">
+                                                        <span class="gender-btn-icon">🎓</span>
+                                                        <span class="gender-btn-label">Graduate</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(9)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(9)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- TASK 10: SCHOOL MEDIUM STEP -->
+                                        <div class="floating-step-card" id="missionStep10">
+                                            <div class="floating-step-header text-center">
+                                                <h2 class="floating-prompt-title">What was your school medium? 📚</h2>
+                                            </div>
+
+                                            <div class="floating-step-body">
+                                                <div class="floating-gender-row">
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="medium" data-value="Hindi"
+                                                        onclick="selectCockpitPill('medium', 'Hindi')">
+                                                        <span class="gender-btn-icon">📚</span>
+                                                        <span class="gender-btn-label">Hindi</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="medium" data-value="English"
+                                                        onclick="selectCockpitPill('medium', 'English')">
+                                                        <span class="gender-btn-icon">🌐</span>
+                                                        <span class="gender-btn-label">English</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="medium" data-value="Vernacular/Regional"
+                                                        onclick="selectCockpitPill('medium', 'Vernacular/Regional')">
+                                                        <span class="gender-btn-icon">🗣️</span>
+                                                        <span class="gender-btn-label">Regional</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(10)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(10)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- TASK 11: CASTE / CATEGORY STEP -->
+                                        <div class="floating-step-card" id="missionStep11">
+                                            <div class="floating-step-header text-center">
+                                                <h2 class="floating-prompt-title">Select your category / caste 👥</h2>
+                                            </div>
+
+                                            <div class="floating-step-body">
+                                                <div class="floating-gender-row">
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="category" data-value="General"
+                                                        onclick="selectCockpitPill('category', 'General')">
+                                                        <span class="gender-btn-icon">👥</span>
+                                                        <span class="gender-btn-label">General</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="category" data-value="OBC"
+                                                        onclick="selectCockpitPill('category', 'OBC')">
+                                                        <span class="gender-btn-icon">👥</span>
+                                                        <span class="gender-btn-label">OBC</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                    <button type="button" class="floating-gender-btn cockpit-pill-btn"
+                                                        data-field="category" data-value="SC/ST"
+                                                        onclick="selectCockpitPill('category', 'SC/ST')">
+                                                        <span class="gender-btn-icon">👥</span>
+                                                        <span class="gender-btn-label">SC / ST</span>
+                                                        <span class="gender-btn-check">✓</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(11)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn"
+                                                    onclick="advanceCockpitStep(11)">
+                                                    <span>Continue →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- TASK 12: FINAL ROCKET PROFILE CONFIRMATION & LAUNCH TEST -->
+                                        <div class="floating-step-card" id="missionStep12">
+                                            <div class="floating-step-header text-center">
+                                                <h2 class="floating-prompt-title ready-sparkle-title">All Systems Ready!
+                                                    🚀</h2>
                                             </div>
 
                                             <div class="floating-step-body text-center">
                                                 <div class="floating-summary-seal">
-                                                    <div class="summary-avatar-preview" id="summaryAvatarPreview">👤</div>
-                                                    <div class="summary-details">
-                                                        <div class="summary-name" id="summaryExplorerName">Explorer Name</div>
-                                                        <div class="summary-sub">NavGurukul Entrance Mission</div>
+                                                    <div class="summary-avatar-preview" id="summaryAvatarPreview">👨‍🚀
                                                     </div>
-                                                    <span class="summary-check-seal">✓ READY</span>
+                                                    <div class="summary-details">
+                                                        <div class="summary-name" id="summaryExplorerName">Explorer Name
+                                                        </div>
+                                                        <div class="summary-sub" id="summaryExplorerLocation">Location &
+                                                            Qualification Verified</div>
+                                                    </div>
+                                                    <span class="summary-check-seal">✓ ALL VERIFIED</span>
                                                 </div>
                                             </div>
 
-                                            <div class="floating-step-footer center-footer">
-                                                <button type="button" class="floating-action-btn launch-glow-btn" onclick="finishCockpitOnboarding()">
-                                                    <span>Continue Mission →</span>
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn"
+                                                    onclick="prevCockpitStep(12)">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn launch-glow-btn"
+                                                    onclick="finishCockpitOnboarding()">
+                                                    <span>START Entrance Test 🚀</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -1205,395 +1525,382 @@
                             </div>
                         </div>
 
-                                    <!-- Cockpit Bottom Control Bar & Pulsing Lights -->
-                                    <div class="cockpit-controls-bar">
-                                        <div class="control-light light-1"></div>
-                                        <div class="control-light light-2"></div>
-                                        <span class="cockpit-status-tag">SYSTEM STATUS: READY ⚡</span>
-                                        <div class="control-light light-3"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- HIDDEN ORIGINAL FORM FIELDS FOR FULL COMPATIBILITY & FORM SUBMISSION -->
-                            <div class="et-original-hidden-fields" style="display: none;">
-                                <input type="file" id="etPhotoInput" accept="image/*"
-                                    onchange="handleEtPhotoUpload(event)">
-                                <div id="etPhotoCard" class="et-photo-tile-card">
-                                    <div id="etPhotoPreviewWrap" style="display:none;"><img id="etPhotoImg" src="">
-                                    </div>
-                                    <div id="etPhotoTileBadge"></div>
-                                    <span id="etPhotoLabel"></span>
-                                    <span id="etPhotoSub"></span>
-                                </div>
-                                <input type="text" id="etFirstName">
-                                <input type="text" id="etMiddleName">
-                                <input type="text" id="etLastName">
-                                <input type="date" id="etDob">
-                                <input type="radio" name="etGender" value="Male">
-                                <input type="radio" name="etGender" value="Female">
-                                <input type="radio" name="etGender" value="Other">
-                                <button type="button" id="etStep1NextBtn" onclick="handleStep1Next(event)">Next</button>
-                            </div>
-
-                            <div class="et-pane-actions flex-between mt-20" style="display: none;">
-                                <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(1)">
-                                    ← Back to Instructions
-                                </button>
-                            </div>
+                        <!-- Cockpit Bottom Control Bar & Pulsing Lights -->
+                        <div class="cockpit-controls-bar">
+                            <div class="control-light light-1"></div>
+                            <div class="control-light light-2"></div>
+                            <span class="cockpit-status-tag">SYSTEM STATUS: READY ⚡</span>
+                            <div class="control-light light-3"></div>
                         </div>
-
-                        <!-- SUB-QUEST 2: CONTACT, EDUCATION & LOCATION DETAILS (MERGED) -->
-                        <div class="sub-quest-pane" id="subQuestPane2">
-                            <!-- Gamified Banner Header -->
-                            <div class="subquest-banner banner-orange mb-16">
-                                <div class="banner-left">
-                                    <span class="banner-badge badge-orange">✨ STAGE 2 / 2</span>
-                                    <h3 class="banner-title">Contact, Education & Location Details</h3>
-                                </div>
-                            </div>
-
-                            <!-- Section 1: Contact Information -->
-                            <div class="et-form-section sec-card-orange mb-16" id="etStep2ContactCard">
-                                <div class="sec-corner-icon icon-orange"><span>📞</span></div>
-                                <h4 class="et-section-title sec-title-orange">
-                                    <span class="sec-num-badge num-orange">2</span> CONTACT INFORMATION
-                                </h4>
-                                <div class="form-grid-3">
-                                    <div class="form-group" id="groupWhatsapp">
-                                        <label for="etWhatsapp" class="form-label">WhatsApp Number <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-orange-fill">💬</span>
-                                            <input type="tel" id="etWhatsapp" class="form-input et-input"
-                                                placeholder="Enter WhatsApp number (e.g. 9876543210)">
-                                            <span class="input-valid-check" id="checkWhatsapp">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupPhone">
-                                        <label for="etPhone" class="form-label">Phone Number <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-orange-fill">📞</span>
-                                            <input type="tel" id="etPhone" class="form-input et-input"
-                                                placeholder="Enter calling phone number">
-                                            <span class="input-valid-check" id="checkPhone">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupEmail">
-                                        <label for="etEmail" class="form-label">Email Address <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-orange-fill">✉️</span>
-                                            <input type="email" id="etEmail" class="form-input et-input"
-                                                placeholder="student@example.com">
-                                            <span class="input-valid-check" id="checkEmail">✓</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Section 2: Education & Location Details -->
-                            <div class="et-form-section sec-card-green" id="etStep2EduCard">
-                                <div class="sec-corner-icon icon-green"><span>🏫</span></div>
-                                <h4 class="et-section-title sec-title-green">
-                                    <span class="sec-num-badge num-green">3</span> EDUCATION & LOCATION DETAILS
-                                </h4>
-                                <div class="form-grid-3 mb-16">
-                                    <div class="form-group" id="groupPincode">
-                                        <label for="etPincode" class="form-label">Pin Code <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-green-fill">📍</span>
-                                            <input type="text" id="etPincode" class="form-input et-input"
-                                                placeholder="6-digit PIN" maxlength="6">
-                                            <span class="input-valid-check" id="checkPincode">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupDistrict">
-                                        <label for="etDistrict" class="form-label">District <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-green-fill">🏙️</span>
-                                            <input type="text" id="etDistrict" class="form-input et-input"
-                                                placeholder="District name">
-                                            <span class="input-valid-check" id="checkDistrict">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupState">
-                                        <label for="etState" class="form-label">State <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-green-fill">🗺️</span>
-                                            <input type="text" id="etState" class="form-input et-input"
-                                                placeholder="State name">
-                                            <span class="input-valid-check" id="checkState">✓</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-grid-4">
-                                    <div class="form-group" id="groupCurrentStatus">
-                                        <label for="etCurrentStatus" class="form-label">Current Status <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <select id="etCurrentStatus" class="form-input et-select">
-                                                <option value="">Select Option</option>
-                                                <option value="Student">Student</option>
-                                                <option value="Job Seeker">Job Seeker</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                            <span class="input-valid-check" id="checkCurrentStatus">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupQualification">
-                                        <label for="etQualification" class="form-label">Highest Qualification <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-green-fill select-icon-shift">🎓</span>
-                                            <select id="etQualification" class="form-input et-select has-icon-select">
-                                                <option value="">Select Qualification</option>
-                                                <option value="10th Pass">10th Pass</option>
-                                                <option value="12th Pass">12th Pass</option>
-                                                <option value="Graduate">Graduate / Diploma</option>
-                                            </select>
-                                            <span class="input-valid-check" id="checkQualification">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupMedium">
-                                        <label for="etMedium" class="form-label">School Medium <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-green-fill select-icon-shift">📚</span>
-                                            <select id="etMedium" class="form-input et-select has-icon-select">
-                                                <option value="">Select Medium</option>
-                                                <option value="Hindi">Hindi</option>
-                                                <option value="English">English</option>
-                                                <option value="Vernacular/Regional">Regional Language</option>
-                                            </select>
-                                            <span class="input-valid-check" id="checkMedium">✓</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" id="groupCategory">
-                                        <label for="etCategory" class="form-label">Caste / Category <span
-                                                class="req-star">*</span></label>
-                                        <div class="input-icon-group">
-                                            <span class="input-icon icon-green-fill select-icon-shift">👥</span>
-                                            <select id="etCategory" class="form-input et-select has-icon-select">
-                                                <option value="">Select Category</option>
-                                                <option value="General">General</option>
-                                                <option value="OBC">OBC</option>
-                                                <option value="SC/ST">SC / ST</option>
-                                            </select>
-                                            <span class="input-valid-check" id="checkCategory">✓</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="et-pane-actions flex-between mt-20">
-                                <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(2)">
-                                    ← Back to Basic Details
-                                </button>
-                                <button type="submit" class="submit-glow-btn compact-btn rocket-submit-btn"
-                                    id="etSubmitProfileBtn">
-                                    <span>Submit Profile & Start Entrance Test 🚀</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
+    </div>
 
-                <!-- STEP 3: LIVE MCQ ENTRANCE TEST PANE -->
-                <div class="et-step-pane" id="etStep3">
-                    <div class="et-quiz-wrapper">
-                        <!-- Single Unified Question Card Container -->
-                        <div class="et-question-card">
-                            <!-- Quiz Header & 1-Hour Live Countdown Timer -->
-                            <div class="et-quiz-topbar">
-                                <div class="et-quiz-meta">
-                                    <h3 class="et-quiz-subject">🧮 NavGurukul Logic & Problem Solving Test</h3>
-                                </div>
+    <!-- HIDDEN ORIGINAL FORM FIELDS FOR FULL COMPATIBILITY & FORM SUBMISSION -->
+    <div class="et-original-hidden-fields" style="display: none;">
+        <input type="file" id="etPhotoInput" accept="image/*" onchange="handleEtPhotoUpload(event)">
+        <div id="etPhotoCard" class="et-photo-tile-card">
+            <div id="etPhotoPreviewWrap" style="display:none;"><img id="etPhotoImg" src="">
+            </div>
+            <div id="etPhotoTileBadge"></div>
+            <span id="etPhotoLabel"></span>
+            <span id="etPhotoSub"></span>
+        </div>
+        <input type="text" id="etFirstName">
+        <input type="text" id="etMiddleName">
+        <input type="text" id="etLastName">
+        <input type="date" id="etDob">
+        <input type="radio" name="etGender" value="Male">
+        <input type="radio" name="etGender" value="Female">
+        <input type="radio" name="etGender" value="Other">
+        <button type="button" id="etStep1NextBtn" onclick="handleStep1Next(event)">Next</button>
+    </div>
 
-                                <!-- Live 1-Hour Timer Pill Badge -->
-                                <div class="et-quiz-timer-card" id="etQuizTimerCard">
-                                    <div class="timer-ring-icon">⌛</div>
-                                    <div class="timer-text-wrap">
-                                        <span class="timer-label">TIME REMAINING</span>
-                                        <span id="etQuizTimerText" class="timer-numbers">59:34</span>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="et-pane-actions flex-between mt-20" style="display: none;">
+        <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(1)">
+            ← Back to Instructions
+        </button>
+    </div>
+    </div>
 
-                            <div class="et-topbar-divider"></div>
+    <!-- SUB-QUEST 2: CONTACT, EDUCATION & LOCATION DETAILS (MERGED) -->
+    <div class="sub-quest-pane" id="subQuestPane2">
+        <!-- Gamified Banner Header -->
+        <div class="subquest-banner banner-orange mb-16">
+            <div class="banner-left">
+                <span class="banner-badge badge-orange">✨ STAGE 2 / 2</span>
+                <h3 class="banner-title">Contact, Education & Location Details</h3>
+            </div>
+        </div>
 
-                            <!-- Question Number Badge -->
-                            <div class="et-question-header">
-                                <span id="etQNumBadge" class="et-qnum-badge">Question 1/16</span>
-                            </div>
+        <!-- Section 1: Contact Information -->
+        <div class="et-form-section sec-card-orange mb-16" id="etStep2ContactCard">
+            <div class="sec-corner-icon icon-orange"><span>📞</span></div>
+            <h4 class="et-section-title sec-title-orange">
+                <span class="sec-num-badge num-orange">2</span> CONTACT INFORMATION
+            </h4>
+            <div class="form-grid-3">
+                <div class="form-group" id="groupWhatsapp">
+                    <label for="etWhatsapp" class="form-label">WhatsApp Number <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-orange-fill">💬</span>
+                        <input type="tel" id="etWhatsapp" class="form-input et-input"
+                            placeholder="Enter WhatsApp number (e.g. 9876543210)">
+                        <span class="input-valid-check" id="checkWhatsapp">✓</span>
+                    </div>
+                </div>
+                <div class="form-group" id="groupPhone">
+                    <label for="etPhone" class="form-label">Phone Number <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-orange-fill">📞</span>
+                        <input type="tel" id="etPhone" class="form-input et-input"
+                            placeholder="Enter calling phone number">
+                        <span class="input-valid-check" id="checkPhone">✓</span>
+                    </div>
+                </div>
+                <div class="form-group" id="groupEmail">
+                    <label for="etEmail" class="form-label">Email Address <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-orange-fill">✉️</span>
+                        <input type="email" id="etEmail" class="form-input et-input" placeholder="student@example.com">
+                        <span class="input-valid-check" id="checkEmail">✓</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                            <!-- Blue Question Box with Q Badge -->
-                            <div class="et-question-box">
-                                <div class="q-circle-badge">Q</div>
-                                <h3 id="etQuestionText" class="et-question-text">
-                                    Loading question...
-                                </h3>
-                            </div>
+        <!-- Section 2: Education & Location Details -->
+        <div class="et-form-section sec-card-green" id="etStep2EduCard">
+            <div class="sec-corner-icon icon-green"><span>🏫</span></div>
+            <h4 class="et-section-title sec-title-green">
+                <span class="sec-num-badge num-green">3</span> EDUCATION & LOCATION DETAILS
+            </h4>
+            <div class="form-grid-3 mb-16">
+                <div class="form-group" id="groupPincode">
+                    <label for="etPincode" class="form-label">Pin Code <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-green-fill">📍</span>
+                        <input type="text" id="etPincode" class="form-input et-input" placeholder="6-digit PIN"
+                            maxlength="6">
+                        <span class="input-valid-check" id="checkPincode">✓</span>
+                    </div>
+                </div>
+                <div class="form-group" id="groupDistrict">
+                    <label for="etDistrict" class="form-label">District <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-green-fill">🏙️</span>
+                        <input type="text" id="etDistrict" class="form-input et-input" placeholder="District name">
+                        <span class="input-valid-check" id="checkDistrict">✓</span>
+                    </div>
+                </div>
+                <div class="form-group" id="groupState">
+                    <label for="etState" class="form-label">State <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-green-fill">🗺️</span>
+                        <input type="text" id="etState" class="form-input et-input" placeholder="State name">
+                        <span class="input-valid-check" id="checkState">✓</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid-4">
+                <div class="form-group" id="groupCurrentStatus">
+                    <label for="etCurrentStatus" class="form-label">Current Status <span
+                            class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <select id="etCurrentStatus" class="form-input et-select">
+                            <option value="">Select Option</option>
+                            <option value="Student">Student</option>
+                            <option value="Job Seeker">Job Seeker</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="input-valid-check" id="checkCurrentStatus">✓</span>
+                    </div>
+                </div>
+                <div class="form-group" id="groupQualification">
+                    <label for="etQualification" class="form-label">Highest Qualification <span
+                            class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-green-fill select-icon-shift">🎓</span>
+                        <select id="etQualification" class="form-input et-select has-icon-select">
+                            <option value="">Select Qualification</option>
+                            <option value="10th Pass">10th Pass</option>
+                            <option value="12th Pass">12th Pass</option>
+                            <option value="Graduate">Graduate / Diploma</option>
+                        </select>
+                        <span class="input-valid-check" id="checkQualification">✓</span>
+                    </div>
+                </div>
+                <div class="form-group" id="groupMedium">
+                    <label for="etMedium" class="form-label">School Medium <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-green-fill select-icon-shift">📚</span>
+                        <select id="etMedium" class="form-input et-select has-icon-select">
+                            <option value="">Select Medium</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="English">English</option>
+                            <option value="Vernacular/Regional">Regional Language</option>
+                        </select>
+                        <span class="input-valid-check" id="checkMedium">✓</span>
+                    </div>
+                </div>
+                <div class="form-group" id="groupCategory">
+                    <label for="etCategory" class="form-label">Caste / Category <span class="req-star">*</span></label>
+                    <div class="input-icon-group">
+                        <span class="input-icon icon-green-fill select-icon-shift">👥</span>
+                        <select id="etCategory" class="form-input et-select has-icon-select">
+                            <option value="">Select Category</option>
+                            <option value="General">General</option>
+                            <option value="OBC">OBC</option>
+                            <option value="SC/ST">SC / ST</option>
+                        </select>
+                        <span class="input-valid-check" id="checkCategory">✓</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                            <!-- 4 Option Buttons -->
-                            <div class="et-options-grid" id="etOptionsGrid">
-                                <!-- Populated dynamically -->
-                            </div>
+        <div class="et-pane-actions flex-between mt-20">
+            <button type="button" class="et-sec-btn back-inst-btn" onclick="goToEtStep(2)">
+                ← Back to Basic Details
+            </button>
+            <button type="submit" class="submit-glow-btn compact-btn rocket-submit-btn" id="etSubmitProfileBtn">
+                <span>Submit Profile & Start Entrance Test 🚀</span>
+            </button>
+        </div>
+    </div>
+    </form>
+    </div>
 
-                            <!-- Quiz Action Footer -->
-                            <div class="et-quiz-footer">
-                                <div class="et-footer-encouragement">
-                                    <div class="target-icon-wrap">🎯</div>
-                                    <div class="encouragement-text">
-                                        <div class="enc-title">You can do it, <span
-                                                class="student-name-placeholder">Sujit</span>!</div>
-                                        <div class="enc-sub">Think smart, not just hard! 💪</div>
-                                    </div>
-                                    <div class="enc-divider"></div>
-                                </div>
+    <!-- STEP 3: LIVE MCQ ENTRANCE TEST PANE -->
+    <div class="et-step-pane" id="etStep3">
+        <div class="et-quiz-wrapper">
+            <!-- Single Unified Question Card Container -->
+            <div class="et-question-card">
+                <!-- Quiz Header & 1-Hour Live Countdown Timer -->
+                <div class="et-quiz-topbar">
+                    <div class="et-quiz-meta">
+                        <h3 class="et-quiz-subject">🧮 NavGurukul Logic & Problem Solving Test</h3>
+                    </div>
 
-                                <div class="et-footer-nav-btns" style="display: flex; align-items: center; gap: 12px;">
-                                    <button type="button" class="et-prev-btn" id="etPrevQBtn" onclick="prevEtQuestion()"
-                                        style="visibility: hidden;">
-                                        ← Previous Question
-                                    </button>
-
-                                    <div class="et-next-btn-wrap">
-                                        <button type="button" class="submit-glow-btn compact-btn gradient-next-btn"
-                                            id="etNextQBtn" onclick="nextEtQuestion()">
-                                            <span>Next Question →</span>
-                                        </button>
-                                        <span class="btn-sparkle">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffb703"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Live 1-Hour Timer Pill Badge -->
+                    <div class="et-quiz-timer-card" id="etQuizTimerCard">
+                        <div class="timer-ring-icon">⌛</div>
+                        <div class="timer-text-wrap">
+                            <span class="timer-label">TIME REMAINING</span>
+                            <span id="etQuizTimerText" class="timer-numbers">59:34</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- STEP 4: ENTRANCE TEST RESULT & INTERVIEW SLOT BOOKING DASHBOARD -->
-                <div class="et-step-pane" id="etStep4">
-                    <div class="et-results-container">
-                        <!-- Results Page Header -->
-                        <div class="res-page-header">
-                            <div class="res-header-left">
-                                <div class="res-header-icon">📄</div>
-                                <div>
-                                    <h2 class="res-page-title">Student Results</h2>
-                                    <p class="res-page-sub">Track your test results and interview slot booking status.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="et-topbar-divider"></div>
 
-                        <!-- Student Details Card -->
-                        <div class="res-card res-student-card">
-                            <div class="res-card-title">
-                                <span class="card-title-icon">👤</span>
-                                <h3>Student Details</h3>
-                            </div>
-                            <div class="res-details-grid">
-                                <div class="res-detail-item">
-                                    <span class="res-detail-label">Name:</span>
-                                    <span class="res-detail-val" id="resStudentName">Sujit Kumar</span>
-                                </div>
-                                <div class="res-detail-item">
-                                    <span class="res-detail-label">Email:</span>
-                                    <span class="res-detail-val" id="resStudentEmail">student@example.com</span>
-                                </div>
-                                <div class="res-detail-item">
-                                    <span class="res-detail-label">Phone Number:</span>
-                                    <span class="res-detail-val" id="resStudentPhone">9915694098</span>
-                                </div>
-                                <div class="res-detail-item">
-                                    <span class="res-detail-label">State:</span>
-                                    <span class="res-detail-val" id="resStudentState">Bihar</span>
-                                </div>
-                                <div class="res-detail-item full-width">
-                                    <span class="res-detail-label">Selected School:</span>
-                                    <span class="res-detail-val" id="resStudentSchool">School of Programming
-                                        (SOP)</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Test Results & Slot Booking Card -->
-                        <div class="res-card res-results-card">
-                            <div class="res-card-title">
-                                <span class="card-title-icon">📑</span>
-                                <h3>Test Results & Slot Booking</h3>
-                            </div>
-
-                            <div class="res-table-wrapper">
-                                <table class="res-table">
-                                    <thead>
-                                        <tr>
-                                            <th>STAGE</th>
-                                            <th>STATUS</th>
-                                            <th>SCHEDULED TIME</th>
-                                            <th>ACTIONS</th>
-                                            <th>MARKS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="resTableBody">
-                                        <!-- Dynamically populated by renderEtResultTable() -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Question Number Badge -->
+                <div class="et-question-header">
+                    <span id="etQNumBadge" class="et-qnum-badge">Question 1/16</span>
                 </div>
 
-                <!-- BOOK INTERVIEW SLOT MODAL -->
-                <div class="et-slot-modal-backdrop" id="slotBookingModal" style="display: none;">
-                    <div class="et-slot-modal-card">
-                        <div class="slot-modal-header">
-                            <div>
-                                <h3 class="slot-modal-title">Book Interview Slot (Learning Round)</h3>
-                                <div class="slot-modal-user" id="slotModalUserInfo">👤 Sujit Kumar • student@example.com
-                                </div>
+                <!-- Blue Question Box with Q Badge -->
+                <div class="et-question-box">
+                    <div class="q-circle-badge">Q</div>
+                    <h3 id="etQuestionText" class="et-question-text">
+                        Loading question...
+                    </h3>
+                </div>
+
+                <!-- 4 Option Buttons -->
+                <div class="et-options-grid" id="etOptionsGrid">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Quiz Action Footer -->
+                <div class="et-quiz-footer">
+                    <div class="et-footer-encouragement">
+                        <div class="target-icon-wrap">🎯</div>
+                        <div class="encouragement-text">
+                            <div class="enc-title">You can do it, <span class="student-name-placeholder">Sujit</span>!
                             </div>
-                            <button type="button" class="slot-modal-close" onclick="closeSlotBookingModal()">✕</button>
+                            <div class="enc-sub">Think smart, not just hard! 💪</div>
                         </div>
-                        <div class="slot-modal-body">
-                            <div class="form-group mb-16">
-                                <label class="form-label">📅 Select Date</label>
-                                <div class="slot-date-picker-wrap">
-                                    <input type="date" id="slotDatePicker" class="form-input et-input"
-                                        onchange="updateSelectedDatePreview()">
-                                    <div class="slot-date-preview" id="slotDatePreview">Selected Date: Thursday, August
-                                        27, 2026</div>
-                                </div>
-                            </div>
+                        <div class="enc-divider"></div>
+                    </div>
 
-                            <div class="form-group mb-20">
-                                <label class="form-label">⏰ Available Time Slots</label>
-                                <div class="slot-chips-grid">
-                                    <div class="slot-chip selected" onclick="selectSlotChip(this)">10:00 AM - 11:00 AM
-                                    </div>
-                                    <div class="slot-chip" onclick="selectSlotChip(this)">02:00 PM - 03:00 PM</div>
-                                    <div class="slot-chip" onclick="selectSlotChip(this)">05:00 PM - 06:00 PM</div>
-                                </div>
-                            </div>
+                    <div class="et-footer-nav-btns" style="display: flex; align-items: center; gap: 12px;">
+                        <button type="button" class="et-prev-btn" id="etPrevQBtn" onclick="prevEtQuestion()"
+                            style="visibility: hidden;">
+                            ← Previous Question
+                        </button>
 
-                            <button type="button" class="submit-glow-btn full-width" onclick="confirmSlotBooking()">
-                                <span>Confirm & Book Slot 🎯</span>
+                        <div class="et-next-btn-wrap">
+                            <button type="button" class="submit-glow-btn compact-btn gradient-next-btn" id="etNextQBtn"
+                                onclick="nextEtQuestion()">
+                                <span>Next Question →</span>
                             </button>
+                            <span class="btn-sparkle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffb703"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                                </svg>
+                            </span>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 4: ENTRANCE TEST RESULT & INTERVIEW SLOT BOOKING DASHBOARD -->
+    <div class="et-step-pane" id="etStep4">
+        <div class="et-results-container">
+            <!-- Results Page Header -->
+            <div class="res-page-header">
+                <div class="res-header-left">
+                    <div class="res-header-icon">📄</div>
+                    <div>
+                        <h2 class="res-page-title">Student Results</h2>
+                        <p class="res-page-sub">Track your test results and interview slot booking status.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Details Card -->
+            <div class="res-card res-student-card">
+                <div class="res-card-title">
+                    <span class="card-title-icon">👤</span>
+                    <h3>Student Details</h3>
+                </div>
+                <div class="res-details-grid">
+                    <div class="res-detail-item">
+                        <span class="res-detail-label">Name:</span>
+                        <span class="res-detail-val" id="resStudentName">Sujit Kumar</span>
+                    </div>
+                    <div class="res-detail-item">
+                        <span class="res-detail-label">Email:</span>
+                        <span class="res-detail-val" id="resStudentEmail">student@example.com</span>
+                    </div>
+                    <div class="res-detail-item">
+                        <span class="res-detail-label">Phone Number:</span>
+                        <span class="res-detail-val" id="resStudentPhone">9915694098</span>
+                    </div>
+                    <div class="res-detail-item">
+                        <span class="res-detail-label">State:</span>
+                        <span class="res-detail-val" id="resStudentState">Bihar</span>
+                    </div>
+                    <div class="res-detail-item full-width">
+                        <span class="res-detail-label">Selected School:</span>
+                        <span class="res-detail-val" id="resStudentSchool">School of Programming
+                            (SOP)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Results & Slot Booking Card -->
+            <div class="res-card res-results-card">
+                <div class="res-card-title">
+                    <span class="card-title-icon">📑</span>
+                    <h3>Test Results & Slot Booking</h3>
+                </div>
+
+                <div class="res-table-wrapper">
+                    <table class="res-table">
+                        <thead>
+                            <tr>
+                                <th>STAGE</th>
+                                <th>STATUS</th>
+                                <th>SCHEDULED TIME</th>
+                                <th>ACTIONS</th>
+                                <th>MARKS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resTableBody">
+                            <!-- Dynamically populated by renderEtResultTable() -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOK INTERVIEW SLOT MODAL -->
+    <div class="et-slot-modal-backdrop" id="slotBookingModal" style="display: none;">
+        <div class="et-slot-modal-card">
+            <div class="slot-modal-header">
+                <div>
+                    <h3 class="slot-modal-title">Book Interview Slot (Learning Round)</h3>
+                    <div class="slot-modal-user" id="slotModalUserInfo">👤 Sujit Kumar • student@example.com
+                    </div>
+                </div>
+                <button type="button" class="slot-modal-close" onclick="closeSlotBookingModal()">✕</button>
+            </div>
+            <div class="slot-modal-body">
+                <div class="form-group mb-16">
+                    <label class="form-label">📅 Select Date</label>
+                    <div class="slot-date-picker-wrap">
+                        <input type="date" id="slotDatePicker" class="form-input et-input"
+                            onchange="updateSelectedDatePreview()">
+                        <div class="slot-date-preview" id="slotDatePreview">Selected Date: Thursday, August
+                            27, 2026</div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-20">
+                    <label class="form-label">⏰ Available Time Slots</label>
+                    <div class="slot-chips-grid">
+                        <div class="slot-chip selected" onclick="selectSlotChip(this)">10:00 AM - 11:00 AM
+                        </div>
+                        <div class="slot-chip" onclick="selectSlotChip(this)">02:00 PM - 03:00 PM</div>
+                        <div class="slot-chip" onclick="selectSlotChip(this)">05:00 PM - 06:00 PM</div>
+                    </div>
+                </div>
+
+                <button type="button" class="submit-glow-btn full-width" onclick="confirmSlotBooking()">
+                    <span>Confirm & Book Slot 🎯</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    </section>
+    </main>
     </div>
 
     <!-- External Modular Scripts -->

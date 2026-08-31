@@ -6146,15 +6146,27 @@ select.et-select::-ms-expand,
     transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
-#missionStep4.active .floating-gender-btn:nth-child(1) {
+#missionStep4.active .floating-gender-btn:nth-child(1),
+#missionStep8.active .floating-gender-btn:nth-child(1),
+#missionStep9.active .floating-gender-btn:nth-child(1),
+#missionStep10.active .floating-gender-btn:nth-child(1),
+#missionStep11.active .floating-gender-btn:nth-child(1) {
     animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
 }
 
-#missionStep4.active .floating-gender-btn:nth-child(2) {
+#missionStep4.active .floating-gender-btn:nth-child(2),
+#missionStep8.active .floating-gender-btn:nth-child(2),
+#missionStep9.active .floating-gender-btn:nth-child(2),
+#missionStep10.active .floating-gender-btn:nth-child(2),
+#missionStep11.active .floating-gender-btn:nth-child(2) {
     animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.18s both;
 }
 
-#missionStep4.active .floating-gender-btn:nth-child(3) {
+#missionStep4.active .floating-gender-btn:nth-child(3),
+#missionStep8.active .floating-gender-btn:nth-child(3),
+#missionStep9.active .floating-gender-btn:nth-child(3),
+#missionStep10.active .floating-gender-btn:nth-child(3),
+#missionStep11.active .floating-gender-btn:nth-child(3) {
     animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.26s both;
 }
 
@@ -7411,6 +7423,73 @@ select.et-select::-ms-expand,
     font-weight: 700;
     color: #94a3b8;
     letter-spacing: 0.5px;
+}
+
+/* Cockpit Option Section & Pill Buttons */
+.cockpit-options-scroll {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.cockpit-options-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.cockpit-options-scroll::-webkit-scrollbar-thumb {
+    background: rgba(233, 30, 99, 0.4);
+    border-radius: 4px;
+}
+
+.cockpit-option-section {
+    text-align: left;
+}
+
+.cockpit-option-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 5px;
+    display: block;
+    letter-spacing: 0.3px;
+}
+
+.cockpit-pills-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.cockpit-pill-btn {
+    flex: 1;
+    min-width: 90px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #f1f5f9;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    outline: none;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.cockpit-pill-btn:hover {
+    background: rgba(233, 30, 99, 0.15);
+    border-color: rgba(233, 30, 99, 0.5);
+    color: #ffffff;
+}
+
+.cockpit-pill-btn.selected {
+    background: linear-gradient(135deg, rgba(233, 30, 99, 0.4), rgba(245, 158, 11, 0.3));
+    border-color: #e91e63;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 0 14px rgba(233, 30, 99, 0.4);
 }
 
 .field-error-shake {

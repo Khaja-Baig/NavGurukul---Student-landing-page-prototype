@@ -1229,7 +1229,7 @@
             }
 
             setTimeout(() => {
-                for (let i = 1; i <= 5; i++) {
+                for (let i = 1; i <= 12; i++) {
                     if (i !== nextStep) {
                         const card = document.getElementById('missionStep' + i);
                         if (card) card.classList.remove('active', 'exit-right', 'exit-left', 'enter-left', 'enter-right');
@@ -1237,7 +1237,7 @@
                 }
             }, 480);
         } else {
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 12; i++) {
                 const card = document.getElementById('missionStep' + i);
                 if (card) {
                     card.classList.toggle('active', i === nextStep);
@@ -1256,8 +1256,15 @@
             1: `Hey Explorer! 👋<br>What’s your name?`,
             2: `Great, ${sName}! 📸<br>Let’s add your photo`,
             3: `Awesome! 🎂<br>When’s your birthday?`,
-            4: `One last detail ✨<br>Select your option`,
-            5: `Profile ready! 🚀<br>Let’s launch your test`
+            4: `Select your option ✨<br>Almost done with basic details`,
+            5: `Contact Phone 📱<br>How can we reach you?`,
+            6: `Email Address ✉️<br>Enter your email address`,
+            7: `Location Details 📍<br>Where are you located?`,
+            8: `Current Status 💼<br>Are you a student or job seeker?`,
+            9: `Qualification 📜<br>What is your education level?`,
+            10: `School Medium 📚<br>In which language did you study?`,
+            11: `Category Info 👥<br>Select your caste / category`,
+            12: `All Systems Ready! 🚀<br>Launch Entrance Test`
         };
 
         if (holoCaptionText && holoMsgs[nextStep]) {
@@ -1287,8 +1294,15 @@
                 1: `Welcome aboard! 🚀 What’s your name?`,
                 2: `Looking great, ${sName}! Let’s add your photo 📸`,
                 3: `Awesome! When is your birthday? 🎂`,
-                4: `Almost ready, ${sName}! Which option describes you best? ✨`,
-                5: `Woohoo ${sName}! Your rocket profile is locked in! 🚀`
+                4: `Which option describes you best, ${sName}? ✨`,
+                5: `Enter your WhatsApp & calling numbers! 📱`,
+                6: `Enter your email address, ${sName}! ✉️`,
+                7: `Enter your PIN code, district, and state! 📍`,
+                8: `Select your current status, ${sName}! 💼`,
+                9: `Select your highest qualification! 📜`,
+                10: `Select your school medium! 📚`,
+                11: `Select your category, ${sName}! 👥`,
+                12: `Woohoo ${sName}! Your rocket profile is locked in! 🚀`
             };
             if (bubbleContainer) bubbleContainer.classList.add('bubble-updating');
             setTimeout(() => {
@@ -1324,6 +1338,52 @@
             window.studentName = cockpitFn.value.trim();
             const placeholders = document.querySelectorAll('.student-name-placeholder');
             placeholders.forEach(p => p.textContent = window.studentName);
+        }
+    };
+
+    window.syncCockpitContactInputs = function () {
+        const cockpitWa = document.getElementById('cockpitWhatsapp');
+        const cockpitPh = document.getElementById('cockpitPhone');
+        const cockpitEm = document.getElementById('cockpitEmail');
+        const etWa = document.getElementById('etWhatsapp');
+        const etPh = document.getElementById('etPhone');
+        const etEm = document.getElementById('etEmail');
+
+        if (etWa && cockpitWa) etWa.value = cockpitWa.value.trim();
+        if (etPh && cockpitPh) etPh.value = cockpitPh.value.trim();
+        if (etEm && cockpitEm) etEm.value = cockpitEm.value.trim();
+    };
+
+    window.syncCockpitLocationInputs = function () {
+        const cockpitPin = document.getElementById('cockpitPincode');
+        const cockpitDis = document.getElementById('cockpitDistrict');
+        const cockpitSt = document.getElementById('cockpitState');
+        const etPin = document.getElementById('etPincode');
+        const etDis = document.getElementById('etDistrict');
+        const etSt = document.getElementById('etState');
+
+        if (etPin && cockpitPin) etPin.value = cockpitPin.value.trim();
+        if (etDis && cockpitDis) etDis.value = cockpitDis.value.trim();
+        if (etSt && cockpitSt) etSt.value = cockpitSt.value.trim();
+    };
+
+    window.selectCockpitPill = function (field, value) {
+        const btns = document.querySelectorAll(`.cockpit-pill-btn[data-field="${field}"]`);
+        btns.forEach(btn => {
+            btn.classList.toggle('selected', btn.getAttribute('data-value') === value);
+        });
+
+        const targetSelectMap = {
+            'status': 'etCurrentStatus',
+            'qualification': 'etQualification',
+            'medium': 'etMedium',
+            'category': 'etCategory'
+        };
+
+        const targetId = targetSelectMap[field];
+        if (targetId) {
+            const select = document.getElementById(targetId);
+            if (select) select.value = value;
         }
     };
 
@@ -1377,8 +1437,120 @@
 
             updateCockpitStepView(4, 5, 'next');
 
+        } else if (stepNum === 5) {
+            const wa = document.getElementById('cockpitWhatsapp');
+            const ph = document.getElementById('cockpitPhone');
+
+            if (!wa || !wa.value.trim()) {
+                if (wa) wa.focus();
+                const card = document.getElementById('missionStep5');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+
+            if (!ph || !ph.value.trim()) {
+                if (ph) ph.value = wa.value.trim();
+            }
+
+            window.syncCockpitContactInputs();
+            updateCockpitStepView(5, 6, 'next');
+
+        } else if (stepNum === 6) {
+            const em = document.getElementById('cockpitEmail');
+
+            if (!em || !em.value.trim()) {
+                if (em) em.focus();
+                const card = document.getElementById('missionStep6');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+
+            window.syncCockpitContactInputs();
+            updateCockpitStepView(6, 7, 'next');
+
+        } else if (stepNum === 7) {
+            const pin = document.getElementById('cockpitPincode');
+            const dis = document.getElementById('cockpitDistrict');
+            const st = document.getElementById('cockpitState');
+
+            if (!pin || !pin.value.trim()) {
+                if (pin) pin.focus();
+                const card = document.getElementById('missionStep7');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+
+            if (!dis || !dis.value.trim()) {
+                if (dis) dis.focus();
+                const card = document.getElementById('missionStep7');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+
+            if (!st || !st.value.trim()) {
+                if (st) st.focus();
+                const card = document.getElementById('missionStep7');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+
+            window.syncCockpitLocationInputs();
+            updateCockpitStepView(7, 8, 'next');
+
+        } else if (stepNum === 8) {
+            const val = document.getElementById('etCurrentStatus')?.value;
+            if (!val) {
+                const card = document.getElementById('missionStep8');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+            updateCockpitStepView(8, 9, 'next');
+
+        } else if (stepNum === 9) {
+            const val = document.getElementById('etQualification')?.value;
+            if (!val) {
+                const card = document.getElementById('missionStep9');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+            updateCockpitStepView(9, 10, 'next');
+
+        } else if (stepNum === 10) {
+            const val = document.getElementById('etMedium')?.value;
+            if (!val) {
+                const card = document.getElementById('missionStep10');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+            updateCockpitStepView(10, 11, 'next');
+
+        } else if (stepNum === 11) {
+            const val = document.getElementById('etCategory')?.value;
+            if (!val) {
+                const card = document.getElementById('missionStep11');
+                if (card) card.classList.add('field-error-shake');
+                setTimeout(() => card && card.classList.remove('field-error-shake'), 600);
+                return;
+            }
+            updateCockpitStepView(11, 12, 'next');
+
             const sNameEl = document.getElementById('summaryExplorerName');
+            const sLocEl = document.getElementById('summaryExplorerLocation');
             if (sNameEl) sNameEl.innerText = window.studentName || 'Explorer';
+            if (sLocEl) {
+                const disVal = document.getElementById('cockpitDistrict')?.value || '';
+                const stVal = document.getElementById('cockpitState')?.value || '';
+                const qual = document.getElementById('etQualification')?.value || '';
+                sLocEl.innerText = `${disVal}${disVal && stVal ? ', ' : ''}${stVal} • ${qual}`;
+            }
         }
     };
 
@@ -1412,23 +1584,11 @@
     window.finishCockpitOnboarding = function () {
         window.syncCockpitNameInputs();
         window.syncCockpitDobInput();
+        window.syncCockpitContactInputs();
+        window.syncCockpitLocationInputs();
 
-        const portalScreen = document.getElementById('entranceTestPortalScreen');
-        if (portalScreen) portalScreen.classList.remove('et-cockpit-mode');
-
-        // Advance to subQuestPane2 (Contact, Location & Education stage)
-        const sub1 = document.getElementById('subQuestPane1');
-        const sub2 = document.getElementById('subQuestPane2');
-        if (sub1) sub1.classList.remove('active');
-        if (sub2) sub2.classList.add('active');
-
-        const bubble = document.getElementById('etPortalSpeechBubble') || document.getElementById('loginSpeechBubble');
-        if (bubble) {
-            bubble.innerHTML = `Great job ${window.studentName || 'Explorer'}! Now fill in your contact & location details! 📍`;
-            bubble.classList.remove('speech-bounce');
-            void bubble.offsetWidth;
-            bubble.classList.add('speech-bounce');
-        }
+        const mockEvent = { preventDefault: function () { } };
+        window.handleEtProfileSubmit(mockEvent);
     };
 
     window.handleEtPhotoUpload = function (event) {
