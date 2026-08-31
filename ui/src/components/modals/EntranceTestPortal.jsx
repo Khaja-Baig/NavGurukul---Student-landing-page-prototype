@@ -113,6 +113,25 @@ export const EntranceTestPortal = () => {
         };
     }, [isPortalOpen, portalStep]);
 
+    // Avatar Gesture & Speech Bubble Reaction on Step Changes (Matches legacy JS)
+    useEffect(() => {
+        if (portalStep === 2) {
+            const wrapper = document.getElementById('holoAvatarWrapper');
+            if (wrapper) {
+                wrapper.classList.remove('holo-gesture-react');
+                void wrapper.offsetWidth; // trigger reflow for animation restart
+                wrapper.classList.add('holo-gesture-react');
+            }
+
+            const caption = document.getElementById('holoGuideCaption');
+            if (caption) {
+                caption.classList.remove('caption-pop');
+                void caption.offsetWidth; // trigger reflow for animation restart
+                caption.classList.add('caption-pop');
+            }
+        }
+    }, [cockpitStep, portalStep]);
+
     if (!isPortalOpen) return null;
 
     const name = (studentName && studentName !== 'Friend') ? studentName : 'Friend';
