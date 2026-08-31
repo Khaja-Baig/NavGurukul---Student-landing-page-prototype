@@ -5573,16 +5573,7 @@ select.et-select::-ms-expand,
 }
 
 .launch-thruster-flame {
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 45px;
-    height: 75px;
-    background: linear-gradient(to bottom, #fef08a, #ea580c, rgba(233, 30, 99, 0));
-    border-radius: 50%;
-    filter: blur(4px);
-    animation: flamePulse 0.15s ease-in-out infinite alternate;
+    display: none !important;
 }
 
 .launch-status-text {
@@ -7959,5 +7950,102 @@ select.et-select::-ms-expand,
         max-width: 140px;
         font-size: 11px;
         padding: 6px 10px;
+    }
+}
+
+/* ==========================================================================
+   REVERSE ROCKET LAUNCH TRANSITION & STAGGERED COCKPIT EXIT STYLES
+   ========================================================================== */
+
+/* 1. Staggered Shutdown & Exit of Cockpit Elements */
+.cockpit-exit-sequence .cockpit-floating-stage {
+    opacity: 0 !important;
+    transform: translate(-50%, -40%) scale(0.92) !important;
+    transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1), transform 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.cockpit-exit-sequence .cockpit-copilot-floating-bar {
+    opacity: 0 !important;
+    transform: translate(-50%, -30px) scale(0.8) !important;
+    transition: opacity 0.35s ease, transform 0.35s ease !important;
+}
+
+.cockpit-exit-sequence .cockpit-hologram-system {
+    opacity: 0 !important;
+    transform: translateY(-40%) scale(0.7) !important;
+    transition: opacity 0.35s ease 0.08s, transform 0.35s ease 0.08s !important;
+}
+
+.cockpit-exit-sequence .cockpit-bg-layer {
+    filter: brightness(0.3) blur(6px) !important;
+    transform: scale(0.95) !important;
+    transition: filter 0.5s ease 0.15s, transform 0.5s ease 0.15s !important;
+}
+
+/* 2. Reverse Rocket Return / Landing Overlay */
+.et-launch-overlay.reverse .launch-rocket-stage {
+    animation: rocketZoomReturn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.et-launch-overlay.reverse .launch-rocket-body {
+    animation: rocketThrusterShakeReverse 0.08s linear infinite alternate !important;
+}
+
+.et-launch-overlay.reverse .launch-thruster-flame {
+    display: none !important;
+}
+
+@keyframes rocketThrusterShakeReverse {
+    0% {
+        transform: rotate(180deg) translate(-2px, -1px);
+    }
+
+    100% {
+        transform: rotate(180deg) translate(2px, 1px);
+    }
+}
+
+.et-launch-overlay.reverse .launch-speed-lines {
+    animation: speedLinesWarpReverse 0.8s linear infinite;
+}
+
+@keyframes rocketZoomReturn {
+    0% {
+        transform: scale(0.3) translateY(-180px);
+        filter: blur(10px);
+        opacity: 0;
+    }
+
+    30% {
+        transform: scale(1.1) translateY(-30px);
+        filter: blur(0px);
+        opacity: 1;
+    }
+
+    70% {
+        transform: scale(1.8) translateY(40px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(4) translateY(220px);
+        filter: blur(16px);
+        opacity: 0;
+    }
+}
+
+@keyframes speedLinesWarpReverse {
+    0% {
+        transform: scale(2.8);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.2;
     }
 }

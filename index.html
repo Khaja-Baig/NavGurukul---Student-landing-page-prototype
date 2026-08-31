@@ -1075,8 +1075,11 @@
                                                 </div>
                                             </div>
 
-                                            <div class="floating-step-footer center-footer">
-                                                <button type="button" class="floating-action-btn primary-glow-btn" onclick="advanceCockpitStep(1)">
+                                            <div class="floating-step-footer flex-between">
+                                                <button type="button" class="floating-action-btn secondary-btn" id="cockpitBackBtnStep1" onclick="startReverseRocketLaunchTransition()" aria-label="Back to Instructions">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button type="button" class="floating-action-btn primary-glow-btn" id="cockpitContinueBtnStep1" onclick="advanceCockpitStep(1)">
                                                     <span>Continue →</span>
                                                 </button>
                                             </div>
@@ -1098,7 +1101,6 @@
                                                         <div class="floating-photo-placeholder" id="cockpitPhotoPlaceholder">
                                                             <div class="photo-cam-icon-glow">📷</div>
                                                             <span class="photo-main-text">Add Your Photo</span>
-                                                            <span class="photo-sub-text">Click to select photo</span>
                                                         </div>
                                                     </label>
                                                 </div>

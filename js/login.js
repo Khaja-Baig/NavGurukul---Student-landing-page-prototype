@@ -1003,17 +1003,28 @@
     // ROCKET MISSION LAUNCH TRANSITION & COCKPIT ONBOARDING MANAGER
     // ==========================================================================
     let currentCockpitStep = 1;
+    let isRocketTransitioning = false;
 
     window.startRocketLaunchTransition = function () {
+        if (isRocketTransitioning) return;
+        isRocketTransitioning = true;
+
         const overlay = document.getElementById('etLaunchTransitionOverlay');
         const startBtn = document.getElementById('etStartBtn');
+        const statusText = overlay ? overlay.querySelector('.launch-status-text') : null;
+
+        if (statusText) {
+            statusText.textContent = 'INITIATING ROCKET LAUNCH...';
+        }
 
         if (startBtn) {
             startBtn.style.transform = 'scale(2.2)';
             startBtn.style.opacity = '0';
+            startBtn.disabled = true;
         }
 
         if (overlay) {
+            overlay.classList.remove('reverse');
             overlay.style.display = 'flex';
             void overlay.offsetWidth;
             overlay.classList.add('active');
@@ -1027,11 +1038,83 @@
             if (startBtn) {
                 startBtn.style.transform = '';
                 startBtn.style.opacity = '';
+                startBtn.disabled = false;
             }
 
             window.goToEtStep(2);
             window.initCockpitOnboarding();
+            isRocketTransitioning = false;
         }, 1800);
+    };
+
+    window.startReverseRocketLaunchTransition = function () {
+        if (isRocketTransitioning) return;
+        isRocketTransitioning = true;
+
+        // 1. Disable all action buttons during transition to prevent multi-clicks
+        const allBtns = document.querySelectorAll('.floating-action-btn, #etStartBtn');
+        allBtns.forEach(btn => btn.disabled = true);
+
+        const overlay = document.getElementById('etLaunchTransitionOverlay');
+        const statusText = overlay ? overlay.querySelector('.launch-status-text') : null;
+        const env = document.getElementById('rocketInteriorEnv');
+
+        // 2. Phase 1 & 2: Staggered exit of Onboarding UI & Holographic guide
+        if (env) {
+            env.classList.add('cockpit-exit-sequence');
+        }
+        window.shutdownHologramProjectionSequence();
+
+        // 3. Phase 3: Trigger Reverse Rocket Launch Overlay (rotate 180deg landing sequence)
+        setTimeout(() => {
+            if (statusText) {
+                statusText.textContent = 'RETURNING TO MISSION BASE...';
+            }
+            if (overlay) {
+                overlay.classList.add('reverse');
+                overlay.style.display = 'flex';
+                void overlay.offsetWidth;
+                overlay.classList.add('active');
+            }
+        }, 320);
+
+        // 4. Phase 4: Restore Original Instructions Page cleanly
+        setTimeout(() => {
+            if (overlay) {
+                overlay.classList.remove('active');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    overlay.classList.remove('reverse');
+                    if (statusText) {
+                        statusText.textContent = 'INITIATING ROCKET LAUNCH...';
+                    }
+                }, 400);
+            }
+
+            // Restore application state to Instructions Page (Step 1)
+            const portalScreen = document.getElementById('entranceTestPortalScreen');
+            if (portalScreen) portalScreen.classList.remove('et-cockpit-mode');
+
+            window.goToEtStep(1);
+
+            // Reset cockpit exit sequence styles
+            if (env) {
+                env.classList.remove('cockpit-exit-sequence');
+            }
+
+            // Restore Start Mission button appearance & functionality
+            const startBtn = document.getElementById('etStartBtn');
+            if (startBtn) {
+                startBtn.style.transform = '';
+                startBtn.style.opacity = '';
+                startBtn.disabled = false;
+            }
+
+            // Re-enable action buttons
+            allBtns.forEach(btn => btn.disabled = false);
+
+            isRocketTransitioning = false;
+        }, 1650);
     };
 
     window.startHologramProjectionSequence = function () {
@@ -1061,6 +1144,22 @@
                 caption.classList.add('caption-pop');
             }
         }, 850);
+    };
+
+    window.shutdownHologramProjectionSequence = function () {
+        const holoSys = document.getElementById('cockpitHologramSystem');
+        if (!holoSys) return;
+
+        holoSys.className = 'cockpit-hologram-system holo-stage-forming';
+        setTimeout(() => {
+            holoSys.className = 'cockpit-hologram-system holo-stage-beam';
+        }, 100);
+        setTimeout(() => {
+            holoSys.className = 'cockpit-hologram-system holo-stage-powering';
+        }, 200);
+        setTimeout(() => {
+            holoSys.className = 'cockpit-hologram-system holo-stage-off';
+        }, 320);
     };
 
     window.initCockpitOnboarding = function () {
@@ -1284,10 +1383,13 @@
     };
 
     window.prevCockpitStep = function (stepNum) {
+        if (isRocketTransitioning) return;
         if (currentCockpitStep > 1) {
             const prev = currentCockpitStep;
             const next = currentCockpitStep - 1;
             updateCockpitStepView(prev, next, 'prev');
+        } else {
+            window.startReverseRocketLaunchTransition();
         }
     };
 
