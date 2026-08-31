@@ -46,8 +46,20 @@ export const AppProvider = ({ children }) => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isPortalOpen, setIsPortalOpen] = useState(false);
     const [portalStep, setPortalStep] = useState(1);
-    const [isSlotModalOpen, setIsSlotModalOpen] = useState(false);
+    const [cockpitStep, setCockpitStep] = useState(1);
+
+    // Rocket Launch Overlay State
     const [isLaunchOverlayOpen, setIsLaunchOverlayOpen] = useState(false);
+    const [launchTransitionText, setLaunchTransitionText] = useState('INITIATING ROCKET LAUNCH...');
+    const [isLaunchReverse, setIsLaunchReverse] = useState(false);
+
+    // Quiz & Attempt State
+    const [userAnswers, setUserAnswers] = useState({});
+    const [currentQuizQIndex, setCurrentQuizQIndex] = useState(0);
+    const [quizTimerSeconds, setQuizTimerSeconds] = useState(3600);
+    const [attemptHistory, setAttemptHistory] = useState([]);
+    const [bookedInterviewSlot, setBookedInterviewSlot] = useState(null);
+    const [isSlotModalOpen, setIsSlotModalOpen] = useState(false);
 
     // Screen 5 Roadmap State
     const [s5CurrentStage, setS5CurrentStage] = useState(0);
@@ -66,7 +78,8 @@ export const AppProvider = ({ children }) => {
         qualification: '',
         guardianName: '',
         guardianPhone: '',
-        pinCode: '',
+        pincode: '',
+        district: '',
         email: ''
     });
 
@@ -75,7 +88,7 @@ export const AppProvider = ({ children }) => {
         setXpToasts(prev => [...prev, { id, text }]);
         setTimeout(() => {
             setXpToasts(prev => prev.filter(t => t.id !== id));
-        }, 1200);
+        }, 1500);
     };
 
     const go = (n, addXp = true) => {
@@ -113,13 +126,68 @@ export const AppProvider = ({ children }) => {
 
     const openSlotModal = () => setIsSlotModalOpen(true);
     const closeSlotModal = () => setIsSlotModalOpen(false);
+    const openSlotBookingModal = () => setIsSlotModalOpen(true);
 
-    const triggerLaunchTransition = (onComplete) => {
+    const startRocketLaunchTransition = () => {
+        setIsLaunchReverse(false);
+        setLaunchTransitionText('INITIATING ROCKET LAUNCH...');
         setIsLaunchOverlayOpen(true);
+
+        setTimeout(() => {
+            setPortalStep(2);
+            setCockpitStep(1);
+        }, 1400);
+
         setTimeout(() => {
             setIsLaunchOverlayOpen(false);
-            if (onComplete) onComplete();
-        }, 3200);
+        }, 1800);
+    };
+
+    const startReverseRocketLaunchTransition = () => {
+        setIsLaunchReverse(true);
+        setLaunchTransitionText('RETURNING TO MISSION BASE...');
+        setIsLaunchOverlayOpen(true);
+
+        setTimeout(() => {
+            setPortalStep(1);
+        }, 1400);
+
+        setTimeout(() => {
+            setIsLaunchOverlayOpen(false);
+            setIsLaunchReverse(false);
+        }, 1800);
+    };
+
+    const startLiveEtQuiz = () => {
+        setUserAnswers({});
+        setCurrentQuizQIndex(0);
+        setQuizTimerSeconds(3600);
+        setPortalStep(5);
+    };
+
+    const finishEtQuiz = () => {
+        let correctCount = 0;
+        etQuestionsData.forEach((q, idx) => {
+            if (userAnswers[idx] === q.correct) {
+                correctCount++;
+            }
+        });
+        const marks = correctCount * 8; // out of 24
+        const isPassed = marks >= 12;
+        const now = new Date();
+        const timeStr = `${now.toLocaleDateString()} ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+        const newAttempt = {
+            attemptNum: attemptHistory.length + 1,
+            timeStr,
+            marks,
+            isPassed
+        };
+
+        setAttemptHistory(prev => [newAttempt, ...prev]);
+        setXp(prev => prev + 500);
+        triggerXpToast('+500 XP 🎉 Screening Test Submitted!');
+        setPortalStep(4);
     };
 
     return (
@@ -150,13 +218,29 @@ export const AppProvider = ({ children }) => {
                 isPortalOpen,
                 portalStep,
                 setPortalStep,
+                cockpitStep,
+                setCockpitStep,
                 openPortalAtStep,
                 closePortal,
                 isSlotModalOpen,
                 openSlotModal,
                 closeSlotModal,
+                openSlotBookingModal,
                 isLaunchOverlayOpen,
-                triggerLaunchTransition,
+                launchTransitionText,
+                isLaunchReverse,
+                startRocketLaunchTransition,
+                startReverseRocketLaunchTransition,
+                userAnswers,
+                setUserAnswers,
+                currentQuizQIndex,
+                setCurrentQuizQIndex,
+                quizTimerSeconds,
+                startLiveEtQuiz,
+                finishEtQuiz,
+                attemptHistory,
+                bookedInterviewSlot,
+                setBookedInterviewSlot,
                 s5CurrentStage,
                 setS5CurrentStage,
                 s5IsWalking,

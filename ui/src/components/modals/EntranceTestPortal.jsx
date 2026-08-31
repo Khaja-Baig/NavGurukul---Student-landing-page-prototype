@@ -28,33 +28,14 @@ export const EntranceTestPortal = () => {
     } = useApp();
 
     const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState('');
-    const [activeStripeHover, setActiveStripeHover] = useState(null);
     const [loginLang, setLoginLang] = useState('en');
 
-    if (!isPortalOpen) return null;
-
-    const name = (studentName && studentName !== 'Friend') ? studentName : 'Friend';
-
-    const formatTime = (secs) => {
-        const m = Math.floor(secs / 60);
-        const s = secs % 60;
-        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-    };
-
-    const handlePhotoUpload = (e) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const url = ev.target?.result;
-                if (url) {
-                    setUploadedPhotoUrl(url);
-                    setUserProfile(prev => ({ ...prev, photoUrl: url }));
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+    // Guided Rule Sequence Animation States
+    const [visibleStripes, setVisibleStripes] = useState([false, false, false, false]);
+    const [activeStripeIdx, setActiveStripeIdx] = useState(null);
+    const [isStartBtnVisible, setIsStartBtnVisible] = useState(false);
+    const [isUserInteracting, setIsUserInteracting] = useState(false);
+    const [customSpeechMsg, setCustomSpeechMsg] = useState(null);
 
     const stripeRules = [
         {
@@ -87,12 +68,106 @@ export const EntranceTestPortal = () => {
         }
     ];
 
-    const currentStripeMsg = activeStripeHover !== null
-        ? stripeRules[activeStripeHover].msg
-        : `Aao <span class="student-name-placeholder">${name}</span>! Rules dhyan se padhein aur Entrance Test start karein! 📝`;
+    useEffect(() => {
+        if (!isPortalOpen || portalStep !== 1) return;
+
+        let timers = [];
+        setIsUserInteracting(false);
+        setVisibleStripes([false, false, false, false]);
+        setActiveStripeIdx(null);
+        setIsStartBtnVisible(false);
+        setCustomSpeechMsg(null);
+
+        // Delay 400ms -> Stripe 0
+        timers.push(setTimeout(() => {
+            setVisibleStripes([true, false, false, false]);
+            setActiveStripeIdx(0);
+        }, 400));
+
+        // Delay 1400ms -> Stripe 1
+        timers.push(setTimeout(() => {
+            setVisibleStripes([true, true, false, false]);
+            setActiveStripeIdx(1);
+        }, 1400));
+
+        // Delay 2400ms -> Stripe 2
+        timers.push(setTimeout(() => {
+            setVisibleStripes([true, true, true, false]);
+            setActiveStripeIdx(2);
+        }, 2400));
+
+        // Delay 3400ms -> Stripe 3
+        timers.push(setTimeout(() => {
+            setVisibleStripes([true, true, true, true]);
+            setActiveStripeIdx(3);
+        }, 3400));
+
+        // Delay 4400ms -> Reveal Start Button and clear highlight
+        timers.push(setTimeout(() => {
+            setActiveStripeIdx(null);
+            setIsStartBtnVisible(true);
+        }, 4400));
+
+        return () => {
+            timers.forEach(t => clearTimeout(t));
+        };
+    }, [isPortalOpen, portalStep]);
+
+    if (!isPortalOpen) return null;
+
+    const name = (studentName && studentName !== 'Friend') ? studentName : 'Friend';
+
+    const formatTime = (secs) => {
+        const m = Math.floor(secs / 60);
+        const s = secs % 60;
+        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    };
+
+    const handlePhotoUpload = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const url = ev.target?.result;
+                if (url) {
+                    setUploadedPhotoUrl(url);
+                    setUserProfile(prev => ({ ...prev, photoUrl: url }));
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleStripeHover = (idx) => {
+        setIsUserInteracting(true);
+        setVisibleStripes([true, true, true, true]);
+        setIsStartBtnVisible(true);
+        setActiveStripeIdx(idx);
+        setCustomSpeechMsg(stripeRules[idx].msg);
+    };
+
+    const handleStripeLeave = () => {
+        setActiveStripeIdx(null);
+        if (isUserInteracting) {
+            setCustomSpeechMsg(`Kisi bhi instruction par hover karke details padhein ya <strong>START Mission</strong> par click karke apna mission start karein! ✨`);
+        } else {
+            setCustomSpeechMsg(null);
+        }
+    };
+
+    let currentStripeMsg = '';
+    if (customSpeechMsg) {
+        currentStripeMsg = customSpeechMsg;
+    } else if (activeStripeIdx !== null && activeStripeIdx < stripeRules.length) {
+        currentStripeMsg = stripeRules[activeStripeIdx].msg;
+    } else if (isStartBtnVisible) {
+        currentStripeMsg = `Jab aap ready ho jain, toh <strong>START Mission</strong> par click karke apna mission start karein! 🚀`;
+    } else {
+        currentStripeMsg = `Hey <span class="student-name-placeholder">${name}</span>! Aage badhne se pehle kuch important instructions padh lo. 💡`;
+    }
 
     return (
-        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
+        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
             {/* Ambient Glowing Background FX */}
             <div className="world-overlay" style={{ opacity: 0.5 }}></div>
             <div className="et-portal-glow glow-1"></div>
@@ -223,7 +298,7 @@ export const EntranceTestPortal = () => {
                                 <div className="et-circle-start-wrap">
                                     <button
                                         type="button"
-                                        className="et-circle-start-btn et-ready-btn visible"
+                                        className={`et-circle-start-btn et-ready-btn ${isStartBtnVisible ? 'visible' : ''}`}
                                         id="etStartBtn"
                                         onClick={startRocketLaunchTransition}
                                         aria-label="Start Entrance Test"
@@ -245,13 +320,13 @@ export const EntranceTestPortal = () => {
                                 </div>
 
                                 {/* 4 Colored Rules Stripes Grid */}
-                                <div className="et-rules-grid" onMouseLeave={() => setActiveStripeHover(null)}>
+                                <div className="et-rules-grid" onMouseLeave={handleStripeLeave}>
                                     {stripeRules.map((rule, idx) => (
                                         <div
                                             key={idx}
-                                            className={`et-rule-card ${rule.theme} visible ${activeStripeHover === idx ? 'active-guide' : ''}`}
-                                            onMouseEnter={() => setActiveStripeHover(idx)}
-                                            onClick={() => setActiveStripeHover(idx)}
+                                            className={`et-rule-card ${rule.theme} ${visibleStripes[idx] ? 'visible' : ''} ${activeStripeIdx === idx ? 'active-guide' : ''}`}
+                                            onMouseEnter={() => handleStripeHover(idx)}
+                                            onClick={() => handleStripeHover(idx)}
                                         >
                                             <div className="stripe-left-icon">{rule.icon}</div>
                                             <div className="stripe-main-content">

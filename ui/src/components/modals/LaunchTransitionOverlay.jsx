@@ -2,26 +2,28 @@ import React from 'react';
 import { useApp } from '../../context/AppContext';
 
 export const LaunchTransitionOverlay = () => {
-    const { rocketTransition, rocketTransitionText } = useApp();
+    const { isLaunchOverlayOpen, launchTransitionText, isLaunchReverse } = useApp();
 
-    if (!rocketTransition) return null;
+    if (!isLaunchOverlayOpen) return null;
 
     return (
-        <div className={`rocket-launch-overlay ${rocketTransition ? 'active' : ''}`} id="rocketLaunchOverlay">
-            <div className="launch-anim-content">
-                <div className="launch-rocket-sprite">
-                    <img src="/assets/rocket.png" alt="Launching Rocket" />
-                    <div className="launch-flame-burst"></div>
+        <div id="etLaunchTransitionOverlay" className={`et-launch-overlay active ${isLaunchReverse ? 'reverse' : ''}`}>
+            <div className="launch-stars-bg"></div>
+            <div className="launch-speed-lines"></div>
+            <div className="launch-glow-pulse"></div>
+            <div className="launch-rocket-stage">
+                <div className="launch-rocket-body">
+                    <div className="launch-thruster-flame">
+                        <span className="launch-flame-core"></span>
+                        <span className="launch-flame-glow"></span>
+                    </div>
+                    <div className="launch-rocket-icon">🚀</div>
                 </div>
-
-                <h2 className="launch-status-text" id="launchStatusText">
-                    {rocketTransitionText}
-                </h2>
-
-                <div className="launch-progress-bar">
-                    <div className="launch-progress-fill"></div>
+                <div className="launch-status-text" id="launchStatusText">
+                    {launchTransitionText || (isLaunchReverse ? 'RETURNING TO MISSION BASE...' : 'INITIATING ROCKET LAUNCH...')}
                 </div>
             </div>
         </div>
     );
 };
+
