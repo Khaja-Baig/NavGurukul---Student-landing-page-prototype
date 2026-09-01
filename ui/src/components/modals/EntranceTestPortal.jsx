@@ -491,7 +491,7 @@ export const EntranceTestPortal = () => {
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
                                                             />
                                                         </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '8px' }}>
+                                                        <div className="floating-input-wrapper secondary-wrap">
                                                             <span className="floating-icon">📝</span>
                                                             <input
                                                                 type="text"
