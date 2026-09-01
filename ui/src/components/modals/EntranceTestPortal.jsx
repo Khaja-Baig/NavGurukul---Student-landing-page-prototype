@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useApp, etQuestionsData } from '../../context/AppContext';
 import { LaunchTransitionOverlay } from './LaunchTransitionOverlay';
 
@@ -37,6 +37,12 @@ export const EntranceTestPortal = () => {
     const [isStartBtnVisible, setIsStartBtnVisible] = useState(false);
     const [isUserInteracting, setIsUserInteracting] = useState(false);
     const [customSpeechMsg, setCustomSpeechMsg] = useState(null);
+    const sequenceTimersRef = useRef([]);
+
+    const clearSequenceTimers = () => {
+        sequenceTimersRef.current.forEach(t => clearTimeout(t));
+        sequenceTimersRef.current = [];
+    };
 
     const stripeRules = [
         {
@@ -44,7 +50,7 @@ export const EntranceTestPortal = () => {
             title: '1 Hour Complete Test ⏱️',
             desc: 'The test takes approximately 1 hour. Please complete it in a quiet place free from disruptions.',
             theme: 'card-theme-pink',
-            msg: 'Sabse pehle, test complete karne ke liye 1 hour milega.'
+            msg: 'Sabse pehle, test complete karne ke liye 1 hour milega. ⏱️'
         },
         {
             icon: '📝',
@@ -72,7 +78,7 @@ export const EntranceTestPortal = () => {
     useEffect(() => {
         if (!isPortalOpen || portalStep !== 1) return;
 
-        let timers = [];
+        clearSequenceTimers();
         setIsUserInteracting(false);
         setVisibleStripes([false, false, false, false]);
         setActiveStripeIdx(null);
@@ -80,37 +86,37 @@ export const EntranceTestPortal = () => {
         setCustomSpeechMsg(null);
 
         // Delay 400ms -> Stripe 0
-        timers.push(setTimeout(() => {
+        sequenceTimersRef.current.push(setTimeout(() => {
             setVisibleStripes([true, false, false, false]);
             setActiveStripeIdx(0);
         }, 400));
 
         // Delay 1400ms -> Stripe 1
-        timers.push(setTimeout(() => {
+        sequenceTimersRef.current.push(setTimeout(() => {
             setVisibleStripes([true, true, false, false]);
             setActiveStripeIdx(1);
         }, 1400));
 
         // Delay 2400ms -> Stripe 2
-        timers.push(setTimeout(() => {
+        sequenceTimersRef.current.push(setTimeout(() => {
             setVisibleStripes([true, true, true, false]);
             setActiveStripeIdx(2);
         }, 2400));
 
         // Delay 3400ms -> Stripe 3
-        timers.push(setTimeout(() => {
+        sequenceTimersRef.current.push(setTimeout(() => {
             setVisibleStripes([true, true, true, true]);
             setActiveStripeIdx(3);
         }, 3400));
 
         // Delay 4400ms -> Reveal Start Button and clear highlight
-        timers.push(setTimeout(() => {
+        sequenceTimersRef.current.push(setTimeout(() => {
             setActiveStripeIdx(null);
             setIsStartBtnVisible(true);
         }, 4400));
 
         return () => {
-            timers.forEach(t => clearTimeout(t));
+            clearSequenceTimers();
         };
     }, [isPortalOpen, portalStep]);
 
@@ -159,6 +165,7 @@ export const EntranceTestPortal = () => {
     };
 
     const handleStripeHover = (idx) => {
+        clearSequenceTimers();
         setIsUserInteracting(true);
         setVisibleStripes([true, true, true, true]);
         setIsStartBtnVisible(true);
