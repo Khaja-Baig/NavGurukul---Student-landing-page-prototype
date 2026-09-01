@@ -38,7 +38,7 @@ export const Navbar = () => {
     return (
         <header className="brand-header">
             <div className="brand-logo">
-                <img src="/assets/navgurukul-logo.png" alt="NavGurukul Logo" className="logo-img" />
+                <img src="/navgurukul-logo.png" alt="NavGurukul Logo" className="logo-img" />
                 <div className="brand-text">
                     <h1>NavGurukul</h1>
                     <span className="brand-sub">100% Free Residential Higher Education</span>

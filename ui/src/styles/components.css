@@ -35,7 +35,7 @@
 .perched-bird-sprite {
     width: var(--perch-bird-w);
     height: var(--perch-bird-h);
-    background-image: url('/assets/bird_flapping_strip.png');
+    background-image: url('/bird_flapping_strip.png');
     background-size: 600% 100%;
     background-repeat: no-repeat;
     background-position-x: calc(var(--perch-bird-w) * -2);
@@ -188,7 +188,7 @@
 .bird-sprite {
     width: 100%;
     height: 100%;
-    background-image: url('/assets/bird_flapping_strip.png');
+    background-image: url('/bird_flapping_strip.png');
     background-size: 600% 100%;
     background-repeat: no-repeat;
     background-position-x: 0px;
@@ -1803,7 +1803,7 @@
 .s5-asha-sprite {
     width: 44px;
     height: 83px;
-    background-image: url('asha_walk/asha_walk_strip.png');
+    background-image: url('/asha_walk/asha_walk_strip.png');
     background-size: 352px 83px;
     background-repeat: no-repeat;
     background-position: 0 0;
@@ -1814,7 +1814,7 @@
 
 /* ==================== IDLE STATE ==================== */
 .s5-avatar-runner.is-idle .s5-asha-sprite {
-    background-image: url('asha_walk/asha_idle.png');
+    background-image: url('/asha_walk/asha_idle.png');
     background-size: 44px 83px;
     background-position: 0 0;
     animation: s5AshaIdle 2.5s ease-in-out infinite alternate;
