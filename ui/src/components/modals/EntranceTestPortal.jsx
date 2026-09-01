@@ -32,6 +32,7 @@ export const EntranceTestPortal = () => {
     const [loginLang, setLoginLang] = useState('en');
     const [step1Error, setStep1Error] = useState(false);
     const [showGreetingAck, setShowGreetingAck] = useState(false);
+    const [hasSubmittedName, setHasSubmittedName] = useState(false);
 
     const handleStep1Continue = () => {
         const fn = userProfile.firstName ? userProfile.firstName.trim() : '';
@@ -42,11 +43,11 @@ export const EntranceTestPortal = () => {
         }
 
         setStudentName(fn);
+        setHasSubmittedName(true);
         setShowGreetingAck(true);
 
         setTimeout(() => {
             setCockpitStep(2);
-            setShowGreetingAck(false);
         }, 750);
     };
 
@@ -485,6 +486,7 @@ export const EntranceTestPortal = () => {
                                                                     const val = e.target.value;
                                                                     setUserProfile({ ...userProfile, firstName: val });
                                                                     if (showGreetingAck) setShowGreetingAck(false);
+                                                                    if (hasSubmittedName) setHasSubmittedName(false);
                                                                 }}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
                                                             />
@@ -499,12 +501,13 @@ export const EntranceTestPortal = () => {
                                                                 onChange={(e) => {
                                                                     setUserProfile({ ...userProfile, lastName: e.target.value });
                                                                     if (showGreetingAck) setShowGreetingAck(false);
+                                                                    if (hasSubmittedName) setHasSubmittedName(false);
                                                                 }}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
                                                             />
                                                         </div>
                                                     </div>
-                                                    {(showGreetingAck && userProfile.firstName.trim() !== '') && (
+                                                    {((showGreetingAck || hasSubmittedName) && userProfile.firstName.trim() !== '') && (
                                                         <div className="mission-greeting-ack" id="missionGreetingAck">
                                                             <span className="ack-icon">👋</span>
                                                             <span className="ack-text" id="ackText">
