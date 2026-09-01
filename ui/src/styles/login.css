@@ -7090,6 +7090,7 @@ select.et-select::-ms-expand,
 .mission-greeting-ack {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     margin-top: 12px;
     padding: 12px 18px;
@@ -7099,7 +7100,28 @@ select.et-select::-ms-expand,
     color: #a7f3d0;
     font-weight: 700;
     font-size: 14.5px;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15);
     animation: ackPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mission-greeting-ack .ack-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.mission-greeting-ack .ack-text {
+    flex: 1;
+    text-align: left;
+    color: #a7f3d0;
+    font-weight: 700;
+    font-size: 14.5px;
+}
+
+.mission-greeting-ack .ack-sparkles {
+    font-size: 14px;
+    letter-spacing: 3px;
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 @keyframes ackPopIn {

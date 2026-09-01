@@ -30,6 +30,25 @@ export const EntranceTestPortal = () => {
 
     const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState('');
     const [loginLang, setLoginLang] = useState('en');
+    const [step1Error, setStep1Error] = useState(false);
+    const [showGreetingAck, setShowGreetingAck] = useState(false);
+
+    const handleStep1Continue = () => {
+        const fn = userProfile.firstName ? userProfile.firstName.trim() : '';
+        if (!fn) {
+            setStep1Error(true);
+            setTimeout(() => setStep1Error(false), 600);
+            return;
+        }
+
+        setStudentName(fn);
+        setShowGreetingAck(true);
+
+        setTimeout(() => {
+            setCockpitStep(2);
+            setShowGreetingAck(false);
+        }, 750);
+    };
 
     // Guided Rule Sequence Animation States
     const [visibleStripes, setVisibleStripes] = useState([false, false, false, false]);
@@ -449,7 +468,7 @@ export const EntranceTestPortal = () => {
                                     <div className="cockpit-stage-viewport">
                                         {/* TASK 1: NAME STEP */}
                                         {cockpitStep === 1 && (
-                                            <div className="floating-step-card active" id="missionStep1">
+                                            <div className={`floating-step-card active ${step1Error ? 'field-error-shake' : ''}`} id="missionStep1">
                                                 <div className="floating-step-header text-center">
                                                     <h2 className="floating-prompt-title">What's your name? 👤</h2>
                                                 </div>
@@ -462,8 +481,12 @@ export const EntranceTestPortal = () => {
                                                                 className="floating-text-input"
                                                                 placeholder="First Name (e.g. Rahul)"
                                                                 value={userProfile.firstName}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, firstName: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(2); }}
+                                                                onChange={(e) => {
+                                                                    const val = e.target.value;
+                                                                    setUserProfile({ ...userProfile, firstName: val });
+                                                                    if (showGreetingAck) setShowGreetingAck(false);
+                                                                }}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
                                                             />
                                                         </div>
                                                         <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '8px' }}>
@@ -473,11 +496,23 @@ export const EntranceTestPortal = () => {
                                                                 className="floating-text-input"
                                                                 placeholder="Last Name (e.g. Kumar)"
                                                                 value={userProfile.lastName}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, lastName: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(2); }}
+                                                                onChange={(e) => {
+                                                                    setUserProfile({ ...userProfile, lastName: e.target.value });
+                                                                    if (showGreetingAck) setShowGreetingAck(false);
+                                                                }}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
                                                             />
                                                         </div>
                                                     </div>
+                                                    {(showGreetingAck && userProfile.firstName.trim() !== '') && (
+                                                        <div className="mission-greeting-ack" id="missionGreetingAck">
+                                                            <span className="ack-icon">👋</span>
+                                                            <span className="ack-text" id="ackText">
+                                                                Nice to meet you, {userProfile.firstName.trim()}! 👋
+                                                            </span>
+                                                            <div className="ack-sparkles">✨ ✦ ⭐</div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
                                                     <button
@@ -490,7 +525,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(2)}
+                                                        onClick={handleStep1Continue}
                                                     >
                                                         <span>Continue →</span>
                                                     </button>
