@@ -247,7 +247,7 @@ export const EntranceTestPortal = () => {
     }
 
     return (
-        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
+        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active et-quiz-mode' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
             {/* ROCKET MISSION LAUNCH TRANSITION OVERLAY */}
             <LaunchTransitionOverlay />
 
@@ -355,15 +355,57 @@ export const EntranceTestPortal = () => {
             <main className={`et-portal-body ${portalStep === 1 ? 'step1-active' : ''} ${portalStep === 2 ? 'step2-active' : ''} ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
                 {/* Left Hero Sidebar: Mentor Asha */}
                 <aside className="et-hero-sidebar">
-                    <div className="et-mentor-card">
-                        <div className="et-mentor-aura"></div>
-                        <img src="/mentor-avatar2.png" alt="Mentor Asha" className="et-mentor-avatar" />
-                        <div
-                            className="et-speech-bubble"
-                            id="etPortalSpeechBubble"
-                            dangerouslySetInnerHTML={{ __html: currentStripeMsg }}
-                        />
-                    </div>
+                    {portalStep !== 5 ? (
+                        <div className="et-mentor-card">
+                            <div className="et-mentor-aura"></div>
+                            <img src="/mentor-avatar2.png" alt="Mentor Asha" className="et-mentor-avatar" />
+                            <div
+                                className="et-speech-bubble"
+                                id="etPortalSpeechBubble"
+                                dangerouslySetInnerHTML={{ __html: currentStripeMsg }}
+                            />
+                        </div>
+                    ) : (
+                        <div className="et-step3-sidebar-wrapper">
+                            {/* Top Speech Bubble above Asha */}
+                            <div className="et-step3-top-bubble">
+                                <div className="top-bubble-header">
+                                    Chalo <span className="student-name-placeholder">{userProfile.firstName || name || 'Sujit'}</span> ! 💡
+                                </div>
+                                <div className="top-bubble-body">
+                                    Logic lagao, best answer chuno aur apna score badhao!
+                                </div>
+                                <div className="step3-paper-plane" title="Paper plane decoration">
+                                    <svg className="plane-svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M22 2L11 13" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M22 2L15 22L11 13L2 9L22 2Z" fill="#ffe4e6" stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            {/* Center Avatar Stage with Floating Decorations */}
+                            <div className="et-step3-avatar-stage">
+                                <div className="floating-icon icon-lightbulb" title="Logic bulb">💡</div>
+                                <div className="floating-sparkle sparkle-1">✨</div>
+                                <div className="floating-sparkle sparkle-2">✦</div>
+                                <img src="/mentor-avatar2.png" alt="Mentor Asha" className="et-step3-avatar-img" />
+                            </div>
+
+                            {/* Bottom Tip Card below Asha */}
+                            <div className="et-step3-bottom-tip">
+                                <div className="tip-star-badge">⭐</div>
+                                <div className="tip-content">
+                                    <div className="tip-header-text">
+                                        <span className="tip-bold-pink">Tip: </span>
+                                        <span className="tip-bold-dark" id="etStep3TipHeader">Dhyan se calculate karein! 🚀</span>
+                                    </div>
+                                    <div className="tip-sub-text" id="etStep3TipSub">
+                                        {etQuestionsData[currentQuizQIndex]?.mentorMsg || 'Har 1 coder ko 1 program banane me 5 minutes hi lagte hain! 💡'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </aside>
 
                 {/* Right Main Canvas */}
@@ -1086,87 +1128,104 @@ export const EntranceTestPortal = () => {
 
                     {/* STEP 5: LIVE MCQ QUIZ */}
                     {portalStep === 5 && (
-                        <div className="et-step-pane active" id="etStep3">
-                            <div className="et-quiz-container">
-                                <div className="et-quiz-card">
-                                    <div className="quiz-header">
-                                        <div className="quiz-q-counter">
-                                            Question {currentQuizQIndex + 1} of {etQuestionsData.length}
+                        <div className="et-step-pane active et-quiz-page-view" id="etStep3">
+                            <div className="et-quiz-light-wrapper">
+                                {/* RIGHT MAIN CARD */}
+                                <div className="quiz-main-card">
+                                    {/* Header: Test Title & Count Down Timer */}
+                                    <div className="quiz-card-header">
+                                        <div className="quiz-title-badge">
+                                            <span className="quiz-title-icon">🧮</span>
+                                            <span className="quiz-title-text">NavGurukul Logic & Problem Solving Test</span>
                                         </div>
-                                        <div className="quiz-topic-badge">
-                                            {etQuestionsData[currentQuizQIndex].topic}
-                                        </div>
-                                        <div className="quiz-timer">
-                                            ⏱️ {formatTime(quizTimerSeconds)}
+
+                                        <div className="quiz-timer-badge">
+                                            <span className="timer-label">TIME REMAINING</span>
+                                            <div className="timer-value">
+                                                <span className="timer-icon">⏱️</span>
+                                                <span>{formatTime(quizTimerSeconds)}</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="quiz-body">
-                                        <h3 className="quiz-q-text">
-                                            {etQuestionsData[currentQuizQIndex].text}
+                                    {/* Sub-Header Metadata: Question Counter & Category (10XP & Progress bar removed as requested) */}
+                                    <div className="quiz-meta-row">
+                                        <span className="meta-pill question-pill">
+                                            Question {currentQuizQIndex + 1}/{etQuestionsData.length}
+                                        </span>
+                                        <span className="meta-pill category-pill">
+                                            {etQuestionsData[currentQuizQIndex]?.topic || etQuestionsData[currentQuizQIndex]?.topicName || 'Logic & Calculation'}
+                                        </span>
+                                    </div>
+
+                                    {/* Question Statement */}
+                                    <div className="quiz-question-box">
+                                        <span className="q-badge-icon">?</span>
+                                        <h3 className="q-text-content">
+                                            {etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question}
                                         </h3>
-
-                                        <div className="quiz-options-list">
-                                            {etQuestionsData[currentQuizQIndex].options.map((opt, oIdx) => {
-                                                const isSelected = userAnswers[currentQuizQIndex] === oIdx;
-                                                return (
-                                                    <button
-                                                        key={oIdx}
-                                                        type="button"
-                                                        className={`quiz-option-btn ${isSelected ? 'selected' : ''}`}
-                                                        onClick={() => setUserAnswers({ ...userAnswers, [currentQuizQIndex]: oIdx })}
-                                                    >
-                                                        <span className="opt-letter">{String.fromCharCode(65 + oIdx)}</span>
-                                                        <span className="opt-text">{opt}</span>
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-
-                                        <div className="quiz-mentor-hint">
-                                            <span className="hint-icon">💡 Mentor Tip:</span>
-                                            <span>{etQuestionsData[currentQuizQIndex].mentorMsg}</span>
-                                        </div>
                                     </div>
 
-                                    <div className="quiz-footer">
-                                        <div className="quiz-palette-dots">
-                                            {etQuestionsData.map((_, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    className={`q-dot ${idx === currentQuizQIndex ? 'current' : ''} ${userAnswers[idx] !== undefined ? 'answered' : ''}`}
-                                                    onClick={() => setCurrentQuizQIndex(idx)}
+                                    {/* 2x2 Options Grid */}
+                                    <div className="quiz-options-grid">
+                                        {etQuestionsData[currentQuizQIndex]?.options.map((opt, oIdx) => {
+                                            const isSelected = userAnswers[currentQuizQIndex] === oIdx;
+                                            const letter = String.fromCharCode(65 + oIdx);
+                                            return (
+                                                <button
+                                                    key={oIdx}
+                                                    type="button"
+                                                    className={`grid-option-card ${isSelected ? 'selected' : ''}`}
+                                                    onClick={() => setUserAnswers({ ...userAnswers, [currentQuizQIndex]: oIdx })}
                                                 >
-                                                    {idx + 1}
-                                                </div>
-                                            ))}
+                                                    <span className="grid-opt-letter">{letter}</span>
+                                                    <span className="grid-opt-text">{opt}</span>
+                                                    <span className="grid-radio-icon">
+                                                        {isSelected ? '⦿' : '◯'}
+                                                    </span>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+
+                                    {/* Card Footer Row: Quick Tip & Action Area (Answer & Earn removed as requested) */}
+                                    <div className="quiz-card-footer">
+                                        <div className="quick-tip-card">
+                                            <span className="tip-flash-icon">⚡</span>
+                                            <div className="tip-text-body">
+                                                <span className="tip-label">Quick Tip</span>
+                                                <span className="tip-content">
+                                                    {etQuestionsData[currentQuizQIndex]?.mentorMsg || 'Time is directly proportional to work when number of coders changes.'}
+                                                </span>
+                                            </div>
                                         </div>
 
-                                        <div className="quiz-nav-btns">
-                                            <button
-                                                type="button"
-                                                className="quiz-prev-btn"
-                                                disabled={currentQuizQIndex === 0}
-                                                onClick={() => setCurrentQuizQIndex(prev => prev - 1)}
-                                            >
-                                                ‹ Previous
-                                            </button>
+                                        <div className="quiz-action-area">
+                                            {currentQuizQIndex > 0 && (
+                                                <button
+                                                    type="button"
+                                                    className="quiz-sub-prev-btn"
+                                                    onClick={() => setCurrentQuizQIndex(prev => prev - 1)}
+                                                >
+                                                    ← Previous
+                                                </button>
+                                            )}
 
                                             {currentQuizQIndex < etQuestionsData.length - 1 ? (
                                                 <button
                                                     type="button"
-                                                    className="quiz-next-btn"
+                                                    className="quiz-primary-next-btn"
                                                     onClick={() => setCurrentQuizQIndex(prev => prev + 1)}
                                                 >
-                                                    Next Question ›
+                                                    <span>Next Question →</span>
                                                 </button>
                                             ) : (
                                                 <button
                                                     type="button"
-                                                    className="quiz-submit-btn"
+                                                    className="quiz-primary-next-btn submit-style"
                                                     onClick={finishEtQuiz}
                                                 >
-                                                    SUBMIT TEST 🎉
+                                                    <span>Submit Test 🚀</span>
                                                 </button>
                                             )}
                                         </div>
