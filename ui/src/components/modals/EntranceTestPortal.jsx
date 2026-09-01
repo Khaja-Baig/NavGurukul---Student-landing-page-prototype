@@ -1236,96 +1236,154 @@ export const EntranceTestPortal = () => {
                     )}
 
                     {/* STEP 4: RESULTS & ATTEMPT HISTORY DASHBOARD */}
-                    {portalStep === 4 && (
-                        <div className="et-step-pane active" id="etStep4">
-                            <div className="et-results-container">
-                                <div className="et-results-card">
-                                    <div className="res-header">
-                                        <div className="res-avatar-wrap">
-                                            <img src={uploadedPhotoUrl || '/mentor-avatar2.png'} alt="Student Avatar" />
+                    {portalStep === 4 && (() => {
+                        const displayHistory = attemptHistory.length > 0 ? attemptHistory : [
+                            { attemptNum: 1, timeStr: '08/27/2026, 11:58 AM', marks: 20, isPassed: true }
+                        ];
+                        const hasAnyPassed = displayHistory.some(a => a.isPassed);
+
+                        const displayName = (userProfile.firstName || userProfile.lastName)
+                            ? `${userProfile.firstName} ${userProfile.lastName}`.trim()
+                            : (studentName && studentName !== 'Friend' ? studentName : 'Sujit');
+                        const displayEmail = userProfile.email || 'sujitkumar19013@gmail.com';
+                        const displayPhone = userProfile.phone || userProfile.whatsapp || '3512313132';
+                        const displayState = userProfile.state || 'Chhattisgarh';
+                        const displaySchool = userProfile.selectedSchool || 'School of Programming (SOP)';
+
+                        return (
+                            <div className="et-step-pane active" id="etStep4">
+                                <div className="et-results-container">
+                                    {/* Student Details Card */}
+                                    <div className="res-card res-student-card">
+                                        <div className="res-card-title">
+                                            <span className="card-title-icon student-icon">👤</span>
+                                            <h3>Student Details</h3>
                                         </div>
-                                        <div className="res-user-meta">
-                                            <h2>{name}'s Admission Portal</h2>
-                                            <span>WhatsApp: {userProfile.whatsapp || 'Registered'} • Status: Active Aspirant</span>
+                                        <div className="res-details-grid">
+                                            <div className="res-detail-item">
+                                                <span className="res-detail-label">Name:</span>
+                                                <span className="res-detail-val">{displayName}</span>
+                                            </div>
+                                            <div className="res-detail-item">
+                                                <span className="res-detail-label">Email:</span>
+                                                <span className="res-detail-val">{displayEmail}</span>
+                                            </div>
+                                            <div className="res-detail-item">
+                                                <span className="res-detail-label">Phone Number:</span>
+                                                <span className="res-detail-val">{displayPhone}</span>
+                                            </div>
+                                            <div className="res-detail-item">
+                                                <span className="res-detail-label">State:</span>
+                                                <span className="res-detail-val">{displayState}</span>
+                                            </div>
+                                            <div className="res-detail-item full-width">
+                                                <span class="res-detail-label">Selected School:</span>
+                                                <span className="res-detail-val">{displaySchool}</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="res-attempts-section">
-                                        <h3>📋 Screening Test Attempt History</h3>
+                                    {/* Test Results & Slot Booking Card */}
+                                    <div className="res-card res-results-card">
+                                        <div className="res-card-title">
+                                            <span className="card-title-icon test-icon">📑</span>
+                                            <h3>Test Results & Slot Booking</h3>
+                                        </div>
 
-                                        <table className="attempts-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Attempt #</th>
-                                                    <th>Date & Time</th>
-                                                    <th>Score</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {attemptHistory.length === 0 ? (
+                                        <div className="res-table-wrapper">
+                                            <table className="res-table">
+                                                <thead>
                                                     <tr>
-                                                        <td colSpan={5} style={{ textAlign: 'center', padding: '20px' }}>
-                                                            No test attempts recorded yet. Click below to start your test!
-                                                        </td>
+                                                        <th>STAGE</th>
+                                                        <th>STATUS</th>
+                                                        <th>SCHEDULED TIME</th>
+                                                        <th>ACTIONS</th>
+                                                        <th>MARKS</th>
                                                     </tr>
-                                                ) : (
-                                                    attemptHistory.map((att, idx) => (
-                                                        <tr key={idx}>
-                                                            <td>Attempt #{att.attemptNum}</td>
-                                                            <td>{att.timeStr}</td>
-                                                            <td>{att.marks} / 25</td>
-                                                            <td>
-                                                                <span className={`status-tag ${att.isPassed ? 'passed' : 'failed'}`}>
-                                                                    {att.isPassed ? 'PASSED ✓' : 'NEEDS PRACTICE'}
-                                                                </span>
+                                                </thead>
+                                                <tbody>
+                                                    {displayHistory.map((attempt, index) => {
+                                                        const isLatest = (index === displayHistory.length - 1);
+                                                        const stageName = (displayHistory.length > 1)
+                                                            ? `Screening Test (Attempt ${attempt.attemptNum})`
+                                                            : `Screening Test`;
+
+                                                        const canRetest = !attempt.isPassed && isLatest && !hasAnyPassed;
+
+                                                        return (
+                                                            <tr key={index}>
+                                                                <td className="td-stage">
+                                                                    <div className="stage-cell">
+                                                                        <span className="stage-icon st-icon">📄</span>
+                                                                        <span className="stage-name-text">{stageName}</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="td-status">
+                                                                    {attempt.isPassed ? (
+                                                                        <span className="res-status-badge status-pass">✓ Pass</span>
+                                                                    ) : (
+                                                                        <span className="res-status-badge status-fail">✖ Fail</span>
+                                                                    )}
+                                                                </td>
+                                                                <td className="td-time">
+                                                                    <span className="time-cell">
+                                                                        <span className="cal-icon">📅</span> {attempt.timeStr}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="td-actions">
+                                                                    {canRetest ? (
+                                                                        <button type="button" className="res-action-btn btn-retest" onClick={startLiveEtQuiz}>
+                                                                            Retest
+                                                                        </button>
+                                                                    ) : (
+                                                                        '–'
+                                                                    )}
+                                                                </td>
+                                                                <td className="td-marks">{attempt.marks}</td>
+                                                            </tr>
+                                                        );
+                                                    })}
+
+                                                    {hasAnyPassed && (
+                                                        <tr id="resRowLearning">
+                                                            <td className="td-stage">
+                                                                <div className="stage-cell">
+                                                                    <span className="stage-icon lr-icon">👥</span>
+                                                                    <span className="stage-name-text">Learning Round</span>
+                                                                </div>
                                                             </td>
-                                                            <td>
-                                                                {att.isPassed ? (
-                                                                    <span className="action-txt">Eligible for LR</span>
+                                                            <td className="td-status">
+                                                                {bookedInterviewSlot ? (
+                                                                    <span className="res-status-badge status-scheduled">✔ Scheduled</span>
                                                                 ) : (
-                                                                    <button
-                                                                        type="button"
-                                                                        className="retake-sm-btn"
-                                                                        onClick={startLiveEtQuiz}
-                                                                    >
-                                                                        Retake
-                                                                    </button>
+                                                                    <span className="res-status-badge status-pending">⏳ Pending</span>
                                                                 )}
                                                             </td>
+                                                            <td className="td-time">
+                                                                <span className="time-cell">
+                                                                    <span className="cal-icon">📅</span> {bookedInterviewSlot || 'Not Scheduled'}
+                                                                </span>
+                                                            </td>
+                                                            <td className="td-actions">
+                                                                {!bookedInterviewSlot ? (
+                                                                    <button type="button" className="res-action-btn btn-book-slot" onClick={openSlotBookingModal}>
+                                                                        Book Slot
+                                                                    </button>
+                                                                ) : (
+                                                                    '–'
+                                                                )}
+                                                            </td>
+                                                            <td className="td-marks">–</td>
                                                         </tr>
-                                                    ))
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div className="res-lr-section">
-                                        <div className="lr-card-box">
-                                            <div className="lr-info">
-                                                <h4>Level 2: Learning Round (LR) Booking</h4>
-                                                <p>Practical 5-7 days evaluation call with NavGurukul Tech Mentors.</p>
-                                                {bookedInterviewSlot && (
-                                                    <div className="booked-slot-pill">
-                                                        ✅ Interview Booked: <strong>{bookedInterviewSlot}</strong>
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            <button
-                                                type="button"
-                                                className="book-slot-cta-btn"
-                                                onClick={openSlotBookingModal}
-                                            >
-                                                <span>{bookedInterviewSlot ? 'Reschedule Slot 📅' : 'Book Interview Slot 📅'}</span>
-                                            </button>
+                                                    )}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        );
+                    })()}
                 </section>
             </main>
         </div>

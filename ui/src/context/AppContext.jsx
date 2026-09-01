@@ -221,6 +221,16 @@ export const AppProvider = ({ children }) => {
         setPortalStep(4);
     };
 
+    const closeSlotBookingModal = () => setIsSlotModalOpen(false);
+
+    const confirmSlotBooking = (date, time) => {
+        const slotString = `${date}, ${time}`;
+        setBookedInterviewSlot(slotString);
+        setIsSlotModalOpen(false);
+        setXp(prev => prev + 250);
+        triggerXpToast('🎉 Slot Booked Successfully! (+250 XP)');
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -254,9 +264,12 @@ export const AppProvider = ({ children }) => {
                 openPortalAtStep,
                 closePortal,
                 isSlotModalOpen,
+                isSlotBookingModalOpen: isSlotModalOpen,
                 openSlotModal,
                 closeSlotModal,
                 openSlotBookingModal,
+                closeSlotBookingModal,
+                confirmSlotBooking,
                 isLaunchOverlayOpen,
                 launchTransitionText,
                 isLaunchReverse,
