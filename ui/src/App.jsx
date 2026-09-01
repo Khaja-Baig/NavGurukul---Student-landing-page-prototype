@@ -73,8 +73,8 @@ const MainAppContent = () => {
             <SchoolModal />
             <StageQuestModal />
             <LoginModal />
-            <SlotBookingModal />
             <EntranceTestPortal />
+            <SlotBookingModal />
         </>
     );
 };

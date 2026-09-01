@@ -8934,3 +8934,276 @@ select.et-select::-ms-expand,
         padding: 12px 14px;
     }
 }
+
+/* ==========================================================================
+   SLOT BOOKING MODAL POPUP (MATCHING NAVGURUKUL PINK THEME)
+   ========================================================================== */
+.slot-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000000;
+    padding: 20px;
+    animation: fadeInOverlay 0.2s ease-out;
+}
+
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.sb-content-card {
+    width: 100%;
+    max-width: 620px;
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25), 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpModal {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Header Banner */
+.sb-header {
+    background: linear-gradient(135deg, #e91e63 0%, #d81b60 100%);
+    padding: 28px 32px;
+    color: #ffffff;
+    position: relative;
+}
+
+.sb-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.sb-close-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.08);
+}
+
+.sb-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+    letter-spacing: -0.2px;
+}
+
+.sb-title-sub {
+    font-weight: 500;
+    font-size: 17px;
+    opacity: 0.95;
+}
+
+.sb-user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.sb-dot {
+    opacity: 0.6;
+}
+
+/* Body Content */
+.sb-body {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sb-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sb-label {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sb-label-icon {
+    font-size: 18px;
+}
+
+/* Date Picker Row */
+.sb-date-picker-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.sb-date-input-wrap {
+    display: flex;
+}
+
+.sb-date-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    background: #f8fafc;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.sb-date-input:focus {
+    border-color: #e91e63;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.12);
+}
+
+.sb-selected-date-preview {
+    background: #fff0f5;
+    border: 1px solid #fbcfe8;
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+.sb-selected-date-preview .preview-lbl {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #be185d;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.sb-selected-date-preview .preview-val {
+    font-size: 14px;
+    font-weight: 800;
+    color: #9d174d;
+}
+
+/* Time Slot Chips Grid */
+.sb-chips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.sb-chip {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sb-chip:hover {
+    border-color: #f472b6;
+    background: #fff0f5;
+}
+
+.sb-chip.active {
+    background: #fff0f5;
+    border-color: #e91e63;
+    color: #be185d;
+    font-weight: 800;
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.15);
+}
+
+/* Footer & Submit Button */
+.sb-footer {
+    margin-top: 8px;
+}
+
+.sb-confirm-btn {
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 16px;
+    border: none;
+    font-size: 16px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #e91e63 0%, #d81b60 100%);
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.35);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sb-confirm-btn:hover:not(.disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(233, 30, 99, 0.45);
+    background: linear-gradient(135deg, #d81b60 0%, #c2185b 100%);
+}
+
+.sb-confirm-btn.disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .sb-date-picker-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .sb-header {
+        padding: 20px 24px;
+    }
+
+    .sb-body {
+        padding: 20px;
+    }
+}

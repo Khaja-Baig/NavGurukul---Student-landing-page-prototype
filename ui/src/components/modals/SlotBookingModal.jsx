@@ -4,22 +4,14 @@ import { useApp } from '../../context/AppContext';
 export const SlotBookingModal = () => {
     const { isSlotBookingModalOpen, closeSlotBookingModal, confirmSlotBooking, userProfile, studentName } = useApp();
 
-    // Helper to generate dynamic upcoming dates (e.g. next 4 days)
-    const generateUpcomingDates = () => {
-        const result = [];
-        const today = new Date();
-        for (let i = 1; i <= 4; i++) {
-            const d = new Date(today);
-            d.setDate(today.getDate() + i);
-            const dateStr = d.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
-            const dayName = i === 1 ? 'Tomorrow' : d.toLocaleDateString('en-US', { weekday: 'short' });
-            result.push({ full: dateStr, label: `${dayName}, ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` });
-        }
-        return result;
+    // Default to tomorrow in YYYY-MM-DD format
+    const getTomorrowStr = () => {
+        const d = new Date();
+        d.setDate(d.getDate() + 1);
+        return d.toISOString().split('T')[0];
     };
 
-    const datesList = generateUpcomingDates();
-    const [selectedDateObj, setSelectedDateObj] = useState(datesList[0]);
+    const [dateInputVal, setDateInputVal] = useState(getTomorrowStr());
     const [selectedTime, setSelectedTime] = useState('05:00 PM - 06:00 PM');
 
     if (!isSlotBookingModalOpen) return null;
@@ -35,47 +27,87 @@ export const SlotBookingModal = () => {
         : (studentName && studentName !== 'Friend' ? studentName : 'Sujit Kumar');
     const displayEmail = userProfile?.email || 'sujitkumar19013@gmail.com';
 
+    // Format human readable date string e.g. "Thursday, August 27, 2026"
+    const getFormattedDateLabel = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr + 'T00:00:00');
+        if (isNaN(d.getTime())) return dateStr;
+        return d.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    };
+
+    // Short date for storage e.g. "08/27/2026"
+    const getShortDateStr = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr + 'T00:00:00');
+        if (isNaN(d.getTime())) return dateStr;
+        return d.toLocaleDateString('en-US', {
+            month: '2-digit',
+            day: '2-digit',
+            year: 'numeric'
+        });
+    };
+
     const handleConfirm = () => {
-        confirmSlotBooking(selectedDateObj.full, selectedTime);
+        if (!selectedTime) return;
+        const shortDate = getShortDateStr(dateInputVal);
+        confirmSlotBooking(shortDate, selectedTime);
     };
 
     return (
-        <div className="slot-modal-overlay open" id="slotBookingModal">
-            <div className="sb-content-card">
-                <button
-                    type="button"
-                    className="sb-close-btn"
-                    onClick={closeSlotBookingModal}
-                    aria-label="Close modal"
-                >
-                    ×
-                </button>
-
+        <div className="slot-modal-overlay open" id="slotBookingModal" onClick={closeSlotBookingModal}>
+            <div className="sb-content-card" onClick={(e) => e.stopPropagation()}>
+                {/* Header Banner */}
                 <div className="sb-header">
-                    <span className="sb-tag">📅 LEARNING ROUND INTERVIEW</span>
-                    <h2 className="sb-title">Book Interview Slot (Learning Round)</h2>
-                    <p className="sb-sub">👤 {displayName} • {displayEmail}</p>
+                    <button
+                        type="button"
+                        className="sb-close-btn"
+                        onClick={closeSlotBookingModal}
+                        aria-label="Close modal"
+                    >
+                        ×
+                    </button>
+                    <h2 className="sb-title">Book Interview Slot <span className="sb-title-sub">(Learning Round)</span></h2>
+                    <div className="sb-user-info">
+                        <span>👤 {displayName}</span>
+                        <span className="sb-dot">•</span>
+                        <span>✉️ {displayEmail}</span>
+                    </div>
                 </div>
 
+                {/* Body Content */}
                 <div className="sb-body">
+                    {/* Section 1: Select Date */}
                     <div className="sb-section">
-                        <label className="sb-label">📅 Select Date</label>
-                        <div className="sb-chips-grid">
-                            {datesList.map((dObj, idx) => (
-                                <button
-                                    key={idx}
-                                    type="button"
-                                    className={`sb-chip ${selectedDateObj.full === dObj.full ? 'active' : ''}`}
-                                    onClick={() => setSelectedDateObj(dObj)}
-                                >
-                                    {dObj.label}
-                                </button>
-                            ))}
+                        <label className="sb-label">
+                            <span className="sb-label-icon">📅</span> Select Date
+                        </label>
+                        <div className="sb-date-picker-row">
+                            <div className="sb-date-input-wrap">
+                                <input
+                                    type="date"
+                                    className="sb-date-input"
+                                    value={dateInputVal}
+                                    onChange={(e) => setDateInputVal(e.target.value)}
+                                    min={new Date().toISOString().split('T')[0]}
+                                />
+                            </div>
+                            <div className="sb-selected-date-preview">
+                                <span className="preview-lbl">Selected Date:</span>
+                                <span className="preview-val">{getFormattedDateLabel(dateInputVal)}</span>
+                            </div>
                         </div>
                     </div>
 
+                    {/* Section 2: Available Time Slots */}
                     <div className="sb-section">
-                        <label className="sb-label">⏰ Choose Time Slot</label>
+                        <label className="sb-label">
+                            <span className="sb-label-icon">⏰</span> Available Time Slots
+                        </label>
                         <div className="sb-chips-grid">
                             {times.map((t, idx) => (
                                 <button
@@ -90,18 +122,15 @@ export const SlotBookingModal = () => {
                         </div>
                     </div>
 
-                    <div className="sb-note-box">
-                        <span className="sb-note-icon">💡</span>
-                        <span>Interview link & WhatsApp reminder will be sent to <strong>{displayEmail}</strong> 30 minutes before your slot.</span>
-                    </div>
-
+                    {/* Footer Submit Button */}
                     <div className="sb-footer">
                         <button
                             type="button"
-                            className="sb-confirm-btn"
+                            className={`sb-confirm-btn ${!selectedTime ? 'disabled' : ''}`}
                             onClick={handleConfirm}
+                            disabled={!selectedTime}
                         >
-                            <span>Confirm & Book Slot 🎯</span>
+                            <span>{selectedTime ? 'Book Interview Slot 🎯' : 'Select a Time Slot'}</span>
                         </button>
                     </div>
                 </div>
@@ -109,4 +138,5 @@ export const SlotBookingModal = () => {
         </div>
     );
 };
+
 
