@@ -33,6 +33,7 @@ export const EntranceTestPortal = () => {
     const [step1Error, setStep1Error] = useState(false);
     const [showGreetingAck, setShowGreetingAck] = useState(false);
     const [hasSubmittedName, setHasSubmittedName] = useState(false);
+    const [holoStage, setHoloStage] = useState('holo-stage-off');
 
     const handleStep1Continue = () => {
         const fn = userProfile.firstName ? userProfile.firstName.trim() : '';
@@ -138,6 +139,38 @@ export const EntranceTestPortal = () => {
         return () => {
             clearSequenceTimers();
         };
+    }, [isPortalOpen, portalStep]);
+
+    // Staggered Hologram Activation Animation (Matches legacy 4-stage JS sequence)
+    useEffect(() => {
+        if (isPortalOpen && portalStep === 2) {
+            setHoloStage('holo-stage-off');
+
+            const t0 = setTimeout(() => {
+                setHoloStage('holo-stage-powering');
+            }, 60);
+
+            const t1 = setTimeout(() => {
+                setHoloStage('holo-stage-powering holo-stage-beam');
+            }, 300);
+
+            const t2 = setTimeout(() => {
+                setHoloStage('holo-stage-powering holo-stage-beam holo-stage-forming');
+            }, 620);
+
+            const t3 = setTimeout(() => {
+                setHoloStage('holo-stage-ready');
+            }, 1000);
+
+            return () => {
+                clearTimeout(t0);
+                clearTimeout(t1);
+                clearTimeout(t2);
+                clearTimeout(t3);
+            };
+        } else {
+            setHoloStage('holo-stage-off');
+        }
     }, [isPortalOpen, portalStep]);
 
     // Avatar Gesture & Speech Bubble Reaction on Step Changes (Matches legacy JS)
@@ -403,7 +436,7 @@ export const EntranceTestPortal = () => {
                                 </div>
 
                                 {/* 2. Holographic Avatar Guide System (Console Projector on Left Side) */}
-                                <div className="cockpit-hologram-system holo-stage-ready" id="cockpitHologramSystem">
+                                <div className={`cockpit-hologram-system ${holoStage}`} id="cockpitHologramSystem">
                                     <div className="holo-console-glow"></div>
 
                                     <div className="holo-projection-assembly">

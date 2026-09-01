@@ -7973,6 +7973,29 @@ select.et-select::-ms-expand,
    HOLOGRAM ACTIVATION STAGES (T+0ms to T+1000ms Sequence)
    ========================================================================== */
 
+/* Stage 0: Off */
+.cockpit-hologram-system.holo-stage-off .holo-avatar-wrapper {
+    opacity: 0;
+    transform: translateY(65px) scale(0.4);
+    filter: brightness(2.5) blur(8px);
+    pointer-events: none;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
+}
+
+.cockpit-hologram-system.holo-stage-off .holo-light-beam {
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: bottom center;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.cockpit-hologram-system.holo-stage-off .holo-guide-caption {
+    opacity: 0;
+    transform: translateY(16px) scale(0.8);
+    pointer-events: none;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
 /* Stage 1: Powering On Projector */
 .cockpit-hologram-system.holo-stage-powering .projector-lens-core {
     opacity: 1;
@@ -7983,17 +8006,20 @@ select.et-select::-ms-expand,
     opacity: 0.7;
 }
 
-/* Stage 2: Light Beam Extends */
+/* Stage 2: Light Beam Extends Upward From Bottom Base */
 .cockpit-hologram-system.holo-stage-beam .holo-light-beam {
     opacity: 1;
     transform: scaleY(1);
+    transform-origin: bottom center;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
-/* Stage 3: Particles & Avatar Forming */
+/* Stage 3: Particles & Avatar Forming - Emerging Upward */
 .cockpit-hologram-system.holo-stage-forming .holo-avatar-wrapper {
-    opacity: 0.6;
-    transform: translateY(6px) scale(0.92);
-    filter: brightness(1.6) blur(2px);
+    opacity: 0.75;
+    transform: translateY(20px) scale(0.85);
+    filter: brightness(1.8) blur(3px);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
 }
 
 /* Stage 4: Fully Resolved & Ready */
@@ -8008,17 +8034,20 @@ select.et-select::-ms-expand,
 .cockpit-hologram-system.holo-stage-ready .holo-light-beam {
     opacity: 1;
     transform: scaleY(1);
+    transform-origin: bottom center;
 }
 
 .cockpit-hologram-system.holo-stage-ready .holo-avatar-wrapper {
     opacity: 1;
     transform: translateY(0) scale(1);
     filter: none;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
 }
 
 .cockpit-hologram-system.holo-stage-ready .holo-guide-caption {
     opacity: 1;
     transform: translateY(0) scale(1);
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
 }
 
 /* ==========================================================================
