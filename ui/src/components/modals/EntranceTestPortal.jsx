@@ -954,11 +954,12 @@ export const EntranceTestPortal = () => {
                                                     <h2 className="floating-prompt-title">What is your highest qualification? 📜</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-gender-row">
+                                                    <div className="floating-gender-row qual-4-grid">
                                                         {[
-                                                            { label: '10th Pass', icon: '📜' },
                                                             { label: '12th Pass', icon: '📖' },
-                                                            { label: 'Graduate', icon: '🎓' }
+                                                            { label: 'Pursuing College', icon: '🏫' },
+                                                            { label: 'Graduated', icon: '🎓' },
+                                                            { label: 'Post Graduate', icon: '🌟' }
                                                         ].map(q => (
                                                             <button
                                                                 key={q.label}
