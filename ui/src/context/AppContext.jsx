@@ -76,6 +76,8 @@ export const AppProvider = ({ children }) => {
         gender: '',
         category: '',
         qualification: '',
+        collegeYear: '',
+        collegeAttendance: '',
         guardianName: '',
         guardianPhone: '',
         pincode: '',

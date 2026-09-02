@@ -6045,6 +6045,21 @@ select.et-select::-ms-expand,
     background: rgba(255, 255, 255, 0.12);
 }
 
+.custom-college-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ec4899' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px !important;
+}
+
+.custom-college-select option {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    padding: 8px 12px;
+}
+
 /* Floating Photo Dropzone */
 .floating-photo-box {
     display: flex;

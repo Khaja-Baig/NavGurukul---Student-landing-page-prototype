@@ -985,6 +985,83 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn primary-glow-btn"
+                                                        onClick={() => {
+                                                            if (userProfile.qualification === 'Pursuing College') {
+                                                                setCockpitStep('9_college');
+                                                            } else {
+                                                                setCockpitStep(10);
+                                                            }
+                                                        }}
+                                                    >
+                                                        <span>Continue →</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* TASK 9.5: PURSUING COLLEGE DETAILS STEP */}
+                                        {cockpitStep === '9_college' && (
+                                            <div className="floating-step-card active" id="missionStep9College">
+                                                <div className="floating-step-header text-center">
+                                                    <h2 className="floating-prompt-title">College Details 🏫</h2>
+                                                </div>
+                                                <div className="floating-step-body college-details-form" style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
+                                                    {/* Field 1: Which year is going on? */}
+                                                    <div className="floating-input-group">
+                                                        <label className="college-field-label" style={{ fontSize: '11.5px', fontWeight: 600, color: '#e2e8f0' }}>
+                                                            Which year is going on? *
+                                                        </label>
+                                                        <div className="custom-dropdown-container">
+                                                            <select
+                                                                className="floating-text-input custom-college-select"
+                                                                value={userProfile.collegeYear || ''}
+                                                                onChange={(e) => setUserProfile({ ...userProfile, collegeYear: e.target.value })}
+                                                                style={{ height: '34px', paddingLeft: '12px', cursor: 'pointer' }}
+                                                            >
+                                                                <option value="" disabled style={{ background: '#0f172a', color: '#94a3b8' }}>Select Option</option>
+                                                                <option value="1st Year" style={{ background: '#0f172a', color: '#ffffff' }}>1st Year</option>
+                                                                <option value="2nd Year" style={{ background: '#0f172a', color: '#ffffff' }}>2nd Year</option>
+                                                                <option value="3rd Year" style={{ background: '#0f172a', color: '#ffffff' }}>3rd Year</option>
+                                                                <option value="4th Year" style={{ background: '#0f172a', color: '#ffffff' }}>4th Year</option>
+                                                                <option value="Final Year" style={{ background: '#0f172a', color: '#ffffff' }}>Final Year</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Field 2: College Attendance Method */}
+                                                    <div className="floating-input-group">
+                                                        <label className="college-field-label" style={{ fontSize: '11.5px', fontWeight: 600, color: '#e2e8f0' }}>
+                                                            College Attendance Method *
+                                                        </label>
+                                                        <div className="custom-dropdown-container">
+                                                            <select
+                                                                className="floating-text-input custom-college-select"
+                                                                value={userProfile.collegeAttendance || ''}
+                                                                onChange={(e) => setUserProfile({ ...userProfile, collegeAttendance: e.target.value })}
+                                                                style={{ height: '34px', paddingLeft: '12px', cursor: 'pointer' }}
+                                                            >
+                                                                <option value="" disabled style={{ background: '#0f172a', color: '#94a3b8' }}>Select Option</option>
+                                                                <option value="I go to college regularly, attend classes daily." style={{ background: '#0f172a', color: '#ffffff' }}>
+                                                                    I go to college regularly, attend classes daily.
+                                                                </option>
+                                                                <option value="I only go to write exams and study at home." style={{ background: '#0f172a', color: '#ffffff' }}>
+                                                                    I only go to write exams and study at home.
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="floating-step-footer flex-between">
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn secondary-btn"
+                                                        onClick={() => setCockpitStep(9)}
+                                                    >
+                                                        <span>← Back</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        className="floating-action-btn primary-glow-btn"
                                                         onClick={() => setCockpitStep(10)}
                                                     >
                                                         <span>Continue →</span>
@@ -1023,7 +1100,13 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(9)}
+                                                        onClick={() => {
+                                                            if (userProfile.qualification === 'Pursuing College') {
+                                                                setCockpitStep('9_college');
+                                                            } else {
+                                                                setCockpitStep(9);
+                                                            }
+                                                        }}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
