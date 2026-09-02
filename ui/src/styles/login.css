@@ -5654,9 +5654,14 @@ select.et-select::-ms-expand,
     pointer-events: none;
 }
 
-.cockpit-bg-img {
+.cockpit-bg-img,
+.cockpit-bg-video {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -5818,9 +5823,14 @@ select.et-select::-ms-expand,
     height: 100%;
     overflow: hidden;
     border-radius: 12px;
+    border: 1.5px solid rgba(168, 85, 247, 0.35);
+    box-shadow: 
+        0 0 25px rgba(168, 85, 247, 0.2),
+        inset 0 0 16px rgba(99, 102, 241, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.12);
 }
 
-/* Screen Display Content - Covers 100% of Physical Cockpit Monitor Glass (NO POPUP CARD BORDER!) */
+/* Screen Display Content - Translucent Cosmic HUD Interface */
 .floating-step-card {
     position: absolute;
     inset: 0;
@@ -5830,31 +5840,57 @@ select.et-select::-ms-expand,
     opacity: 0;
     display: none;
     pointer-events: none;
-    background: rgba(5, 10, 26, 0.90);
+    background: linear-gradient(135deg, rgba(12, 14, 40, 0.72) 0%, rgba(28, 16, 52, 0.68) 50%, rgba(10, 18, 42, 0.72) 100%);
     border: none;
     border-radius: 0;
     padding: 16px 24px 16px;
-    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.85), inset 0 0 12px rgba(56, 189, 248, 0.2);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.14),
+        inset 0 0 18px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: transform 0.38s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
 }
 
 .floating-step-card::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(0deg,
-            rgba(56, 189, 248, 0.025),
-            rgba(56, 189, 248, 0.025) 1px,
-            transparent 1px,
-            transparent 3px);
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(236, 72, 153, 0.18) 0%, transparent 45%),
+        radial-gradient(ellipse at 80% 80%, rgba(99, 102, 241, 0.16) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.10) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, rgba(168, 85, 247, 0.02), rgba(168, 85, 247, 0.02) 1px, transparent 1px, transparent 3px);
     pointer-events: none;
     z-index: 1;
+    animation: cosmicHudPulse 12s ease-in-out infinite alternate;
+}
+
+@keyframes cosmicHudPulse {
+    0% {
+        opacity: 0.75;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+}
+
+.floating-step-header,
+.floating-step-body,
+.floating-step-footer {
+    position: relative;
+    z-index: 2;
 }
 
 .floating-step-card.enter-left {
@@ -5986,8 +6022,8 @@ select.et-select::-ms-expand,
     width: 100%;
     height: 34px;
     padding: 4px 10px 4px 34px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1.5px solid rgba(236, 72, 153, 0.65);
+    background: rgba(15, 23, 42, 0.55);
+    border: 1.5px solid rgba(236, 72, 153, 0.5);
     border-radius: 10px;
     color: #ffffff;
     font-family: var(--font-display);
@@ -5995,6 +6031,7 @@ select.et-select::-ms-expand,
     font-weight: 500;
     outline: none;
     transition: all 0.25s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(236, 72, 153, 0.12);
 }
 
 .floating-text-input::placeholder {
@@ -6004,7 +6041,7 @@ select.et-select::-ms-expand,
 
 .floating-text-input:focus {
     border-color: #ec4899;
-    box-shadow: 0 0 14px rgba(236, 72, 153, 0.6);
+    box-shadow: 0 0 14px rgba(236, 72, 153, 0.5), inset 0 1px 3px rgba(0, 0, 0, 0.4);
     background: rgba(255, 255, 255, 0.12);
 }
 
