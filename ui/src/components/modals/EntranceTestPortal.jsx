@@ -472,13 +472,10 @@ export const EntranceTestPortal = () => {
                             <div className="rocket-interior-environment active" id="rocketInteriorEnv">
                                 {/* 1. Background Space Starfield Layer */}
                                 <div className="cockpit-bg-layer">
-                                    <video
-                                        className="cockpit-bg-video"
-                                        src="/video.mp4"
-                                        autoPlay
-                                        loop
-                                        muted
-                                        playsInline
+                                    <img
+                                        className="cockpit-bg-img"
+                                        src="/rocket.png"
+                                        alt="Rocket Interior Environment"
                                     />
                                     <div className="cockpit-space-stars"></div>
                                     <div className="cockpit-nebula-pulse"></div>
