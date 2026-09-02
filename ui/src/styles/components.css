@@ -139,7 +139,7 @@
     will-change: transform, opacity;
     transform-style: preserve-3d;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .bird-carrier.active {

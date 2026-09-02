@@ -34,6 +34,14 @@ export const AutonomousBird = () => {
     });
 
     const getPerchTarget = () => {
+        const perchEl = document.querySelector('.perch-corner-dock');
+        if (perchEl) {
+            const rect = perchEl.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2 - 10
+            };
+        }
         return {
             x: window.innerWidth * 0.88,
             y: 75
@@ -123,12 +131,20 @@ export const AutonomousBird = () => {
                 targetY = dock.y;
 
                 const dist = Math.hypot(targetX - st.posX, targetY - st.posY);
-                targetSpeed = Math.max(35, Math.min(110, dist * 1.0));
+                targetSpeed = Math.max(8, Math.min(110, dist * 1.5));
 
-                if (dist < 16) {
+                st.currentPitch *= Math.max(0, 1 - 5.0 * dt);
+                st.currentBank *= Math.max(0, 1 - 5.0 * dt);
+                st.bannerTilt *= Math.max(0, 1 - 5.0 * dt);
+                st.bannerAngularVel *= Math.max(0, 1 - 6.0 * dt);
+
+                if (dist < 6) {
+                    st.posX = targetX;
+                    st.posY = targetY;
                     st.isFlying = false;
                     setIsFlying(false);
                     setIsDocked(true);
+                    emitSparklesBurst(targetX, targetY);
                     return;
                 }
             }
