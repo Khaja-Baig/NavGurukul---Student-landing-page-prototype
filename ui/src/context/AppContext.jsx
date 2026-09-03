@@ -195,7 +195,11 @@ export const AppProvider = ({ children }) => {
         setUserAnswers({});
         setCurrentQuizQIndex(0);
         setQuizTimerSeconds(3600);
-        setPortalStep(5);
+        setPortalStep(2);
+        setCockpitStep('test_init');
+        setTimeout(() => {
+            setCockpitStep('test');
+        }, 900);
     };
 
     const finishEtQuiz = () => {
@@ -220,7 +224,6 @@ export const AppProvider = ({ children }) => {
         setAttemptHistory(prev => [newAttempt, ...prev]);
         setXp(prev => prev + 500);
         triggerXpToast('+500 XP 🎉 Screening Test Submitted!');
-        setPortalStep(4);
     };
 
     const closeSlotBookingModal = () => setIsSlotModalOpen(false);
@@ -282,6 +285,7 @@ export const AppProvider = ({ children }) => {
                 currentQuizQIndex,
                 setCurrentQuizQIndex,
                 quizTimerSeconds,
+                setQuizTimerSeconds,
                 startLiveEtQuiz,
                 finishEtQuiz,
                 attemptHistory,

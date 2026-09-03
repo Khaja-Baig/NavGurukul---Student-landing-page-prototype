@@ -21,6 +21,7 @@ export const EntranceTestPortal = () => {
         currentQuizQIndex,
         setCurrentQuizQIndex,
         quizTimerSeconds,
+        setQuizTimerSeconds,
         startLiveEtQuiz,
         finishEtQuiz,
         attemptHistory,
@@ -34,6 +35,57 @@ export const EntranceTestPortal = () => {
     const [showGreetingAck, setShowGreetingAck] = useState(false);
     const [hasSubmittedName, setHasSubmittedName] = useState(false);
     const [holoStage, setHoloStage] = useState('holo-stage-off');
+    const [qSlideAnimClass, setQSlideAnimClass] = useState('');
+    const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
+
+    // Timer effect for test countdown inside rocket cockpit screen
+    useEffect(() => {
+        let timerId = null;
+        if (isPortalOpen && portalStep === 2 && cockpitStep === 'test') {
+            timerId = setInterval(() => {
+                if (setQuizTimerSeconds) {
+                    setQuizTimerSeconds(prev => (prev > 0 ? prev - 1 : 0));
+                }
+            }, 1000);
+        }
+        return () => {
+            if (timerId) clearInterval(timerId);
+        };
+    }, [isPortalOpen, portalStep, cockpitStep, setQuizTimerSeconds]);
+
+    const handleStartTestInCockpit = () => {
+        setUserAnswers({});
+        setCurrentQuizQIndex(0);
+        if (setQuizTimerSeconds) setQuizTimerSeconds(3600);
+        setCockpitStep('test_init');
+        setTimeout(() => {
+            setCockpitStep('test');
+        }, 900);
+    };
+
+    const handleNextQuestionInCockpit = () => {
+        setQSlideAnimClass('slide-exit-left');
+        setTimeout(() => {
+            setCurrentQuizQIndex(prev => Math.min(etQuestionsData.length - 1, prev + 1));
+            setQSlideAnimClass('slide-enter-right');
+        }, 180);
+    };
+
+    const handlePrevQuestionInCockpit = () => {
+        setQSlideAnimClass('slide-exit-right');
+        setTimeout(() => {
+            setCurrentQuizQIndex(prev => Math.max(0, prev - 1));
+            setQSlideAnimClass('slide-enter-left');
+        }, 180);
+    };
+
+    const handleSubmitTestInCockpit = () => {
+        setCockpitStep('test_submitting');
+        setTimeout(() => {
+            finishEtQuiz();
+            setCockpitStep('test_results');
+        }, 1200);
+    };
 
     const handleStep1Continue = () => {
         const fn = userProfile.firstName ? userProfile.firstName.trim() : '';
@@ -338,7 +390,9 @@ export const EntranceTestPortal = () => {
                     <button
                         className="et-exit-btn"
                         onClick={() => {
-                            if (portalStep === 2) {
+                            if (portalStep === 2 && (cockpitStep === 'test' || cockpitStep === 'test_init')) {
+                                setShowExitConfirmModal(true);
+                            } else if (portalStep === 2) {
                                 startReverseRocketLaunchTransition();
                             } else {
                                 closePortal();
@@ -350,6 +404,37 @@ export const EntranceTestPortal = () => {
                     </button>
                 </div>
             </header>
+
+            {/* EXIT CONFIRMATION MODAL DURING TEST */}
+            {showExitConfirmModal && (
+                <div className="r-exit-confirm-overlay">
+                    <div className="r-exit-confirm-card">
+                        <div className="r-exit-icon">⚠️</div>
+                        <h3 className="r-exit-title">Exit Entrance Test?</h3>
+                        <p className="r-exit-desc">Are you sure you want to exit? Your selected answers will not be saved.</p>
+                        <div className="r-exit-actions">
+                            <button
+                                type="button"
+                                className="r-exit-btn-continue"
+                                onClick={() => setShowExitConfirmModal(false)}
+                            >
+                                Continue Test
+                            </button>
+                            <button
+                                type="button"
+                                className="r-exit-btn-leave"
+                                onClick={() => {
+                                    setShowExitConfirmModal(false);
+                                    setCockpitStep(12);
+                                    startReverseRocketLaunchTransition();
+                                }}
+                            >
+                                Exit Test
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Main Workspace Body Grid */}
             <main className={`et-portal-body ${portalStep === 1 ? 'step1-active' : ''} ${portalStep === 2 ? 'step2-active' : ''} ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
@@ -472,10 +557,13 @@ export const EntranceTestPortal = () => {
                             <div className="rocket-interior-environment active" id="rocketInteriorEnv">
                                 {/* 1. Background Space Starfield Layer */}
                                 <div className="cockpit-bg-layer">
-                                    <img
-                                        className="cockpit-bg-img"
-                                        src="/rocket.png"
-                                        alt="Rocket Interior Environment"
+                                    <video
+                                        className="cockpit-bg-video"
+                                        src="/video1.mp4"
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
                                     />
                                     <div className="cockpit-space-stars"></div>
                                     <div className="cockpit-nebula-pulse"></div>
@@ -503,9 +591,14 @@ export const EntranceTestPortal = () => {
                                                         7: `Location Details 🏙️<br>Where are you located?`,
                                                         8: `Current Status 💼<br>Are you a student or job seeker?`,
                                                         9: `Qualification 📜<br>What is your education level?`,
+                                                        '9_college': `College Details 🎓<br>Select your year & attendance`,
                                                         10: `School Medium 📚<br>In which language did you study?`,
                                                         11: `Category Info 👥<br>Select your caste / category`,
-                                                        12: `All Systems Ready! 🚀<br>Launch Entrance Test`
+                                                        12: `All Systems Ready! 🚀<br>Launch Entrance Test`,
+                                                        'test_init': `Initializing test mode... 🚀<br>Calibrating system`,
+                                                        'test': `Give it your best! 🚀<br>Read each question carefully`,
+                                                        'test_submitting': `Submitting test... 📊<br>Analyzing responses`,
+                                                        'test_results': `Test Completed! 🎉<br>Check your final score`
                                                     }[cockpitStep] || `Ready for launch! 🚀`
                                                 }}
                                             />
@@ -1200,7 +1293,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn launch-glow-btn"
-                                                        onClick={startLiveEtQuiz}
+                                                        onClick={handleStartTestInCockpit}
                                                         style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#ffffff', boxShadow: '0 4px 16px rgba(16, 185, 129, 0.5)' }}
                                                     >
                                                         <span>START Entrance Test 🚀</span>
@@ -1208,6 +1301,155 @@ export const EntranceTestPortal = () => {
                                                 </div>
                                             </div>
                                         )}
+
+                                        {/* IN-ROCKET COCKPIT TEST INIT STEP */}
+                                        {cockpitStep === 'test_init' && (
+                                            <div className="floating-step-card active rocket-test-init-card">
+                                                <div className="r-init-spinner"></div>
+                                                <h3 className="r-init-title">INITIALIZING ENTRANCE TEST...</h3>
+                                                <p className="r-init-sub">CALIBRATING SYSTEM & LOADING QUESTIONS</p>
+                                            </div>
+                                        )}
+
+                                        {/* IN-ROCKET COCKPIT ACTIVE TEST TERMINAL STEP */}
+                                        {cockpitStep === 'test' && (
+                                            <div className="floating-step-card active rocket-test-card" id="missionStepTest">
+                                                {/* Header inside rocket monitor screen */}
+                                                <div className="rocket-test-header">
+                                                    <div className="r-test-title-badge">
+                                                        <span className="r-badge-dot"></span>
+                                                        <span>ENTRANCE TEST</span>
+                                                    </div>
+                                                    <div className="r-test-counter">
+                                                        Q{String(currentQuizQIndex + 1).padStart(2, '0')}/{String(etQuestionsData.length).padStart(2, '0')}
+                                                    </div>
+                                                    <div className="r-test-timer">
+                                                        ⏱ {formatTime(quizTimerSeconds)}
+                                                    </div>
+                                                </div>
+
+                                                {/* Progress Track */}
+                                                <div className="rocket-test-progress-track">
+                                                    <div
+                                                        className="rocket-test-progress-fill"
+                                                        style={{ width: `${((currentQuizQIndex + 1) / etQuestionsData.length) * 100}%` }}
+                                                    ></div>
+                                                </div>
+
+                                                {/* Question Box */}
+                                                <div className={`rocket-test-question-box ${qSlideAnimClass}`}>
+                                                    <span className="r-q-num">Q{currentQuizQIndex + 1}.</span>
+                                                    <span className="r-q-text">
+                                                        {etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question}
+                                                    </span>
+                                                </div>
+
+                                                {/* Options Grid */}
+                                                <div className={`rocket-test-options-grid ${qSlideAnimClass}`}>
+                                                    {etQuestionsData[currentQuizQIndex]?.options.map((opt, oIdx) => {
+                                                        const isSelected = userAnswers[currentQuizQIndex] === oIdx;
+                                                        const letter = String.fromCharCode(65 + oIdx);
+                                                        return (
+                                                            <button
+                                                                key={oIdx}
+                                                                type="button"
+                                                                className={`rocket-test-opt-btn ${isSelected ? 'selected' : ''}`}
+                                                                onClick={() => setUserAnswers({ ...userAnswers, [currentQuizQIndex]: oIdx })}
+                                                            >
+                                                                <span className="r-opt-letter">{letter}</span>
+                                                                <span className="r-opt-text">{opt}</span>
+                                                                <span className="r-opt-check">{isSelected ? '✓' : ''}</span>
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
+
+                                                {/* Footer Navigation inside screen */}
+                                                <div className="rocket-test-footer flex-between">
+                                                    {currentQuizQIndex > 0 ? (
+                                                        <button
+                                                            type="button"
+                                                            className="floating-action-btn secondary-btn r-test-nav-btn"
+                                                            onClick={handlePrevQuestionInCockpit}
+                                                        >
+                                                            <span>← Prev</span>
+                                                        </button>
+                                                    ) : (
+                                                        <div style={{ width: '60px' }}></div>
+                                                    )}
+
+                                                    {currentQuizQIndex < etQuestionsData.length - 1 ? (
+                                                        <button
+                                                            type="button"
+                                                            className="floating-action-btn primary-glow-btn r-test-nav-btn"
+                                                            onClick={handleNextQuestionInCockpit}
+                                                        >
+                                                            <span>Next →</span>
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            type="button"
+                                                            className="floating-action-btn launch-glow-btn r-test-nav-btn"
+                                                            onClick={handleSubmitTestInCockpit}
+                                                            style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
+                                                        >
+                                                            <span>Submit Test ✓</span>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* IN-ROCKET COCKPIT TEST SUBMITTING STEP */}
+                                        {cockpitStep === 'test_submitting' && (
+                                            <div className="floating-step-card active rocket-test-submitting-card">
+                                                <div className="r-submit-check">✓</div>
+                                                <h3 className="r-submit-title">TEST SUBMITTED</h3>
+                                                <p className="r-submit-sub">Analyzing your responses...</p>
+                                            </div>
+                                        )}
+
+                                        {/* IN-ROCKET COCKPIT TEST RESULTS SUMMARY STEP */}
+                                        {cockpitStep === 'test_results' && (() => {
+                                            const latestAttempt = attemptHistory[0] || { marks: 24, isPassed: true };
+                                            return (
+                                                <div className="floating-step-card active rocket-test-results-card">
+                                                    <div className="r-res-header">TEST COMPLETED 🎉</div>
+                                                    <div className="r-res-score-badge">
+                                                        <span className="r-res-score-val">{latestAttempt.marks} / 24 Marks</span>
+                                                        <span className={`r-res-status ${latestAttempt.isPassed ? 'pass' : 'fail'}`}>
+                                                            {latestAttempt.isPassed ? '✓ PASSED' : '✖ RETRY REQUIRED'}
+                                                        </span>
+                                                    </div>
+                                                    <div className="r-res-actions">
+                                                        {latestAttempt.isPassed ? (
+                                                            <button
+                                                                type="button"
+                                                                className="floating-action-btn primary-glow-btn r-test-nav-btn"
+                                                                onClick={() => openSlotBookingModal()}
+                                                            >
+                                                                <span>Book Slot 📅</span>
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                type="button"
+                                                                className="floating-action-btn primary-glow-btn r-test-nav-btn"
+                                                                onClick={handleStartTestInCockpit}
+                                                            >
+                                                                <span>Retest 🚀</span>
+                                                            </button>
+                                                        )}
+                                                        <button
+                                                            type="button"
+                                                            className="floating-action-btn secondary-btn r-test-nav-btn"
+                                                            onClick={() => setPortalStep(4)}
+                                                        >
+                                                            <span>Dashboard 📊</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>
