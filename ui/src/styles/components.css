@@ -35,7 +35,7 @@
 .perched-bird-sprite {
     width: var(--perch-bird-w);
     height: var(--perch-bird-h);
-    background-image: url('../bird_flapping_strip.png');
+    background-image: url('/bird_flapping_strip.png');
     background-size: 600% 100%;
     background-repeat: no-repeat;
     background-position-x: calc(var(--perch-bird-w) * -2);
@@ -139,7 +139,7 @@
     will-change: transform, opacity;
     transform-style: preserve-3d;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .bird-carrier.active {
@@ -188,7 +188,7 @@
 .bird-sprite {
     width: 100%;
     height: 100%;
-    background-image: url('../bird_flapping_strip.png');
+    background-image: url('/bird_flapping_strip.png');
     background-size: 600% 100%;
     background-repeat: no-repeat;
     background-position-x: 0px;
@@ -1462,20 +1462,13 @@
 }
 
 .s5-underline::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #e91e63, #f59e0b);
-    border-radius: 2px;
+    display: none;
 }
 
 .s5-adventure-stage {
     position: relative;
     width: 100%;
-    max-width: 960px;
+    max-width: 1090px;
     margin: 10px auto 0 auto;
     display: flex;
     justify-content: center;
@@ -1485,12 +1478,12 @@
 .s5-parchment-frame {
     position: relative;
     width: 100%;
-    height: 530px;
-    max-height: 62vh;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(217, 119, 6, 0.2);
-    background: #fbf5e6;
+    height: 575px;
+    max-height: 64vh;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    background: transparent;
 }
 
 .s5-map-bg-img {
@@ -1500,7 +1493,7 @@
     display: block;
     user-select: none;
     pointer-events: none;
-    border-radius: 18px;
+    filter: drop-shadow(0 14px 32px rgba(180, 83, 9, 0.28));
 }
 
 /* Compass Rose Badge */
@@ -1509,8 +1502,13 @@
 }
 
 @keyframes s5CompassSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Stage Spots / Interactive Hitboxes on Map */
@@ -1521,11 +1519,40 @@
     transform: translate(-50%, -50%);
 }
 
-.s5-stage-spot.spot-0 { left: 11%; top: 72%; width: 60px; height: 60px; }
-.s5-stage-spot.spot-1 { left: 18.5%; top: 52%; width: 110px; height: 120px; }
-.s5-stage-spot.spot-2 { left: 40.5%; top: 48%; width: 110px; height: 120px; }
-.s5-stage-spot.spot-3 { left: 59.5%; top: 55%; width: 120px; height: 130px; }
-.s5-stage-spot.spot-4 { left: 86.5%; top: 42%; width: 140px; height: 150px; }
+.s5-stage-spot.spot-0 {
+    left: 11%;
+    top: 72%;
+    width: 60px;
+    height: 60px;
+}
+
+.s5-stage-spot.spot-1 {
+    left: 18.5%;
+    top: 52%;
+    width: 110px;
+    height: 120px;
+}
+
+.s5-stage-spot.spot-2 {
+    left: 40.5%;
+    top: 48%;
+    width: 110px;
+    height: 120px;
+}
+
+.s5-stage-spot.spot-3 {
+    left: 59.5%;
+    top: 55%;
+    width: 120px;
+    height: 130px;
+}
+
+.s5-stage-spot.spot-4 {
+    left: 86.5%;
+    top: 42%;
+    width: 140px;
+    height: 150px;
+}
 
 /* Pulse animation for active stage spot on trail */
 .s5-spot-pulse {
@@ -1547,9 +1574,20 @@
 }
 
 @keyframes s5Pulse {
-    0% { transform: scale(0.8); opacity: 0.8; }
-    50% { transform: scale(1.4); opacity: 0.3; }
-    100% { transform: scale(0.8); opacity: 0.8; }
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.4);
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
 }
 
 /* Flag Pins on Landmarks */
@@ -1562,8 +1600,13 @@
 }
 
 @keyframes s5FlagSway {
-    0% { transform: translateX(-50%) rotate(-3deg); }
-    100% { transform: translateX(-50%) rotate(3deg); }
+    0% {
+        transform: translateX(-50%) rotate(-3deg);
+    }
+
+    100% {
+        transform: translateX(-50%) rotate(3deg);
+    }
 }
 
 /* Micro Animations per Stage */
@@ -1579,8 +1622,17 @@
 }
 
 @keyframes s5LightningPulse {
-    0% { transform: scale(0.9); opacity: 0.7; filter: drop-shadow(0 0 4px #f59e0b); }
-    100% { transform: scale(1.25); opacity: 1; filter: drop-shadow(0 0 14px #fef08a); }
+    0% {
+        transform: scale(0.9);
+        opacity: 0.7;
+        filter: drop-shadow(0 0 4px #f59e0b);
+    }
+
+    100% {
+        transform: scale(1.25);
+        opacity: 1;
+        filter: drop-shadow(0 0 14px #fef08a);
+    }
 }
 
 /* Level 2 Cottage Screen Glow */
@@ -1594,8 +1646,15 @@
 }
 
 @keyframes s5LaptopFlicker {
-    0% { opacity: 0.6; filter: drop-shadow(0 0 4px #0284c7); }
-    100% { opacity: 1; filter: drop-shadow(0 0 14px #38bdf8); }
+    0% {
+        opacity: 0.6;
+        filter: drop-shadow(0 0 4px #0284c7);
+    }
+
+    100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 14px #38bdf8);
+    }
 }
 
 /* Level 3 Gazebo Fairy Lights & Speech Bubbles */
@@ -1605,12 +1664,29 @@
     animation: s5FairyTwinkle 1.6s ease-in-out infinite alternate;
 }
 
-.s5-fairy-light.light-1 { left: 30%; top: 40%; animation-delay: 0s; }
-.s5-fairy-light.light-2 { left: 70%; top: 40%; animation-delay: 0.8s; }
+.s5-fairy-light.light-1 {
+    left: 30%;
+    top: 40%;
+    animation-delay: 0s;
+}
+
+.s5-fairy-light.light-2 {
+    left: 70%;
+    top: 40%;
+    animation-delay: 0.8s;
+}
 
 @keyframes s5FairyTwinkle {
-    0% { opacity: 0.3; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 8px #fef08a); }
+    0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.3);
+        filter: drop-shadow(0 0 8px #fef08a);
+    }
 }
 
 .s5-speech-float {
@@ -1619,13 +1695,33 @@
     animation: s5SpeechFloat 2.5s ease-in-out infinite;
 }
 
-.s5-speech-float.bubble-1 { left: 25%; top: 25%; animation-delay: 0s; }
-.s5-speech-float.bubble-2 { left: 72%; top: 25%; animation-delay: 1.2s; }
+.s5-speech-float.bubble-1 {
+    left: 25%;
+    top: 25%;
+    animation-delay: 0s;
+}
+
+.s5-speech-float.bubble-2 {
+    left: 72%;
+    top: 25%;
+    animation-delay: 1.2s;
+}
 
 @keyframes s5SpeechFloat {
-    0% { transform: translateY(0) scale(0.9); opacity: 0.7; }
-    50% { transform: translateY(-8px) scale(1.1); opacity: 1; }
-    100% { transform: translateY(0) scale(0.9); opacity: 0.7; }
+    0% {
+        transform: translateY(0) scale(0.9);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translateY(-8px) scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(0) scale(0.9);
+        opacity: 0.7;
+    }
 }
 
 /* Stage 4 Final Campus Trophy & Chest Effects */
@@ -1638,8 +1734,15 @@
 }
 
 @keyframes s5TrophyShimmer {
-    0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 4px #d97706); }
-    100% { transform: scale(1.2) rotate(6deg); filter: drop-shadow(0 0 16px #fef08a); }
+    0% {
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 4px #d97706);
+    }
+
+    100% {
+        transform: scale(1.2) rotate(6deg);
+        filter: drop-shadow(0 0 16px #fef08a);
+    }
 }
 
 .s5-chest-sparkle {
@@ -1651,8 +1754,16 @@
 }
 
 @keyframes s5ChestSparkle {
-    0% { transform: translateY(0) scale(0.8); opacity: 0.4; }
-    100% { transform: translateY(-10px) scale(1.3); opacity: 1; filter: drop-shadow(0 0 10px #f59e0b); }
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: translateY(-10px) scale(1.3);
+        opacity: 1;
+        filter: drop-shadow(0 0 10px #f59e0b);
+    }
 }
 
 /* Animated Character Asha Layer */
@@ -1662,7 +1773,7 @@
     width: 44px;
     height: 83px;
     transform-origin: 50% 100%;
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -100%) scale(1.12);
     pointer-events: none;
     will-change: left, top, transform;
 }
@@ -1692,7 +1803,7 @@
 .s5-asha-sprite {
     width: 44px;
     height: 83px;
-    background-image: url('asha_walk/asha_walk_strip.png');
+    background-image: url('/asha_walk/asha_walk_strip.png');
     background-size: 352px 83px;
     background-repeat: no-repeat;
     background-position: 0 0;
@@ -1703,7 +1814,7 @@
 
 /* ==================== IDLE STATE ==================== */
 .s5-avatar-runner.is-idle .s5-asha-sprite {
-    background-image: url('asha_walk/asha_idle.png');
+    background-image: url('/asha_walk/asha_idle.png');
     background-size: 44px 83px;
     background-position: 0 0;
     animation: s5AshaIdle 2.5s ease-in-out infinite alternate;
@@ -1714,13 +1825,25 @@
 }
 
 @keyframes s5AshaIdle {
-    0% { transform: translate3d(0, 0, 0) scale(1, 1); }
-    100% { transform: translate3d(0, -1.5px, 0) scale(0.99, 1.015); }
+    0% {
+        transform: translate3d(0, 0, 0) scale(1, 1);
+    }
+
+    100% {
+        transform: translate3d(0, -1.5px, 0) scale(0.99, 1.015);
+    }
 }
 
 @keyframes s5ShadowIdle {
-    0% { transform: translateX(-50%) scale(1, 1); opacity: 0.5; }
-    100% { transform: translateX(-50%) scale(0.92, 0.92); opacity: 0.38; }
+    0% {
+        transform: translateX(-50%) scale(1, 1);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateX(-50%) scale(0.92, 0.92);
+        opacity: 0.38;
+    }
 }
 
 /* ==================== WALKING STATE ==================== */
@@ -1730,13 +1853,23 @@
 }
 
 @keyframes s5AshaWalkSprite {
-    from { background-position: 0px 0; }
-    to { background-position: -352px 0; }
+    from {
+        background-position: 0px 0;
+    }
+
+    to {
+        background-position: -352px 0;
+    }
 }
 
 @keyframes s5AshaSubpixelBob {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(-1.5px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(-1.5px);
+    }
 }
 
 .s5-avatar-runner.is-walking .s5-ground-shadow {
@@ -1748,6 +1881,7 @@
         transform: translateX(-50%) scale(1.12, 1.12);
         opacity: 0.55;
     }
+
     100% {
         transform: translateX(-50%) scale(0.85, 0.85);
         opacity: 0.32;
@@ -1831,11 +1965,15 @@
 
 /* Actions Row at Bottom of Screen 5 */
 .s5-actions-row {
-    margin-top: 20px;
+    margin-top: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 20px;
+}
+
+.s5-actions-row .glow-btn {
+    margin-top: 0;
 }
 
 .xp-float {
@@ -2149,7 +2287,7 @@
     align-items: center;
     justify-content: center;
     z-index: 10;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
 }
 

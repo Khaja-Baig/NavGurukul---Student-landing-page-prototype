@@ -548,7 +548,7 @@
 }
 
 .xp-toast {
-    position: absolute;
+    position: fixed;
     right: 32px;
     top: 60px;
     font-family: var(--font-mono);
