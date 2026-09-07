@@ -559,7 +559,7 @@ export const EntranceTestPortal = () => {
                                 <div className="cockpit-bg-layer">
                                     <video
                                         className="cockpit-bg-video"
-                                        src="/video1.mp4"
+                                        src="/video2.mp4"
                                         autoPlay
                                         loop
                                         muted
