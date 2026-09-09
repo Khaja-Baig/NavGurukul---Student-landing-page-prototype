@@ -6242,6 +6242,74 @@ select.et-select::-ms-expand,
     color: #ffffff !important;
 }
 
+.status-6-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 7px 8px !important;
+}
+
+.status-6-grid .floating-gender-btn {
+    padding: 6px 4px !important;
+    border-radius: 12px !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 2px !important;
+    text-align: center !important;
+    height: 48px !important;
+    min-width: 0 !important;
+}
+
+.status-6-grid .gender-btn-icon {
+    font-size: 18px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+}
+
+.status-6-grid .gender-btn-label {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    color: #ffffff !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
+}
+
+.status-6-grid .gender-btn-check {
+    top: 4px !important;
+    right: 5px !important;
+    font-size: 10px !important;
+}
+
+.category-4-row {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+}
+
+.category-4-row .floating-gender-btn {
+    padding: 14px 6px !important;
+    border-radius: 16px !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+}
+
+.category-4-row .gender-btn-icon {
+    font-size: 24px !important;
+}
+
+.category-4-row .gender-btn-label {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+}
+
+.category-4-row .gender-btn-check {
+    top: 6px !important;
+    right: 7px !important;
+    font-size: 11px !important;
+}
+
 .floating-gender-btn {
     position: relative;
     background: rgba(255, 255, 255, 0.06);
@@ -6264,7 +6332,7 @@ select.et-select::-ms-expand,
 #missionStep9.active .floating-gender-btn:nth-child(1),
 #missionStep10.active .floating-gender-btn:nth-child(1),
 #missionStep11.active .floating-gender-btn:nth-child(1) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.08s both;
 }
 
 #missionStep4.active .floating-gender-btn:nth-child(2),
@@ -6272,7 +6340,7 @@ select.et-select::-ms-expand,
 #missionStep9.active .floating-gender-btn:nth-child(2),
 #missionStep10.active .floating-gender-btn:nth-child(2),
 #missionStep11.active .floating-gender-btn:nth-child(2) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.18s both;
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.15s both;
 }
 
 #missionStep4.active .floating-gender-btn:nth-child(3),
@@ -6280,11 +6348,21 @@ select.et-select::-ms-expand,
 #missionStep9.active .floating-gender-btn:nth-child(3),
 #missionStep10.active .floating-gender-btn:nth-child(3),
 #missionStep11.active .floating-gender-btn:nth-child(3) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.26s both;
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.22s both;
 }
 
-#missionStep9.active .floating-gender-btn:nth-child(4) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.34s both;
+#missionStep8.active .floating-gender-btn:nth-child(4),
+#missionStep9.active .floating-gender-btn:nth-child(4),
+#missionStep11.active .floating-gender-btn:nth-child(4) {
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.29s both;
+}
+
+#missionStep8.active .floating-gender-btn:nth-child(5) {
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.35s both;
+}
+
+#missionStep8.active .floating-gender-btn:nth-child(6) {
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.41s both;
 }
 
 @keyframes genderBtnStagger {

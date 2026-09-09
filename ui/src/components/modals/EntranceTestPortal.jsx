@@ -589,7 +589,7 @@ export const EntranceTestPortal = () => {
                                                         5: `Contact Phone 📱<br>How can we reach you?`,
                                                         6: `Email & PIN Code ✉️<br>Enter your email and PIN code`,
                                                         7: `Location Details 🏙️<br>Where are you located?`,
-                                                        8: `Current Status 💼<br>Are you a student or job seeker?`,
+                                                        8: `Current Status 💼<br>Select your current status`,
                                                         9: `Qualification 📜<br>What is your education level?`,
                                                         '9_college': `College Details 🎓<br>Select your year & attendance`,
                                                         10: `School Medium 📚<br>In which language did you study?`,
@@ -999,10 +999,13 @@ export const EntranceTestPortal = () => {
                                                     <h2 className="floating-prompt-title">What is your current status? 💼</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-gender-row">
+                                                    <div className="floating-gender-row status-6-grid">
                                                         {[
-                                                            { label: 'Student', icon: '🎓' },
-                                                            { label: 'Job Seeker', icon: '💼' },
+                                                            { label: 'Studying', icon: '🎓' },
+                                                            { label: 'Working', icon: '💼' },
+                                                            { label: 'Job Searching', icon: '🔍' },
+                                                            { label: 'Not Working', icon: '⏸️' },
+                                                            { label: 'Retired', icon: '🏖️' },
                                                             { label: 'Other', icon: '🌟' }
                                                         ].map(st => (
                                                             <button
@@ -1218,11 +1221,12 @@ export const EntranceTestPortal = () => {
                                                     <h2 className="floating-prompt-title">Select your category / caste 👥</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-gender-row">
+                                                    <div className="floating-gender-row category-4-row">
                                                         {[
                                                             { label: 'General', icon: '👥' },
                                                             { label: 'OBC', icon: '👥' },
-                                                            { label: 'SC / ST', icon: '👥' }
+                                                            { label: 'SC', icon: '👥' },
+                                                            { label: 'ST', icon: '👥' }
                                                         ].map(cat => (
                                                             <button
                                                                 key={cat.label}
