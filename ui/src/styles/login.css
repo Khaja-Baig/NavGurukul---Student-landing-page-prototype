@@ -6163,6 +6163,11 @@ select.et-select::-ms-expand,
     left: 16px;
     font-size: 18px;
     pointer-events: none;
+    z-index: 10;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .floating-date-picker {
@@ -6179,6 +6184,27 @@ select.et-select::-ms-expand,
     outline: none;
     color-scheme: dark;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s ease;
+}
+
+.floating-date-picker:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4), inset 0 0 10px rgba(56, 189, 248, 0.15);
+}
+
+.floating-date-picker::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 4px;
+    filter: invert(65%) sepia(85%) saturate(450%) hue-rotate(165deg) brightness(115%) drop-shadow(0 0 5px rgba(56, 189, 248, 0.6));
+    opacity: 0.88;
+    transition: all 0.25s ease;
+}
+
+.floating-date-picker::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    filter: invert(80%) sepia(90%) saturate(600%) hue-rotate(165deg) brightness(130%) drop-shadow(0 0 10px rgba(56, 189, 248, 0.95));
+    transform: scale(1.12);
 }
 
 /* Floating Gender Buttons */

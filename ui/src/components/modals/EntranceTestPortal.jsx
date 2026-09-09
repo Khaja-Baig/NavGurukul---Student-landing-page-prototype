@@ -765,13 +765,13 @@ export const EntranceTestPortal = () => {
                                                 </div>
                                                 <div className="floating-step-body">
                                                     <div className="floating-dob-group">
-                                                        <span className="dob-calendar-icon">📅</span>
                                                         <input
                                                             type="date"
                                                             className="floating-date-picker"
                                                             value={userProfile.dob}
                                                             onChange={(e) => setUserProfile({ ...userProfile, dob: e.target.value })}
                                                         />
+                                                        <span className="dob-calendar-icon">📅</span>
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
