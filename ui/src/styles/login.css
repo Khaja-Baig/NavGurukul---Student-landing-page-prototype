@@ -9831,7 +9831,7 @@ select.et-select::-ms-expand,
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 14px 16px 12px !important;
+    padding: 18px 24px 14px !important;
     background: linear-gradient(135deg, rgba(10, 14, 38, 0.94) 0%, rgba(20, 12, 45, 0.92) 50%, rgba(8, 16, 36, 0.94) 100%) !important;
     position: relative;
     overflow: hidden;
@@ -9839,58 +9839,59 @@ select.et-select::-ms-expand,
     box-sizing: border-box;
 }
 
-/* 2x2 Options Grid */
+/* 2x2 Options Grid - Perfectly Centered in Monitor */
 .rocket-test-options-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 14px 18px;
     flex: 1;
     align-content: center;
-    margin-bottom: 8px;
+    justify-content: center;
+    margin: auto 0;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .rocket-test-opt-btn {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    background: rgba(15, 23, 42, 0.68);
-    border: 1.2px solid rgba(255, 255, 255, 0.14);
-    border-radius: 9px;
+    gap: 12px;
+    padding: 10px 16px;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1.2px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
     color: #f1f5f9;
     font-family: var(--font-body);
-    font-size: 13.5px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     text-align: left;
     transition: all 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
-    height: 48px;
+    height: 54px;
     box-sizing: border-box;
 }
 
 .rocket-test-opt-btn:hover {
-    background: rgba(236, 72, 153, 0.18);
-    border-color: rgba(236, 72, 153, 0.65);
-    box-shadow: 0 0 12px rgba(236, 72, 153, 0.25);
+    background: rgba(236, 72, 153, 0.2);
+    border-color: rgba(236, 72, 153, 0.7);
+    box-shadow: 0 0 14px rgba(236, 72, 153, 0.3);
     transform: translateY(-1px);
 }
 
 .rocket-test-opt-btn.selected {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.32) 0%, rgba(139, 92, 246, 0.28) 100%);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.35) 0%, rgba(139, 92, 246, 0.3) 100%);
     border-color: #ec4899;
     color: #ffffff;
-    box-shadow: 0 0 14px rgba(236, 72, 153, 0.45);
+    box-shadow: 0 0 16px rgba(236, 72, 153, 0.5);
 }
 
 .r-opt-letter {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.12);
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.14);
     color: #e2e8f0;
     font-family: var(--font-mono);
-    font-size: 11.5px;
+    font-size: 12.5px;
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -9902,7 +9903,7 @@ select.et-select::-ms-expand,
 .rocket-test-opt-btn.selected .r-opt-letter {
     background: #ec4899;
     color: #ffffff;
-    box-shadow: 0 0 8px rgba(236, 72, 153, 0.6);
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.7);
 }
 
 .r-opt-text {
@@ -9910,10 +9911,11 @@ select.et-select::-ms-expand,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
 }
 
 .r-opt-check {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 900;
     color: #10b981;
     flex-shrink: 0;
@@ -9924,14 +9926,14 @@ select.et-select::-ms-expand,
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 6px;
+    padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .r-test-nav-btn {
-    height: 34px !important;
-    padding: 0 18px !important;
-    font-size: 12px !important;
+    height: 36px !important;
+    padding: 0 20px !important;
+    font-size: 12.5px !important;
     font-weight: 700 !important;
     border-radius: 8px !important;
     cursor: pointer;
