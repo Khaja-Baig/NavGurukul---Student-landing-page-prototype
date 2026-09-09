@@ -596,7 +596,7 @@ export const EntranceTestPortal = () => {
                                                         11: `Category Info 👥<br>Select your caste / category`,
                                                         12: `All Systems Ready! 🚀<br>Launch Entrance Test`,
                                                         'test_init': `Initializing test mode... 🚀<br>Calibrating system`,
-                                                        'test': `Give it your best! 🚀<br>Read each question carefully`,
+                                                        'test': `Read carefully and choose the best answer. 🚀`,
                                                         'test_submitting': `Submitting test... 📊<br>Analyzing responses`,
                                                         'test_results': `Test Completed! 🎉<br>Check your final score`
                                                     }[cockpitStep] || `Ready for launch! 🚀`
@@ -635,6 +635,102 @@ export const EntranceTestPortal = () => {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Front Cockpit Window HUD: Floating Question Display */}
+                                {cockpitStep === 'test' && (
+                                    <div className="cockpit-window-hud-container" id="cockpitWindowHud">
+                                        <div className={`cockpit-hud-question-card ${qSlideAnimClass}`}>
+                                            <div className="hud-corner hud-corner-tl"></div>
+                                            <div className="hud-corner hud-corner-tr"></div>
+                                            <div className="hud-corner hud-corner-bl"></div>
+                                            <div className="hud-corner hud-corner-br"></div>
+                                            <div className="hud-question-header">
+                                                <span className="hud-reticle-line"></span>
+                                                <span className="hud-q-tag">Q{String(currentQuizQIndex + 1).padStart(2, '0')}</span>
+                                                <span className="hud-reticle-line"></span>
+                                            </div>
+                                            <div className="hud-q-text">
+                                                {etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Front Cockpit Window HUD: Test Results Display */}
+                                {cockpitStep === 'test_results' && (() => {
+                                    const latestAttempt = attemptHistory[0] || { marks: 0, isPassed: false };
+                                    return (
+                                        <div className="cockpit-window-hud-container" id="cockpitWindowResultsHud">
+                                            <div className="cockpit-hud-results-card">
+                                                <div className="hud-corner hud-corner-tl"></div>
+                                                <div className="hud-corner hud-corner-tr"></div>
+                                                <div className="hud-corner hud-corner-bl"></div>
+                                                <div className="hud-corner hud-corner-br"></div>
+                                                <div className="hud-results-header">
+                                                    <span className="hud-reticle-line"></span>
+                                                    <span className="hud-res-title">TEST COMPLETED 🎉</span>
+                                                    <span className="hud-reticle-line"></span>
+                                                </div>
+                                                <div className="hud-results-score-row">
+                                                    <span className="hud-score-number">{latestAttempt.marks}</span>
+                                                    <span className="hud-score-divider">/</span>
+                                                    <span className="hud-score-total">24</span>
+                                                    <span className="hud-score-unit">Marks</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+
+                                {/* Left Cockpit Window Screen: Question Number & Progress */}
+                                {cockpitStep === 'test' && (
+                                    <div className="cockpit-left-screen-container" id="cockpitLeftScreen">
+                                        <div className="cockpit-aux-screen cockpit-left-display">
+                                            <div className="hud-corner hud-corner-tl"></div>
+                                            <div className="hud-corner hud-corner-tr"></div>
+                                            <div className="hud-corner hud-corner-bl"></div>
+                                            <div className="hud-corner hud-corner-br"></div>
+                                            <div className="aux-screen-body">
+                                                <div className="cockpit-q-label">QUESTION</div>
+                                                <div className="cockpit-q-counter-val" key={`qcnt-${currentQuizQIndex}`}>
+                                                    <span className="q-current">{String(currentQuizQIndex + 1).padStart(2, '0')}</span>
+                                                    <span className="q-separator">/</span>
+                                                    <span className="q-total">{String(etQuestionsData.length).padStart(2, '0')}</span>
+                                                </div>
+                                                <div className="cockpit-progress-track">
+                                                    {etQuestionsData.map((_, idx) => (
+                                                        <span
+                                                            key={idx}
+                                                            className={`prog-segment ${idx === currentQuizQIndex ? 'current' : idx < currentQuizQIndex ? 'done' : ''}`}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Right Cockpit Window Screen: Test Timer */}
+                                {cockpitStep === 'test' && (
+                                    <div className="cockpit-right-screen-container" id="cockpitRightScreen">
+                                        <div className="cockpit-aux-screen cockpit-right-display">
+                                            <div className="hud-corner hud-corner-tl"></div>
+                                            <div className="hud-corner hud-corner-tr"></div>
+                                            <div className="hud-corner hud-corner-bl"></div>
+                                            <div className="hud-corner hud-corner-br"></div>
+                                            <div className="aux-screen-body">
+                                                <div className="cockpit-timer-val">
+                                                    <span className="timer-icon">⏱</span>
+                                                    <span className="timer-digits">{formatTime(quizTimerSeconds)}</span>
+                                                </div>
+                                                <div className="cockpit-timer-sub">
+                                                    <span className="timer-status-pulse"></span>
+                                                    <span>TIME REMAINING</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* 3. Floating Cockpit Screen Viewport */}
                                 <div className="cockpit-floating-stage">
@@ -1315,40 +1411,10 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* IN-ROCKET COCKPIT ACTIVE TEST TERMINAL STEP */}
+                                        {/* IN-ROCKET COCKPIT ACTIVE TEST TERMINAL STEP (CENTRAL SCREEN: OPTIONS & NAV ONLY) */}
                                         {cockpitStep === 'test' && (
                                             <div className="floating-step-card active rocket-test-card" id="missionStepTest">
-                                                {/* Header inside rocket monitor screen */}
-                                                <div className="rocket-test-header">
-                                                    <div className="r-test-title-badge">
-                                                        <span className="r-badge-dot"></span>
-                                                        <span>ENTRANCE TEST</span>
-                                                    </div>
-                                                    <div className="r-test-counter">
-                                                        Q{String(currentQuizQIndex + 1).padStart(2, '0')}/{String(etQuestionsData.length).padStart(2, '0')}
-                                                    </div>
-                                                    <div className="r-test-timer">
-                                                        ⏱ {formatTime(quizTimerSeconds)}
-                                                    </div>
-                                                </div>
-
-                                                {/* Progress Track */}
-                                                <div className="rocket-test-progress-track">
-                                                    <div
-                                                        className="rocket-test-progress-fill"
-                                                        style={{ width: `${((currentQuizQIndex + 1) / etQuestionsData.length) * 100}%` }}
-                                                    ></div>
-                                                </div>
-
-                                                {/* Question Box */}
-                                                <div className={`rocket-test-question-box ${qSlideAnimClass}`}>
-                                                    <span className="r-q-num">Q{currentQuizQIndex + 1}.</span>
-                                                    <span className="r-q-text">
-                                                        {etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question}
-                                                    </span>
-                                                </div>
-
-                                                {/* Options Grid */}
+                                                {/* Options Grid (Clean 2x2 Layout) */}
                                                 <div className={`rocket-test-options-grid ${qSlideAnimClass}`}>
                                                     {etQuestionsData[currentQuizQIndex]?.options.map((opt, oIdx) => {
                                                         const isSelected = userAnswers[currentQuizQIndex] === oIdx;
@@ -1368,7 +1434,7 @@ export const EntranceTestPortal = () => {
                                                     })}
                                                 </div>
 
-                                                {/* Footer Navigation inside screen */}
+                                                {/* Footer Navigation inside central screen */}
                                                 <div className="rocket-test-footer flex-between">
                                                     {currentQuizQIndex > 0 ? (
                                                         <button
@@ -1376,10 +1442,10 @@ export const EntranceTestPortal = () => {
                                                             className="floating-action-btn secondary-btn r-test-nav-btn"
                                                             onClick={handlePrevQuestionInCockpit}
                                                         >
-                                                            <span>← Prev</span>
+                                                            <span>← Back</span>
                                                         </button>
                                                     ) : (
-                                                        <div style={{ width: '60px' }}></div>
+                                                        <div style={{ width: '70px' }}></div>
                                                     )}
 
                                                     {currentQuizQIndex < etQuestionsData.length - 1 ? (
@@ -1413,43 +1479,25 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* IN-ROCKET COCKPIT TEST RESULTS SUMMARY STEP */}
+                                        {/* IN-ROCKET COCKPIT TEST RESULTS ACTIONS STEP (CENTRAL SCREEN: ACTIONS ONLY) */}
                                         {cockpitStep === 'test_results' && (() => {
-                                            const latestAttempt = attemptHistory[0] || { marks: 24, isPassed: true };
+                                            const latestAttempt = attemptHistory[0] || { marks: 0, isPassed: false };
                                             return (
-                                                <div className="floating-step-card active rocket-test-results-card">
-                                                    <div className="r-res-header">TEST COMPLETED 🎉</div>
-                                                    <div className="r-res-score-badge">
-                                                        <span className="r-res-score-val">{latestAttempt.marks} / 24 Marks</span>
-                                                        <span className={`r-res-status ${latestAttempt.isPassed ? 'pass' : 'fail'}`}>
-                                                            {latestAttempt.isPassed ? '✓ PASSED' : '✖ RETRY REQUIRED'}
-                                                        </span>
-                                                    </div>
-                                                    <div className="r-res-actions">
-                                                        {latestAttempt.isPassed ? (
+                                                <div className="floating-step-card active rocket-test-results-actions-card">
+                                                    <div className="r-res-actions-content">
+                                                        <div className="r-res-console-status">
+                                                            <span className="r-res-pulse-dot"></span>
+                                                            <span>MISSION RESULT LOGGED</span>
+                                                        </div>
+                                                        <div className="r-res-actions-buttons">
                                                             <button
                                                                 type="button"
-                                                                className="floating-action-btn primary-glow-btn r-test-nav-btn"
-                                                                onClick={() => openSlotBookingModal()}
+                                                                className="floating-action-btn primary-glow-btn r-res-main-btn"
+                                                                onClick={() => setPortalStep(4)}
                                                             >
-                                                                <span>Book Slot 📅</span>
+                                                                <span>See Your Result 📊</span>
                                                             </button>
-                                                        ) : (
-                                                            <button
-                                                                type="button"
-                                                                className="floating-action-btn primary-glow-btn r-test-nav-btn"
-                                                                onClick={handleStartTestInCockpit}
-                                                            >
-                                                                <span>Retest 🚀</span>
-                                                            </button>
-                                                        )}
-                                                        <button
-                                                            type="button"
-                                                            className="floating-action-btn secondary-btn r-test-nav-btn"
-                                                            onClick={() => setPortalStep(4)}
-                                                        >
-                                                            <span>Dashboard 📊</span>
-                                                        </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             );
