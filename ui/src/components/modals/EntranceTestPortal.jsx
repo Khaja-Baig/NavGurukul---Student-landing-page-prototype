@@ -697,14 +697,6 @@ export const EntranceTestPortal = () => {
                                                     <span className="q-separator">/</span>
                                                     <span className="q-total">{String(etQuestionsData.length).padStart(2, '0')}</span>
                                                 </div>
-                                                <div className="cockpit-progress-track">
-                                                    {etQuestionsData.map((_, idx) => (
-                                                        <span
-                                                            key={idx}
-                                                            className={`prog-segment ${idx === currentQuizQIndex ? 'current' : idx < currentQuizQIndex ? 'done' : ''}`}
-                                                        />
-                                                    ))}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
