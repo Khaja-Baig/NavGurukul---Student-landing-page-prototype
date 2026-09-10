@@ -111,6 +111,26 @@ export const EntranceTestPortal = () => {
     const [isUserInteracting, setIsUserInteracting] = useState(false);
     const [customSpeechMsg, setCustomSpeechMsg] = useState(null);
     const sequenceTimersRef = useRef([]);
+    const cockpitVideoRef = useRef(null);
+
+    useEffect(() => {
+        let animId;
+        const checkVideoTime = () => {
+            if (cockpitVideoRef.current) {
+                if (cockpitVideoRef.current.currentTime >= 8) {
+                    cockpitVideoRef.current.currentTime = 0;
+                    cockpitVideoRef.current.play().catch(() => {});
+                }
+            }
+            animId = requestAnimationFrame(checkVideoTime);
+        };
+        if (portalStep === 2) {
+            animId = requestAnimationFrame(checkVideoTime);
+        }
+        return () => {
+            if (animId) cancelAnimationFrame(animId);
+        };
+    }, [portalStep]);
 
     const clearSequenceTimers = () => {
         sequenceTimersRef.current.forEach(t => clearTimeout(t));
@@ -558,12 +578,19 @@ export const EntranceTestPortal = () => {
                                 {/* 1. Background Space Starfield Layer */}
                                 <div className="cockpit-bg-layer">
                                     <video
+                                        ref={cockpitVideoRef}
                                         className="cockpit-bg-video"
-                                        src="/video2.mp4"
+                                        src="/video5.mp4"
                                         autoPlay
                                         loop
                                         muted
                                         playsInline
+                                        onTimeUpdate={(e) => {
+                                            if (e.currentTarget.currentTime >= 8) {
+                                                e.currentTarget.currentTime = 0;
+                                                e.currentTarget.play().catch(() => {});
+                                            }
+                                        }}
                                     />
                                     <div className="cockpit-space-stars"></div>
                                     <div className="cockpit-nebula-pulse"></div>
