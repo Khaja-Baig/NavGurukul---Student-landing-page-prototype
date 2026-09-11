@@ -6163,6 +6163,11 @@ select.et-select::-ms-expand,
     left: 16px;
     font-size: 18px;
     pointer-events: none;
+    z-index: 10;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .floating-date-picker {
@@ -6179,6 +6184,27 @@ select.et-select::-ms-expand,
     outline: none;
     color-scheme: dark;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s ease;
+}
+
+.floating-date-picker:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4), inset 0 0 10px rgba(56, 189, 248, 0.15);
+}
+
+.floating-date-picker::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 4px;
+    filter: invert(65%) sepia(85%) saturate(450%) hue-rotate(165deg) brightness(115%) drop-shadow(0 0 5px rgba(56, 189, 248, 0.6));
+    opacity: 0.88;
+    transition: all 0.25s ease;
+}
+
+.floating-date-picker::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    filter: invert(80%) sepia(90%) saturate(600%) hue-rotate(165deg) brightness(130%) drop-shadow(0 0 10px rgba(56, 189, 248, 0.95));
+    transform: scale(1.12);
 }
 
 /* Floating Gender Buttons */
@@ -6216,6 +6242,74 @@ select.et-select::-ms-expand,
     color: #ffffff !important;
 }
 
+.status-6-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 7px 8px !important;
+}
+
+.status-6-grid .floating-gender-btn {
+    padding: 6px 4px !important;
+    border-radius: 12px !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 2px !important;
+    text-align: center !important;
+    height: 48px !important;
+    min-width: 0 !important;
+}
+
+.status-6-grid .gender-btn-icon {
+    font-size: 18px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+}
+
+.status-6-grid .gender-btn-label {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    color: #ffffff !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
+}
+
+.status-6-grid .gender-btn-check {
+    top: 4px !important;
+    right: 5px !important;
+    font-size: 10px !important;
+}
+
+.category-4-row {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+}
+
+.category-4-row .floating-gender-btn {
+    padding: 14px 6px !important;
+    border-radius: 16px !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+}
+
+.category-4-row .gender-btn-icon {
+    font-size: 24px !important;
+}
+
+.category-4-row .gender-btn-label {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+}
+
+.category-4-row .gender-btn-check {
+    top: 6px !important;
+    right: 7px !important;
+    font-size: 11px !important;
+}
+
 .floating-gender-btn {
     position: relative;
     background: rgba(255, 255, 255, 0.06);
@@ -6238,7 +6332,7 @@ select.et-select::-ms-expand,
 #missionStep9.active .floating-gender-btn:nth-child(1),
 #missionStep10.active .floating-gender-btn:nth-child(1),
 #missionStep11.active .floating-gender-btn:nth-child(1) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.08s both;
 }
 
 #missionStep4.active .floating-gender-btn:nth-child(2),
@@ -6246,7 +6340,7 @@ select.et-select::-ms-expand,
 #missionStep9.active .floating-gender-btn:nth-child(2),
 #missionStep10.active .floating-gender-btn:nth-child(2),
 #missionStep11.active .floating-gender-btn:nth-child(2) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.18s both;
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.15s both;
 }
 
 #missionStep4.active .floating-gender-btn:nth-child(3),
@@ -6254,11 +6348,21 @@ select.et-select::-ms-expand,
 #missionStep9.active .floating-gender-btn:nth-child(3),
 #missionStep10.active .floating-gender-btn:nth-child(3),
 #missionStep11.active .floating-gender-btn:nth-child(3) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.26s both;
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.22s both;
 }
 
-#missionStep9.active .floating-gender-btn:nth-child(4) {
-    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.34s both;
+#missionStep8.active .floating-gender-btn:nth-child(4),
+#missionStep9.active .floating-gender-btn:nth-child(4),
+#missionStep11.active .floating-gender-btn:nth-child(4) {
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.29s both;
+}
+
+#missionStep8.active .floating-gender-btn:nth-child(5) {
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.35s both;
+}
+
+#missionStep8.active .floating-gender-btn:nth-child(6) {
+    animation: genderBtnStagger 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.41s both;
 }
 
 @keyframes genderBtnStagger {
@@ -7790,6 +7894,7 @@ select.et-select::-ms-expand,
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 60px;
 }
 
 .holo-light-beam {
@@ -7978,15 +8083,19 @@ select.et-select::-ms-expand,
     }
 }
 
-/* 5. Holographic Guide Caption (Speech Message Pill) */
+/* 5. Holographic Guide Caption (Speech Message Pill - Positioned Beside Avatar) */
 .holo-guide-caption {
-    position: relative;
+    position: absolute;
+    right: calc(100% - 64px);
+    top: 146px;
+    z-index: 10;
     background: rgba(7, 14, 33, 0.88);
     border: 1.5px solid rgba(56, 189, 248, 0.75);
     border-radius: 16px;
     padding: 8px 14px;
-    max-width: 175px;
-    min-width: 130px;
+    width: max-content;
+    max-width: 245px;
+    min-width: 140px;
     text-align: center;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -7994,9 +8103,9 @@ select.et-select::-ms-expand,
         0 8px 24px rgba(0, 0, 0, 0.75),
         0 0 18px rgba(56, 189, 248, 0.4),
         inset 0 0 12px rgba(236, 72, 153, 0.25);
-    margin-bottom: 8px;
+    margin-bottom: 0;
     opacity: 0;
-    transform: translateY(12px) scale(0.9);
+    transform: translateX(-15px) scale(0.95);
     transition: opacity 0.35s ease, transform 0.35s ease;
     pointer-events: auto;
 }
@@ -8022,19 +8131,37 @@ select.et-select::-ms-expand,
 
 .holo-caption-pointer {
     position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%) rotate(45deg);
-    width: 10px;
-    height: 10px;
-    background: rgba(7, 14, 33, 0.88);
-    border-right: 1.5px solid rgba(56, 189, 248, 0.75);
-    border-bottom: 1.5px solid rgba(56, 189, 248, 0.75);
+    right: -10px;
+    top: 66%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid rgba(56, 189, 248, 0.75);
+    border-right: none;
+    background: transparent;
+    pointer-events: none;
+    z-index: 5;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.4));
+}
+
+.holo-caption-pointer::after {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    left: -10.5px;
+    width: 0;
+    height: 0;
+    border-top: 4.5px solid transparent;
+    border-bottom: 4.5px solid transparent;
+    border-left: 9px solid rgba(7, 14, 33, 0.95);
+    border-right: none;
 }
 
 .holo-guide-caption.caption-updating {
     opacity: 0;
-    transform: translateY(-4px) scale(0.95);
+    transform: translateX(-8px) scale(0.96);
 }
 
 .holo-guide-caption.caption-pop {
@@ -8044,12 +8171,12 @@ select.et-select::-ms-expand,
 @keyframes captionPopIn {
     0% {
         opacity: 0;
-        transform: translateY(10px) scale(0.88);
+        transform: translateX(-15px) scale(0.95);
     }
 
     100% {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateX(0) scale(1);
     }
 }
 
@@ -8075,7 +8202,7 @@ select.et-select::-ms-expand,
 
 .cockpit-hologram-system.holo-stage-off .holo-guide-caption {
     opacity: 0;
-    transform: translateY(16px) scale(0.8);
+    transform: translateX(-15px) scale(0.85);
     pointer-events: none;
     transition: transform 0.4s ease, opacity 0.4s ease;
 }
@@ -8130,7 +8257,7 @@ select.et-select::-ms-expand,
 
 .cockpit-hologram-system.holo-stage-ready .holo-guide-caption {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateX(0) scale(1);
     transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
 }
 
@@ -8143,12 +8270,24 @@ select.et-select::-ms-expand,
         left: calc(50% - 330px);
         transform: translateY(-50%) scale(0.92);
     }
+
+    .holo-guide-caption {
+        right: calc(100% - 66px);
+        top: 142px;
+        max-width: 240px;
+    }
 }
 
 @media (max-width: 1100px) {
     .cockpit-hologram-system {
         left: calc(50% - 290px);
         transform: translateY(-50%) scale(0.84);
+    }
+
+    .holo-guide-caption {
+        right: calc(100% - 72px);
+        top: 136px;
+        max-width: 235px;
     }
 }
 
@@ -8157,6 +8296,14 @@ select.et-select::-ms-expand,
         left: 4%;
         top: 54%;
         transform: translateY(-50%) scale(0.75);
+    }
+
+    .holo-guide-caption {
+        right: calc(100% - 78px);
+        top: 122px;
+        max-width: 210px;
+        font-size: 11px;
+        padding: 6px 10px;
     }
 }
 
@@ -8168,9 +8315,26 @@ select.et-select::-ms-expand,
     }
 
     .holo-guide-caption {
-        max-width: 140px;
-        font-size: 11px;
-        padding: 6px 10px;
+        right: calc(100% - 82px);
+        top: 108px;
+        max-width: 185px;
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+
+    .holo-caption-pointer {
+        right: -8px;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 8px solid rgba(56, 189, 248, 0.75);
+    }
+
+    .holo-caption-pointer::after {
+        top: -3.5px;
+        left: -8.5px;
+        border-top: 3.5px solid transparent;
+        border-bottom: 3.5px solid transparent;
+        border-left: 7px solid rgba(7, 14, 33, 0.95);
     }
 }
 
@@ -9296,174 +9460,450 @@ select.et-select::-ms-expand,
    IN-ROCKET ENTRANCE TEST TERMINAL STYLES (CENTRAL MONITOR)
    ======================================================== */
 
+/* ==========================================================================
+   IN-ROCKET ENTRANCE TEST: DISTRIBUTED COCKPIT HUD ARCHITECTURE
+   - Front Window: Holographic Question HUD
+   - Left Cockpit Screen: Question Number & Progress
+   - Right Cockpit Screen: Mission Timer
+   - Central Monitor: Clean 2x2 Answer Options + Navigation
+   ========================================================================== */
+
+/* 1. FRONT COCKPIT WINDOW HUD: FLOATING QUESTION DISPLAY */
+.cockpit-window-hud-container {
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(580px, 75vw);
+    z-index: 25;
+    pointer-events: none;
+    text-align: center;
+}
+
+.cockpit-hud-question-card {
+    position: relative;
+    padding: 13px 26px 15px;
+    background: linear-gradient(180deg, rgba(8, 14, 36, 0.52) 0%, rgba(18, 14, 44, 0.44) 100%);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    border: 1.2px solid rgba(168, 85, 247, 0.35);
+    border-radius: 14px;
+    box-shadow: 
+        0 0 30px rgba(168, 85, 247, 0.18),
+        inset 0 0 20px rgba(56, 189, 248, 0.08),
+        0 10px 30px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.22s ease;
+}
+
+/* Subtle corner reticles for futuristic projection HUD feel */
+.hud-corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: rgba(56, 189, 248, 0.7);
+    border-style: solid;
+    pointer-events: none;
+}
+.hud-corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-top-left-radius: 12px; }
+.hud-corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; border-top-right-radius: 12px; }
+.hud-corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; border-bottom-left-radius: 12px; }
+.hud-corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-bottom-right-radius: 12px; }
+
+.hud-question-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 7px;
+}
+
+.hud-reticle-line {
+    width: 26px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.6), transparent);
+}
+
+.hud-q-tag {
+    font-family: var(--font-mono, monospace);
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #f472b6;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(244, 114, 182, 0.6);
+}
+
+.hud-q-text {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 15.5px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.45;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+/* FRONT COCKPIT WINDOW HUD: TEST RESULTS DISPLAY */
+.cockpit-hud-results-card {
+    position: relative;
+    padding: 16px 32px 18px;
+    background: linear-gradient(180deg, rgba(8, 14, 36, 0.58) 0%, rgba(18, 14, 44, 0.48) 100%);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border: 1.2px solid rgba(168, 85, 247, 0.4);
+    border-radius: 14px;
+    box-shadow: 
+        0 0 32px rgba(168, 85, 247, 0.22),
+        inset 0 0 20px rgba(56, 189, 248, 0.08),
+        0 12px 36px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    pointer-events: auto;
+    animation: resultsHudPop 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@keyframes resultsHudPop {
+    0% { opacity: 0; transform: scale(0.92); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.hud-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.hud-res-title {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.hud-results-score-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 0;
+}
+
+.hud-score-number {
+    font-family: var(--font-mono, monospace);
+    font-size: 32px;
+    font-weight: 900;
+    color: #ec4899;
+    text-shadow: 0 0 18px rgba(236, 72, 153, 0.7);
+    line-height: 1;
+}
+
+.hud-score-divider {
+    font-family: var(--font-mono, monospace);
+    font-size: 20px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.hud-score-total {
+    font-family: var(--font-mono, monospace);
+    font-size: 24px;
+    font-weight: 800;
+    color: #cbd5e1;
+}
+
+.hud-score-unit {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: #a78bfa;
+    margin-left: 4px;
+}
+
+.hud-results-badge-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.hud-res-status-badge {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.8px;
+}
+
+.hud-res-status-badge.pass {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.hud-res-status-badge.fail {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.45);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+/* 2. LEFT COCKPIT WINDOW SCREEN: QUESTION NUMBER & PROGRESS (LEFT SIDE WINDOW PANE) */
+.cockpit-left-screen-container {
+    position: absolute;
+    top: 33%;
+    left: 7.5%;
+    transform: translate(-50%, -50%) perspective(700px) rotateY(16deg);
+    width: 135px;
+    z-index: 25;
+    pointer-events: none;
+}
+
+.cockpit-aux-screen {
+    position: relative;
+    padding: 8px 12px;
+    background: linear-gradient(180deg, rgba(8, 14, 36, 0.52) 0%, rgba(18, 14, 44, 0.44) 100%);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    border: 1.2px solid rgba(56, 189, 248, 0.45);
+    border-radius: 12px;
+    box-shadow: 
+        0 0 25px rgba(56, 189, 248, 0.2),
+        inset 0 0 15px rgba(56, 189, 248, 0.08),
+        0 8px 24px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+.cockpit-left-display {
+    border-color: rgba(168, 85, 247, 0.45);
+    box-shadow: 
+        0 0 25px rgba(168, 85, 247, 0.2),
+        inset 0 0 15px rgba(168, 85, 247, 0.08),
+        0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.cockpit-q-label {
+    font-family: var(--font-mono, monospace);
+    font-size: 8.5px;
+    font-weight: 700;
+    color: #a78bfa;
+    letter-spacing: 1.2px;
+    margin-bottom: 2px;
+}
+
+.cockpit-q-counter-val {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 3px;
+    font-family: var(--font-mono, monospace);
+    line-height: 1.1;
+    margin-bottom: 0;
+}
+
+.cockpit-q-counter-val .q-current {
+    font-size: 20px;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(168, 85, 247, 0.7);
+    animation: numPop 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@keyframes numPop {
+    0% { transform: scale(0.85); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.cockpit-q-counter-val .q-separator {
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.cockpit-q-counter-val .q-total {
+    font-size: 14px;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+/* Progress track */
+.cockpit-progress-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.prog-segment {
+    flex: 1;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.prog-segment.done {
+    background: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+.prog-segment.current {
+    background: linear-gradient(90deg, #ec4899, #a855f7);
+    box-shadow: 0 0 8px rgba(236, 72, 153, 0.7);
+}
+
+/* 3. RIGHT COCKPIT WINDOW SCREEN: TEST TIMER (RIGHT SIDE WINDOW PANE) */
+.cockpit-right-screen-container {
+    position: absolute;
+    top: 33%;
+    left: 92.5%;
+    transform: translate(-50%, -50%) perspective(700px) rotateY(-16deg);
+    width: 135px;
+    z-index: 25;
+    pointer-events: none;
+}
+
+.cockpit-right-display {
+    border-color: rgba(251, 191, 36, 0.45);
+    box-shadow: 
+        0 0 25px rgba(251, 191, 36, 0.2),
+        inset 0 0 15px rgba(251, 191, 36, 0.08),
+        0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.cockpit-timer-val {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-mono, monospace);
+    margin-bottom: 5px;
+}
+
+.cockpit-timer-val .timer-icon {
+    font-size: 15px;
+    color: #fbbf24;
+    filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.6));
+}
+
+.cockpit-timer-val .timer-digits {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #fbbf24;
+    text-shadow: 0 0 14px rgba(251, 191, 36, 0.65);
+}
+
+.cockpit-timer-sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-family: var(--font-mono, monospace);
+    font-size: 8px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.8px;
+}
+
+.timer-status-pulse {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+    animation: timerPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* 4. CENTRAL MONITOR: SIMPLIFIED ANSWER OPTIONS & NAVIGATION */
 .rocket-test-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 10px 14px 10px !important;
+    padding: 18px 24px 14px !important;
     background: linear-gradient(135deg, rgba(10, 14, 38, 0.94) 0%, rgba(20, 12, 45, 0.92) 50%, rgba(8, 16, 36, 0.94) 100%) !important;
     position: relative;
     overflow: hidden;
-}
-
-/* Header inside rocket monitor screen */
-.rocket-test-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2px 4px 4px;
-}
-
-.r-test-title-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(236, 72, 153, 0.15);
-    border: 1px solid rgba(236, 72, 153, 0.35);
-    border-radius: 999px;
-    padding: 2px 8px;
-    font-family: var(--font-mono);
-    font-size: 9.5px;
-    font-weight: 800;
-    color: #f472b6;
-    letter-spacing: 0.5px;
-}
-
-.r-badge-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #ec4899;
-    box-shadow: 0 0 6px #ec4899;
-}
-
-.r-test-counter {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    color: #e2e8f0;
-    background: rgba(255, 255, 255, 0.08);
-    padding: 1px 8px;
-    border-radius: 6px;
-}
-
-.r-test-timer {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 800;
-    color: #fbbf24;
-    background: rgba(251, 191, 36, 0.12);
-    border: 1px solid rgba(251, 191, 36, 0.3);
-    padding: 1px 7px;
-    border-radius: 6px;
-}
-
-/* Progress bar track */
-.rocket-test-progress-track {
-    width: 100%;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 999px;
-    margin: 3px 0 6px 0;
-    overflow: hidden;
-}
-
-.rocket-test-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
-    border-radius: 999px;
-    transition: width 0.3s ease;
+    box-sizing: border-box;
 }
 
-/* Question text box */
-.rocket-test-question-box {
-    text-align: left;
-    margin-bottom: 6px;
-    padding: 6px 8px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.r-q-num {
-    font-family: var(--font-mono);
-    font-weight: 800;
-    font-size: 11.5px;
-    color: #ec4899;
-    flex-shrink: 0;
-}
-
-.r-q-text {
-    font-family: var(--font-display);
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #ffffff;
-    line-height: 1.35;
-}
-
-/* Options Grid */
+/* 2x2 Options Grid - Perfectly Centered in Monitor */
 .rocket-test-options-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: 14px 18px;
+    flex: 1;
+    align-content: center;
+    justify-content: center;
+    margin: auto 0;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .rocket-test-opt-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 8px;
-    background: rgba(15, 23, 42, 0.6);
-    border: 1.2px solid rgba(255, 255, 255, 0.14);
-    border-radius: 8px;
-    color: #e2e8f0;
+    gap: 12px;
+    padding: 10px 16px;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1.2px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    color: #f1f5f9;
     font-family: var(--font-body);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     text-align: left;
-    transition: all 0.2s ease;
-    height: 32px;
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+    height: 54px;
+    box-sizing: border-box;
 }
 
 .rocket-test-opt-btn:hover {
-    background: rgba(236, 72, 153, 0.15);
-    border-color: rgba(236, 72, 153, 0.6);
+    background: rgba(236, 72, 153, 0.2);
+    border-color: rgba(236, 72, 153, 0.7);
+    box-shadow: 0 0 14px rgba(236, 72, 153, 0.3);
     transform: translateY(-1px);
 }
 
 .rocket-test-opt-btn.selected {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3) 0%, rgba(139, 92, 246, 0.25) 100%);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.35) 0%, rgba(139, 92, 246, 0.3) 100%);
     border-color: #ec4899;
     color: #ffffff;
-    box-shadow: 0 0 10px rgba(236, 72, 153, 0.35);
+    box-shadow: 0 0 16px rgba(236, 72, 153, 0.5);
 }
 
 .r-opt-letter {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    color: #cbd5e1;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #e2e8f0;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 12.5px;
     font-weight: 800;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    transition: all 0.2s ease;
 }
 
 .rocket-test-opt-btn.selected .r-opt-letter {
     background: #ec4899;
     color: #ffffff;
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.7);
 }
 
 .r-opt-text {
@@ -9471,10 +9911,11 @@ select.et-select::-ms-expand,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
 }
 
 .r-opt-check {
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 900;
     color: #10b981;
     flex-shrink: 0;
@@ -9482,18 +9923,23 @@ select.et-select::-ms-expand,
 
 /* Footer Navigation inside screen */
 .rocket-test-footer {
-    padding-top: 4px;
-    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .r-test-nav-btn {
-    height: 28px !important;
-    padding: 0 12px !important;
-    font-size: 11px !important;
+    height: 36px !important;
+    padding: 0 20px !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    cursor: pointer;
 }
 
-/* Slide Animations */
+/* Slide Animations for Question and Answers */
 .slide-exit-left {
     opacity: 0;
     transform: translateX(-24px);
@@ -9535,6 +9981,58 @@ select.et-select::-ms-expand,
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+/* Responsive adjustments for cockpit distributed test UI */
+@media (max-width: 1400px) {
+    .cockpit-left-screen-container {
+        left: 7.5%;
+        top: 33%;
+        transform: translate(-50%, -50%) scale(0.92) perspective(700px) rotateY(14deg);
+    }
+    .cockpit-right-screen-container {
+        left: 92.5%;
+        top: 33%;
+        transform: translate(-50%, -50%) scale(0.92) perspective(700px) rotateY(-14deg);
+    }
+    .cockpit-window-hud-container {
+        top: 22%;
+        width: min(520px, 78vw);
+    }
+}
+
+@media (max-width: 1100px) {
+    .cockpit-left-screen-container {
+        left: 8%;
+        top: 32%;
+        transform: translate(-50%, -50%) scale(0.84);
+    }
+    .cockpit-right-screen-container {
+        left: 92%;
+        top: 32%;
+        transform: translate(-50%, -50%) scale(0.84);
+    }
+    .cockpit-window-hud-container {
+        top: 21%;
+        width: min(460px, 80vw);
+    }
+}
+
+@media (max-width: 880px) {
+    .cockpit-left-screen-container {
+        left: 8.5%;
+        top: 31%;
+        transform: translate(-50%, -50%) scale(0.74);
+    }
+    .cockpit-right-screen-container {
+        left: 91.5%;
+        top: 31%;
+        transform: translate(-50%, -50%) scale(0.74);
+    }
+    .cockpit-window-hud-container {
+        top: 20%;
+        width: min(400px, 90vw);
     }
 }
 
@@ -9616,67 +10114,64 @@ select.et-select::-ms-expand,
     margin: 0;
 }
 
-/* Test Results inside Central Monitor */
-.rocket-test-results-card {
+/* Test Results Actions inside Central Monitor (Actions Only) */
+.rocket-test-results-actions-card {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 12px 14px !important;
-    text-align: center;
-}
-
-.r-res-header {
-    font-family: var(--font-display);
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #ffffff;
-}
-
-.r-res-score-badge {
-    display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
-    padding: 8px 16px;
-    margin: 4px 0;
+    padding: 20px !important;
+    height: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(10, 14, 38, 0.94) 0%, rgba(20, 12, 45, 0.92) 50%, rgba(8, 16, 36, 0.94) 100%) !important;
 }
 
-.r-res-score-val {
-    font-family: var(--font-mono);
-    font-size: 20px;
+.r-res-actions-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.r-res-console-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
     font-weight: 800;
-    color: #ec4899;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-.r-res-status {
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 800;
-    padding: 2px 8px;
-    border-radius: 999px;
-    margin-top: 4px;
+.r-res-pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ec4899;
+    box-shadow: 0 0 8px #ec4899;
+    animation: timerPulse 1.5s ease-in-out infinite;
 }
 
-.r-res-status.pass {
-    background: rgba(16, 185, 129, 0.2);
-    color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.r-res-status.fail {
-    background: rgba(239, 68, 68, 0.2);
-    color: #f87171;
-    border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.r-res-actions {
+.r-res-actions-buttons {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
+    width: 100%;
+}
+
+.r-res-main-btn {
+    height: 42px !important;
+    padding: 0 22px !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    border-radius: 9px !important;
+    cursor: pointer;
+    min-width: 140px;
 }
 
 /* Exit Confirmation Overlay */
