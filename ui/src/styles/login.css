@@ -9702,8 +9702,7 @@ select.et-select::-ms-expand,
 .asteroid-rock-img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
-    filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.16)) drop-shadow(0 0 32px rgba(56, 189, 248, 0.12));
+    object-fit: contain;
     user-select: none;
     -webkit-user-drag: none;
 }
