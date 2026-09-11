@@ -38,6 +38,132 @@ export const EntranceTestPortal = () => {
     const [qSlideAnimClass, setQSlideAnimClass] = useState('');
     const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
 
+    // Cinematic Asteroid Question Transition States
+    const [asteroidAnimState, setAsteroidAnimState] = useState('revealed');
+    const [asteroidTextVisible, setAsteroidTextVisible] = useState(true);
+    const [fragmentsVisible, setFragmentsVisible] = useState(false);
+    const [crackVisible, setCrackVisible] = useState(false);
+    const [isSubmitExit, setIsSubmitExit] = useState(false);
+    const [displayedQuestionText, setDisplayedQuestionText] = useState(
+        etQuestionsData[0]?.text || etQuestionsData[0]?.question || ''
+    );
+    const isAsteroidTransitioningRef = useRef(false);
+    const typingTimerRef = useRef(null);
+    const transitionTimerRef = useRef([]);
+    const transitionHandledRef = useRef(false);
+    const pendingNextIdxRef = useRef(null);
+    const pendingSlideClassRef = useRef('');
+
+    const clearTransitionTimers = () => {
+        transitionTimerRef.current.forEach(t => clearTimeout(t));
+        transitionTimerRef.current = [];
+    };
+
+    const stopLetterByLetterReveal = () => {
+        if (typingTimerRef.current) {
+            clearInterval(typingTimerRef.current);
+            typingTimerRef.current = null;
+        }
+    };
+
+    const startLetterByLetterReveal = (fullText) => {
+        stopLetterByLetterReveal();
+        setDisplayedQuestionText('');
+        const textToType = fullText || '';
+        let charIdx = 0;
+        // Dynamically compute character interval (20-38ms)
+        const charInterval = Math.max(20, Math.min(38, Math.floor(1500 / Math.max(1, textToType.length))));
+        typingTimerRef.current = setInterval(() => {
+            charIdx++;
+            setDisplayedQuestionText(textToType.slice(0, charIdx));
+            if (charIdx >= textToType.length) {
+                clearInterval(typingTimerRef.current);
+                typingTimerRef.current = null;
+                setAsteroidAnimState('active');
+                isAsteroidTransitioningRef.current = false;
+            }
+        }, charInterval);
+    };
+
+    const completeBreakupAndLoadNext = (nextIdx, slideClass) => {
+        if (transitionHandledRef.current) return;
+        transitionHandledRef.current = true;
+        pendingNextIdxRef.current = null;
+        clearTransitionTimers();
+        setAsteroidAnimState('cleared');
+        setFragmentsVisible(false);
+        setCrackVisible(false);
+        setCurrentQuizQIndex(nextIdx);
+        setQSlideAnimClass(slideClass);
+        const t = setTimeout(() => {
+            triggerAsteroidArrival(nextIdx);
+        }, 120);
+        transitionTimerRef.current.push(t);
+    };
+
+    const handleFragmentAnimationEnd = () => {
+        // Triggered by anchor fragment (frag-0) completing its 2.1s flight
+        if (pendingNextIdxRef.current !== null) {
+            const nextIdx = pendingNextIdxRef.current;
+            const slideClass = pendingSlideClassRef.current;
+            completeBreakupAndLoadNext(nextIdx, slideClass);
+        }
+    };
+
+    const triggerAsteroidArrival = (qIndex) => {
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+        setDisplayedQuestionText('');
+        setCrackVisible(false);
+        setFragmentsVisible(false);
+        setIsSubmitExit(false);
+        transitionHandledRef.current = false;
+        pendingNextIdxRef.current = null;
+        setAsteroidAnimState('entering');
+        setAsteroidTextVisible(false);
+
+        // Phase 1: Deep space orbital vector approach (0 -> 1600ms)
+        const t1 = setTimeout(() => {
+            setAsteroidAnimState('settling');
+        }, 1600);
+
+        // Phase 2: Heavy celestial inertia deceleration glide (1600 -> 2000ms)
+        const t2 = setTimeout(() => {
+            setAsteroidAnimState('revealing');
+            setAsteroidTextVisible(true);
+            const targetQ = etQuestionsData[qIndex];
+            const fullText = targetQ?.text || targetQ?.question || '';
+            startLetterByLetterReveal(fullText);
+        }, 2000);
+
+        transitionTimerRef.current.push(t1, t2);
+    };
+
+    // Clean up timers on unmount
+    useEffect(() => {
+        return () => {
+            if (typingTimerRef.current) clearInterval(typingTimerRef.current);
+            clearTransitionTimers();
+        };
+    }, []);
+
+    // Ensure asteroid and question text are visible if entering test directly or after reload
+    useEffect(() => {
+        if (cockpitStep === 'test') {
+            const currentQ = etQuestionsData[currentQuizQIndex];
+            const fullQ = currentQ?.text || currentQ?.question || '';
+            if (!displayedQuestionText) {
+                setDisplayedQuestionText(fullQ);
+            }
+            if (['cleared', 'exiting', 'breaking'].includes(asteroidAnimState)) {
+                setAsteroidAnimState('active');
+                setAsteroidTextVisible(true);
+                setFragmentsVisible(false);
+                setCrackVisible(false);
+            }
+        }
+    }, [cockpitStep, currentQuizQIndex]);
+
     // Timer effect for test countdown inside rocket cockpit screen
     useEffect(() => {
         let timerId = null;
@@ -60,31 +186,99 @@ export const EntranceTestPortal = () => {
         setCockpitStep('test_init');
         setTimeout(() => {
             setCockpitStep('test');
+            triggerAsteroidArrival(0);
         }, 900);
     };
 
+    // Realistic Physical Crack & Breakup sequence when navigating Next question
     const handleNextQuestionInCockpit = () => {
+        if (isAsteroidTransitioningRef.current) return;
+        isAsteroidTransitioningRef.current = true;
+        transitionHandledRef.current = false;
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+
+        const nextIdx = Math.min(etQuestionsData.length - 1, currentQuizQIndex + 1);
+        pendingNextIdxRef.current = nextIdx;
+        pendingSlideClassRef.current = 'slide-enter-right';
+        
+        // 1. Instantly extinguish projected question text, trigger stress fracture crack lines and rock shudder
+        setAsteroidTextVisible(false);
+        setCrackVisible(true);
+        setAsteroidAnimState('cracking');
         setQSlideAnimClass('slide-exit-left');
-        setTimeout(() => {
-            setCurrentQuizQIndex(prev => Math.min(etQuestionsData.length - 1, prev + 1));
-            setQSlideAnimClass('slide-enter-right');
-        }, 180);
+
+        // 2. Structural failure at 320ms: Atomic handover to 14 continuous physical fragments
+        const t1 = setTimeout(() => {
+            setAsteroidAnimState('breaking');
+            setFragmentsVisible(true);
+        }, 320);
+
+        // 3. Watchdog fallback timer (in case onAnimationEnd is throttled or frame-dropped)
+        const t2 = setTimeout(() => {
+            if (pendingNextIdxRef.current !== null) {
+                completeBreakupAndLoadNext(nextIdx, 'slide-enter-right');
+            }
+        }, 2450);
+
+        transitionTimerRef.current.push(t1, t2);
     };
 
+    // Realistic Physical Crack & Breakup sequence when navigating Prev question
     const handlePrevQuestionInCockpit = () => {
+        if (isAsteroidTransitioningRef.current) return;
+        isAsteroidTransitioningRef.current = true;
+        transitionHandledRef.current = false;
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+
+        const prevIdx = Math.max(0, currentQuizQIndex - 1);
+        pendingNextIdxRef.current = prevIdx;
+        pendingSlideClassRef.current = 'slide-enter-left';
+
+        setAsteroidTextVisible(false);
+        setCrackVisible(true);
+        setAsteroidAnimState('cracking');
         setQSlideAnimClass('slide-exit-right');
-        setTimeout(() => {
-            setCurrentQuizQIndex(prev => Math.max(0, prev - 1));
-            setQSlideAnimClass('slide-enter-left');
-        }, 180);
+
+        // Atomic handover at 320ms
+        const t1 = setTimeout(() => {
+            setAsteroidAnimState('breaking');
+            setFragmentsVisible(true);
+        }, 320);
+
+        // Watchdog fallback timer
+        const t2 = setTimeout(() => {
+            if (pendingNextIdxRef.current !== null) {
+                completeBreakupAndLoadNext(prevIdx, 'slide-enter-left');
+            }
+        }, 2450);
+
+        transitionTimerRef.current.push(t1, t2);
     };
 
+    // Softer, respectful cosmic dissolve sequence on Test Submit (not violent breakup)
     const handleSubmitTestInCockpit = () => {
-        setCockpitStep('test_submitting');
-        setTimeout(() => {
-            finishEtQuiz();
-            setCockpitStep('test_results');
+        if (isAsteroidTransitioningRef.current) return;
+        isAsteroidTransitioningRef.current = true;
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+
+        setAsteroidTextVisible(false);
+        setIsSubmitExit(true);
+        setAsteroidAnimState('dissolving');
+
+        const t1 = setTimeout(() => {
+            setCockpitStep('test_submitting');
+            const t2 = setTimeout(() => {
+                finishEtQuiz();
+                setCockpitStep('test_results');
+                isAsteroidTransitioningRef.current = false;
+            }, 1200);
+            transitionTimerRef.current.push(t2);
         }, 1200);
+
+        transitionTimerRef.current.push(t1);
     };
 
     const handleStep1Continue = () => {
@@ -594,6 +788,83 @@ export const EntranceTestPortal = () => {
                                     />
                                     <div className="cockpit-space-stars"></div>
                                     <div className="cockpit-nebula-pulse"></div>
+
+                                    {/* Dedicated Space Windshield Viewport: physically clips asteroid outside the cockpit */}
+                                    {cockpitStep === 'test' && (
+                                        <div className="cockpit-space-viewport" id="cockpitSpaceViewport">
+                                            <div className="cockpit-asteroid-hud-container" id="cockpitWindowHud">
+                                                <div className={`asteroid-carrier ${asteroidAnimState} ${isSubmitExit ? 'submit-exit' : ''}`}>
+                                                    
+                                                    {/* Intact 3D Asteroid Rock Mesh — rendered while intact & during crack stress */}
+                                                    {!['breaking', 'cleared'].includes(asteroidAnimState) && (
+                                                        <div className="asteroid-mesh-wrapper">
+                                                            <img
+                                                                src="/asteroid_rock.png"
+                                                                alt="Mission Asteroid"
+                                                                className="asteroid-rock-img"
+                                                            />
+                                                            <div className="asteroid-cosmic-glow"></div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Glowing Stress Fracture / Crack Overlay */}
+                                                    {crackVisible && (
+                                                        <svg className="asteroid-crack-overlay" viewBox="0 0 680 260" preserveAspectRatio="none">
+                                                            <defs>
+                                                                <linearGradient id="crackGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                    <stop offset="0%" stopColor="#38bdf8" stopOpacity="1" />
+                                                                    <stop offset="50%" stopColor="#c084fc" stopOpacity="0.95" />
+                                                                    <stop offset="100%" stopColor="#f472b6" stopOpacity="1" />
+                                                                </linearGradient>
+                                                                <filter id="crackNeonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                                                    <feGaussianBlur stdDeviation="2.5" result="blur" />
+                                                                    <feMerge>
+                                                                        <feMergeNode in="blur" />
+                                                                        <feMergeNode in="SourceGraphic" />
+                                                                    </feMerge>
+                                                                </filter>
+                                                            </defs>
+                                                            <g filter="url(#crackNeonGlow)">
+                                                                <path className="crack-path crack-branch-1" d="M340,130 L290,95 L250,65 L210,40 M290,95 L260,120 L230,135" />
+                                                                <path className="crack-path crack-branch-2" d="M340,130 L380,85 L425,50 L470,30 M380,85 L415,115 L445,130" />
+                                                                <path className="crack-path crack-branch-3" d="M340,130 L310,165 L275,200 L240,230 M310,165 L335,210 L320,245" />
+                                                                <path className="crack-path crack-branch-4" d="M340,130 L395,160 L435,195 L475,225 M395,160 L380,205 L400,240" />
+                                                                <path className="crack-path crack-branch-5" d="M340,130 L345,70 L340,25 M340,130 L340,185 L350,235" />
+                                                            </g>
+                                                        </svg>
+                                                    )}
+
+                                                    {/* Physical Shatter Rocky Fragments & Micro-Debris System */}
+                                                    {asteroidAnimState === 'breaking' && fragmentsVisible && (
+                                                        <div className="asteroid-fragments-container">
+                                                            {[...Array(14)].map((_, i) => (
+                                                                <div
+                                                                    key={`frag-${i}`}
+                                                                    className={`asteroid-fragment frag-${i}`}
+                                                                    onAnimationEnd={i === 0 ? handleFragmentAnimationEnd : undefined}
+                                                                ></div>
+                                                            ))}
+                                                            {[...Array(4)].map((_, i) => (
+                                                                <div key={`debris-${i}`} className={`asteroid-micro-debris debris-${i}`}></div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+
+                                                    {/* Projected Holographic Question Surface — Pure projection, no rectangular box! */}
+                                                    <div className={`asteroid-projection-surface ${asteroidTextVisible ? 'visible' : ''}`}>
+                                                        <div className="projection-scan-beam"></div>
+                                                        <div className="asteroid-q-text">
+                                                            {displayedQuestionText || (etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question || '')}
+                                                            {asteroidTextVisible && displayedQuestionText && displayedQuestionText.length < (etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question || '').length && (
+                                                                <span className="typing-cursor">▌</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* 2. Holographic Avatar Guide System (Console Projector on Left Side) */}
@@ -662,26 +933,6 @@ export const EntranceTestPortal = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Front Cockpit Window HUD: Floating Question Display */}
-                                {cockpitStep === 'test' && (
-                                    <div className="cockpit-window-hud-container" id="cockpitWindowHud">
-                                        <div className={`cockpit-hud-question-card ${qSlideAnimClass}`}>
-                                            <div className="hud-corner hud-corner-tl"></div>
-                                            <div className="hud-corner hud-corner-tr"></div>
-                                            <div className="hud-corner hud-corner-bl"></div>
-                                            <div className="hud-corner hud-corner-br"></div>
-                                            <div className="hud-question-header">
-                                                <span className="hud-reticle-line"></span>
-                                                <span className="hud-q-tag">Q{String(currentQuizQIndex + 1).padStart(2, '0')}</span>
-                                                <span className="hud-reticle-line"></span>
-                                            </div>
-                                            <div className="hud-q-text">
-                                                {etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
 
                                 {/* Front Cockpit Window HUD: Test Results Display */}
                                 {cockpitStep === 'test_results' && (() => {
