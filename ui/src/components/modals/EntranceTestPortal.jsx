@@ -71,8 +71,9 @@ export const EntranceTestPortal = () => {
         setDisplayedQuestionText('');
         const textToType = fullText || '';
         let charIdx = 0;
-        // Dynamically compute character interval (20-38ms)
-        const charInterval = Math.max(20, Math.min(38, Math.floor(1500 / Math.max(1, textToType.length))));
+        // Dynamically compute character interval (24-42ms adhering to prompt)
+        const totalTargetDuration = Math.min(1800, Math.max(900, textToType.length * 28));
+        const charInterval = Math.max(24, Math.min(42, Math.floor(totalTargetDuration / Math.max(1, textToType.length))));
         typingTimerRef.current = setInterval(() => {
             charIdx++;
             setDisplayedQuestionText(textToType.slice(0, charIdx));
@@ -97,7 +98,7 @@ export const EntranceTestPortal = () => {
         setQSlideAnimClass(slideClass);
         const t = setTimeout(() => {
             triggerAsteroidArrival(nextIdx);
-        }, 120);
+        }, 180);
         transitionTimerRef.current.push(t);
     };
 
@@ -122,28 +123,24 @@ export const EntranceTestPortal = () => {
         setAsteroidAnimState('entering');
         setAsteroidTextVisible(false);
 
-        // Phase 1: Deep space orbital vector approach (0 -> 1600ms)
+        // One unbroken, continuous cinematic trajectory from deep space into windshield (1.85s)
+        // Decelerates smoothly, cushions with a subtle natural settle, then reveals question
         const t1 = setTimeout(() => {
-            setAsteroidAnimState('settling');
-        }, 1600);
-
-        // Phase 2: Heavy celestial inertia deceleration glide (1600 -> 2000ms)
-        const t2 = setTimeout(() => {
-            setAsteroidAnimState('revealing');
+            setAsteroidAnimState('active');
             setAsteroidTextVisible(true);
             const targetQ = etQuestionsData[qIndex];
             const fullText = targetQ?.text || targetQ?.question || '';
             startLetterByLetterReveal(fullText);
-        }, 2000);
+        }, 1850);
 
-        transitionTimerRef.current.push(t1, t2);
+        transitionTimerRef.current.push(t1);
     };
 
     // Clean up timers on unmount
     useEffect(() => {
         return () => {
-            if (typingTimerRef.current) clearInterval(typingTimerRef.current);
             clearTransitionTimers();
+            stopLetterByLetterReveal();
         };
     }, []);
 
@@ -202,26 +199,31 @@ export const EntranceTestPortal = () => {
         pendingNextIdxRef.current = nextIdx;
         pendingSlideClassRef.current = 'slide-enter-right';
         
-        // 1. Instantly extinguish projected question text, trigger stress fracture crack lines and rock shudder
+        // 1. Text projection dissolves smoothly first (0ms)
         setAsteroidTextVisible(false);
-        setCrackVisible(true);
-        setAsteroidAnimState('cracking');
         setQSlideAnimClass('slide-exit-left');
 
-        // 2. Structural failure at 320ms: Atomic handover to 14 continuous physical fragments
+        // 2. At 120ms: trigger internal tension shudder and fault-line cracks
+        const t0 = setTimeout(() => {
+            setCrackVisible(true);
+            setAsteroidAnimState('cracking');
+        }, 120);
+
+        // 3. Structural fracture at 400ms: Irregular Voronoi rock shatter + particles
         const t1 = setTimeout(() => {
+            setCrackVisible(false);
             setAsteroidAnimState('breaking');
             setFragmentsVisible(true);
-        }, 320);
+        }, 400);
 
-        // 3. Watchdog fallback timer (in case onAnimationEnd is throttled or frame-dropped)
+        // 4. Watchdog fallback timer
         const t2 = setTimeout(() => {
             if (pendingNextIdxRef.current !== null) {
                 completeBreakupAndLoadNext(nextIdx, 'slide-enter-right');
             }
         }, 2450);
 
-        transitionTimerRef.current.push(t1, t2);
+        transitionTimerRef.current.push(t0, t1, t2);
     };
 
     // Realistic Physical Crack & Breakup sequence when navigating Prev question
@@ -236,25 +238,31 @@ export const EntranceTestPortal = () => {
         pendingNextIdxRef.current = prevIdx;
         pendingSlideClassRef.current = 'slide-enter-left';
 
+        // 1. Text projection dissolves smoothly first (0ms)
         setAsteroidTextVisible(false);
-        setCrackVisible(true);
-        setAsteroidAnimState('cracking');
         setQSlideAnimClass('slide-exit-right');
 
-        // Atomic handover at 320ms
+        // 2. At 120ms: trigger internal tension shudder and fault-line cracks
+        const t0 = setTimeout(() => {
+            setCrackVisible(true);
+            setAsteroidAnimState('cracking');
+        }, 120);
+
+        // 3. Structural fracture at 400ms: Irregular Voronoi rock shatter + particles
         const t1 = setTimeout(() => {
+            setCrackVisible(false);
             setAsteroidAnimState('breaking');
             setFragmentsVisible(true);
-        }, 320);
+        }, 400);
 
-        // Watchdog fallback timer
+        // 4. Watchdog fallback timer
         const t2 = setTimeout(() => {
             if (pendingNextIdxRef.current !== null) {
                 completeBreakupAndLoadNext(prevIdx, 'slide-enter-left');
             }
         }, 2450);
 
-        transitionTimerRef.current.push(t1, t2);
+        transitionTimerRef.current.push(t0, t1, t2);
     };
 
     // Softer, respectful cosmic dissolve sequence on Test Submit (not violent breakup)
@@ -276,7 +284,7 @@ export const EntranceTestPortal = () => {
                 isAsteroidTransitioningRef.current = false;
             }, 1200);
             transitionTimerRef.current.push(t2);
-        }, 1200);
+        }, 1400);
 
         transitionTimerRef.current.push(t1);
     };
@@ -809,15 +817,15 @@ export const EntranceTestPortal = () => {
 
                                                     {/* Glowing Stress Fracture / Crack Overlay */}
                                                     {crackVisible && (
-                                                        <svg className="asteroid-crack-overlay" viewBox="0 0 680 260" preserveAspectRatio="none">
+                                                        <svg className="asteroid-crack-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
                                                             <defs>
                                                                 <linearGradient id="crackGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                                    <stop offset="0%" stopColor="#38bdf8" stopOpacity="1" />
-                                                                    <stop offset="50%" stopColor="#c084fc" stopOpacity="0.95" />
-                                                                    <stop offset="100%" stopColor="#f472b6" stopOpacity="1" />
+                                                                    <stop offset="0%" stopColor="#f8fafc" stopOpacity="1" />
+                                                                    <stop offset="35%" stopColor="#38bdf8" stopOpacity="0.95" />
+                                                                    <stop offset="100%" stopColor="#c084fc" stopOpacity="0.9" />
                                                                 </linearGradient>
                                                                 <filter id="crackNeonGlow" x="-20%" y="-20%" width="140%" height="140%">
-                                                                    <feGaussianBlur stdDeviation="2.5" result="blur" />
+                                                                    <feGaussianBlur stdDeviation="1.2" result="blur" />
                                                                     <feMerge>
                                                                         <feMergeNode in="blur" />
                                                                         <feMergeNode in="SourceGraphic" />
@@ -825,27 +833,38 @@ export const EntranceTestPortal = () => {
                                                                 </filter>
                                                             </defs>
                                                             <g filter="url(#crackNeonGlow)">
-                                                                <path className="crack-path crack-branch-1" d="M340,130 L290,95 L250,65 L210,40 M290,95 L260,120 L230,135" />
-                                                                <path className="crack-path crack-branch-2" d="M340,130 L380,85 L425,50 L470,30 M380,85 L415,115 L445,130" />
-                                                                <path className="crack-path crack-branch-3" d="M340,130 L310,165 L275,200 L240,230 M310,165 L335,210 L320,245" />
-                                                                <path className="crack-path crack-branch-4" d="M340,130 L395,160 L435,195 L475,225 M395,160 L380,205 L400,240" />
-                                                                <path className="crack-path crack-branch-5" d="M340,130 L345,70 L340,25 M340,130 L340,185 L350,235" />
+                                                                <path className="crack-path crack-branch-1" d="M57.0,57.9 L57.8,39.9 M40.2,36.0 L55.5,34.4 M24.6,36.5 L39.4,38.0 M22.4,40.9 L23.4,58.8 M55.5,34.4 L57.2,0.0 M71.0,36.0 L76.5,0.0 M20.3,100.0 L22.9,59.7" />
+                                                                <path className="crack-path crack-branch-2" d="M39.4,38.0 L39.8,58.3 M37.3,62.8 L39.8,58.3 M23.4,58.8 L37.3,62.8 M74.6,46.1 L81.3,45.5 M38.4,0.0 L40.2,36.0 M0.0,62.4 L22.9,59.7 M81.3,45.5 L100.0,8.7" />
+                                                                <path className="crack-path crack-branch-3" d="M39.8,58.3 L53.1,63.8 M39.4,38.0 L40.2,36.0 M72.3,60.2 L74.6,46.1 M22.9,59.7 L23.4,58.8 M35.4,100.0 L37.3,62.8 M81.3,45.5 L95.7,77.7" />
+                                                                <path className="crack-path crack-branch-4" d="M53.1,63.8 L57.0,57.9 M57.0,57.9 L69.2,64.8 M69.2,64.8 L72.3,60.2 M22.4,40.9 L24.6,36.5 M69.2,64.8 L70.1,100.0 M0.0,34.2 L22.4,40.9" />
+                                                                <path className="crack-path crack-branch-5" d="M55.5,34.4 L57.8,39.9 M57.8,39.9 L71.0,36.0 M71.0,36.0 L74.6,46.1 M53.1,63.8 L54.0,100.0 M72.3,60.2 L95.7,77.7 M23.6,0.0 L24.6,36.5" />
                                                             </g>
                                                         </svg>
                                                     )}
 
-                                                    {/* Physical Shatter Rocky Fragments & Micro-Debris System */}
+                                                    {/* Physical Shatter Rocky Fragments, Shockwave & Micro-Debris System */}
                                                     {asteroidAnimState === 'breaking' && fragmentsVisible && (
                                                         <div className="asteroid-fragments-container">
-                                                            {[...Array(14)].map((_, i) => (
+                                                            {/* Central Core Energy Shockwave Ring */}
+                                                            <div className="asteroid-shockwave-ring"></div>
+
+                                                            {/* 16 Irregular Voronoi 3D Rock Shards */}
+                                                            {[...Array(16)].map((_, i) => (
                                                                 <div
                                                                     key={`frag-${i}`}
                                                                     className={`asteroid-fragment frag-${i}`}
                                                                     onAnimationEnd={i === 0 ? handleFragmentAnimationEnd : undefined}
                                                                 ></div>
                                                             ))}
-                                                            {[...Array(4)].map((_, i) => (
+
+                                                            {/* 8 Glowing High-Speed Debris Embers */}
+                                                            {[...Array(8)].map((_, i) => (
                                                                 <div key={`debris-${i}`} className={`asteroid-micro-debris debris-${i}`}></div>
+                                                            ))}
+
+                                                            {/* 8 Tiny Rock Flecks / Cosmic Dust Particles */}
+                                                            {[...Array(8)].map((_, i) => (
+                                                                <div key={`dust-${i}`} className={`asteroid-dust-particle dust-${i}`}></div>
                                                             ))}
                                                         </div>
                                                     )}
@@ -1711,6 +1730,7 @@ export const EntranceTestPortal = () => {
                                                             type="button"
                                                             className="floating-action-btn secondary-btn r-test-nav-btn"
                                                             onClick={handlePrevQuestionInCockpit}
+                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
                                                         >
                                                             <span>← Back</span>
                                                         </button>
@@ -1723,6 +1743,7 @@ export const EntranceTestPortal = () => {
                                                             type="button"
                                                             className="floating-action-btn primary-glow-btn r-test-nav-btn"
                                                             onClick={handleNextQuestionInCockpit}
+                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
                                                         >
                                                             <span>Next →</span>
                                                         </button>
@@ -1731,6 +1752,7 @@ export const EntranceTestPortal = () => {
                                                             type="button"
                                                             className="floating-action-btn launch-glow-btn r-test-nav-btn"
                                                             onClick={handleSubmitTestInCockpit}
+                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
                                                             style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
                                                         >
                                                             <span>Submit Test ✓</span>
