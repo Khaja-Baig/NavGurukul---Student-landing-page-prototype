@@ -38,6 +38,137 @@ export const EntranceTestPortal = () => {
     const [qSlideAnimClass, setQSlideAnimClass] = useState('');
     const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
 
+    // Cinematic Asteroid Question Transition States
+    const [asteroidAnimState, setAsteroidAnimState] = useState('revealed');
+    const [asteroidTextVisible, setAsteroidTextVisible] = useState(true);
+    const [fragmentsVisible, setFragmentsVisible] = useState(false);
+    const [crackVisible, setCrackVisible] = useState(false);
+    const [isSubmitExit, setIsSubmitExit] = useState(false);
+    const [displayedQuestionText, setDisplayedQuestionText] = useState(
+        etQuestionsData[0]?.text || etQuestionsData[0]?.question || ''
+    );
+    const isAsteroidTransitioningRef = useRef(false);
+    const typingTimerRef = useRef(null);
+    const transitionTimerRef = useRef([]);
+    const transitionHandledRef = useRef(false);
+    const pendingNextIdxRef = useRef(null);
+    const pendingSlideClassRef = useRef('');
+
+    const clearTransitionTimers = () => {
+        transitionTimerRef.current.forEach(t => clearTimeout(t));
+        transitionTimerRef.current = [];
+    };
+
+    const stopLetterByLetterReveal = () => {
+        if (typingTimerRef.current) {
+            clearInterval(typingTimerRef.current);
+            typingTimerRef.current = null;
+        }
+    };
+
+    const startLetterByLetterReveal = (fullText) => {
+        stopLetterByLetterReveal();
+        setDisplayedQuestionText('');
+        const textToType = fullText || '';
+        let charIdx = 0;
+        // Dynamically compute character interval (24-42ms adhering to prompt)
+        const totalTargetDuration = Math.min(1800, Math.max(900, textToType.length * 28));
+        const charInterval = Math.max(24, Math.min(42, Math.floor(totalTargetDuration / Math.max(1, textToType.length))));
+        typingTimerRef.current = setInterval(() => {
+            charIdx++;
+            setDisplayedQuestionText(textToType.slice(0, charIdx));
+            if (charIdx >= textToType.length) {
+                clearInterval(typingTimerRef.current);
+                typingTimerRef.current = null;
+                setAsteroidAnimState('active');
+                isAsteroidTransitioningRef.current = false;
+            }
+        }, charInterval);
+    };
+
+    const completeBreakupAndLoadNext = (nextIdx, slideClass) => {
+        if (transitionHandledRef.current) return;
+        transitionHandledRef.current = true;
+        pendingNextIdxRef.current = null;
+        clearTransitionTimers();
+        // Fragments and dust have completely dissipated — space is 100% clean and empty
+        setAsteroidAnimState('cleared');
+        setFragmentsVisible(false);
+        setCrackVisible(false);
+        setCurrentQuizQIndex(nextIdx);
+        setQSlideAnimClass(slideClass);
+        // Short natural cosmic pause in clean empty space before next asteroid approaches
+        const t = setTimeout(() => {
+            triggerAsteroidArrival(nextIdx);
+        }, 200);
+        transitionTimerRef.current.push(t);
+    };
+
+    const handleFragmentAnimationEnd = () => {
+        // Fallback triggered if anchor fragment completes its flight
+        if (pendingNextIdxRef.current !== null && !transitionHandledRef.current) {
+            const nextIdx = pendingNextIdxRef.current;
+            const slideClass = pendingSlideClassRef.current;
+            completeBreakupAndLoadNext(nextIdx, slideClass);
+        }
+    };
+
+    const triggerAsteroidArrival = (qIndex) => {
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+        setDisplayedQuestionText('');
+        setCrackVisible(false);
+        setFragmentsVisible(false);
+        setIsSubmitExit(false);
+        transitionHandledRef.current = false;
+        pendingNextIdxRef.current = null;
+        setAsteroidAnimState('entering');
+        setAsteroidTextVisible(false);
+
+        // One continuous cinematic glide from deep space into windshield (1.4s)
+        // Decelerates smoothly with physics easing curve, cushions into place, then reveals question
+        const t1 = setTimeout(() => {
+            setAsteroidAnimState('active');
+            setAsteroidTextVisible(true);
+            const targetQ = etQuestionsData[qIndex];
+            const fullText = targetQ?.text || targetQ?.question || '';
+            startLetterByLetterReveal(fullText);
+            // Allow next interaction once asteroid has settled and typing begins
+            setTimeout(() => {
+                isAsteroidTransitioningRef.current = false;
+            }, 300);
+        }, 1400);
+
+        transitionTimerRef.current.push(t1);
+    };
+
+    // Clean up timers on unmount
+    useEffect(() => {
+        return () => {
+            clearTransitionTimers();
+            stopLetterByLetterReveal();
+        };
+    }, []);
+
+    // Ensure asteroid and question text are visible if entering test directly or after reload
+    // IMPORTANT: When an active transition is in progress, this effect MUST NEVER touch asteroidAnimState!
+    useEffect(() => {
+        if (cockpitStep === 'test') {
+            if (isAsteroidTransitioningRef.current) return;
+            const currentQ = etQuestionsData[currentQuizQIndex];
+            const fullQ = currentQ?.text || currentQ?.question || '';
+            if (!displayedQuestionText) {
+                setDisplayedQuestionText(fullQ);
+            }
+            if (['cleared', 'exiting', 'breaking'].includes(asteroidAnimState)) {
+                setAsteroidAnimState('active');
+                setAsteroidTextVisible(true);
+                setFragmentsVisible(false);
+                setCrackVisible(false);
+            }
+        }
+    }, [cockpitStep, currentQuizQIndex]);
+
     // Timer effect for test countdown inside rocket cockpit screen
     useEffect(() => {
         let timerId = null;
@@ -60,31 +191,94 @@ export const EntranceTestPortal = () => {
         setCockpitStep('test_init');
         setTimeout(() => {
             setCockpitStep('test');
+            triggerAsteroidArrival(0);
         }, 900);
     };
 
+    // Immediate Realistic Cinematic VFX Breakup sequence when navigating Next question
     const handleNextQuestionInCockpit = () => {
+        if (isAsteroidTransitioningRef.current) return;
+        isAsteroidTransitioningRef.current = true;
+        transitionHandledRef.current = false;
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+
+        const nextIdx = Math.min(etQuestionsData.length - 1, currentQuizQIndex + 1);
+        pendingNextIdxRef.current = nextIdx;
+        pendingSlideClassRef.current = 'slide-enter-right';
+        
+        // 1. Immediate VFX Breakup:
+        // Text dissolves, intact asteroid mesh is removed IMMEDIATELY at 0ms (no delay or flicker),
+        // and fragments + glowing dust/debris particles burst outward in one continuous animation.
+        setAsteroidTextVisible(false);
+        setCrackVisible(false);
+        setAsteroidAnimState('breaking');
+        setFragmentsVisible(true);
         setQSlideAnimClass('slide-exit-left');
-        setTimeout(() => {
-            setCurrentQuizQIndex(prev => Math.min(etQuestionsData.length - 1, prev + 1));
-            setQSlideAnimClass('slide-enter-right');
-        }, 180);
+
+        // 2. Fragments disperse and dissipate into empty space over 1150ms
+        const t1 = setTimeout(() => {
+            if (pendingNextIdxRef.current !== null) {
+                completeBreakupAndLoadNext(nextIdx, 'slide-enter-right');
+            }
+        }, 1150);
+
+        transitionTimerRef.current.push(t1);
     };
 
+    // Immediate Realistic Cinematic VFX Breakup sequence when navigating Prev question
     const handlePrevQuestionInCockpit = () => {
+        if (isAsteroidTransitioningRef.current) return;
+        isAsteroidTransitioningRef.current = true;
+        transitionHandledRef.current = false;
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+
+        const prevIdx = Math.max(0, currentQuizQIndex - 1);
+        pendingNextIdxRef.current = prevIdx;
+        pendingSlideClassRef.current = 'slide-enter-left';
+
+        // 1. Immediate VFX Breakup:
+        // Text dissolves, intact asteroid mesh is removed IMMEDIATELY at 0ms (no delay or flicker),
+        // and fragments + glowing dust/debris particles burst outward in one continuous animation.
+        setAsteroidTextVisible(false);
+        setCrackVisible(false);
+        setAsteroidAnimState('breaking');
+        setFragmentsVisible(true);
         setQSlideAnimClass('slide-exit-right');
-        setTimeout(() => {
-            setCurrentQuizQIndex(prev => Math.max(0, prev - 1));
-            setQSlideAnimClass('slide-enter-left');
-        }, 180);
+
+        // 2. Fragments disperse and dissipate into empty space over 1150ms
+        const t1 = setTimeout(() => {
+            if (pendingNextIdxRef.current !== null) {
+                completeBreakupAndLoadNext(prevIdx, 'slide-enter-left');
+            }
+        }, 1150);
+
+        transitionTimerRef.current.push(t1);
     };
 
+    // Softer, respectful cosmic dissolve sequence on Test Submit (not violent breakup)
     const handleSubmitTestInCockpit = () => {
-        setCockpitStep('test_submitting');
-        setTimeout(() => {
-            finishEtQuiz();
-            setCockpitStep('test_results');
-        }, 1200);
+        if (isAsteroidTransitioningRef.current) return;
+        isAsteroidTransitioningRef.current = true;
+        clearTransitionTimers();
+        stopLetterByLetterReveal();
+
+        setAsteroidTextVisible(false);
+        setIsSubmitExit(true);
+        setAsteroidAnimState('dissolving');
+
+        const t1 = setTimeout(() => {
+            setCockpitStep('test_submitting');
+            const t2 = setTimeout(() => {
+                finishEtQuiz();
+                setCockpitStep('test_results');
+                isAsteroidTransitioningRef.current = false;
+            }, 1200);
+            transitionTimerRef.current.push(t2);
+        }, 1400);
+
+        transitionTimerRef.current.push(t1);
     };
 
     const handleStep1Continue = () => {
@@ -594,6 +788,94 @@ export const EntranceTestPortal = () => {
                                     />
                                     <div className="cockpit-space-stars"></div>
                                     <div className="cockpit-nebula-pulse"></div>
+
+                                    {/* Dedicated Space Windshield Viewport: physically clips asteroid outside the cockpit */}
+                                    {cockpitStep === 'test' && (
+                                        <div className="cockpit-space-viewport" id="cockpitSpaceViewport">
+                                            <div className="cockpit-asteroid-hud-container" id="cockpitWindowHud">
+                                                <div className={`asteroid-carrier ${asteroidAnimState} ${isSubmitExit ? 'submit-exit' : ''}`}>
+                                                    
+                                                    {/* Intact 3D Asteroid Rock Mesh — rendered while intact & during crack stress */}
+                                                    {!['breaking', 'cleared'].includes(asteroidAnimState) && (
+                                                        <div className="asteroid-mesh-wrapper">
+                                                            <img
+                                                                src="/asteroid_rock.png"
+                                                                alt="Mission Asteroid"
+                                                                className="asteroid-rock-img"
+                                                            />
+                                                            <div className="asteroid-cosmic-glow"></div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* Glowing Stress Fracture / Crack Overlay */}
+                                                    {crackVisible && (
+                                                        <svg className="asteroid-crack-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                                            <defs>
+                                                                <linearGradient id="crackGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                    <stop offset="0%" stopColor="#f8fafc" stopOpacity="1" />
+                                                                    <stop offset="35%" stopColor="#38bdf8" stopOpacity="0.95" />
+                                                                    <stop offset="100%" stopColor="#c084fc" stopOpacity="0.9" />
+                                                                </linearGradient>
+                                                                <filter id="crackNeonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                                                    <feGaussianBlur stdDeviation="1.2" result="blur" />
+                                                                    <feMerge>
+                                                                        <feMergeNode in="blur" />
+                                                                        <feMergeNode in="SourceGraphic" />
+                                                                    </feMerge>
+                                                                </filter>
+                                                            </defs>
+                                                            <g filter="url(#crackNeonGlow)">
+                                                                <path className="crack-path crack-branch-1" d="M57.0,57.9 L57.8,39.9 M40.2,36.0 L55.5,34.4 M24.6,36.5 L39.4,38.0 M22.4,40.9 L23.4,58.8 M55.5,34.4 L57.2,0.0 M71.0,36.0 L76.5,0.0 M20.3,100.0 L22.9,59.7" />
+                                                                <path className="crack-path crack-branch-2" d="M39.4,38.0 L39.8,58.3 M37.3,62.8 L39.8,58.3 M23.4,58.8 L37.3,62.8 M74.6,46.1 L81.3,45.5 M38.4,0.0 L40.2,36.0 M0.0,62.4 L22.9,59.7 M81.3,45.5 L100.0,8.7" />
+                                                                <path className="crack-path crack-branch-3" d="M39.8,58.3 L53.1,63.8 M39.4,38.0 L40.2,36.0 M72.3,60.2 L74.6,46.1 M22.9,59.7 L23.4,58.8 M35.4,100.0 L37.3,62.8 M81.3,45.5 L95.7,77.7" />
+                                                                <path className="crack-path crack-branch-4" d="M53.1,63.8 L57.0,57.9 M57.0,57.9 L69.2,64.8 M69.2,64.8 L72.3,60.2 M22.4,40.9 L24.6,36.5 M69.2,64.8 L70.1,100.0 M0.0,34.2 L22.4,40.9" />
+                                                                <path className="crack-path crack-branch-5" d="M55.5,34.4 L57.8,39.9 M57.8,39.9 L71.0,36.0 M71.0,36.0 L74.6,46.1 M53.1,63.8 L54.0,100.0 M72.3,60.2 L95.7,77.7 M23.6,0.0 L24.6,36.5" />
+                                                            </g>
+                                                        </svg>
+                                                    )}
+
+                                                    {/* Physical Shatter Rocky Fragments, Shockwave & Micro-Debris System */}
+                                                    {asteroidAnimState === 'breaking' && fragmentsVisible && (
+                                                        <div className="asteroid-fragments-container">
+                                                            {/* Central Core Energy Shockwave Ring */}
+                                                            <div className="asteroid-shockwave-ring"></div>
+
+                                                            {/* 16 Irregular Voronoi 3D Rock Shards */}
+                                                            {[...Array(16)].map((_, i) => (
+                                                                <div
+                                                                    key={`frag-${i}`}
+                                                                    className={`asteroid-fragment frag-${i}`}
+                                                                    onAnimationEnd={i === 0 ? handleFragmentAnimationEnd : undefined}
+                                                                ></div>
+                                                            ))}
+
+                                                            {/* 8 Glowing High-Speed Debris Embers */}
+                                                            {[...Array(8)].map((_, i) => (
+                                                                <div key={`debris-${i}`} className={`asteroid-micro-debris debris-${i}`}></div>
+                                                            ))}
+
+                                                            {/* 8 Tiny Rock Flecks / Cosmic Dust Particles */}
+                                                            {[...Array(8)].map((_, i) => (
+                                                                <div key={`dust-${i}`} className={`asteroid-dust-particle dust-${i}`}></div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+
+                                                    {/* Projected Holographic Question Surface — Pure projection, no rectangular box! */}
+                                                    <div className={`asteroid-projection-surface ${asteroidTextVisible ? 'visible' : ''}`}>
+                                                        <div className="projection-scan-beam"></div>
+                                                        <div className="asteroid-q-text">
+                                                            {displayedQuestionText || (etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question || '')}
+                                                            {asteroidTextVisible && displayedQuestionText && displayedQuestionText.length < (etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question || '').length && (
+                                                                <span className="typing-cursor">▌</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* 2. Holographic Avatar Guide System (Console Projector on Left Side) */}
@@ -662,26 +944,6 @@ export const EntranceTestPortal = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Front Cockpit Window HUD: Floating Question Display */}
-                                {cockpitStep === 'test' && (
-                                    <div className="cockpit-window-hud-container" id="cockpitWindowHud">
-                                        <div className={`cockpit-hud-question-card ${qSlideAnimClass}`}>
-                                            <div className="hud-corner hud-corner-tl"></div>
-                                            <div className="hud-corner hud-corner-tr"></div>
-                                            <div className="hud-corner hud-corner-bl"></div>
-                                            <div className="hud-corner hud-corner-br"></div>
-                                            <div className="hud-question-header">
-                                                <span className="hud-reticle-line"></span>
-                                                <span className="hud-q-tag">Q{String(currentQuizQIndex + 1).padStart(2, '0')}</span>
-                                                <span className="hud-reticle-line"></span>
-                                            </div>
-                                            <div className="hud-q-text">
-                                                {etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
 
                                 {/* Front Cockpit Window HUD: Test Results Display */}
                                 {cockpitStep === 'test_results' && (() => {
@@ -1460,6 +1722,7 @@ export const EntranceTestPortal = () => {
                                                             type="button"
                                                             className="floating-action-btn secondary-btn r-test-nav-btn"
                                                             onClick={handlePrevQuestionInCockpit}
+                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
                                                         >
                                                             <span>← Back</span>
                                                         </button>
@@ -1472,6 +1735,7 @@ export const EntranceTestPortal = () => {
                                                             type="button"
                                                             className="floating-action-btn primary-glow-btn r-test-nav-btn"
                                                             onClick={handleNextQuestionInCockpit}
+                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
                                                         >
                                                             <span>Next →</span>
                                                         </button>
@@ -1480,6 +1744,7 @@ export const EntranceTestPortal = () => {
                                                             type="button"
                                                             className="floating-action-btn launch-glow-btn r-test-nav-btn"
                                                             onClick={handleSubmitTestInCockpit}
+                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
                                                             style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
                                                         >
                                                             <span>Submit Test ✓</span>

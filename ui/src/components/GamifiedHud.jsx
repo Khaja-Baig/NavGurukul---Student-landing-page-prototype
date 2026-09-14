@@ -28,18 +28,11 @@ export const GamifiedHud = () => {
         if (isForward) {
             setIsZoomingForward(true);
             setIsZoomingBackward(false);
-            const callouts = ["ZOOM! 🚀", "ZOOM, ZOOM! ⚡", "BOOST! 🌟", "+100 XP! 🎯", "LEVEL UP! 🔥", "FULL SPEED! ✈️"];
+            const callouts = ["ZOOM! 🚀", "ZOOM, ZOOM! ⚡", "BOOST! 🌟", "LEVEL UP! 🔥", "FULL SPEED! ✈️"];
             setCalloutText(callouts[Math.floor(Math.random() * callouts.length)]);
             setShowCallout(true);
             setTimeout(() => setShowCallout(false), 1200);
             setTimeout(() => setIsZoomingForward(false), 800);
-
-            // Spawn floating XP Toast brief popup
-            const toast = document.createElement('div');
-            toast.className = 'xp-toast';
-            toast.textContent = '+100 XP 🎯';
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 1200);
         } else if (isBackward) {
             setIsZoomingBackward(true);
             setIsZoomingForward(false);
@@ -112,8 +105,6 @@ export const GamifiedHud = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="hud-level-badge" id="hudLevelBadge"></div>
         </div>
     );
 };
