@@ -91,20 +91,22 @@ export const EntranceTestPortal = () => {
         transitionHandledRef.current = true;
         pendingNextIdxRef.current = null;
         clearTransitionTimers();
+        // Fragments and dust have completely dissipated — space is 100% clean and empty
         setAsteroidAnimState('cleared');
         setFragmentsVisible(false);
         setCrackVisible(false);
         setCurrentQuizQIndex(nextIdx);
         setQSlideAnimClass(slideClass);
+        // Short natural cosmic pause in clean empty space before next asteroid approaches
         const t = setTimeout(() => {
             triggerAsteroidArrival(nextIdx);
-        }, 180);
+        }, 200);
         transitionTimerRef.current.push(t);
     };
 
     const handleFragmentAnimationEnd = () => {
-        // Triggered by anchor fragment (frag-0) completing its 2.1s flight
-        if (pendingNextIdxRef.current !== null) {
+        // Fallback triggered if anchor fragment completes its flight
+        if (pendingNextIdxRef.current !== null && !transitionHandledRef.current) {
             const nextIdx = pendingNextIdxRef.current;
             const slideClass = pendingSlideClassRef.current;
             completeBreakupAndLoadNext(nextIdx, slideClass);
@@ -123,15 +125,19 @@ export const EntranceTestPortal = () => {
         setAsteroidAnimState('entering');
         setAsteroidTextVisible(false);
 
-        // One unbroken, continuous cinematic trajectory from deep space into windshield (1.85s)
-        // Decelerates smoothly, cushions with a subtle natural settle, then reveals question
+        // One continuous cinematic glide from deep space into windshield (1.4s)
+        // Decelerates smoothly with physics easing curve, cushions into place, then reveals question
         const t1 = setTimeout(() => {
             setAsteroidAnimState('active');
             setAsteroidTextVisible(true);
             const targetQ = etQuestionsData[qIndex];
             const fullText = targetQ?.text || targetQ?.question || '';
             startLetterByLetterReveal(fullText);
-        }, 1850);
+            // Allow next interaction once asteroid has settled and typing begins
+            setTimeout(() => {
+                isAsteroidTransitioningRef.current = false;
+            }, 300);
+        }, 1400);
 
         transitionTimerRef.current.push(t1);
     };
@@ -145,8 +151,10 @@ export const EntranceTestPortal = () => {
     }, []);
 
     // Ensure asteroid and question text are visible if entering test directly or after reload
+    // IMPORTANT: When an active transition is in progress, this effect MUST NEVER touch asteroidAnimState!
     useEffect(() => {
         if (cockpitStep === 'test') {
+            if (isAsteroidTransitioningRef.current) return;
             const currentQ = etQuestionsData[currentQuizQIndex];
             const fullQ = currentQ?.text || currentQ?.question || '';
             if (!displayedQuestionText) {
@@ -187,7 +195,7 @@ export const EntranceTestPortal = () => {
         }, 900);
     };
 
-    // Realistic Physical Crack & Breakup sequence when navigating Next question
+    // Immediate Realistic Cinematic VFX Breakup sequence when navigating Next question
     const handleNextQuestionInCockpit = () => {
         if (isAsteroidTransitioningRef.current) return;
         isAsteroidTransitioningRef.current = true;
@@ -199,34 +207,26 @@ export const EntranceTestPortal = () => {
         pendingNextIdxRef.current = nextIdx;
         pendingSlideClassRef.current = 'slide-enter-right';
         
-        // 1. Text projection dissolves smoothly first (0ms)
+        // 1. Immediate VFX Breakup:
+        // Text dissolves, intact asteroid mesh is removed IMMEDIATELY at 0ms (no delay or flicker),
+        // and fragments + glowing dust/debris particles burst outward in one continuous animation.
         setAsteroidTextVisible(false);
+        setCrackVisible(false);
+        setAsteroidAnimState('breaking');
+        setFragmentsVisible(true);
         setQSlideAnimClass('slide-exit-left');
 
-        // 2. At 120ms: trigger internal tension shudder and fault-line cracks
-        const t0 = setTimeout(() => {
-            setCrackVisible(true);
-            setAsteroidAnimState('cracking');
-        }, 120);
-
-        // 3. Structural fracture at 400ms: Irregular Voronoi rock shatter + particles
+        // 2. Fragments disperse and dissipate into empty space over 1150ms
         const t1 = setTimeout(() => {
-            setCrackVisible(false);
-            setAsteroidAnimState('breaking');
-            setFragmentsVisible(true);
-        }, 400);
-
-        // 4. Watchdog fallback timer
-        const t2 = setTimeout(() => {
             if (pendingNextIdxRef.current !== null) {
                 completeBreakupAndLoadNext(nextIdx, 'slide-enter-right');
             }
-        }, 2450);
+        }, 1150);
 
-        transitionTimerRef.current.push(t0, t1, t2);
+        transitionTimerRef.current.push(t1);
     };
 
-    // Realistic Physical Crack & Breakup sequence when navigating Prev question
+    // Immediate Realistic Cinematic VFX Breakup sequence when navigating Prev question
     const handlePrevQuestionInCockpit = () => {
         if (isAsteroidTransitioningRef.current) return;
         isAsteroidTransitioningRef.current = true;
@@ -238,31 +238,23 @@ export const EntranceTestPortal = () => {
         pendingNextIdxRef.current = prevIdx;
         pendingSlideClassRef.current = 'slide-enter-left';
 
-        // 1. Text projection dissolves smoothly first (0ms)
+        // 1. Immediate VFX Breakup:
+        // Text dissolves, intact asteroid mesh is removed IMMEDIATELY at 0ms (no delay or flicker),
+        // and fragments + glowing dust/debris particles burst outward in one continuous animation.
         setAsteroidTextVisible(false);
+        setCrackVisible(false);
+        setAsteroidAnimState('breaking');
+        setFragmentsVisible(true);
         setQSlideAnimClass('slide-exit-right');
 
-        // 2. At 120ms: trigger internal tension shudder and fault-line cracks
-        const t0 = setTimeout(() => {
-            setCrackVisible(true);
-            setAsteroidAnimState('cracking');
-        }, 120);
-
-        // 3. Structural fracture at 400ms: Irregular Voronoi rock shatter + particles
+        // 2. Fragments disperse and dissipate into empty space over 1150ms
         const t1 = setTimeout(() => {
-            setCrackVisible(false);
-            setAsteroidAnimState('breaking');
-            setFragmentsVisible(true);
-        }, 400);
-
-        // 4. Watchdog fallback timer
-        const t2 = setTimeout(() => {
             if (pendingNextIdxRef.current !== null) {
                 completeBreakupAndLoadNext(prevIdx, 'slide-enter-left');
             }
-        }, 2450);
+        }, 1150);
 
-        transitionTimerRef.current.push(t0, t1, t2);
+        transitionTimerRef.current.push(t1);
     };
 
     // Softer, respectful cosmic dissolve sequence on Test Submit (not violent breakup)
