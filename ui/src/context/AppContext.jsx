@@ -102,7 +102,6 @@ export const AppProvider = ({ children }) => {
 
         if (n > prev && addXp !== false) {
             setXp(prevXp => prevXp + 100);
-            triggerXpToast('+100 XP 🎯');
         }
     };
 
