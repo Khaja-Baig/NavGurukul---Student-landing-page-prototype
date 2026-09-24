@@ -3359,6 +3359,41 @@
     }
 }
 
+/* Responsive CTA text in campus cards (fixes awkward word-wrapping and sizing) */
+@media (max-width: 768px) {
+    .campus-card-footer {
+        padding: 10px 14px;
+        gap: 6px;
+    }
+
+    .campus-cta-text {
+        font-size: 0.78rem;
+        white-space: nowrap;
+    }
+
+    .campus-cta-arrow {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .campus-card-footer {
+        padding: 8px 10px;
+        margin: 0 12px 14px;
+        gap: 4px;
+    }
+
+    .campus-cta-text {
+        font-size: 0.71rem;
+        letter-spacing: -0.015em;
+        white-space: nowrap;
+    }
+
+    .campus-cta-arrow {
+        font-size: 0.88rem;
+    }
+}
+
 /* ╔══════════════════════════════════════════════════════════════════╗
    ║  MASTER MOBILE RESPONSIVE — STEPS 4–10 (All Components)        ║
    ║  Covers: Alumni, School Cards, Offerings, Roadmap, Modals       ║

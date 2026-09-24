@@ -79,6 +79,17 @@ export const EntranceTestPortal = () => {
         };
     }, [portalStep]);
 
+    // Lock body scrolling when the portal is open to prevent double scrollbars
+    useEffect(() => {
+        if (isPortalOpen) {
+            const originalOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = originalOverflow;
+            };
+        }
+    }, [isPortalOpen]);
+
     // Cinematic Asteroid Question Transition States
     const [asteroidAnimState, setAsteroidAnimState] = useState('revealed');
     const [asteroidTextVisible, setAsteroidTextVisible] = useState(true);
@@ -554,7 +565,7 @@ export const EntranceTestPortal = () => {
     }
 
     return (
-        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active et-quiz-mode' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
+        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 1 ? 'step1-active' : ''} ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active et-quiz-mode' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
             {/* ROCKET MISSION LAUNCH TRANSITION OVERLAY */}
             <LaunchTransitionOverlay />
 
