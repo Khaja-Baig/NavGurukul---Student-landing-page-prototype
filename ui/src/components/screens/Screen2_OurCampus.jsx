@@ -366,7 +366,7 @@ export const Screen2_OurCampus = () => {
                             Programs at <span className="highlight-pink">{selectedCampus.name}</span>
                         </h1>
                         <div className="programs-badge-row">
-                            <span className={`campus-pill ${selectedCampus.type === 'Boys' ? 'boys-pill' : selectedCampus.type === 'Co-ed' ? 'coed-pill' : 'girls-pill'}`}>
+                            <span className={`campus-pill programs-campus-pill ${selectedCampus.type === 'Boys' ? 'boys-pill' : selectedCampus.type === 'Co-ed' ? 'coed-pill' : 'girls-pill'}`}>
                                 {selectedCampus.type === 'Boys' ? '👦 Boys Campus' : selectedCampus.type === 'Co-ed' ? '👦👧 Co-ed Campus' : '👧 Girls Campus'}
                             </span>
                         </div>
@@ -388,17 +388,13 @@ export const Screen2_OurCampus = () => {
 
                         {/* Course Cards Grid Filtered for this Campus */}
                         <div
-                            className={`s4-cards-grid ${effectiveActiveCard ? 'has-active' : ''}`}
+                            className={`campus-programs-grid ${effectiveActiveCard ? 'has-active' : ''}`}
                             id="schoolRow"
-                            style={{
-                                gridTemplateColumns: currentCourses.length === 1 ? 'minmax(320px, 460px)' : currentCourses.length === 2 ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(280px, 1fr))',
-                                justifyContent: 'center'
-                            }}
                         >
                             {currentCourses.map((course) => (
                                 <div
                                     key={course.code}
-                                    className={`school-card ${course.themeClass} ${effectiveActiveCard === course.code ? 'avatar-highlight' : ''}`}
+                                    className={`program-course-card ${course.themeClass} ${effectiveActiveCard === course.code ? 'avatar-highlight' : ''}`}
                                     onClick={() => openSchoolModal(course.schoolIdx)}
                                     onMouseEnter={() => handleCardHover(course)}
                                     onMouseLeave={handleCardLeave}
@@ -406,20 +402,30 @@ export const Screen2_OurCampus = () => {
                                     tabIndex={0}
                                     aria-label={`View details of ${course.title}`}
                                 >
-                                    <div className="school-left-border"></div>
-                                    <div className={`school-icon-badge ${course.badgeClass}`}>{course.icon}</div>
-                                    <div className="school-content">
-                                        <div className="school-header-row">
-                                            <span className={`school-tag ${course.tagClass}`}>{course.tag}</span>
-                                            <h3 className="school-title">{course.title}</h3>
+                                    <div className="program-card-header">
+                                        <div className={`program-icon-circle ${course.badgeClass}`}>{course.icon}</div>
+                                        <span className={`school-tag ${course.tagClass}`}>{course.tag}</span>
+                                    </div>
+
+                                    <h3 className="program-full-name">{course.title}</h3>
+                                    <p className="program-desc">{course.desc}</p>
+
+                                    <div className="program-meta-list">
+                                        <div className="program-meta-row">
+                                            <span className="meta-icon">📍</span>
+                                            <span className="meta-text">Available at this campus</span>
                                         </div>
-                                        <p className="school-desc">{course.desc}</p>
-                                        <div className="school-footer-row">
-                                            <div className="school-meta">
-                                                <span className="meta-item">📍 {selectedCampus.name}</span>
-                                                <span className="meta-item">⏳ {course.duration.split(' ')[0]}</span>
-                                            </div>
-                                            <div className="school-cta">Check Details →</div>
+                                        <div className="program-meta-row">
+                                            <span className="meta-icon">⏳</span>
+                                            <span className="meta-text">
+                                                Duration: <strong>{course.duration}</strong>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="program-card-footer">
+                                        <div className={`admissions-open-btn btn-${course.code.toLowerCase()}`}>
+                                            <span className="btn-icon">✅</span> Admissions Open
                                         </div>
                                     </div>
                                 </div>

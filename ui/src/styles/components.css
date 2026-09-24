@@ -1190,21 +1190,25 @@
 .school-tag.blue-tag {
     background: #eff6ff;
     color: #1d4ed8;
+    border: 1px solid #bfdbfe;
 }
 
 .school-tag.green-tag {
     background: #ecfdf5;
     color: #047857;
+    border: 1px solid #a7f3d0;
 }
 
 .school-tag.orange-tag {
-    background: #fffbe6;
-    color: #b45309;
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
 }
 
 .school-tag.purple-tag {
     background: #faf5ff;
     color: #7e22ce;
+    border: 1px solid #e9d5ff;
 }
 
 .meta-item {
@@ -2994,135 +2998,245 @@
 
 .programs-header-block {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .programs-headline {
-    font-size: clamp(24px, 3.4vw, 42px);
+    font-size: clamp(26px, 3.6vw, 44px);
     margin-bottom: 8px;
 }
 
 .programs-badge-row {
-    margin-bottom: 6px;
+    margin: 10px 0 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Prominent, Spacious & Clear Campus Badge */
+.programs-campus-pill {
+    font-size: 0.96rem !important;
+    font-weight: 800 !important;
+    padding: 8px 24px !important;
+    border-radius: 30px !important;
+    letter-spacing: 0.02em !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+    border-width: 1.5px !important;
+    line-height: 1.4 !important;
+}
+
+.programs-campus-pill.girls-pill {
+    background: #fff0f7 !important;
+    color: #be185d !important;
+    border-color: #f472b6 !important;
+}
+
+.programs-campus-pill.boys-pill {
+    background: #f0f9ff !important;
+    color: #0369a1 !important;
+    border-color: #38bdf8 !important;
+}
+
+.programs-campus-pill.coed-pill {
+    background: #f0fdf4 !important;
+    color: #15803d !important;
+    border-color: #4ade80 !important;
 }
 
 .programs-subline {
-    margin-top: 4px;
-    margin-bottom: 8px;
+    font-size: 14.5px;
+    color: #475569;
+    margin: 6px auto 0;
+    line-height: 1.5;
 }
 
-/* Programs Grid (2x2 Layout) */
+/* Programs Grid (Flex Wrapping, Max 2 Per Row) */
 .campus-programs-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    max-width: 740px;
     width: 100%;
-    margin-top: 6px;
 }
 
 .program-course-card {
     background: #ffffff;
     border-radius: 20px;
     border: 1.5px solid #e2e8f0;
-    padding: 20px 22px;
+    border-top: 3.5px solid #94a3b8;
+    padding: 16px 18px 14px;
     display: flex;
     flex-direction: column;
-    text-align: left;
+    text-align: center;
     position: relative;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
-    animation: cardStaggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    animation: cardStaggerIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    width: calc(50% - 10px);
+    max-width: 350px;
+    min-width: 275px;
+    box-sizing: border-box;
 }
 
 .program-course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Blue Theme (SOP - Software Development) */
+.program-course-card.blue-theme {
+    background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 42%);
+    border-color: #bfdbfe;
+    border-top: 3.5px solid #3b82f6;
+    box-shadow: 0 4px 18px rgba(59, 130, 246, 0.07);
 }
 
 .program-course-card.blue-theme:hover {
+    background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 48%);
     border-color: #3b82f6;
-    box-shadow: 0 16px 36px rgba(59, 130, 246, 0.16);
+    border-top-color: #2563eb;
+    box-shadow: 0 14px 30px rgba(59, 130, 246, 0.18);
+}
+
+.program-course-card.blue-theme .program-icon-circle {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+/* Green Theme (SOB - Operations & Marketing) */
+.program-course-card.green-theme {
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 42%);
+    border-color: #bbf7d0;
+    border-top: 3.5px solid #10b981;
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.07);
 }
 
 .program-course-card.green-theme:hover {
+    background: linear-gradient(180deg, #dcfce7 0%, #ffffff 48%);
     border-color: #10b981;
-    box-shadow: 0 16px 36px rgba(16, 185, 129, 0.16);
+    border-top-color: #059669;
+    box-shadow: 0 14px 30px rgba(16, 185, 129, 0.18);
+}
+
+.program-course-card.green-theme .program-icon-circle {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+}
+
+/* Orange Theme (SOF - Accounting & Taxation) */
+.program-course-card.orange-theme {
+    background: linear-gradient(180deg, #fff7ed 0%, #ffffff 42%);
+    border-color: #fed7aa;
+    border-top: 3.5px solid #f97316;
+    box-shadow: 0 4px 18px rgba(249, 115, 22, 0.07);
 }
 
 .program-course-card.orange-theme:hover {
-    border-color: #f59e0b;
-    box-shadow: 0 16px 36px rgba(245, 158, 11, 0.16);
+    background: linear-gradient(180deg, #ffedd5 0%, #ffffff 48%);
+    border-color: #f97316;
+    border-top-color: #ea580c;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.18);
+}
+
+.program-course-card.orange-theme .program-icon-circle {
+    background: #fff7ed;
+    border-color: #fed7aa;
+}
+
+/* Purple Theme (BCA - Degree Program) */
+.program-course-card.purple-theme {
+    background: linear-gradient(180deg, #faf5ff 0%, #ffffff 42%);
+    border-color: #e9d5ff;
+    border-top: 3.5px solid #8b5cf6;
+    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.07);
 }
 
 .program-course-card.purple-theme:hover {
+    background: linear-gradient(180deg, #f3e8ff 0%, #ffffff 48%);
     border-color: #8b5cf6;
-    box-shadow: 0 16px 36px rgba(139, 92, 246, 0.16);
+    border-top-color: #7c3aed;
+    box-shadow: 0 14px 30px rgba(139, 92, 246, 0.18);
+}
+
+.program-course-card.purple-theme .program-icon-circle {
+    background: #faf5ff;
+    border-color: #e9d5ff;
 }
 
 .program-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .program-icon-circle {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 12px;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: 1.15rem;
 }
 
-.program-title-row {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    margin-bottom: 6px;
-}
-
-.program-code {
+.program-full-name {
     font-family: var(--font-display, system-ui);
-    font-size: 1.3rem;
+    font-size: 1.05rem;
     font-weight: 800;
     color: #0f172a;
-    margin: 0;
-}
-
-.program-full-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #64748b;
+    line-height: 1.3;
+    margin: 4px 0 6px 0;
+    text-align: center;
 }
 
 .program-desc {
-    font-size: 0.84rem;
-    color: #475569;
+    font-size: 0.82rem;
+    color: #64748b;
     line-height: 1.45;
-    margin: 0 0 14px 0;
+    margin: 0 0 10px 0;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .program-meta-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
-    padding-top: 10px;
+    gap: 5px;
+    margin-bottom: 12px;
+    padding-top: 8px;
     border-top: 1px dashed #e2e8f0;
+    text-align: left;
 }
 
 .program-meta-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.79rem;
-    color: #64748b;
+    gap: 7px;
+    font-size: 0.78rem;
+    color: #475569;
     font-weight: 500;
+}
+
+.program-meta-row .meta-icon {
+    font-size: 0.88rem;
+    flex-shrink: 0;
+}
+
+.program-meta-row strong {
+    color: #0f172a;
+    font-weight: 700;
 }
 
 .program-card-footer {
@@ -3131,13 +3245,10 @@
 
 .admissions-open-btn {
     width: 100%;
-    padding: 10px 16px;
-    border-radius: 14px;
-    border: 1.5px solid #a7f3d0;
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    color: #065f46;
+    padding: 9px 14px;
+    border-radius: 12px;
     font-family: var(--font-display, system-ui);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 800;
     cursor: pointer;
     display: flex;
@@ -3145,14 +3256,74 @@
     justify-content: center;
     gap: 6px;
     transition: all 0.25s ease;
+    box-sizing: border-box;
+    border: 1.5px solid #a7f3d0;
+    background: #ecfdf5;
+    color: #047857;
 }
 
-.admissions-open-btn:hover {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+/* Blue (SOP) */
+.admissions-open-btn.btn-sop {
+    background: #eff6ff;
+    border: 1.5px solid #bfdbfe;
+    color: #1d4ed8;
+}
+
+.program-course-card.blue-theme:hover .admissions-open-btn.btn-sop,
+.admissions-open-btn.btn-sop:hover {
+    background: #2563eb;
+    border-color: #1d4ed8;
     color: #ffffff;
-    border-color: #059669;
-    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+    transform: translateY(-1px);
+}
+
+/* Green (SOB) */
+.admissions-open-btn.btn-sob {
+    background: #ecfdf5;
+    border: 1.5px solid #a7f3d0;
+    color: #047857;
+}
+
+.program-course-card.green-theme:hover .admissions-open-btn.btn-sob,
+.admissions-open-btn.btn-sob:hover {
+    background: #059669;
+    border-color: #047857;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
+    transform: translateY(-1px);
+}
+
+/* Orange (SOF) */
+.admissions-open-btn.btn-sof {
+    background: #fff7ed;
+    border: 1.5px solid #fed7aa;
+    color: #c2410c;
+}
+
+.program-course-card.orange-theme:hover .admissions-open-btn.btn-sof,
+.admissions-open-btn.btn-sof:hover {
+    background: #ea580c;
+    border-color: #c2410c;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28);
+    transform: translateY(-1px);
+}
+
+/* Purple (BCA) */
+.admissions-open-btn.btn-bca {
+    background: #faf5ff;
+    border: 1.5px solid #e9d5ff;
+    color: #7e22ce;
+}
+
+.program-course-card.purple-theme:hover .admissions-open-btn.btn-bca,
+.admissions-open-btn.btn-bca:hover {
+    background: #7e22ce;
+    border-color: #6b21a8;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(126, 34, 206, 0.28);
+    transform: translateY(-1px);
 }
 
 /* Responsive Breakpoints */
