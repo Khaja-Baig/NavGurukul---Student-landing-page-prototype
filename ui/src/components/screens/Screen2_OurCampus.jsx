@@ -99,7 +99,7 @@ export const campusesData = [
             courses: "Yahan exclusively available hai hamara UGC-recognized BCA degree program (3 Years)! 🎓",
             closing: "Card par click karke BCA degree eligibility aur subjects check karein! 🚀"
         }
-    }
+    },
 ];
 
 export const allCourses = {
@@ -306,14 +306,32 @@ export const Screen2_OurCampus = () => {
                                         </div>
                                     </div>
 
-                                    {/* State / Region */}
-                                    <p className="campus-region">{campus.state}</p>
+                                    {/* Centered Card Content Body */}
+                                    <div className="campus-card-body">
+                                        {/* State / Region */}
+                                        <p className="campus-region">{campus.state}</p>
 
-                                    {/* Gender / Cohort Pill */}
-                                    <div className="campus-pill-wrap">
-                                        <span className={`campus-pill ${campus.type === 'Boys' ? 'boys-pill' : campus.type === 'Co-ed' ? 'coed-pill' : 'girls-pill'}`}>
-                                            {campus.type === 'Boys' ? '👦 Boys Campus' : campus.type === 'Co-ed' ? '👦👧 Co-ed Campus' : '👧 Girls Campus'}
-                                        </span>
+                                        {/* Gender / Cohort Pill */}
+                                        <div className="campus-pill-wrap">
+                                            <span className={`campus-pill ${campus.type === 'Boys' ? 'boys-pill' : campus.type === 'Co-ed' ? 'coed-pill' : 'girls-pill'}`}>
+                                                {campus.type === 'Boys' ? '👦 Boys Campus' : campus.type === 'Co-ed' ? '👦👧 Co-ed Campus' : '👧 Girls Campus'}
+                                            </span>
+                                        </div>
+
+                                        {/* Available Programs Preview Chips */}
+                                        <div className="campus-programs-preview">
+                                            <span className="programs-preview-label">Programs:</span>
+                                            <div className="programs-preview-badges">
+                                                {campus.courseCodes.map(code => (
+                                                    <span key={code} className={`campus-program-chip chip-${code.toLowerCase()}`}>
+                                                        {code === 'SOP' && '💻 SOP'}
+                                                        {code === 'SOB' && '📊 SOB'}
+                                                        {code === 'SOF' && '💰 SOF'}
+                                                        {code === 'BCA' && '🎓 BCA'}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
                                     </div>
 
                                     {/* Card Footer CTA */}
