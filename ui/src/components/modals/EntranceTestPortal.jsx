@@ -37,6 +37,47 @@ export const EntranceTestPortal = () => {
     const [holoStage, setHoloStage] = useState('holo-stage-off');
     const [qSlideAnimClass, setQSlideAnimClass] = useState('');
     const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
+    const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
+
+    useEffect(() => {
+        setIsHeaderScrolled(false);
+
+        const handleScroll = () => {
+            const portalScreen = document.getElementById('entranceTestPortalScreen');
+            const portalBody = document.querySelector('.et-portal-body');
+            const screenScroll = portalScreen ? portalScreen.scrollTop : 0;
+            const bodyScroll = portalBody ? portalBody.scrollTop : 0;
+            const winScroll = window.scrollY || document.documentElement.scrollTop || 0;
+            setIsHeaderScrolled(screenScroll > 8 || bodyScroll > 8 || winScroll > 8);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+        document.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+
+        const portalScreen = document.getElementById('entranceTestPortalScreen');
+        if (portalScreen) {
+            portalScreen.addEventListener('scroll', handleScroll, { passive: true });
+        }
+        const portalBody = document.querySelector('.et-portal-body');
+        if (portalBody) {
+            portalBody.addEventListener('scroll', handleScroll, { passive: true });
+        }
+
+        handleScroll();
+        const t = setTimeout(handleScroll, 100);
+
+        return () => {
+            clearTimeout(t);
+            window.removeEventListener('scroll', handleScroll, { capture: true });
+            document.removeEventListener('scroll', handleScroll, { capture: true });
+            if (portalScreen) {
+                portalScreen.removeEventListener('scroll', handleScroll);
+            }
+            if (portalBody) {
+                portalBody.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [portalStep]);
 
     // Cinematic Asteroid Question Transition States
     const [asteroidAnimState, setAsteroidAnimState] = useState('revealed');
@@ -523,7 +564,7 @@ export const EntranceTestPortal = () => {
             <div className="et-portal-glow glow-2"></div>
 
             {/* Top Navigation HUD Header */}
-            <header className="et-portal-header">
+            <header className={`et-portal-header ${isHeaderScrolled ? 'is-scrolled' : ''}`}>
                 <div className="et-header-brand">
                     <img src="/navgurukul-logo.png" alt="NavGurukul Logo" className="et-portal-logo" />
                 </div>
@@ -1949,14 +1990,105 @@ export const EntranceTestPortal = () => {
                                         </div>
                                     </div>
 
-                                    {/* Test Results & Slot Booking Card (Responsive Stage Cards - Zero Scroll) */}
+                                    {/* Test Results & Slot Booking Card */}
                                     <div className="res-card res-results-card">
                                         <div className="res-card-title">
                                             <span className="card-title-icon test-icon">📑</span>
                                             <h3>Test Results & Slot Booking</h3>
                                         </div>
 
-                                        {/* Responsive Stage Cards List (Matches SS1 & SS2, 100% Responsive, Zero Horizontal Scroll) */}
+                                        {/* Desktop View: Original Table (Shown on Desktop, Hidden on Mobile) */}
+                                        <div className="res-table-wrapper">
+                                            <table className="res-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STAGE</th>
+                                                        <th>STATUS</th>
+                                                        <th>SCHEDULED TIME</th>
+                                                        <th>ACTIONS</th>
+                                                        <th>MARKS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {displayHistory.map((attempt, index) => {
+                                                        const isLatest = (index === displayHistory.length - 1);
+                                                        const stageName = (displayHistory.length > 1)
+                                                            ? `Screening Test (Attempt ${attempt.attemptNum})`
+                                                            : `Screening Test`;
+
+                                                        const canRetest = !attempt.isPassed && isLatest && !hasAnyPassed;
+
+                                                        return (
+                                                            <tr key={index}>
+                                                                <td className="td-stage">
+                                                                    <div className="stage-cell">
+                                                                        <span className="stage-icon st-icon">📄</span>
+                                                                        <span className="stage-name-text">{stageName}</span>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="td-status">
+                                                                    {attempt.isPassed ? (
+                                                                        <span className="res-status-badge status-pass">✓ Pass</span>
+                                                                    ) : (
+                                                                        <span className="res-status-badge status-fail">✖ Fail</span>
+                                                                    )}
+                                                                </td>
+                                                                <td className="td-time">
+                                                                    <span className="time-cell">
+                                                                        <span className="cal-icon">📅</span> {attempt.timeStr}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="td-actions">
+                                                                    {canRetest ? (
+                                                                        <button type="button" className="res-action-btn btn-retest" onClick={startLiveEtQuiz}>
+                                                                            Retest
+                                                                        </button>
+                                                                    ) : (
+                                                                        '–'
+                                                                    )}
+                                                                </td>
+                                                                <td className="td-marks">{attempt.marks}</td>
+                                                            </tr>
+                                                        );
+                                                    })}
+
+                                                    {hasAnyPassed && (
+                                                        <tr id="resRowLearning">
+                                                            <td className="td-stage">
+                                                                <div className="stage-cell">
+                                                                    <span className="stage-icon lr-icon">👥</span>
+                                                                    <span className="stage-name-text">Learning Round</span>
+                                                                </div>
+                                                            </td>
+                                                            <td className="td-status">
+                                                                {bookedInterviewSlot ? (
+                                                                    <span className="res-status-badge status-scheduled">✔ Scheduled</span>
+                                                                ) : (
+                                                                    <span className="res-status-badge status-pending">⏳ Pending</span>
+                                                                )}
+                                                            </td>
+                                                            <td className="td-time">
+                                                                <span className="time-cell">
+                                                                    <span className="cal-icon">📅</span> {bookedInterviewSlot || 'Not Scheduled'}
+                                                                </span>
+                                                            </td>
+                                                            <td className="td-actions">
+                                                                {!bookedInterviewSlot ? (
+                                                                    <button type="button" className="res-action-btn btn-book-slot" onClick={openSlotBookingModal}>
+                                                                        Book Slot
+                                                                    </button>
+                                                                ) : (
+                                                                    '–'
+                                                                )}
+                                                            </td>
+                                                            <td className="td-marks">–</td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        {/* Mobile View: Responsive Stage Cards (Hidden on Desktop, Shown on Mobile) */}
                                         <div className="res-stage-cards-container">
                                             {displayHistory.map((attempt, index) => {
                                                 const isLatest = (index === displayHistory.length - 1);
