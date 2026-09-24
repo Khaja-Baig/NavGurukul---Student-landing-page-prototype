@@ -89,7 +89,7 @@ export const Screen2_AlumniSuccess = () => {
 
     return (
         <section className={`screen ${currentScreen === 3 ? 'active' : ''}`} data-i="3">
-            {/* Autonomous Flying Bird Layer (Only present inside Screen 4) */}
+            {/* Autonomous Flying Bird Layer (Only present inside Screen 5 / Alumni) */}
             {currentScreen === 3 && <AutonomousBird />}
 
             <div className="eyebrow"><span className="eyebrow-star">✨</span> Student Outcomes</div>

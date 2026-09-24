@@ -160,33 +160,43 @@
 }
 
 .s4-cards-grid.has-active .school-card:not(.avatar-highlight),
-.s4-cards-stack.has-active .school-card:not(.avatar-highlight) {
+.s4-cards-stack.has-active .school-card:not(.avatar-highlight),
+.campus-programs-grid.has-active .program-course-card:not(.avatar-highlight) {
     opacity: 0.55;
     filter: grayscale(15%);
 }
 
-.school-card.avatar-highlight {
-    transform: translateY(-4px) scale(1.03) !important;
+.school-card.avatar-highlight,
+.program-course-card.avatar-highlight {
+    transform: translateY(-4px) scale(1.02) !important;
     opacity: 1 !important;
     filter: none !important;
 }
 
-.school-card.blue-theme.avatar-highlight {
+.school-card.blue-theme.avatar-highlight,
+.program-course-card.blue-theme.avatar-highlight {
+    background: #f0f7ff !important;
     border-color: #3b82f6 !important;
     box-shadow: 0 16px 40px rgba(59, 130, 246, 0.25) !important;
 }
 
-.school-card.green-theme.avatar-highlight {
+.school-card.green-theme.avatar-highlight,
+.program-course-card.green-theme.avatar-highlight {
+    background: #f0fdf4 !important;
     border-color: #10b981 !important;
     box-shadow: 0 16px 40px rgba(16, 185, 129, 0.25) !important;
 }
 
-.school-card.orange-theme.avatar-highlight {
+.school-card.orange-theme.avatar-highlight,
+.program-course-card.orange-theme.avatar-highlight {
+    background: #fffbeb !important;
     border-color: #f59e0b !important;
     box-shadow: 0 16px 40px rgba(245, 158, 11, 0.25) !important;
 }
 
-.school-card.purple-theme.avatar-highlight {
+.school-card.purple-theme.avatar-highlight,
+.program-course-card.purple-theme.avatar-highlight {
+    background: #faf5ff !important;
     border-color: #a855f7 !important;
     box-shadow: 0 16px 40px rgba(168, 85, 247, 0.25) !important;
 }

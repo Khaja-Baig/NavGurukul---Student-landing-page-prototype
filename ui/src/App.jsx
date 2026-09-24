@@ -7,6 +7,7 @@ import { LeafCanvas } from './components/LeafCanvas';
 // Screens
 import { Screen1_GurukulTree } from './components/screens/Screen1_GurukulTree';
 import { Screen4_SpecialtySchools } from './components/screens/Screen4_SpecialtySchools';
+import { Screen2_OurCampus } from './components/screens/Screen2_OurCampus';
 import { Screen3_Offerings } from './components/screens/Screen3_Offerings';
 import { Screen2_AlumniSuccess } from './components/screens/Screen2_AlumniSuccess';
 import { Screen5_AdventurousRoadmap } from './components/screens/Screen5_AdventurousRoadmap';
@@ -61,7 +62,7 @@ const MainAppContent = () => {
             {/* Stage Container */}
             <div id="stage">
                 <Screen1_GurukulTree />
-                <Screen4_SpecialtySchools />
+                <Screen2_OurCampus />
                 <Screen3_Offerings />
                 <Screen2_AlumniSuccess />
                 <Screen5_AdventurousRoadmap />

@@ -20,7 +20,10 @@ export const LeafCanvas = () => {
         const leaves = [];
         const leafColors = ['#10b981', '#059669', '#34d399', '#f59e0b', '#d97706'];
 
-        for (let i = 0; i < 30; i++) {
+        // Fewer particles on mobile to save GPU
+        const particleCount = window.innerWidth <= 768 ? 12 : 30;
+
+        for (let i = 0; i < particleCount; i++) {
             leaves.push({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight,

@@ -77,6 +77,9 @@ export const AutonomousBird = () => {
     };
 
     const startFlight = () => {
+        // Mobile phones: bird stays perched — flight disabled to save GPU
+        if (window.innerWidth <= 768) return;
+
         if (stateRef.current.isFlying) {
             // Trigger mid-air loop / burst maneuver on click while flying!
             emitSparklesBurst(stateRef.current.posX, stateRef.current.posY);

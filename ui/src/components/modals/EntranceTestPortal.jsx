@@ -37,6 +37,58 @@ export const EntranceTestPortal = () => {
     const [holoStage, setHoloStage] = useState('holo-stage-off');
     const [qSlideAnimClass, setQSlideAnimClass] = useState('');
     const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
+    const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
+
+    useEffect(() => {
+        setIsHeaderScrolled(false);
+
+        const handleScroll = () => {
+            const portalScreen = document.getElementById('entranceTestPortalScreen');
+            const portalBody = document.querySelector('.et-portal-body');
+            const screenScroll = portalScreen ? portalScreen.scrollTop : 0;
+            const bodyScroll = portalBody ? portalBody.scrollTop : 0;
+            const winScroll = window.scrollY || document.documentElement.scrollTop || 0;
+            setIsHeaderScrolled(screenScroll > 8 || bodyScroll > 8 || winScroll > 8);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+        document.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+
+        const portalScreen = document.getElementById('entranceTestPortalScreen');
+        if (portalScreen) {
+            portalScreen.addEventListener('scroll', handleScroll, { passive: true });
+        }
+        const portalBody = document.querySelector('.et-portal-body');
+        if (portalBody) {
+            portalBody.addEventListener('scroll', handleScroll, { passive: true });
+        }
+
+        handleScroll();
+        const t = setTimeout(handleScroll, 100);
+
+        return () => {
+            clearTimeout(t);
+            window.removeEventListener('scroll', handleScroll, { capture: true });
+            document.removeEventListener('scroll', handleScroll, { capture: true });
+            if (portalScreen) {
+                portalScreen.removeEventListener('scroll', handleScroll);
+            }
+            if (portalBody) {
+                portalBody.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [portalStep]);
+
+    // Lock body scrolling when the portal is open to prevent double scrollbars
+    useEffect(() => {
+        if (isPortalOpen) {
+            const originalOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = originalOverflow;
+            };
+        }
+    }, [isPortalOpen]);
 
     // Cinematic Asteroid Question Transition States
     const [asteroidAnimState, setAsteroidAnimState] = useState('revealed');
@@ -513,7 +565,7 @@ export const EntranceTestPortal = () => {
     }
 
     return (
-        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active et-quiz-mode' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
+        <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 1 ? 'step1-active' : ''} ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active et-quiz-mode' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
             {/* ROCKET MISSION LAUNCH TRANSITION OVERLAY */}
             <LaunchTransitionOverlay />
 
@@ -523,7 +575,7 @@ export const EntranceTestPortal = () => {
             <div className="et-portal-glow glow-2"></div>
 
             {/* Top Navigation HUD Header */}
-            <header className="et-portal-header">
+            <header className={`et-portal-header ${isHeaderScrolled ? 'is-scrolled' : ''}`}>
                 <div className="et-header-brand">
                     <img src="/navgurukul-logo.png" alt="NavGurukul Logo" className="et-portal-logo" />
                 </div>
@@ -1943,7 +1995,7 @@ export const EntranceTestPortal = () => {
                                                 <span className="res-detail-val">{displayState}</span>
                                             </div>
                                             <div className="res-detail-item full-width">
-                                                <span class="res-detail-label">Selected School:</span>
+                                                <span className="res-detail-label">Selected School:</span>
                                                 <span className="res-detail-val">{displaySchool}</span>
                                             </div>
                                         </div>
@@ -1956,6 +2008,7 @@ export const EntranceTestPortal = () => {
                                             <h3>Test Results & Slot Booking</h3>
                                         </div>
 
+                                        {/* Desktop View: Original Table (Shown on Desktop, Hidden on Mobile) */}
                                         <div className="res-table-wrapper">
                                             <table className="res-table">
                                                 <thead>
@@ -2044,6 +2097,134 @@ export const EntranceTestPortal = () => {
                                                     )}
                                                 </tbody>
                                             </table>
+                                        </div>
+
+                                        {/* Mobile View: Responsive Stage Cards (Hidden on Desktop, Shown on Mobile) */}
+                                        <div className="res-stage-cards-container">
+                                            {displayHistory.map((attempt, index) => {
+                                                const isLatest = (index === displayHistory.length - 1);
+                                                const stageName = (displayHistory.length > 1)
+                                                    ? `Screening Test (Attempt ${attempt.attemptNum})`
+                                                    : `Screening Test`;
+
+                                                const canRetest = !attempt.isPassed && isLatest && !hasAnyPassed;
+
+                                                return (
+                                                    <div
+                                                        className={`res-stage-card ${attempt.isPassed ? 'stage-card-pass' : 'stage-card-fail'}`}
+                                                        key={index}
+                                                    >
+                                                        {/* Left Colored Accent Stripe */}
+                                                        <div className={`stage-card-accent-bar ${attempt.isPassed ? 'accent-pass' : 'accent-fail'}`}></div>
+
+                                                        <div className="stage-card-inner">
+                                                            {/* Top Row: Stage Name + Marks + Status Pill */}
+                                                            <div className="stage-card-header-row">
+                                                                <div className="stage-card-title-wrap">
+                                                                    <h4 className="stage-card-name">{stageName}</h4>
+                                                                </div>
+
+                                                                <div className="stage-card-badges-wrap">
+                                                                    {attempt.marks !== undefined && attempt.marks !== null && (
+                                                                        <div className="stage-card-marks-box">
+                                                                            <span className="marks-box-lbl">MARKS:</span>
+                                                                            <span className="marks-box-val">{attempt.marks}</span>
+                                                                        </div>
+                                                                    )}
+
+                                                                    <div className={`stage-card-status-pill ${attempt.isPassed ? 'pill-pass' : 'pill-fail'}`}>
+                                                                        {attempt.isPassed ? (
+                                                                            <>
+                                                                                <span className="pill-dot">✓</span> PASS
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <span className="pill-dot">✕</span> FAIL
+                                                                            </>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Middle Row: Scheduled Time */}
+                                                            <div className="stage-card-time-row">
+                                                                <span className="stage-cal-icon">📅</span>
+                                                                <span className="stage-time-val">{attempt.timeStr}</span>
+                                                            </div>
+
+                                                            {/* Bottom Row: Actions */}
+                                                            <div className="stage-card-actions-section">
+                                                                <span className="stage-actions-heading">ACTIONS</span>
+                                                                {canRetest ? (
+                                                                    <button
+                                                                        type="button"
+                                                                        className="stage-action-btn btn-stage-retest"
+                                                                        onClick={startLiveEtQuiz}
+                                                                    >
+                                                                        Retest
+                                                                    </button>
+                                                                ) : (
+                                                                    <span className="stage-action-dash">–</span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+
+                                            {hasAnyPassed && (
+                                                <div className={`res-stage-card ${bookedInterviewSlot ? 'stage-card-pass' : 'stage-card-pending'}`} id="resCardLearning">
+                                                    {/* Left Colored Accent Stripe */}
+                                                    <div className={`stage-card-accent-bar ${bookedInterviewSlot ? 'accent-pass' : 'accent-amber'}`}></div>
+
+                                                    <div className="stage-card-inner">
+                                                        {/* Top Row: Stage Name + Status Pill */}
+                                                        <div className="stage-card-header-row">
+                                                            <div className="stage-card-title-wrap">
+                                                                <h4 className="stage-card-name">Learning Round</h4>
+                                                            </div>
+
+                                                            <div className="stage-card-badges-wrap">
+                                                                <div className={`stage-card-status-pill ${bookedInterviewSlot ? 'pill-scheduled' : 'pill-pending'}`}>
+                                                                    {bookedInterviewSlot ? (
+                                                                        <>
+                                                                            <span className="pill-dot">✔</span> SCHEDULED
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <span className="pill-dot">⏳</span> PENDING
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Middle Row: Scheduled Time */}
+                                                        <div className="stage-card-time-row">
+                                                            <span className="stage-cal-icon">📅</span>
+                                                            <span className={`stage-time-val ${!bookedInterviewSlot ? 'not-scheduled' : ''}`}>
+                                                                {bookedInterviewSlot || 'Not Scheduled'}
+                                                            </span>
+                                                        </div>
+
+                                                        {/* Bottom Row: Actions */}
+                                                        <div className="stage-card-actions-section">
+                                                            <span className="stage-actions-heading">ACTIONS</span>
+                                                            {!bookedInterviewSlot ? (
+                                                                <button
+                                                                    type="button"
+                                                                    className="stage-action-btn btn-stage-book"
+                                                                    onClick={openSlotBookingModal}
+                                                                >
+                                                                    Book Slot
+                                                                </button>
+                                                            ) : (
+                                                                <span className="stage-action-dash">–</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

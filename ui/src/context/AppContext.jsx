@@ -4,7 +4,7 @@ const AppContext = createContext();
 
 export const levelData = [
     { title: 'GURUKUL TREE', icon: '🌱' },
-    { title: 'SPECIALTY TRACKS', icon: '⚡' },
+    { title: 'OUR CAMPUSES', icon: '🏫' },
     { title: '100% SCHOLARSHIP', icon: '💎' },
     { title: 'VISION & IMPACT', icon: '🌟' },
     { title: 'ADMISSION ROADMAP', icon: '🗺️' },
@@ -93,16 +93,10 @@ export const AppProvider = ({ children }) => {
         }, 1500);
     };
 
-    const go = (n, addXp = true) => {
+    const go = (n) => {
         n = Math.max(0, Math.min(5, n));
         if (n === currentScreen) return;
-
-        const prev = currentScreen;
         setCurrentScreen(n);
-
-        if (n > prev && addXp !== false) {
-            setXp(prevXp => prevXp + 100);
-        }
     };
 
     const openSchoolModal = (idx) => setSelectedSchoolIdx(idx);
@@ -221,8 +215,7 @@ export const AppProvider = ({ children }) => {
         };
 
         setAttemptHistory(prev => [newAttempt, ...prev]);
-        setXp(prev => prev + 500);
-        triggerXpToast('+500 XP 🎉 Screening Test Submitted!');
+        triggerXpToast('🎉 Screening Test Submitted Successfully!');
     };
 
     const closeSlotBookingModal = () => setIsSlotModalOpen(false);
@@ -231,8 +224,7 @@ export const AppProvider = ({ children }) => {
         const slotString = `${date}, ${time}`;
         setBookedInterviewSlot(slotString);
         setIsSlotModalOpen(false);
-        setXp(prev => prev + 250);
-        triggerXpToast('🎉 Slot Booked Successfully! (+250 XP)');
+        triggerXpToast('🎉 Slot Booked Successfully!');
     };
 
     return (

@@ -1024,13 +1024,13 @@
     bottom: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 999999;
-    background: var(--bg-sunrise, linear-gradient(135deg, #fffcf7 0%, #fff7ed 50%, #fef3c7 100%));
+    z-index: 999999 !important;
+    background: #fffdfa linear-gradient(135deg, #fffcf7 0%, #fff7ed 50%, #fef3c7 100%) !important;
     color: #0f172a;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    animation: portalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 1 !important;
+    animation: portalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes portalFadeIn {
@@ -1079,20 +1079,35 @@
     transform: translate(-50%, -50%);
 }
 
-/* Full-Screen Top Header Bar (100% Transparent) */
+/* Full-Screen Top Header Bar (100% Transparent, Sticky with Blur on Scroll) */
 .et-portal-header {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
     height: 72px;
     padding: 0 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: transparent;
+    background: transparent !important;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    border-bottom: none;
-    box-shadow: none;
-    z-index: 10;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    z-index: 1000 !important;
     flex-shrink: 0;
+    transition: backdrop-filter 0.25s ease, -webkit-backdrop-filter 0.25s ease, background 0.25s ease;
+}
+
+/* Blur whatever is behind the navbar when scrolled, while keeping the background transparent (Identical to starting navbar #hud.is-scrolled) */
+.et-portal-header.is-scrolled {
+    background: transparent !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
 }
 
 .et-header-brand {
@@ -5011,16 +5026,18 @@ select.et-select::-ms-expand,
 }
 
 /* ========================================================
-   SINGLE-COLUMN NO-SCROLL COMPACT LAYOUT FOR RESULT STEP 4
+   RESPONSIVE COMPACT LAYOUT FOR RESULT STEP 4 (ALL DEVICES)
    ======================================================== */
 .et-portal-body.step4-active {
     grid-template-columns: 1fr !important;
     width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 10px 40px !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    padding: 16px 32px 36px !important;
     gap: 0 !important;
-    overflow-y: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
 }
 
 .et-portal-body.step4-active .et-portal-canvas {
@@ -5028,6 +5045,8 @@ select.et-select::-ms-expand,
     max-width: 100% !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
 }
 
 /* Hide Avatar Sidebar on Step 4 */
@@ -5045,14 +5064,15 @@ select.et-select::-ms-expand,
     max-width: 100% !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-    gap: 12px !important;
+    padding-right: 0 !important;
+    gap: 14px !important;
 }
 
 .et-portal-body.step4-active .et-results-container {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    gap: 14px !important;
+    gap: 16px !important;
     padding: 0 !important;
 }
 
@@ -5073,27 +5093,40 @@ select.et-select::-ms-expand,
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
-    padding: 18px 24px !important;
+    padding: 18px 22px !important;
     border-radius: 18px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #f1f5f9 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
 }
 
 .et-portal-body.step4-active .res-card-title {
     margin-bottom: 12px !important;
     padding-bottom: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    border-bottom: 1px dashed #e2e8f0 !important;
 }
 
 .et-portal-body.step4-active .res-card-title h3 {
     font-size: 15.5px !important;
+    font-weight: 800 !important;
+    margin: 0 !important;
 }
 
+/* Desktop Grid (3 columns) */
 .et-portal-body.step4-active .res-details-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 12px 24px !important;
+    gap: 14px 24px !important;
     width: 100% !important;
 }
 
 .et-portal-body.step4-active .res-detail-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
     font-size: 13px !important;
     width: 100% !important;
 }
@@ -5102,23 +5135,1043 @@ select.et-select::-ms-expand,
     grid-column: span 2 !important;
 }
 
+.et-portal-body.step4-active .res-detail-label {
+    color: #64748b !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    min-width: 0 !important;
+}
+
+.et-portal-body.step4-active .res-detail-val {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    word-break: normal !important;
+}
+
+/* ========================================================
+   DESKTOP TABLE VIEW (DEFAULT: > 768px - MATCHING ORIGINAL)
+   ======================================================== */
+.et-portal-body.step4-active .res-table-wrapper {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: visible !important;
+}
+
 .et-portal-body.step4-active .res-table {
     width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
 }
 
 .et-portal-body.step4-active .res-table th {
-    padding: 10px 16px !important;
+    background: #f8fafc !important;
+    color: #64748b !important;
+    font-family: var(--font-display) !important;
     font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    padding: 12px 16px !important;
+    text-align: left !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    white-space: nowrap !important;
 }
 
 .et-portal-body.step4-active .res-table td {
-    padding: 12px 16px !important;
+    padding: 14px 16px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
     font-size: 13.5px !important;
+    color: #1e293b !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+}
+
+.et-portal-body.step4-active .res-table tr:last-child td {
+    border-bottom: none !important;
+}
+
+.et-portal-body.step4-active .td-stage {
+    font-weight: 700 !important;
+}
+
+.et-portal-body.step4-active .stage-cell {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.et-portal-body.step4-active .stage-icon.st-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    background: #ecfeff !important;
+    border: 1px solid #cffafe !important;
+    border-radius: 8px !important;
+    font-size: 15px !important;
+}
+
+.et-portal-body.step4-active .stage-icon.lr-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    background: #eff6ff !important;
+    border: 1px solid #dbeafe !important;
+    border-radius: 8px !important;
+    font-size: 15px !important;
+}
+
+.et-portal-body.step4-active .res-status-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 4px 14px !important;
+    border-radius: 999px !important;
+    font-family: var(--font-display) !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+}
+
+.et-portal-body.step4-active .status-pass {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+    border: 1px solid #bbf7d0 !important;
+}
+
+.et-portal-body.step4-active .status-fail {
+    background: #ffe4e6 !important;
+    color: #be185d !important;
+    border: 1px solid #fecdd3 !important;
+}
+
+.et-portal-body.step4-active .status-pending {
+    background: #fef3c7 !important;
+    color: #b45309 !important;
+    border: 1px solid #fde68a !important;
+}
+
+.et-portal-body.step4-active .status-scheduled {
+    background: #e0e7ff !important;
+    color: #3730a3 !important;
+    border: 1px solid #c7d2fe !important;
 }
 
 .et-portal-body.step4-active .res-action-btn {
-    padding: 7px 16px !important;
+    padding: 7px 18px !important;
+    border-radius: 999px !important;
+    font-family: var(--font-display) !important;
     font-size: 12px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    border: none !important;
+    transition: all 0.25s ease !important;
+}
+
+.et-portal-body.step4-active .btn-book-slot {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+}
+
+.et-portal-body.step4-active .btn-retest {
+    background: #f59e0b !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+}
+
+/* By default on Desktop: Hide mobile cards */
+.et-portal-body.step4-active .res-stage-cards-container,
+.res-stage-cards-container {
+    display: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.res-stage-card {
+    position: relative !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    border: 1.5px solid #f1f5f9 !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+    overflow: hidden !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    display: flex !important;
+}
+
+.res-stage-card:hover {
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Left Colored Accent Stripe */
+.stage-card-accent-bar {
+    width: 6px !important;
+    flex-shrink: 0 !important;
+    border-top-left-radius: 16px !important;
+    border-bottom-left-radius: 16px !important;
+}
+
+.stage-card-accent-bar.accent-pass {
+    background: #10b981 !important;
+}
+
+.stage-card-accent-bar.accent-fail {
+    background: #e11d48 !important;
+}
+
+.stage-card-accent-bar.accent-amber {
+    background: #f59e0b !important;
+}
+
+/* Card Body Content */
+.stage-card-inner {
+    flex: 1 !important;
+    padding: 16px 18px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Top Row */
+.stage-card-header-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+}
+
+.stage-card-title-wrap {
+    flex: 1 !important;
+    min-width: 120px !important;
+}
+
+.stage-card-name {
+    font-family: var(--font-display, inherit) !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+}
+
+.stage-card-badges-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Marks chip */
+.stage-card-marks-box {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 3px 8px !important;
+    min-width: 48px !important;
+}
+
+.marks-box-lbl {
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1 !important;
+    margin-bottom: 2px !important;
+}
+
+.marks-box-val {
+    font-size: 13.5px !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    line-height: 1 !important;
+}
+
+/* Status Pills */
+.stage-card-status-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 5px 12px !important;
+    border-radius: 999px !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    white-space: nowrap !important;
+}
+
+.stage-card-status-pill .pill-dot {
+    font-size: 11.5px !important;
+    font-weight: 900 !important;
+}
+
+.stage-card-status-pill.pill-pass {
+    background: #f0fdf4 !important;
+    border: 1.5px solid #86efac !important;
+    color: #15803d !important;
+}
+
+.stage-card-status-pill.pill-fail {
+    background: #fff1f2 !important;
+    border: 1.5px solid #fecdd3 !important;
+    color: #be123c !important;
+}
+
+.stage-card-status-pill.pill-pending {
+    background: #fffbeb !important;
+    border: 1.5px solid #fde68a !important;
+    color: #b45309 !important;
+}
+
+.stage-card-status-pill.pill-scheduled {
+    background: #f0fdf4 !important;
+    border: 1.5px solid #86efac !important;
+    color: #15803d !important;
+}
+
+/* Middle Time Row */
+.stage-card-time-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 13px !important;
+    color: #475569 !important;
+    font-weight: 500 !important;
+    padding: 4px 0 8px !important;
+    border-bottom: 1px dashed #f1f5f9 !important;
+}
+
+.stage-cal-icon {
+    font-size: 14px !important;
+    opacity: 0.85 !important;
+}
+
+.stage-time-val.not-scheduled {
+    font-style: italic !important;
+    color: #94a3b8 !important;
+}
+
+/* Actions Section */
+.stage-card-actions-section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.stage-actions-heading {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #94a3b8 !important;
+    letter-spacing: 0.8px !important;
+    text-transform: uppercase !important;
+}
+
+.stage-action-dash {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #94a3b8 !important;
+    padding-left: 2px !important;
+}
+
+.stage-action-btn {
+    width: 100% !important;
+    padding: 10px 16px !important;
+    border-radius: 10px !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    border: none !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+}
+
+/* Retest Button */
+.stage-action-btn.btn-stage-retest {
+    background: linear-gradient(135deg, #e11d48 0%, #be185d 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.28) !important;
+}
+
+.stage-action-btn.btn-stage-retest:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(225, 29, 72, 0.38) !important;
+}
+
+/* Book Slot Button */
+.stage-action-btn.btn-stage-book {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28) !important;
+}
+
+.stage-action-btn.btn-stage-book:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.38) !important;
+}
+
+/* ========================================================
+   TABLET RESPONSIVENESS (769px - 900px)
+   ======================================================== */
+@media (min-width: 769px) and (max-width: 900px) {
+    .et-portal-body.step4-active {
+        padding: 14px 20px 32px !important;
+        overflow-y: auto !important;
+    }
+
+    .et-portal-body.step4-active .res-details-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px 18px !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-item.full-width {
+        grid-column: 1 / -1 !important;
+    }
+
+    .et-portal-body.step4-active .res-table {
+        min-width: 520px !important;
+    }
+}
+
+/* ========================================================
+   MOBILE & RESPONSIVE SCREENS (<= 768px)
+   ======================================================== */
+@media (max-width: 768px) {
+    /* Hide HUD rocket track on mobile so header is clean and never crowded */
+    .et-hud-track-wrapper {
+        display: none !important;
+    }
+
+    /* Common Mobile Header (Sticky with Frosted Blur on Scroll) */
+    .et-portal-header {
+        position: sticky !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 56px !important;
+        padding: 0 14px !important;
+        z-index: 1000 !important;
+        background: transparent !important;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom: none !important;
+        box-shadow: none !important;
+        transition: backdrop-filter 0.25s ease, -webkit-backdrop-filter 0.25s ease, background 0.25s ease;
+    }
+
+    /* Frosted Blur Effect when content scrolls behind navbar */
+    .et-portal-header.is-scrolled {
+        background: rgba(255, 253, 248, 0.72) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.6) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .et-portal-logo {
+        height: 28px !important;
+    }
+
+    .login-lang-switch {
+        gap: 2px !important;
+    }
+
+    .lang-btn {
+        padding: 4px 8px !important;
+        font-size: 11px !important;
+    }
+
+    .et-close-btn,
+    .et-exit-btn {
+        padding: 4px 10px !important;
+        font-size: 11px !important;
+        min-width: 32px !important;
+        height: 32px !important;
+    }
+
+    /* Prevent body background scrolling when portal is open */
+    body:has(#entranceTestPortalScreen) {
+        overflow: hidden !important;
+    }
+
+    /* ========================================================
+       STEP 1: INSTRUCTIONS RESPONSIVE (<= 768px - ZERO OVERLAP)
+       ======================================================== */
+    #entranceTestPortalScreen.step1-active {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+    }
+
+    #entranceTestPortalScreen.step1-active .et-portal-glow {
+        max-width: 100vw !important;
+        pointer-events: none !important;
+    }
+
+    .et-portal-body.step1-active {
+        padding: 14px 14px 48px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: visible !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    .et-portal-body.step1-active .et-hero-sidebar {
+        display: none !important;
+    }
+
+    .et-portal-body.step1-active .et-portal-canvas {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .et-portal-body.step1-active #etStep1 {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        gap: 16px !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .et-portal-body.step1-active #etStep1 .et-pane-header {
+        text-align: center !important;
+        padding: 6px 6px 0 !important;
+        margin-bottom: 6px !important;
+    }
+
+    .et-portal-body.step1-active .et-pane-title {
+        font-size: 21px !important;
+        line-height: 1.25 !important;
+        color: #0f172a !important;
+        margin: 0 0 6px 0 !important;
+        word-break: break-word !important;
+        font-weight: 800 !important;
+    }
+
+    .et-portal-body.step1-active .et-pane-sub {
+        font-size: 13px !important;
+        line-height: 1.45 !important;
+        color: #64748b !important;
+        margin: 0 auto !important;
+        max-width: 95% !important;
+    }
+
+    /* Rules Grid Stage: Column layout, cards first, start button below */
+    .et-portal-body.step1-active .et-rules-grid-stage {
+        position: relative !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        box-sizing: border-box !important;
+    }
+
+    .et-portal-body.step1-active .et-rules-grid {
+        order: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        gap: 12px !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Sequential Cascade Animation for Cards */
+    .et-portal-body.step1-active .et-rules-grid .et-rule-card {
+        width: 100% !important;
+        height: auto !important;
+        min-height: unset !important;
+        clip-path: none !important;
+        border-radius: 16px !important;
+        padding: 14px 16px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 14px !important;
+        margin: 0 !important;
+        transform: translateY(22px) scale(0.96) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+        filter: none !important;
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.25s !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-pink {
+        background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%) !important;
+        border: 1.5px solid #fb7185 !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-pink .stripe-left-icon {
+        background: linear-gradient(135deg, #e11d48, #f43f5e) !important;
+        color: #ffffff !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-orange {
+        background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%) !important;
+        border: 1.5px solid #fb923c !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-orange .stripe-left-icon {
+        background: linear-gradient(135deg, #ea580c, #f97316) !important;
+        color: #ffffff !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-purple {
+        background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%) !important;
+        border: 1.5px solid #c084fc !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-purple .stripe-left-icon {
+        background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
+        color: #ffffff !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-green {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+        border: 1.5px solid #4ade80 !important;
+    }
+
+    .et-portal-body.step1-active .card-theme-green .stripe-left-icon {
+        background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+        color: #ffffff !important;
+    }
+
+    /* When visible in the guided animation */
+    .et-portal-body.step1-active .et-rules-grid .et-rule-card.visible {
+        transform: translateY(0) scale(1) !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+
+    .et-portal-body.step1-active .et-rules-grid .et-rule-card.visible:hover,
+    .et-portal-body.step1-active .et-rules-grid .et-rule-card.active-guide {
+        transform: translateY(-2px) scale(1.015) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .et-portal-body.step1-active .stripe-left-icon {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        border-radius: 12px !important;
+        font-size: 22px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .et-portal-body.step1-active .stripe-main-content {
+        flex: 1 !important;
+        min-width: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 3px !important;
+    }
+
+    .et-portal-body.step1-active .stripe-title {
+        font-size: 14.5px !important;
+        font-weight: 800 !important;
+        color: #0f172a !important;
+        line-height: 1.25 !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    .et-portal-body.step1-active .stripe-desc {
+        font-size: 12.5px !important;
+        line-height: 1.4 !important;
+        color: #475569 !important;
+        margin: 0 !important;
+        word-break: break-word !important;
+    }
+
+    .et-portal-body.step1-active .card-check {
+        position: static !important;
+        transform: none !important;
+        margin-left: auto !important;
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        border-radius: 50% !important;
+        background: #ffffff !important;
+        border: 1.5px solid #86efac !important;
+        color: #16a34a !important;
+        font-size: 12px !important;
+        font-weight: 800 !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15) !important;
+    }
+
+    /* Start Mission Circular Button placed below the 4 cards */
+    .et-portal-body.step1-active .et-circle-start-wrap {
+        order: 2 !important;
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 24px 0 48px !important;
+        margin: 0 auto !important;
+        z-index: 10 !important;
+    }
+
+    /* Button hidden initially until step 4.4s */
+    .et-portal-body.step1-active .et-circle-start-btn {
+        width: 130px !important;
+        height: 130px !important;
+        min-width: 130px !important;
+        min-height: 130px !important;
+        max-width: 130px !important;
+        max-height: 130px !important;
+        aspect-ratio: 1 / 1 !important;
+        opacity: 0;
+        transform: scale(0);
+        pointer-events: none;
+        border-radius: 50% !important;
+        position: relative !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: linear-gradient(135deg, #e91e63 0%, #be185d 45%, #ea580c 100%) !important;
+        border: 4px solid #ffffff !important;
+        box-shadow: 0 12px 32px rgba(233, 30, 99, 0.45),
+            0 0 24px rgba(245, 158, 11, 0.35),
+            inset 0 4px 10px rgba(255, 255, 255, 0.6) !important;
+    }
+
+    /* When visible: Spring pop entrance and silky float animation */
+    .et-portal-body.step1-active .et-circle-start-btn.visible {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        animation: circlePopEntranceMobile 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+            circleFloatMobile 3.8s ease-in-out infinite 1.2s !important;
+    }
+
+    @keyframes circlePopEntranceMobile {
+        0% {
+            opacity: 0;
+            transform: scale(0.15) rotate(-10deg);
+            filter: blur(8px);
+        }
+        55% {
+            opacity: 0.95;
+            transform: scale(1.1) rotate(2deg);
+            filter: blur(0px);
+        }
+        80% {
+            transform: scale(0.97) rotate(-1deg);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            filter: blur(0px);
+        }
+    }
+
+    @keyframes circleFloatMobile {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-6px) rotate(1deg);
+        }
+    }
+
+    .et-portal-body.step1-active .circle-content {
+        margin-top: -2px !important;
+    }
+
+    .et-portal-body.step1-active .circle-icon {
+        font-size: 30px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .et-portal-body.step1-active .circle-text {
+        font-size: 19px !important;
+        line-height: 1.1 !important;
+    }
+
+    .et-portal-body.step1-active .circle-sub {
+        font-size: 17px !important;
+        line-height: 1.1 !important;
+    }
+
+    /* ========================================================
+       STEP 4: RESULTS RESPONSIVE (<= 768px)
+       ======================================================== */
+    #entranceTestPortalScreen.step4-active {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    .et-portal-body.step4-active {
+        padding: 8px 12px 32px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: visible !important;
+        height: auto !important;
+    }
+
+    .et-portal-body.step4-active .et-portal-canvas {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    .et-portal-body.step4-active #etStep4 {
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 12px !important;
+    }
+
+    .et-portal-body.step4-active .et-results-container {
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 12px !important;
+    }
+
+    .et-portal-body.step4-active .res-card {
+        padding: 14px 14px 16px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .et-portal-body.step4-active .res-card-title {
+        margin-bottom: 10px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .et-portal-body.step4-active .res-card-title h3 {
+        font-size: 14.5px !important;
+    }
+
+    /* Convert grid to single column clean key-value rows */
+    .et-portal-body.step4-active .res-details-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        width: 100% !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-item {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 10px 4px !important;
+        border-bottom: 1px dashed rgba(226, 232, 240, 0.9) !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        font-size: 13px !important;
+        gap: 10px !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-item:last-child {
+        border-bottom: none !important;
+        padding-bottom: 2px !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-item.full-width {
+        grid-column: auto !important;
+        width: 100% !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-label {
+        font-size: 12.5px !important;
+        font-weight: 600 !important;
+        color: #64748b !important;
+        min-width: 0 !important;
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-val {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        text-align: right !important;
+        word-break: break-word !important;
+        white-space: normal !important;
+        max-width: 68% !important;
+    }
+
+    /* CRITICAL: HIDE the scrollable table completely on responsive/mobile! */
+    .et-portal-body.step4-active .res-table-wrapper,
+    .res-table-wrapper {
+        display: none !important;
+    }
+
+    /* SHOW ONLY the clean mobile stage cards (Zero horizontal scroll!) */
+    .et-portal-body.step4-active .res-stage-cards-container,
+    .res-stage-cards-container {
+        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+
+    .et-portal-body.step4-active .stage-card-inner {
+        padding: 14px 14px 16px !important;
+        gap: 10px !important;
+    }
+
+    .et-portal-body.step4-active .stage-card-name {
+        font-size: 15px !important;
+    }
+}
+
+/* ========================================================
+   SMALL MOBILE SCREENS (<= 380px)
+   ======================================================== */
+@media (max-width: 380px) {
+    .et-portal-header {
+        height: 52px !important;
+        padding: 0 10px !important;
+    }
+
+    .et-portal-logo {
+        height: 24px !important;
+    }
+
+    /* Step 1 on tiny screens */
+    .et-portal-body.step1-active {
+        padding: 8px 10px 36px !important;
+    }
+
+    .et-portal-body.step1-active .et-pane-title {
+        font-size: 18.5px !important;
+    }
+
+    .et-portal-body.step1-active .et-rules-grid .et-rule-card {
+        padding: 12px 12px !important;
+        gap: 10px !important;
+    }
+
+    .et-portal-body.step1-active .stripe-left-icon {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        font-size: 19px !important;
+    }
+
+    .et-portal-body.step1-active .stripe-title {
+        font-size: 13.5px !important;
+    }
+
+    .et-portal-body.step1-active .stripe-desc {
+        font-size: 11.5px !important;
+    }
+
+    .et-portal-body.step1-active .et-circle-start-btn {
+        width: 118px !important;
+        height: 118px !important;
+        min-width: 118px !important;
+        min-height: 118px !important;
+        max-width: 118px !important;
+        max-height: 118px !important;
+    }
+
+    .et-portal-body.step1-active .circle-icon {
+        font-size: 26px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .et-portal-body.step1-active .circle-text {
+        font-size: 17px !important;
+    }
+
+    .et-portal-body.step1-active .circle-sub {
+        font-size: 15px !important;
+    }
+
+    .et-portal-body.step4-active {
+        padding: 6px 8px 24px !important;
+    }
+
+    .et-portal-body.step4-active .res-card {
+        padding: 12px 10px 14px !important;
+    }
+
+    .et-portal-body.step4-active .res-card-title h3 {
+        font-size: 14px !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-item {
+        padding: 8px 2px !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-label {
+        font-size: 11.5px !important;
+    }
+
+    .et-portal-body.step4-active .res-detail-val {
+        font-size: 12px !important;
+    }
+
+    .et-portal-body.step4-active .stage-card-inner {
+        padding: 12px 10px 14px !important;
+        gap: 8px !important;
+    }
+
+    .et-portal-body.step4-active .stage-card-name {
+        font-size: 14px !important;
+    }
+
+    .et-portal-body.step4-active .stage-card-status-pill {
+        padding: 4px 8px !important;
+        font-size: 10px !important;
+    }
+
+    .et-portal-body.step4-active .stage-action-btn {
+        padding: 8px 12px !important;
+        font-size: 12.5px !important;
+    }
 }
 
 /* ==========================================================================
@@ -5584,13 +6637,87 @@ select.et-select::-ms-expand,
 }
 
 .launch-status-text {
-    margin-top: 36px;
-    font-family: var(--font-display);
-    font-size: 20px;
+    margin-top: 32px;
+    font-family: var(--font-display), 'Outfit', sans-serif;
+    font-size: clamp(14px, 4vw, 20px);
     font-weight: 800;
-    letter-spacing: 3px;
+    letter-spacing: clamp(1.5px, 0.5vw, 3px);
     color: #ffffff;
-    text-shadow: 0 0 18px rgba(233, 30, 99, 0.9);
+    text-align: center;
+    width: 90vw;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+    text-shadow: 0 0 18px rgba(233, 30, 99, 0.9), 0 0 30px rgba(245, 158, 11, 0.7);
+    line-height: 1.4;
+    word-break: break-word;
+    position: relative;
+    z-index: 20;
+    animation: statusPulseGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes statusPulseGlow {
+    0% {
+        opacity: 0.85;
+        transform: scale(0.98);
+        text-shadow: 0 0 12px rgba(233, 30, 99, 0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        text-shadow: 0 0 22px rgba(233, 30, 99, 1), 0 0 35px rgba(245, 158, 11, 0.85);
+    }
+}
+
+@media (max-width: 768px) {
+    .launch-status-text {
+        font-size: clamp(13px, 3.8vw, 16px);
+        letter-spacing: 1.5px;
+        margin-top: 22px;
+        padding: 0 12px;
+        max-width: 92vw;
+    }
+
+    .launch-rocket-body {
+        font-size: 80px;
+    }
+
+    .launch-rocket-icon {
+        font-size: 85px;
+    }
+}
+
+@media (max-width: 480px) {
+    .launch-status-text {
+        font-size: 13.5px;
+        letter-spacing: 1.2px;
+        margin-top: 18px;
+    }
+
+    .launch-rocket-body {
+        font-size: 68px;
+    }
+
+    .launch-rocket-icon {
+        font-size: 72px;
+    }
+}
+
+@media (max-width: 360px) {
+    .launch-status-text {
+        font-size: 12.5px;
+        letter-spacing: 0.8px;
+    }
+
+    .launch-rocket-body {
+        font-size: 58px;
+    }
+
+    .launch-rocket-icon {
+        font-size: 62px;
+    }
 }
 
 /* ==================================================

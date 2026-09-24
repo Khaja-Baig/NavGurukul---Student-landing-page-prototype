@@ -1190,21 +1190,25 @@
 .school-tag.blue-tag {
     background: #eff6ff;
     color: #1d4ed8;
+    border: 1px solid #bfdbfe;
 }
 
 .school-tag.green-tag {
     background: #ecfdf5;
     color: #047857;
+    border: 1px solid #a7f3d0;
 }
 
 .school-tag.orange-tag {
-    background: #fffbe6;
-    color: #b45309;
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
 }
 
 .school-tag.purple-tag {
     background: #faf5ff;
     color: #7e22ce;
+    border: 1px solid #e9d5ff;
 }
 
 .meta-item {
@@ -2537,4 +2541,1668 @@
 .sq-primary-btn:hover {
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 8px 24px rgba(233, 30, 99, 0.45);
+}
+
+/* ========================================================
+   OUR CAMPUS SCREEN (SCREEN 2) STYLING & ANIMATIONS
+   ======================================================== */
+.campus-screen {
+    padding: 70px 4vw 20px !important;
+    justify-content: flex-start !important;
+    overflow-y: auto !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(233, 30, 99, 0.25) transparent;
+}
+
+.campus-view-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: campusFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes campusFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.campus-main-title {
+    font-family: Georgia, 'Playfair Display', 'Times New Roman', serif;
+    font-size: clamp(36px, 4.4vw, 54px);
+    font-weight: 800;
+    color: #1e293b;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+}
+
+.campus-subline {
+    font-family: var(--font-body, system-ui);
+    color: #475569;
+    font-size: clamp(13.5px, 1.2vw, 15px);
+    max-width: 820px;
+    margin: 4px auto 16px auto;
+    line-height: 1.55;
+}
+
+/* Full Width Cards Grid Container */
+.campus-cards-grid-wrap {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 10px 12px 50px;
+}
+
+.campus-cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px 26px;
+    width: 100%;
+}
+
+/* Individual Campus Card (Optimized Height & Balanced Proportions) */
+.campus-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    min-height: 240px;
+    width: calc((100% - 52px) / 3);
+    max-width: calc((100% - 52px) / 3);
+    flex: 0 0 calc((100% - 52px) / 3);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    animation: cardStaggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardStaggerIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.campus-card:hover {
+    transform: translateY(-6px) scale(1.012);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(233, 30, 99, 0.15);
+    border-color: rgba(233, 30, 99, 0.4);
+}
+
+.campus-card.is-tactile-pressed {
+    transform: scale(0.96) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Header Strip */
+.campus-card-header {
+    padding: 16px 22px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+/* Soft Theme Backgrounds for Top Card Segment */
+.theme-dharamshala .campus-card-header {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-bottom: 1px solid #bfdbfe;
+}
+
+.theme-sarjapur .campus-card-header {
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+    border-bottom: 1px solid #ddd6fe;
+}
+
+.theme-pune .campus-card-header {
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    border-bottom: 1px solid #c7d2fe;
+}
+
+.theme-jashpur .campus-card-header {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-bottom: 1px solid #a7f3d0;
+}
+
+.theme-dantewada .campus-card-header {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border-bottom: 1px solid #fed7aa;
+}
+
+.theme-kishanganj .campus-card-header {
+    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+    border-bottom: 1px solid #fef08a;
+}
+
+.theme-himachal .campus-card-header {
+    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+    border-bottom: 1px solid #99f6e4;
+}
+
+.campus-location-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.campus-pin {
+    font-size: 1.15rem;
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+.campus-card:hover .campus-pin {
+    transform: translateY(-2px) scale(1.15);
+}
+
+.campus-name {
+    font-family: var(--font-display, system-ui);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Space Telemetry Radar Beacon */
+.campus-beacon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.beacon-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    display: block;
+}
+
+.beacon-ping {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #10b981;
+    animation: beaconPulse 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    opacity: 0.7;
+}
+
+@keyframes beaconPulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.9;
+    }
+
+    80%,
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+/* Centered Card Content Body with balanced vertical gap */
+.campus-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 20px 14px;
+}
+
+.campus-region {
+    padding: 0;
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Gender Pill */
+.campus-pill-wrap {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.campus-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+}
+
+.boys-pill {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+
+.girls-pill {
+    background: #fdf2f8;
+    color: #be185d;
+    border: 1px solid #fbcfe8;
+}
+
+.coed-pill {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+/* Available Programs Preview Chips */
+.campus-programs-preview {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.programs-preview-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.02em;
+}
+
+.programs-preview-badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.campus-program-chip {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: transform 0.2s ease;
+}
+
+.chip-sop {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.chip-sob {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+}
+
+.chip-sof {
+    background: #fffbe6;
+    color: #b45309;
+    border: 1px solid #fde047;
+}
+
+.chip-bca {
+    background: #faf5ff;
+    color: #7e22ce;
+    border: 1px solid #e9d5ff;
+}
+
+/* Card Footer CTA */
+.campus-card-footer {
+    margin: 0 18px 18px;
+    padding: 11px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+}
+
+.campus-card:hover .campus-card-footer {
+    background: #fff0f5;
+    border-color: rgba(233, 30, 99, 0.3);
+}
+
+.campus-cta-text {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.campus-card:hover .campus-cta-text {
+    color: var(--pink-primary, #e91e63);
+}
+
+.campus-cta-arrow {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.campus-card:hover .campus-cta-arrow {
+    color: var(--pink-primary, #e91e63);
+    transform: translateX(4px);
+}
+
+/* ========================================================
+   VIEW 2: PROGRAMS AT SELECTED CAMPUS VIEW
+   ======================================================== */
+.campus-programs-view {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Breadcrumb Bar */
+.campus-breadcrumb-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 6px 18px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid #e2e8f0;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.campus-breadcrumb-back {
+    background: transparent;
+    border: none;
+    font-family: var(--font-body, system-ui);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.campus-breadcrumb-back:hover {
+    color: var(--pink-primary, #e91e63);
+    transform: translateX(-2px);
+}
+
+.campus-breadcrumb-back .back-arrow {
+    font-size: 1.05rem;
+}
+
+.breadcrumb-slash {
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+.breadcrumb-current {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--pink-primary, #e91e63);
+}
+
+.programs-header-block {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.programs-headline {
+    font-size: clamp(26px, 3.6vw, 44px);
+    margin-bottom: 8px;
+}
+
+.programs-badge-row {
+    margin: 10px 0 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Prominent, Spacious & Clear Campus Badge */
+.programs-campus-pill {
+    font-size: 0.96rem !important;
+    font-weight: 800 !important;
+    padding: 8px 24px !important;
+    border-radius: 30px !important;
+    letter-spacing: 0.02em !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+    border-width: 1.5px !important;
+    line-height: 1.4 !important;
+}
+
+.programs-campus-pill.girls-pill {
+    background: #fff0f7 !important;
+    color: #be185d !important;
+    border-color: #f472b6 !important;
+}
+
+.programs-campus-pill.boys-pill {
+    background: #f0f9ff !important;
+    color: #0369a1 !important;
+    border-color: #38bdf8 !important;
+}
+
+.programs-campus-pill.coed-pill {
+    background: #f0fdf4 !important;
+    color: #15803d !important;
+    border-color: #4ade80 !important;
+}
+
+.programs-subline {
+    font-size: 14.5px;
+    color: #475569;
+    margin: 6px auto 0;
+    line-height: 1.5;
+}
+
+/* Programs Grid (Flex Wrapping, Max 2 Per Row) */
+.campus-programs-grid {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    max-width: 740px;
+    width: 100%;
+}
+
+.program-course-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1.5px solid #e2e8f0;
+    border-top: 3.5px solid #94a3b8;
+    padding: 16px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    animation: cardStaggerIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    width: calc(50% - 10px);
+    max-width: 350px;
+    min-width: 275px;
+    box-sizing: border-box;
+}
+
+.program-course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Blue Theme (SOP - Software Development) */
+.program-course-card.blue-theme {
+    background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 42%);
+    border-color: #bfdbfe;
+    border-top: 3.5px solid #3b82f6;
+    box-shadow: 0 4px 18px rgba(59, 130, 246, 0.07);
+}
+
+.program-course-card.blue-theme:hover {
+    background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 48%);
+    border-color: #3b82f6;
+    border-top-color: #2563eb;
+    box-shadow: 0 14px 30px rgba(59, 130, 246, 0.18);
+}
+
+.program-course-card.blue-theme .program-icon-circle {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+/* Green Theme (SOB - Operations & Marketing) */
+.program-course-card.green-theme {
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 42%);
+    border-color: #bbf7d0;
+    border-top: 3.5px solid #10b981;
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.07);
+}
+
+.program-course-card.green-theme:hover {
+    background: linear-gradient(180deg, #dcfce7 0%, #ffffff 48%);
+    border-color: #10b981;
+    border-top-color: #059669;
+    box-shadow: 0 14px 30px rgba(16, 185, 129, 0.18);
+}
+
+.program-course-card.green-theme .program-icon-circle {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+}
+
+/* Orange Theme (SOF - Accounting & Taxation) */
+.program-course-card.orange-theme {
+    background: linear-gradient(180deg, #fff7ed 0%, #ffffff 42%);
+    border-color: #fed7aa;
+    border-top: 3.5px solid #f97316;
+    box-shadow: 0 4px 18px rgba(249, 115, 22, 0.07);
+}
+
+.program-course-card.orange-theme:hover {
+    background: linear-gradient(180deg, #ffedd5 0%, #ffffff 48%);
+    border-color: #f97316;
+    border-top-color: #ea580c;
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.18);
+}
+
+.program-course-card.orange-theme .program-icon-circle {
+    background: #fff7ed;
+    border-color: #fed7aa;
+}
+
+/* Purple Theme (BCA - Degree Program) */
+.program-course-card.purple-theme {
+    background: linear-gradient(180deg, #faf5ff 0%, #ffffff 42%);
+    border-color: #e9d5ff;
+    border-top: 3.5px solid #8b5cf6;
+    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.07);
+}
+
+.program-course-card.purple-theme:hover {
+    background: linear-gradient(180deg, #f3e8ff 0%, #ffffff 48%);
+    border-color: #8b5cf6;
+    border-top-color: #7c3aed;
+    box-shadow: 0 14px 30px rgba(139, 92, 246, 0.18);
+}
+
+.program-course-card.purple-theme .program-icon-circle {
+    background: #faf5ff;
+    border-color: #e9d5ff;
+}
+
+.program-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.program-icon-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+}
+
+.program-full-name {
+    font-family: var(--font-display, system-ui);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.3;
+    margin: 4px 0 6px 0;
+    text-align: center;
+}
+
+.program-desc {
+    font-size: 0.82rem;
+    color: #64748b;
+    line-height: 1.45;
+    margin: 0 0 10px 0;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.program-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+    padding-top: 8px;
+    border-top: 1px dashed #e2e8f0;
+    text-align: left;
+}
+
+.program-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    color: #475569;
+    font-weight: 500;
+}
+
+.program-meta-row .meta-icon {
+    font-size: 0.88rem;
+    flex-shrink: 0;
+}
+
+.program-meta-row strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.program-card-footer {
+    margin-top: auto;
+}
+
+.admissions-open-btn {
+    width: 100%;
+    padding: 9px 14px;
+    border-radius: 12px;
+    font-family: var(--font-display, system-ui);
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+    border: 1.5px solid #a7f3d0;
+    background: #ecfdf5;
+    color: #047857;
+}
+
+/* Blue (SOP) */
+.admissions-open-btn.btn-sop {
+    background: #eff6ff;
+    border: 1.5px solid #bfdbfe;
+    color: #1d4ed8;
+}
+
+.program-course-card.blue-theme:hover .admissions-open-btn.btn-sop,
+.admissions-open-btn.btn-sop:hover {
+    background: #2563eb;
+    border-color: #1d4ed8;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+    transform: translateY(-1px);
+}
+
+/* Green (SOB) */
+.admissions-open-btn.btn-sob {
+    background: #ecfdf5;
+    border: 1.5px solid #a7f3d0;
+    color: #047857;
+}
+
+.program-course-card.green-theme:hover .admissions-open-btn.btn-sob,
+.admissions-open-btn.btn-sob:hover {
+    background: #059669;
+    border-color: #047857;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.28);
+    transform: translateY(-1px);
+}
+
+/* Orange (SOF) */
+.admissions-open-btn.btn-sof {
+    background: #fff7ed;
+    border: 1.5px solid #fed7aa;
+    color: #c2410c;
+}
+
+.program-course-card.orange-theme:hover .admissions-open-btn.btn-sof,
+.admissions-open-btn.btn-sof:hover {
+    background: #ea580c;
+    border-color: #c2410c;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(234, 88, 12, 0.28);
+    transform: translateY(-1px);
+}
+
+/* Purple (BCA) */
+.admissions-open-btn.btn-bca {
+    background: #faf5ff;
+    border: 1.5px solid #e9d5ff;
+    color: #7e22ce;
+}
+
+.program-course-card.purple-theme:hover .admissions-open-btn.btn-bca,
+.admissions-open-btn.btn-bca:hover {
+    background: #7e22ce;
+    border-color: #6b21a8;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(126, 34, 206, 0.28);
+    transform: translateY(-1px);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 960px) {
+    .campus-cards-grid {
+        gap: 20px 18px;
+    }
+
+    .campus-card {
+        width: calc((100% - 18px) / 2);
+        max-width: calc((100% - 18px) / 2);
+        flex: 0 0 calc((100% - 18px) / 2);
+    }
+}
+
+@media (max-width: 640px) {
+    .campus-screen {
+        padding: 60px 4vw 70px !important;
+    }
+
+    .campus-cards-grid {
+        gap: 16px;
+    }
+
+    .campus-card {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .campus-programs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsive CTA text in campus cards (fixes awkward word-wrapping and sizing) */
+@media (max-width: 768px) {
+    .campus-card-footer {
+        padding: 10px 14px;
+        gap: 6px;
+    }
+
+    .campus-cta-text {
+        font-size: 0.78rem;
+        white-space: nowrap;
+    }
+
+    .campus-cta-arrow {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .campus-card-footer {
+        padding: 8px 10px;
+        margin: 0 12px 14px;
+        gap: 4px;
+    }
+
+    .campus-cta-text {
+        font-size: 0.71rem;
+        letter-spacing: -0.015em;
+        white-space: nowrap;
+    }
+
+    .campus-cta-arrow {
+        font-size: 0.88rem;
+    }
+}
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  MASTER MOBILE RESPONSIVE — STEPS 4–10 (All Components)        ║
+   ║  Covers: Alumni, School Cards, Offerings, Roadmap, Modals       ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BIRD & PERCH — Mobile: Stays perched, tall & visible!
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .perch-corner-dock {
+        position: relative !important;
+        top: 0 !important;
+        right: auto !important;
+        margin: 2px auto 4px auto !important;
+        transform: none !important;
+        z-index: 15 !important;
+    }
+
+    .perched-bird-sprite {
+        --perch-bird-w: 80px !important;
+        --perch-bird-h: calc(80px * (396 / 331)) !important; /* ~96px tall! */
+        width: 80px !important;
+        height: calc(80px * (396 / 331)) !important;
+        background-size: 600% 100% !important;
+        background-position-x: calc(80px * -2) !important;
+        margin-bottom: calc(80px * (396 / 331) * -0.24) !important;
+        filter: drop-shadow(0 6px 14px rgba(18, 38, 68, 0.22)) !important;
+    }
+
+    .poster-pill-badge,
+    .carried-poster-badge {
+        font-size: 0.78rem !important;
+        font-weight: 800 !important;
+        padding: 4px 12px !important;
+        letter-spacing: -0.2px !important;
+        white-space: nowrap !important;
+        box-shadow: 0 4px 14px rgba(255, 45, 117, 0.28) !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        border: 1.5px solid var(--primary-pink-border) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .perch-corner-dock {
+        margin: 0 auto 3px auto !important;
+    }
+
+    .perched-bird-sprite {
+        --perch-bird-w: 74px !important;
+        --perch-bird-h: calc(74px * (396 / 331)) !important; /* ~88.5px tall! */
+        width: 74px !important;
+        height: calc(74px * (396 / 331)) !important;
+        background-size: 600% 100% !important;
+        background-position-x: calc(74px * -2) !important;
+        margin-bottom: calc(74px * (396 / 331) * -0.24) !important;
+    }
+
+    .poster-pill-badge,
+    .carried-poster-badge {
+        font-size: 0.74rem !important;
+        padding: 4px 10px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .perched-bird-sprite {
+        --perch-bird-w: 68px !important;
+        --perch-bird-h: calc(68px * (396 / 331)) !important; /* ~81px tall! */
+        width: 68px !important;
+        height: calc(68px * (396 / 331)) !important;
+        background-size: 600% 100% !important;
+        background-position-x: calc(68px * -2) !important;
+        margin-bottom: calc(68px * (396 / 331) * -0.24) !important;
+    }
+
+    .poster-pill-badge,
+    .carried-poster-badge {
+        font-size: 0.7rem !important;
+        padding: 3px 8px !important;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 4 — SCREEN 1: Offerings / Zone cards
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .room-row {
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .zone {
+        width: 130px;
+        padding: 16px 12px;
+        border-radius: 16px;
+    }
+
+    .zone-icon {
+        font-size: 28px;
+        height: 50px;
+    }
+
+    .zone-icon img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .zone-name {
+        font-size: 12px;
+    }
+
+    /* Company slots on screen 3 */
+    .company-slot {
+        width: 106px !important;
+        height: 84px !important;
+        padding: 10px 8px !important;
+        border-radius: 16px !important;
+        border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .cslot-logo-wrap {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .cslot-name {
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+    }
+
+    .companies-track {
+        gap: 12px !important;
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .room-row {
+        gap: 8px;
+    }
+
+    .zone {
+        width: 110px;
+        padding: 14px 10px;
+    }
+
+    .zone-icon img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .company-slot {
+        width: 98px !important;
+        height: 78px !important;
+        padding: 8px 6px !important;
+    }
+
+    .cslot-name {
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .zone {
+        width: 95px;
+        padding: 12px 8px;
+    }
+
+    .zone-icon img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .company-slot {
+        width: 90px !important;
+        height: 72px !important;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 5 — SCREEN 3: School Cards (s4-stage)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 960px) {
+    .s4-stage {
+        gap: 20px;
+    }
+
+    .s4-avatar-zone {
+        flex: 0 0 180px;
+        height: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .s4-stage {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 6px;
+        max-height: calc(100vh - 130px);
+    }
+
+    .s4-avatar-zone {
+        flex: 0 0 auto;
+        height: 160px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .s4-cards-grid,
+    .s4-cards-stack {
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .school-card {
+        padding: 12px 14px 12px 16px;
+    }
+
+    .school-icon-badge {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        border-radius: 12px;
+    }
+
+    .school-title {
+        font-size: 13.5px;
+    }
+
+    .school-desc {
+        font-size: 11.5px;
+        -webkit-line-clamp: 1;
+    }
+
+    .school-cta {
+        font-size: 11.5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .s4-stage {
+        gap: 10px;
+    }
+
+    .s4-avatar-zone {
+        height: 130px;
+    }
+
+    .s4-cards-grid,
+    .s4-cards-stack {
+        grid-template-columns: 1fr;
+        /* Single column on small phones */
+    }
+
+    .school-card {
+        padding: 10px 12px 10px 14px;
+    }
+
+    .school-title {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    .s4-avatar-zone {
+        height: 110px;
+    }
+
+    .school-title {
+        font-size: 12.5px;
+    }
+
+    .school-icon-badge {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 6 — SCREEN 4: Alumni Marquee
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .alumni-viewport {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin-left: calc(-1 * var(--screen-pad-mobile, 4vw)) !important;
+        margin-right: calc(-1 * var(--screen-pad-mobile, 4vw)) !important;
+        padding: 10px 0 16px !important;
+        overflow: hidden !important;
+        mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%) !important;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%) !important;
+    }
+
+    .alumni-track {
+        gap: 16px !important;
+        padding-left: var(--screen-pad-mobile, 4vw) !important;
+        animation-duration: 28s !important;
+    }
+
+    /* Wide, premium testimonial card: ~86vw so 1 main card is prominently featured, next card peeking */
+    .alumni-card {
+        width: min(86vw, 360px) !important;
+        min-width: min(86vw, 360px) !important;
+        max-width: 370px !important;
+        min-height: 185px !important;
+        padding: 18px 20px !important;
+        border-radius: 20px !important;
+        background: #ffffff !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07) !important;
+        border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+        flex-shrink: 0 !important;
+    }
+
+    .alumni-avatar {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 15px !important;
+        font-weight: 800 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .alumni-meta {
+        flex: 1 !important;
+    }
+
+    .alumni-meta .aname {
+        font-size: 15px !important;
+        font-weight: 800 !important;
+        color: var(--text-dark) !important;
+        line-height: 1.2 !important;
+    }
+
+    .alumni-meta .arole {
+        font-size: 12px !important;
+        color: var(--text-muted) !important;
+        margin-top: 2px !important;
+    }
+
+    .alumni-meta .apkg {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: var(--primary-pink) !important;
+    }
+
+    .alumni-logo-wrap {
+        width: 42px !important;
+        height: 42px !important;
+        padding: 4px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .alumni-logo {
+        max-height: 28px !important;
+        max-width: 65px !important;
+    }
+
+    .acard-quote {
+        font-size: 13px !important;
+        line-height: 1.52 !important;
+        color: #4b5563 !important;
+        font-style: italic !important;
+        margin: 10px 0 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 3 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    .acard-bottom {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-top: auto !important;
+        font-size: 12px !important;
+    }
+
+    .acard-city {
+        font-size: 12px !important;
+        color: var(--text-muted) !important;
+    }
+
+    .acard-link {
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        color: var(--primary-pink) !important;
+    }
+
+    /* Testimonial screen subline */
+    .screen2-subline {
+        font-size: clamp(12.5px, 3.4vw, 14.5px) !important;
+        margin: 0 auto 10px auto !important;
+        text-align: center !important;
+        max-width: 90% !important;
+        color: #64748b !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .alumni-card {
+        width: min(87vw, 345px) !important;
+        min-width: min(87vw, 345px) !important;
+        padding: 16px 18px !important;
+        min-height: 180px !important;
+    }
+
+    .alumni-meta .aname {
+        font-size: 14.5px !important;
+    }
+
+    .acard-quote {
+        font-size: 12.5px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .alumni-card {
+        width: 88vw !important;
+        min-width: 88vw !important;
+        padding: 14px 15px !important;
+        min-height: 175px !important;
+    }
+
+    .alumni-avatar {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 13px !important;
+    }
+
+    .acard-quote {
+        font-size: 12px !important;
+        -webkit-line-clamp: 3 !important;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 7 — SCREEN 5: Roadmap / Asha walking
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .s5-wooden-banner {
+        width: 94%;
+        padding: 8px 16px;
+        bottom: 6px;
+        border-radius: 24px;
+        gap: 8px;
+    }
+
+    .s5-banner-text {
+        font-size: 13px;
+        line-height: 1.25;
+    }
+
+    .s5-banner-cta {
+        font-size: 11px;
+        padding: 5px 10px;
+        white-space: nowrap;
+    }
+
+    .s5-actions-row {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 4px;
+    }
+
+    .s5-actions-row .glow-btn {
+        margin-top: 0;
+        width: auto;
+    }
+
+    .xp-float {
+        font-size: 14px;
+        padding: 7px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .s5-wooden-banner {
+        padding: 7px 12px;
+    }
+
+    .s5-banner-text {
+        font-size: 12px;
+    }
+
+    .s5-banner-cta {
+        font-size: 10.5px;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 360px) {
+    .s5-wooden-banner {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+        padding: 8px;
+    }
+
+    .s5-banner-text {
+        font-size: 11.5px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 8 — TESTIMONIAL MODAL (tm-card)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .tm-overlay {
+        padding: 12px;
+        align-items: flex-end;
+        /* Sheet-style from bottom on mobile */
+    }
+
+    .tm-card {
+        padding: 22px 18px 24px;
+        border-radius: 20px 20px 16px 16px;
+        max-height: 88vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tm-name {
+        font-size: 16px;
+    }
+
+    .tm-role {
+        font-size: 13px;
+    }
+
+    .tm-quote {
+        font-size: 14px;
+        padding: 14px 16px;
+        margin-top: 16px;
+    }
+
+    .tm-pkg {
+        font-size: 18px;
+    }
+
+    .tm-logo-row {
+        margin-right: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tm-card {
+        padding: 18px 14px 20px;
+    }
+
+    .tm-header {
+        gap: 12px;
+    }
+
+    .tm-avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .tm-quote {
+        font-size: 13px;
+        padding: 12px 14px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 9 — SCHOOL MODAL (sm-body)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .sm-body {
+        grid-template-columns: 1fr !important;
+        padding: 16px 18px;
+        gap: 16px;
+    }
+
+    .sm-sec-title {
+        font-size: 15px;
+    }
+
+    .sm-list li {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sm-body {
+        padding: 14px;
+        gap: 14px;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 10 — STAGE QUEST MODAL (sq-body)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .sq-body {
+        grid-template-columns: 1fr !important;
+        padding: 14px;
+        gap: 14px;
+    }
+
+    .sq-avatar-img {
+        height: 200px;
+    }
+
+    .sq-sections-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 540px) {
+    .sq-avatar-col {
+        display: none;
+        /* Hide mascot avatar on very small screens */
+    }
+
+    .sq-sections-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 11 — UNIVERSAL TOUCH TARGETS
+   Min 44px for all interactive elements (Apple HIG)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+
+    /* All buttons and interactive elements get min 44px touch target */
+    button,
+    .school-card,
+    .alumni-card,
+    .campus-card,
+    .zone,
+    .hud-node,
+    .dot,
+    .glow-btn,
+    .tm-close {
+        min-height: var(--touch-target);
+    }
+
+    /* Dots nav — ensure tappable */
+    .dot {
+        min-height: unset;
+        /* dots are position:relative, not min-height needed */
+        min-width: unset;
+    }
+
+    /* Override for small decorative elements */
+    .hud-node {
+        min-height: unset;
+        /* nodes handled separately */
+    }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 12 — PERFORMANCE: will-change + GPU hints
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.alumni-track {
+    will-change: transform;
+}
+
+.hud-fill {
+    will-change: width;
+}
+
+.bird-carrier {
+    will-change: transform;
+}
+
+/* Mobile — remove heavy box-shadows for GPU savings */
+@media (max-width: 768px) {
+
+    .campus-card,
+    .school-card,
+    .alumni-card,
+    .company-slot {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Reduce backdrop-filter usage on mobile */
+    .hud-level-badge,
+    .poster-pill-badge {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    /* Disable heavy hover transforms on touch devices */
+    .campus-card:hover,
+    .school-card:hover,
+    .company-slot:hover {
+        transform: none;
+    }
+
+    /* Screen 6 (Final Step): Sleek typography, compact steps, and proportionate button */
+    .type-line {
+        font-size: clamp(19px, 5.2vw, 26px) !important;
+        line-height: 1.25 !important;
+        margin: 2px auto 14px auto !important;
+        max-width: 92vw !important;
+    }
+
+    .quest-list {
+        margin: 14px auto 0 auto !important;
+        gap: 10px !important;
+        width: 100% !important;
+        max-width: min(88vw, 360px) !important;
+        align-items: stretch !important;
+    }
+
+    .quest-item {
+        font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        line-height: 1.35 !important;
+        color: #1e293b !important;
+        padding: 10px 16px !important;
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04) !important;
+        border: 1.2px solid rgba(0, 0, 0, 0.07) !important;
+        gap: 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .screen.active .quest-item:nth-child(1) {
+        animation-delay: 0.25s !important;
+    }
+
+    .screen.active .quest-item:nth-child(2) {
+        animation-delay: 0.45s !important;
+    }
+
+    .screen.active .quest-item:nth-child(3) {
+        animation-delay: 0.65s !important;
+    }
+
+    .final-btn {
+        font-size: 14.5px !important;
+        font-weight: 700 !important;
+        padding: 13px 26px !important;
+        border-radius: 999px !important;
+        margin-top: 18px !important;
+        max-width: min(88vw, 340px) !important;
+        white-space: nowrap !important;
+        letter-spacing: -0.1px !important;
+        box-shadow: 0 6px 20px rgba(233, 30, 99, 0.35) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .type-line {
+        font-size: clamp(17px, 5.4vw, 22px) !important;
+        margin: 2px auto 10px auto !important;
+    }
+
+    .quest-list {
+        margin-top: 10px !important;
+        gap: 8px !important;
+        max-width: min(90vw, 340px) !important;
+    }
+
+    .quest-item {
+        font-size: 12.5px !important;
+        padding: 9px 13px !important;
+        border-radius: 11px !important;
+        gap: 8px !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .final-btn {
+        font-size: 13.5px !important;
+        padding: 11px 20px !important;
+        margin-top: 14px !important;
+        max-width: 90vw !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .type-line {
+        font-size: 16px !important;
+    }
+
+    .quest-item {
+        font-size: 11.5px !important;
+        padding: 8px 10px !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .final-btn {
+        font-size: 12.5px !important;
+        padding: 10px 16px !important;
+    }
 }
