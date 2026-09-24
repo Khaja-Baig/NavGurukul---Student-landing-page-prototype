@@ -28,4 +28,9 @@
     --font-display: 'Plus Jakarta Sans', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+
+    /* ── Mobile / Responsive Tokens ── */
+    --hud-height-mobile: 52px;
+    --screen-pad-mobile: 4vw;
+    --touch-target: 44px;       /* Apple HIG minimum tap target */
 }

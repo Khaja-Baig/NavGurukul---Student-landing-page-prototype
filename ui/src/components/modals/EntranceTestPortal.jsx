@@ -1943,107 +1943,145 @@ export const EntranceTestPortal = () => {
                                                 <span className="res-detail-val">{displayState}</span>
                                             </div>
                                             <div className="res-detail-item full-width">
-                                                <span class="res-detail-label">Selected School:</span>
+                                                <span className="res-detail-label">Selected School:</span>
                                                 <span className="res-detail-val">{displaySchool}</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Test Results & Slot Booking Card */}
+                                    {/* Test Results & Slot Booking Card (Responsive Stage Cards - Zero Scroll) */}
                                     <div className="res-card res-results-card">
                                         <div className="res-card-title">
                                             <span className="card-title-icon test-icon">📑</span>
                                             <h3>Test Results & Slot Booking</h3>
                                         </div>
 
-                                        <div className="res-table-wrapper">
-                                            <table className="res-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>STAGE</th>
-                                                        <th>STATUS</th>
-                                                        <th>SCHEDULED TIME</th>
-                                                        <th>ACTIONS</th>
-                                                        <th>MARKS</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {displayHistory.map((attempt, index) => {
-                                                        const isLatest = (index === displayHistory.length - 1);
-                                                        const stageName = (displayHistory.length > 1)
-                                                            ? `Screening Test (Attempt ${attempt.attemptNum})`
-                                                            : `Screening Test`;
+                                        {/* Responsive Stage Cards List (Matches SS1 & SS2, 100% Responsive, Zero Horizontal Scroll) */}
+                                        <div className="res-stage-cards-container">
+                                            {displayHistory.map((attempt, index) => {
+                                                const isLatest = (index === displayHistory.length - 1);
+                                                const stageName = (displayHistory.length > 1)
+                                                    ? `Screening Test (Attempt ${attempt.attemptNum})`
+                                                    : `Screening Test`;
 
-                                                        const canRetest = !attempt.isPassed && isLatest && !hasAnyPassed;
+                                                const canRetest = !attempt.isPassed && isLatest && !hasAnyPassed;
 
-                                                        return (
-                                                            <tr key={index}>
-                                                                <td className="td-stage">
-                                                                    <div className="stage-cell">
-                                                                        <span className="stage-icon st-icon">📄</span>
-                                                                        <span className="stage-name-text">{stageName}</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="td-status">
-                                                                    {attempt.isPassed ? (
-                                                                        <span className="res-status-badge status-pass">✓ Pass</span>
-                                                                    ) : (
-                                                                        <span className="res-status-badge status-fail">✖ Fail</span>
-                                                                    )}
-                                                                </td>
-                                                                <td className="td-time">
-                                                                    <span className="time-cell">
-                                                                        <span className="cal-icon">📅</span> {attempt.timeStr}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="td-actions">
-                                                                    {canRetest ? (
-                                                                        <button type="button" className="res-action-btn btn-retest" onClick={startLiveEtQuiz}>
-                                                                            Retest
-                                                                        </button>
-                                                                    ) : (
-                                                                        '–'
-                                                                    )}
-                                                                </td>
-                                                                <td className="td-marks">{attempt.marks}</td>
-                                                            </tr>
-                                                        );
-                                                    })}
+                                                return (
+                                                    <div
+                                                        className={`res-stage-card ${attempt.isPassed ? 'stage-card-pass' : 'stage-card-fail'}`}
+                                                        key={index}
+                                                    >
+                                                        {/* Left Colored Accent Stripe */}
+                                                        <div className={`stage-card-accent-bar ${attempt.isPassed ? 'accent-pass' : 'accent-fail'}`}></div>
 
-                                                    {hasAnyPassed && (
-                                                        <tr id="resRowLearning">
-                                                            <td className="td-stage">
-                                                                <div className="stage-cell">
-                                                                    <span className="stage-icon lr-icon">👥</span>
-                                                                    <span className="stage-name-text">Learning Round</span>
+                                                        <div className="stage-card-inner">
+                                                            {/* Top Row: Stage Name + Marks + Status Pill */}
+                                                            <div className="stage-card-header-row">
+                                                                <div className="stage-card-title-wrap">
+                                                                    <h4 className="stage-card-name">{stageName}</h4>
                                                                 </div>
-                                                            </td>
-                                                            <td className="td-status">
-                                                                {bookedInterviewSlot ? (
-                                                                    <span className="res-status-badge status-scheduled">✔ Scheduled</span>
-                                                                ) : (
-                                                                    <span className="res-status-badge status-pending">⏳ Pending</span>
-                                                                )}
-                                                            </td>
-                                                            <td className="td-time">
-                                                                <span className="time-cell">
-                                                                    <span className="cal-icon">📅</span> {bookedInterviewSlot || 'Not Scheduled'}
-                                                                </span>
-                                                            </td>
-                                                            <td className="td-actions">
-                                                                {!bookedInterviewSlot ? (
-                                                                    <button type="button" className="res-action-btn btn-book-slot" onClick={openSlotBookingModal}>
-                                                                        Book Slot
+
+                                                                <div className="stage-card-badges-wrap">
+                                                                    {attempt.marks !== undefined && attempt.marks !== null && (
+                                                                        <div className="stage-card-marks-box">
+                                                                            <span className="marks-box-lbl">MARKS:</span>
+                                                                            <span className="marks-box-val">{attempt.marks}</span>
+                                                                        </div>
+                                                                    )}
+
+                                                                    <div className={`stage-card-status-pill ${attempt.isPassed ? 'pill-pass' : 'pill-fail'}`}>
+                                                                        {attempt.isPassed ? (
+                                                                            <>
+                                                                                <span className="pill-dot">✓</span> PASS
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <span className="pill-dot">✕</span> FAIL
+                                                                            </>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Middle Row: Scheduled Time */}
+                                                            <div className="stage-card-time-row">
+                                                                <span className="stage-cal-icon">📅</span>
+                                                                <span className="stage-time-val">{attempt.timeStr}</span>
+                                                            </div>
+
+                                                            {/* Bottom Row: Actions */}
+                                                            <div className="stage-card-actions-section">
+                                                                <span className="stage-actions-heading">ACTIONS</span>
+                                                                {canRetest ? (
+                                                                    <button
+                                                                        type="button"
+                                                                        className="stage-action-btn btn-stage-retest"
+                                                                        onClick={startLiveEtQuiz}
+                                                                    >
+                                                                        Retest
                                                                     </button>
                                                                 ) : (
-                                                                    '–'
+                                                                    <span className="stage-action-dash">–</span>
                                                                 )}
-                                                            </td>
-                                                            <td className="td-marks">–</td>
-                                                        </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+
+                                            {hasAnyPassed && (
+                                                <div className={`res-stage-card ${bookedInterviewSlot ? 'stage-card-pass' : 'stage-card-pending'}`} id="resCardLearning">
+                                                    {/* Left Colored Accent Stripe */}
+                                                    <div className={`stage-card-accent-bar ${bookedInterviewSlot ? 'accent-pass' : 'accent-amber'}`}></div>
+
+                                                    <div className="stage-card-inner">
+                                                        {/* Top Row: Stage Name + Status Pill */}
+                                                        <div className="stage-card-header-row">
+                                                            <div className="stage-card-title-wrap">
+                                                                <h4 className="stage-card-name">Learning Round</h4>
+                                                            </div>
+
+                                                            <div className="stage-card-badges-wrap">
+                                                                <div className={`stage-card-status-pill ${bookedInterviewSlot ? 'pill-scheduled' : 'pill-pending'}`}>
+                                                                    {bookedInterviewSlot ? (
+                                                                        <>
+                                                                            <span className="pill-dot">✔</span> SCHEDULED
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <span className="pill-dot">⏳</span> PENDING
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Middle Row: Scheduled Time */}
+                                                        <div className="stage-card-time-row">
+                                                            <span className="stage-cal-icon">📅</span>
+                                                            <span className={`stage-time-val ${!bookedInterviewSlot ? 'not-scheduled' : ''}`}>
+                                                                {bookedInterviewSlot || 'Not Scheduled'}
+                                                            </span>
+                                                        </div>
+
+                                                        {/* Bottom Row: Actions */}
+                                                        <div className="stage-card-actions-section">
+                                                            <span className="stage-actions-heading">ACTIONS</span>
+                                                            {!bookedInterviewSlot ? (
+                                                                <button
+                                                                    type="button"
+                                                                    className="stage-action-btn btn-stage-book"
+                                                                    onClick={openSlotBookingModal}
+                                                                >
+                                                                    Book Slot
+                                                                </button>
+                                                            ) : (
+                                                                <span className="stage-action-dash">–</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

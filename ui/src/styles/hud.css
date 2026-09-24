@@ -596,3 +596,138 @@
         transform: translateY(-28px) scale(0.9);
     }
 }
+
+/* ══════════════════════════════════════════════
+   HUD RESPONSIVE — ALL MOBILE BREAKPOINTS
+   ══════════════════════════════════════════════ */
+
+/* Tablet + large phones (≤ 1024px) */
+@media (max-width: 1024px) {
+    .hud-level-badge {
+        display: none; /* Level badge hide on tablet to save space */
+    }
+}
+
+/* Mobile (≤ 768px) */
+@media (max-width: 768px) {
+    #hud {
+        padding: 8px 14px;
+        gap: 8px;
+        height: var(--hud-height-mobile);
+    }
+
+    .hud-brand-img {
+        height: 24px;
+        max-width: 120px;
+    }
+
+    .hud-brand-title {
+        display: none;
+    }
+
+    .hud-track-wrapper {
+        padding: 0 6px;
+        margin: 0 4px;
+    }
+
+    .hud-track {
+        height: 10px;
+    }
+
+    .hud-node {
+        width: 20px;
+        height: 20px;
+        border-width: 1.5px;
+    }
+
+    .hud-node .node-icon {
+        font-size: 9px;
+    }
+
+    /* Tooltips completely hidden on mobile — no hover on touch */
+    .hud-node .node-tooltip {
+        display: none !important;
+    }
+
+    /* Rocket vehicle scaled down */
+    .hud-vehicle svg.vehicle-svg {
+        width: 30px;
+        height: 18px;
+    }
+
+    .vehicle-thruster {
+        right: -6px;
+    }
+
+    .hud-vehicle-callout {
+        font-size: 9px;
+        padding: 2px 6px;
+        top: -24px;
+    }
+
+    /* Flame thruster simpler on mobile */
+    .flame-core {
+        width: 4px;
+        height: 6px;
+    }
+
+    .flame-outer {
+        width: 7px;
+        height: 10px;
+    }
+
+    /* XP toast reposition on mobile */
+    .xp-toast {
+        right: 16px;
+        top: 58px;
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+}
+
+/* Small phones (≤ 480px) */
+@media (max-width: 480px) {
+    #hud {
+        padding: 6px 10px;
+        gap: 6px;
+    }
+
+    .hud-brand-img {
+        height: 20px;
+        max-width: 100px;
+    }
+
+    .hud-node {
+        width: 16px;
+        height: 16px;
+    }
+
+    .hud-node .node-icon {
+        font-size: 7px;
+    }
+
+    .hud-track {
+        height: 8px;
+    }
+}
+
+/* Extra small phones (≤ 360px) */
+@media (max-width: 360px) {
+    #hud {
+        padding: 6px 8px;
+    }
+
+    .hud-brand-img {
+        height: 18px;
+        max-width: 90px;
+    }
+
+    .hud-node {
+        width: 14px;
+        height: 14px;
+    }
+
+    .hud-node .node-icon {
+        font-size: 6px;
+    }
+}

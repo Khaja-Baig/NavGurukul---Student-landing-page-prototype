@@ -399,53 +399,261 @@ footer.hint {
     pointer-events: none;
 }
 
-/* Mobile & Responsive Adjustments */
+/* ══════════════════════════════════════════════════════════════
+   FULL RESPONSIVE SYSTEM — ALL BREAKPOINTS
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 1024px) ── */
+@media (max-width: 1024px) {
+    .screen {
+        padding: 70px 4vw 50px;
+    }
+}
+
+/* ── Mobile (≤ 768px) ── */
 @media (max-width: 768px) {
-    #hud {
-        padding: 10px 16px;
-        gap: 10px;
+    /* Screen transitions: remove heavy blur+scale — just opacity on mobile */
+    .screen {
+        filter: none !important;
+        transform: scale(1) !important;
+        transition: opacity 0.35s ease;
+        padding: 58px var(--screen-pad-mobile) 85px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        /* Keep center alignment — same as desktop */
+        align-items: center;
+        text-align: center;
     }
 
-    .hud-brand-title {
-        display: none;
+    .screen.active {
+        opacity: 1;
+        filter: none !important;
+        transform: scale(1) !important;
     }
 
+    /* Dots nav — smaller on mobile */
     #dots {
-        right: 12px;
-        gap: 10px;
+        right: 8px;
+        gap: 8px;
     }
 
+    .dot {
+        width: 9px;
+        height: 9px;
+    }
+
+    /* Side arrows hidden — swipe handles navigation */
     .nav-arrow {
         display: none;
     }
 
-    .screen {
-        padding: 70px 5vw 80px;
+    /* Eyebrow badges */
+    .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        padding: 6px 14px;
+        margin-bottom: 8px;
     }
 
+    /* Shimmer VFX off on mobile — saves repaints */
+    .eyebrow::after {
+        display: none;
+    }
+
+    /* Headlines */
     h1.headline {
-        font-size: clamp(24px, 6vw, 36px);
+        font-size: clamp(22px, 6.5vw, 34px);
+        line-height: 1.22;
+        margin-bottom: 0;
     }
 
+    p.sub {
+        font-size: clamp(13px, 3.5vw, 16px);
+        margin-top: 8px;
+    }
+
+    /* CTA Button */
+    .glow-btn {
+        padding: 13px 28px;
+        font-size: 14px;
+    }
+
+    /* Screen 1 name input */
     .name-field {
-        min-width: 0;
-        width: 90%;
-        max-width: 380px;
-        padding: 10px 18px;
+        min-width: 0 !important;
+        width: 92%;
+        max-width: 400px;
+        padding: 10px 16px;
+        gap: 10px;
     }
 
     .slogan-box {
         font-size: 13px;
-        padding: 8px 16px;
+        padding: 7px 16px;
     }
 
+    /* Footer hint */
+    footer.hint::after {
+        content: ' · Swipe ← → to navigate';
+    }
+
+    /* Guide stage on screen 1 */
     .guide-stage {
-        height: 175px;
-        margin-top: 12px;
+        height: 160px;
+        margin-top: 10px;
     }
 
     .guide-wrap {
-        width: 140px;
-        height: 175px;
+        width: 130px;
+        height: 160px;
+    }
+
+    /* Screen-specific overrides */
+    /* Campus screen — centered and balanced */
+    .screen[data-i="1"] {
+        padding: 54px 3vw 16px;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+    }
+
+    .campus-view-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .campus-main-title {
+        text-align: center;
+        margin: 4px auto 6px auto;
+    }
+
+    .campus-subline {
+        text-align: center;
+        margin: 4px auto 14px auto;
+    }
+
+    /* Offerings screen — stays centered */
+    .screen[data-i="2"] {
+        align-items: center;
+        text-align: center;
+        justify-content: flex-start;
+        padding-top: 56px;
+    }
+
+    /* Alumni screen — centered and balanced */
+    .screen[data-i="3"] {
+        padding: 54px 3vw 16px;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+    }
+
+    .screen[data-i="3"] .eyebrow {
+        display: none !important;
+    }
+
+    .screen[data-i="3"] h1.headline {
+        text-align: center;
+        margin: 0 auto 4px auto;
+        max-width: 92%;
+    }
+
+    /* Roadmap screen — avatar walking track needs top */
+    .screen[data-i="4"] {
+        padding-top: 60px;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+    }
+
+    .screen[data-i="4"] h1.headline {
+        font-size: clamp(18px, 5vw, 28px);
+    }
+}
+
+/* ── Small phones (≤ 480px) ── */
+@media (max-width: 480px) {
+    .screen {
+        padding: 54px 3.5vw 88px;
+    }
+
+    .screen[data-i="0"],
+    .screen[data-i="5"] {
+        padding: 54px 4vw 88px;
+    }
+
+    .screen[data-i="1"],
+    .screen[data-i="3"] {
+        padding: 52px 3vw 14px;
+    }
+
+    h1.headline {
+        font-size: clamp(20px, 7vw, 30px);
+    }
+
+    .eyebrow {
+        font-size: 10px;
+        padding: 5px 12px;
+        letter-spacing: 0.1em;
+    }
+
+    .glow-btn {
+        padding: 12px 22px;
+        font-size: 13px;
+        width: auto;
+    }
+
+    .name-field {
+        width: 95%;
+        padding: 9px 14px;
+    }
+
+    .slogan-box {
+        font-size: 12px;
+        padding: 6px 14px;
+    }
+}
+
+/* ── Extra small (≤ 360px) ── */
+@media (max-width: 360px) {
+    .screen {
+        padding: 50px 3vw 90px;
+    }
+
+    h1.headline {
+        font-size: clamp(18px, 7.5vw, 26px);
+    }
+
+    p.sub {
+        font-size: 12.5px;
+    }
+
+    .eyebrow {
+        font-size: 9.5px;
+        padding: 5px 10px;
+    }
+
+    .glow-btn {
+        padding: 11px 20px;
+        font-size: 13px;
+    }
+
+    .name-field {
+        width: 96%;
+        padding: 8px 12px;
+    }
+
+    #dots {
+        right: 5px;
+        gap: 7px;
+    }
+
+    .dot {
+        width: 7px;
+        height: 7px;
     }
 }

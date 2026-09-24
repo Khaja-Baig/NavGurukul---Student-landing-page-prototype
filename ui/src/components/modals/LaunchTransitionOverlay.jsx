@@ -37,9 +37,9 @@ export const LaunchTransitionOverlay = () => {
                     </div>
                     <div className="launch-rocket-icon">🚀</div>
                 </div>
-                <div className="launch-status-text" id="launchStatusText">
-                    {launchTransitionText || (isLaunchReverse ? 'RETURNING TO MISSION BASE...' : 'INITIATING ROCKET LAUNCH...')}
-                </div>
+            </div>
+            <div className="launch-status-text" id="launchStatusText">
+                {launchTransitionText || (isLaunchReverse ? 'RETURNING TO MISSION BASE...' : 'INITIATING ROCKET LAUNCH...')}
             </div>
         </div>
     );
