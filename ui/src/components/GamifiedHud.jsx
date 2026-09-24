@@ -40,8 +40,33 @@ export const GamifiedHud = () => {
         }
     }, [currentScreen]);
 
+    const [isScrolled, setIsScrolled] = React.useState(false);
+
+    useEffect(() => {
+        setIsScrolled(false);
+
+        const handleScroll = () => {
+            const activeScreenEl = document.querySelector('.screen.active');
+            const screenScroll = activeScreenEl ? activeScreenEl.scrollTop : 0;
+            const winScroll = window.scrollY || document.documentElement.scrollTop || 0;
+            setIsScrolled(screenScroll > 15 || winScroll > 15);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+        document.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+
+        handleScroll();
+        const t = setTimeout(handleScroll, 100);
+
+        return () => {
+            clearTimeout(t);
+            window.removeEventListener('scroll', handleScroll, { capture: true });
+            document.removeEventListener('scroll', handleScroll, { capture: true });
+        };
+    }, [currentScreen]);
+
     return (
-        <div id="hud">
+        <div id="hud" className={isScrolled ? 'is-scrolled' : ''}>
             <div className="hud-brand" title="NavGurukul" onClick={() => go(0)} style={{ cursor: 'pointer' }}>
                 <img src="/navgurukul-logo.png" alt="NavGurukul Logo" className="hud-brand-img" />
                 {/* <span className="hud-brand-title">· Pravesh</span> */}
