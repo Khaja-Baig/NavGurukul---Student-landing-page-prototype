@@ -2538,3 +2538,544 @@
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 8px 24px rgba(233, 30, 99, 0.45);
 }
+
+/* ========================================================
+   OUR CAMPUS SCREEN (SCREEN 2) STYLING & ANIMATIONS
+   ======================================================== */
+.campus-screen {
+    padding: 70px 4vw 20px !important;
+    justify-content: flex-start !important;
+    overflow-y: auto !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(233, 30, 99, 0.25) transparent;
+}
+
+.campus-view-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: campusFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes campusFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.campus-main-title {
+    font-family: Georgia, 'Playfair Display', 'Times New Roman', serif;
+    font-size: clamp(36px, 4.4vw, 54px);
+    font-weight: 800;
+    color: #1e293b;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+}
+
+.campus-subline {
+    font-family: var(--font-body, system-ui);
+    color: #475569;
+    font-size: clamp(13.5px, 1.2vw, 15px);
+    max-width: 820px;
+    margin: 4px auto 16px auto;
+    line-height: 1.55;
+}
+
+/* Full Width Cards Grid Container */
+.campus-cards-grid-wrap {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 10px 12px 50px;
+}
+
+.campus-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 26px;
+    width: 100%;
+}
+
+/* Individual Campus Card (Increased Height and Width) */
+.campus-card {
+    background: #ffffff;
+    border-radius: 26px;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    animation: cardStaggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardStaggerIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.campus-card:hover {
+    transform: translateY(-7px) scale(1.015);
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.09), 0 0 0 1px rgba(233, 30, 99, 0.15);
+    border-color: rgba(233, 30, 99, 0.4);
+}
+
+.campus-card.is-tactile-pressed {
+    transform: scale(0.96) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Header Strip (Spacious Height & Width) */
+.campus-card-header {
+    padding: 22px 24px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+/* Soft Theme Backgrounds for Top Card Segment */
+.theme-dharamshala .campus-card-header {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-bottom: 1px solid #bfdbfe;
+}
+.theme-sarjapur .campus-card-header {
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+    border-bottom: 1px solid #ddd6fe;
+}
+.theme-pune .campus-card-header {
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    border-bottom: 1px solid #c7d2fe;
+}
+.theme-jashpur .campus-card-header {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-bottom: 1px solid #a7f3d0;
+}
+.theme-dantewada .campus-card-header {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border-bottom: 1px solid #fed7aa;
+}
+.theme-kishanganj .campus-card-header {
+    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+    border-bottom: 1px solid #fef08a;
+}
+.theme-himachal .campus-card-header {
+    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+    border-bottom: 1px solid #99f6e4;
+}
+
+.campus-location-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.campus-pin {
+    font-size: 1.15rem;
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+.campus-card:hover .campus-pin {
+    transform: translateY(-2px) scale(1.15);
+}
+
+.campus-name {
+    font-family: var(--font-display, system-ui);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Space Telemetry Radar Beacon */
+.campus-beacon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.beacon-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    display: block;
+}
+
+.beacon-ping {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #10b981;
+    animation: beaconPulse 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    opacity: 0.7;
+}
+
+@keyframes beaconPulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.9;
+    }
+    80%, 100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+.campus-region {
+    padding: 16px 24px 6px;
+    font-size: 0.92rem;
+    color: #64748b;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Gender Pill */
+.campus-pill-wrap {
+    padding: 8px 24px 20px;
+}
+
+.campus-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 24px;
+    letter-spacing: 0.02em;
+}
+
+.boys-pill {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+
+.girls-pill {
+    background: #fdf2f8;
+    color: #be185d;
+    border: 1px solid #fbcfe8;
+}
+
+.coed-pill {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+/* Card Footer CTA */
+.campus-card-footer {
+    margin-top: auto;
+    margin: auto 20px 20px 20px;
+    padding: 13px 18px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+}
+
+.campus-card:hover .campus-card-footer {
+    background: #fff0f5;
+    border-color: rgba(233, 30, 99, 0.3);
+}
+
+.campus-cta-text {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.campus-card:hover .campus-cta-text {
+    color: var(--pink-primary, #e91e63);
+}
+
+.campus-cta-arrow {
+    font-size: 1.15rem;
+    color: #94a3b8;
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.campus-card:hover .campus-cta-arrow {
+    color: var(--pink-primary, #e91e63);
+    transform: translateX(3px);
+}
+
+/* ========================================================
+   VIEW 2: PROGRAMS AT SELECTED CAMPUS VIEW
+   ======================================================== */
+.campus-programs-view {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Breadcrumb Bar */
+.campus-breadcrumb-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 6px 18px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid #e2e8f0;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.campus-breadcrumb-back {
+    background: transparent;
+    border: none;
+    font-family: var(--font-body, system-ui);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.campus-breadcrumb-back:hover {
+    color: var(--pink-primary, #e91e63);
+    transform: translateX(-2px);
+}
+
+.campus-breadcrumb-back .back-arrow {
+    font-size: 1.05rem;
+}
+
+.breadcrumb-slash {
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+.breadcrumb-current {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--pink-primary, #e91e63);
+}
+
+.programs-header-block {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.programs-headline {
+    font-size: clamp(24px, 3.4vw, 42px);
+    margin-bottom: 8px;
+}
+
+.programs-badge-row {
+    margin-bottom: 6px;
+}
+
+.programs-subline {
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+/* Programs Grid (2x2 Layout) */
+.campus-programs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.program-course-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1.5px solid #e2e8f0;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    animation: cardStaggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.program-course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+}
+
+.program-course-card.blue-theme:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 16px 36px rgba(59, 130, 246, 0.16);
+}
+
+.program-course-card.green-theme:hover {
+    border-color: #10b981;
+    box-shadow: 0 16px 36px rgba(16, 185, 129, 0.16);
+}
+
+.program-course-card.orange-theme:hover {
+    border-color: #f59e0b;
+    box-shadow: 0 16px 36px rgba(245, 158, 11, 0.16);
+}
+
+.program-course-card.purple-theme:hover {
+    border-color: #8b5cf6;
+    box-shadow: 0 16px 36px rgba(139, 92, 246, 0.16);
+}
+
+.program-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.program-icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.program-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.program-code {
+    font-family: var(--font-display, system-ui);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.program-full-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.program-desc {
+    font-size: 0.84rem;
+    color: #475569;
+    line-height: 1.45;
+    margin: 0 0 14px 0;
+}
+
+.program-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+    padding-top: 10px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.program-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.79rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.program-card-footer {
+    margin-top: auto;
+}
+
+.admissions-open-btn {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 14px;
+    border: 1.5px solid #a7f3d0;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    color: #065f46;
+    font-family: var(--font-display, system-ui);
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+}
+
+.admissions-open-btn:hover {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    border-color: #059669;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 960px) {
+    .campus-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .campus-screen {
+        padding: 60px 4vw 70px !important;
+    }
+
+    .campus-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .campus-programs-grid {
+        grid-template-columns: 1fr;
+    }
+}

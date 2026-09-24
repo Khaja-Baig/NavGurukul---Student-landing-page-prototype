@@ -53,9 +53,6 @@ export const Navbar = () => {
             </div>
 
             <div className="xp-chip" id="hudXpChip">
-                <span className="xp-star">⭐</span>
-                <span className="xp-val" id="hudXpVal">{xp.toLocaleString()} XP</span>
-
                 <button
                     type="button"
                     className="header-g-login-btn"

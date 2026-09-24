@@ -97,35 +97,36 @@ export const schools = [
         location: 'Pune, Maharashtra'
     },
     {
-        tag: 'UI/UX & GRAPHIC DESIGN',
+        tag: 'DEGREE PROGRAM',
         tagClass: 'purple-tag',
         themeClass: 'purple-theme',
         badgeClass: 'purple-badge',
-        icon: '🎨',
-        title: 'School of Design (SOD)',
-        desc: 'UI/UX design, Figma prototyping & visual branding.',
+        icon: '🎓',
+        title: 'Bachelor of Computer Applications (BCA)',
+        desc: '3-year accredited university degree with residential software training.',
         bgClass: 'purple-bg',
         eligibility: [
             'Minimum age: 16.5 years',
-            'Must be 12th pass',
+            'Must be 12th pass (any stream)',
             'Family income less than 5 LPA',
-            'Creativity and passion for visual design & user experiences'
+            'Exclusively for girls at Himachal Campus',
+            'Passion for computer science & higher education'
         ],
         curriculum: [
-            'Design Thinking & UI/UX Principles',
-            'Figma, Adobe XD & Prototyping',
-            'User Research & Wireframing',
-            'Visual Branding & Graphic Design',
-            'Live Client & Portfolio Projects'
+            'Programming in C/C++, Java & Python',
+            'Web Development, Data Structures & Algorithms',
+            'Database Management Systems (DBMS) & SQL',
+            'Software Engineering, Cloud Computing & Networks',
+            'Accredited University Internship & Capstone Project'
         ],
         outcomes: [
-            'UI/UX Designer',
-            'Product Designer',
-            'Graphic Designer',
-            'Visual Communication Specialist'
+            'UGC-recognized BCA Degree',
+            'Software Engineer / IT Analyst',
+            'Full Stack Web Developer',
+            'Direct pathway to MCA & Master’s degrees'
         ],
-        duration: '12–15 months (Self-paced, duration may vary)',
-        location: 'Bengaluru, Pune, Himachal'
+        duration: '3 Years (Degree Program)',
+        location: 'Himachal Campus (Girls)'
     }
 ];
 

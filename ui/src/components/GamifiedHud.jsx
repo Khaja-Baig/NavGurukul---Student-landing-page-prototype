@@ -11,7 +11,7 @@ export const GamifiedHud = () => {
 
     const nodes = [
         { level: 0, icon: '🌱', tooltip: 'L1 · Gurukul Tree', left: '0%' },
-        { level: 1, icon: '⚡', tooltip: 'L2 · Specialty Tracks', left: '20%' },
+        { level: 1, icon: '🏫', tooltip: 'L2 · Our Campuses', left: '20%' },
         { level: 2, icon: '💎', tooltip: 'L3 · 100% Scholarship', left: '40%' },
         { level: 3, icon: '🌟', tooltip: 'L4 · Vision & Impact', left: '60%' },
         { level: 4, icon: '🗺️', tooltip: 'L5 · Admission Roadmap', left: '80%' },
@@ -42,9 +42,9 @@ export const GamifiedHud = () => {
 
     return (
         <div id="hud">
-            <div className="hud-brand" title="NavGurukul · Pravesh" onClick={() => go(0)} style={{ cursor: 'pointer' }}>
+            <div className="hud-brand" title="NavGurukul" onClick={() => go(0)} style={{ cursor: 'pointer' }}>
                 <img src="/navgurukul-logo.png" alt="NavGurukul Logo" className="hud-brand-img" />
-                <span className="hud-brand-title">· Pravesh</span>
+                {/* <span className="hud-brand-title">· Pravesh</span> */}
             </div>
 
             <div className="hud-track-wrapper">
