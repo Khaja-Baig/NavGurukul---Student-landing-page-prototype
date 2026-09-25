@@ -4681,12 +4681,12 @@
         position: relative !important;
     }
 
-    /* Fixed Map Viewport: The Camera Window - Full Width */
+    /* Fixed Map Viewport: The Camera Window - Full Width & Full Vertical Height */
     .s5-viewport-box {
         position: relative !important;
         width: 100% !important;
         max-width: 100% !important;
-        height: 350px !important;
+        height: 419px !important;
         overflow: hidden !important;
         border-radius: 0 !important;
         box-shadow: 0 4px 16px rgba(180, 83, 9, 0.16) !important;
@@ -4792,10 +4792,6 @@
 }
 
 @media (max-width: 480px) {
-    .s5-viewport-box {
-        height: 335px !important;
-    }
-
     .s5-wooden-banner {
         padding: 6px 10px !important;
         gap: 6px !important;
@@ -4812,10 +4808,6 @@
 }
 
 @media (max-width: 360px) {
-    .s5-viewport-box {
-        height: 305px !important;
-    }
-
     .s5-wooden-banner {
         flex-direction: row !important;
         gap: 5px !important;

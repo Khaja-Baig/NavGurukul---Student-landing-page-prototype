@@ -44,7 +44,7 @@ export const Screen5_AdventurousRoadmap = () => {
     const [isMobile, setIsMobile] = useState(
         typeof window !== 'undefined' ? window.innerWidth <= 768 : false
     );
-    const [cameraPos, setCameraPos] = useState({ x: 0, y: -35 });
+    const [cameraPos, setCameraPos] = useState({ x: 0, y: 0 });
 
     const animFrameRef = useRef(null);
     const viewportRef = useRef(null);
@@ -56,27 +56,25 @@ export const Screen5_AdventurousRoadmap = () => {
         const MAP_WIDTH = 720;
         const MAP_HEIGHT = (720 * 934) / 1604; // ~419.25px
         const w = vpWidth || 380;
-        const h = vpHeight || 350;
+        const h = vpHeight || 419;
         const maxScrollX = Math.max(0, MAP_WIDTH - w);
         const maxScrollY = Math.max(0, MAP_HEIGHT - h);
 
-        const yStage0 = -Math.min(maxScrollY, Math.round(h < 320 ? 46 : (h < 340 ? 40 : 35)));
-        const yStage2 = -Math.min(maxScrollY, Math.round(h < 320 ? 52 : (h < 340 ? 45 : 40)));
-        const yStage3 = -Math.min(maxScrollY, Math.round(h < 320 ? 58 : (h < 340 ? 50 : 45)));
+        const yStage = maxScrollY > 5 ? -Math.min(maxScrollY, 20) : 0;
 
         switch (stage) {
             case 0:
             case 1:
-                return { x: 0, y: yStage0 };
+                return { x: 0, y: 0 };
             case 2:
                 return {
                     x: Math.max(0, Math.min(maxScrollX, Math.round(324 - w / 2))),
-                    y: yStage2
+                    y: yStage
                 };
             case 3:
                 return {
                     x: Math.max(0, Math.min(maxScrollX, Math.round(454 - w / 2))),
-                    y: yStage3
+                    y: yStage
                 };
             case 4:
                 return {
@@ -84,7 +82,7 @@ export const Screen5_AdventurousRoadmap = () => {
                     y: 0
                 };
             default:
-                return { x: 0, y: yStage0 };
+                return { x: 0, y: 0 };
         }
     };
 
@@ -94,7 +92,7 @@ export const Screen5_AdventurousRoadmap = () => {
             setIsMobile(mobile);
             if (mobile && viewportRef.current) {
                 const w = viewportRef.current.clientWidth || window.innerWidth;
-                const h = viewportRef.current.clientHeight || 335;
+                const h = viewportRef.current.clientHeight || 419;
                 if (!s5IsWalking) {
                     const targetCam = getCameraPosForStage(s5CurrentStage, w, h);
                     setCameraPos(targetCam);
@@ -120,7 +118,7 @@ export const Screen5_AdventurousRoadmap = () => {
             setIsMobile(mobile);
             if (mobile) {
                 const w = viewportRef.current?.clientWidth || window.innerWidth;
-                const h = viewportRef.current?.clientHeight || 335;
+                const h = viewportRef.current?.clientHeight || 419;
                 const cam = getCameraPosForStage(s5CurrentStage, w, h);
                 setCameraPos(cam);
                 if (parchmentFrameRef.current) {
@@ -180,7 +178,7 @@ export const Screen5_AdventurousRoadmap = () => {
 
         const fromStage = s5CurrentStage;
         const curVpW = viewportRef.current?.clientWidth || window.innerWidth;
-        const curVpH = viewportRef.current?.clientHeight || 335;
+        const curVpH = viewportRef.current?.clientHeight || 419;
         const startCam = getCameraPosForStage(fromStage, curVpW, curVpH);
         const endCam = getCameraPosForStage(targetStage, curVpW, curVpH);
 
