@@ -3642,7 +3642,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 16px !important;
+        gap: 13px !important;
         box-sizing: border-box;
         padding: 0 8px;
     }
@@ -3690,8 +3690,8 @@
     }
 
     .offering-carousel-viewport {
-        width: 252px !important;
-        max-width: calc(100% - 116px) !important;
+        width: 284px !important;
+        max-width: calc(100% - 92px) !important;
         overflow: hidden;
         padding: 4px 0 !important;
         border-radius: 26px;
@@ -3732,8 +3732,8 @@
         max-width: 100% !important;
         box-sizing: border-box !important;
         padding: 24px 20px !important;
-        min-height: 156px !important;
-        border-radius: 22px !important;
+        min-height: 184px !important;
+        border-radius: 24px !important;
         margin: 0 !important;
         background: #ffffff !important;
         border: 1.5px solid var(--border-line) !important;
@@ -3743,7 +3743,7 @@
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 9px !important;
+        gap: 10px !important;
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -3755,33 +3755,33 @@
     }
 
     .zone-icon {
-        font-size: 38px !important;
-        height: 56px !important;
+        font-size: 52px !important;
+        height: 68px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
     }
 
     .zone-icon img {
-        width: 56px !important;
-        height: 56px !important;
+        width: 70px !important;
+        height: 70px !important;
         object-fit: contain !important;
     }
 
     .zone-icon svg {
-        width: 44px !important;
-        height: 44px !important;
+        width: 56px !important;
+        height: 56px !important;
     }
 
     .zone-name {
-        font-size: 15px !important;
+        font-size: 18.5px !important;
         font-weight: 800 !important;
         color: var(--text-dark, #1e293b) !important;
         text-align: center !important;
     }
 
     .zone-sub {
-        font-size: 12px !important;
+        font-size: 14px !important;
         font-weight: 600 !important;
         color: var(--gold-marigold, #d97706) !important;
         font-family: var(--font-mono) !important;
@@ -3907,7 +3907,7 @@
 @media (max-width: 480px) {
     .offering-carousel-wrap {
         margin: 14px auto 0 auto !important;
-        gap: 14px !important;
+        gap: 12px !important;
     }
 
     .offering-carousel-arrow {
@@ -3919,9 +3919,10 @@
     }
 
     .offering-carousel-viewport {
-        width: 236px !important;
-        max-width: calc(100% - 108px) !important;
+        width: 272px !important;
+        max-width: calc(100% - 84px) !important;
         padding: 4px 0 !important;
+        border-radius: 24px !important;
         flex-shrink: 0 !important;
     }
 
@@ -3930,13 +3931,39 @@
     }
 
     .zone {
-        padding: 22px 18px !important;
-        min-height: 150px !important;
-        gap: 8px !important;
+        padding: 22px 16px !important;
+        min-height: 178px !important;
+        border-radius: 22px !important;
+        gap: 10px !important;
+    }
+
+    .zone-icon {
+        font-size: 50px !important;
+        height: 66px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .zone-icon img {
+        width: 68px !important;
+        height: 68px !important;
+        object-fit: contain !important;
+    }
+
+    .zone-icon svg {
+        width: 54px !important;
+        height: 54px !important;
     }
 
     .zone-name {
-        font-size: 14.5px !important;
+        font-size: 18px !important;
+        font-weight: 800 !important;
+    }
+
+    .zone-sub {
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
     }
 
     .screen[data-i="2"] .guide-stage {
@@ -3971,22 +3998,23 @@
 @media (max-width: 380px) {
     .offering-carousel-wrap {
         margin: 12px auto 0 auto !important;
-        gap: 11px !important;
+        gap: 10px !important;
         padding: 0 4px !important;
     }
 
     .offering-carousel-arrow {
-        width: 36px !important;
-        height: 36px !important;
-        min-width: 36px !important;
-        min-height: 36px !important;
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
         flex-shrink: 0 !important;
     }
 
     .offering-carousel-viewport {
-        width: 216px !important;
-        max-width: calc(100% - 94px) !important;
+        width: 248px !important;
+        max-width: calc(100% - 80px) !important;
         padding: 3px 0 !important;
+        border-radius: 22px !important;
         flex-shrink: 0 !important;
     }
 
@@ -3995,33 +4023,34 @@
     }
 
     .zone {
-        padding: 18px 14px !important;
-        min-height: 138px !important;
-        border-radius: 18px !important;
-        gap: 7px !important;
+        padding: 20px 14px !important;
+        min-height: 162px !important;
+        border-radius: 20px !important;
+        gap: 8px !important;
     }
 
     .zone-icon {
-        font-size: 32px !important;
-        height: 46px !important;
+        font-size: 42px !important;
+        height: 58px !important;
     }
 
     .zone-icon img {
+        width: 58px !important;
+        height: 58px !important;
+    }
+
+    .zone-icon svg {
         width: 46px !important;
         height: 46px !important;
     }
 
-    .zone-icon svg {
-        width: 38px !important;
-        height: 38px !important;
-    }
-
     .zone-name {
-        font-size: 13.5px !important;
+        font-size: 16px !important;
+        font-weight: 800 !important;
     }
 
     .zone-sub {
-        font-size: 11px !important;
+        font-size: 12px !important;
     }
 
     .screen[data-i="2"] .guide-stage {
@@ -4063,16 +4092,40 @@
     }
 
     .offering-carousel-viewport {
-        width: 194px !important;
-        max-width: calc(100% - 84px) !important;
+        width: 206px !important;
+        max-width: calc(100% - 74px) !important;
         padding: 2px 0 !important;
         flex-shrink: 0 !important;
     }
 
     .zone {
-        padding: 15px 10px !important;
-        min-height: 128px !important;
+        padding: 16px 10px !important;
+        min-height: 136px !important;
         gap: 6px !important;
+    }
+
+    .zone-icon {
+        font-size: 34px !important;
+        height: 46px !important;
+    }
+
+    .zone-icon img {
+        width: 46px !important;
+        height: 46px !important;
+    }
+
+    .zone-icon svg {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .zone-name {
+        font-size: 14px !important;
+        font-weight: 800 !important;
+    }
+
+    .zone-sub {
+        font-size: 11px !important;
     }
 
     .screen[data-i="2"] .guide-stage {
