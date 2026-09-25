@@ -20,20 +20,21 @@ export const LeafCanvas = () => {
         const leaves = [];
         const leafColors = ['#10b981', '#059669', '#34d399', '#f59e0b', '#d97706'];
 
-        // Fewer particles on mobile to save GPU
-        const particleCount = window.innerWidth <= 768 ? 12 : 30;
+        // Fewer and lighter particles on mobile to keep focus on content & save GPU
+        const isMobile = window.innerWidth <= 768;
+        const particleCount = isMobile ? 12 : 30;
 
         for (let i = 0; i < particleCount; i++) {
             leaves.push({
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight,
-                size: 8 + Math.random() * 10,
-                speedY: 0.6 + Math.random() * 1.2,
-                speedX: (Math.random() - 0.5) * 0.8,
+                size: (isMobile ? 5 : 8) + Math.random() * (isMobile ? 6 : 10),
+                speedY: 0.5 + Math.random() * (isMobile ? 0.8 : 1.2),
+                speedX: (Math.random() - 0.5) * 0.7,
                 angle: Math.random() * Math.PI * 2,
                 spin: (Math.random() - 0.5) * 0.04,
                 color: leafColors[Math.floor(Math.random() * leafColors.length)],
-                opacity: 0.4 + Math.random() * 0.4
+                opacity: (isMobile ? 0.22 : 0.4) + Math.random() * (isMobile ? 0.28 : 0.4)
             });
         }
 

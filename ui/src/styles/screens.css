@@ -412,6 +412,7 @@ footer.hint {
 
 /* ── Mobile (≤ 768px) ── */
 @media (max-width: 768px) {
+
     /* Screen transitions: remove heavy blur+scale — just opacity on mobile */
     .screen {
         filter: none !important;
@@ -536,30 +537,78 @@ footer.hint {
         margin: 4px auto 14px auto;
     }
 
-    /* Offerings screen — stays centered */
+    /* Offerings screen — stays centered with comfortable top spacing below header */
     .screen[data-i="2"] {
         align-items: center;
         text-align: center;
         justify-content: flex-start;
-        padding-top: 56px;
+        padding-top: 76px !important;
+        padding-bottom: 24px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
-    /* Alumni screen — centered and balanced */
+    .screen[data-i="2"] .eyebrow {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 7px !important;
+        font-family: var(--font-mono) !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.12em !important;
+        line-height: 1.25 !important;
+        text-transform: uppercase !important;
+        color: var(--text-pink, #e91e63) !important;
+        background: rgba(253, 242, 248, 0.96) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.25) !important;
+        border-radius: 999px !important;
+        padding: 7px 18px !important;
+        min-height: 32px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        margin-top: 2px !important;
+        margin-bottom: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    .screen[data-i="2"] h1.headline {
+        margin-bottom: 4px !important;
+    }
+
+    /* Alumni / Student Outcomes screen — vertically balanced mobile-first composition */
     .screen[data-i="3"] {
-        padding: 54px 3vw 16px;
-        justify-content: flex-start;
-        align-items: center;
-        text-align: center;
+        padding: 58px var(--screen-pad-mobile, 4vw) 32px !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        text-align: center !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
     }
 
     .screen[data-i="3"] .eyebrow {
-        display: none !important;
+        display: inline-flex !important;
+        order: 1 !important;
+        margin: 0 auto 8px auto !important;
+        font-size: 11px !important;
+        letter-spacing: 0.12em !important;
+        padding: 6px 16px !important;
+        border-radius: 999px !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.28) !important;
+        background: rgba(253, 242, 248, 0.96) !important;
+        box-shadow: 0 3px 12px rgba(255, 45, 117, 0.14) !important;
+        white-space: nowrap !important;
     }
 
     .screen[data-i="3"] h1.headline {
-        text-align: center;
-        margin: 0 auto 4px auto;
-        max-width: 92%;
+        order: 2 !important;
+        text-align: center !important;
+        margin: 0 auto 4px auto !important;
+        max-width: min(96vw, 460px) !important;
+        font-size: clamp(23px, 6.9vw, 34px) !important;
+        line-height: 1.12 !important;
+        word-break: normal !important;
     }
 
     /* Roadmap screen — avatar walking track needs top */
@@ -589,6 +638,17 @@ footer.hint {
     .screen[data-i="1"],
     .screen[data-i="3"] {
         padding: 52px 3vw 14px;
+    }
+
+    .screen[data-i="2"] {
+        padding-top: 72px !important;
+    }
+
+    .screen[data-i="2"] .eyebrow {
+        font-size: 10.5px !important;
+        padding: 6.5px 16px !important;
+        min-height: 30px !important;
+        letter-spacing: 0.1em !important;
     }
 
     h1.headline {
@@ -622,6 +682,17 @@ footer.hint {
 @media (max-width: 360px) {
     .screen {
         padding: 50px 3vw 90px;
+    }
+
+    .screen[data-i="2"] {
+        padding-top: 64px !important;
+    }
+
+    .screen[data-i="2"] .eyebrow {
+        font-size: 9.5px !important;
+        padding: 5px 12px !important;
+        min-height: 27px !important;
+        letter-spacing: 0.08em !important;
     }
 
     h1.headline {
