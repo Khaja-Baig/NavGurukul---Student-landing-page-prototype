@@ -77,8 +77,15 @@ export const AutonomousBird = () => {
     };
 
     const startFlight = () => {
-        // Mobile phones: bird stays perched — flight disabled to save GPU
-        if (window.innerWidth <= 768) return;
+        // Mobile and Tablet: bird stays perched beside Jobs — trigger playful sparkles burst
+        if (window.innerWidth <= 1024) {
+            const perchEl = document.querySelector('.perch-corner-dock');
+            if (perchEl) {
+                const rect = perchEl.getBoundingClientRect();
+                emitSparklesBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            }
+            return;
+        }
 
         if (stateRef.current.isFlying) {
             // Trigger mid-air loop / burst maneuver on click while flying!
@@ -241,9 +248,9 @@ export const AutonomousBird = () => {
         animFrameRef.current = requestAnimationFrame(updateFlight);
     };
 
-    // Auto-trigger flight when entering Screen 4 (Outcomes)
+    // Auto-trigger flight when entering Screen 4 (Outcomes) on Desktop
     useEffect(() => {
-        if (currentScreen === 3 && isDocked) {
+        if (currentScreen === 3 && isDocked && window.innerWidth > 1024) {
             startFlight();
         }
     }, [currentScreen]);

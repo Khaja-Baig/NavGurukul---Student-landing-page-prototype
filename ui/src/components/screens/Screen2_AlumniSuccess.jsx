@@ -59,6 +59,10 @@ export const Screen2_AlumniSuccess = () => {
     const [activeSlots, setActiveSlots] = useState([0, 1, 2, 3, 4, 5]);
     const [animatingSlot, setAnimatingSlot] = useState(null);
 
+    const [carouselIndex, setCarouselIndex] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(true);
+    const [touchStartX, setTouchStartX] = useState(null);
+
     // Company logo rotation interval matching original js/screens.js
     useEffect(() => {
         if (currentScreen !== 3) return;
@@ -85,17 +89,88 @@ export const Screen2_AlumniSuccess = () => {
         return () => clearInterval(interval);
     }, [currentScreen]);
 
+    // Auto-advance testimonial every 5.5 seconds on mobile with visible right-to-left slide
+    useEffect(() => {
+        if (currentScreen !== 3) return;
+
+        const autoTimer = setInterval(() => {
+            setIsTransitioning(true);
+            setCarouselIndex(prev => {
+                if (prev >= alumni.length) return 1;
+                return prev + 1;
+            });
+        }, 5500);
+
+        return () => clearInterval(autoTimer);
+    }, [currentScreen, isTransitioning]);
+
+    const handleTransitionEnd = () => {
+        if (carouselIndex === alumni.length) {
+            setIsTransitioning(false);
+            setCarouselIndex(0);
+        }
+    };
+
+    useEffect(() => {
+        if (!isTransitioning) {
+            const raf = requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setIsTransitioning(true);
+                });
+            });
+            return () => cancelAnimationFrame(raf);
+        }
+    }, [isTransitioning]);
+
+    const handleTouchStart = (e) => {
+        e.stopPropagation();
+        setTouchStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchEnd = (e) => {
+        e.stopPropagation();
+        if (touchStartX === null) return;
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 40) {
+            if (diff < 0) {
+                // Swipe left -> next card
+                setIsTransitioning(true);
+                setCarouselIndex(prev => (prev >= alumni.length ? 1 : prev + 1));
+            } else {
+                // Swipe right -> prev card
+                if (carouselIndex > 0) {
+                    setIsTransitioning(true);
+                    setCarouselIndex(prev => prev - 1);
+                }
+            }
+        }
+        setTouchStartX(null);
+    };
+
     const marqueeAlumni = [...alumni, ...alumni];
+    const carouselSlides = [...alumni, alumni[0]];
 
     return (
         <section className={`screen ${currentScreen === 3 ? 'active' : ''}`} data-i="3">
-            {/* Autonomous Flying Bird Layer (Only present inside Screen 5 / Alumni) */}
-            {currentScreen === 3 && <AutonomousBird />}
-
             <div className="eyebrow"><span className="eyebrow-star">✨</span> Student Outcomes</div>
-            <h1 className="headline"><span className="highlight-pink">2,000+ Dreams</span> Turned into Real Jobs</h1>
+            
+            <h1 className="headline">
+                <span className="headline-line1">
+                    <span className="highlight-pink">2,000+ Dreams</span> Turned into
+                </span>{' '}
+                <span className="headline-line2">
+                    <span className="real-jobs-group">
+                        <span className="real-word">Real</span> <span className="jobs-word">Jobs</span>
+                    </span>
+                    {/* Autonomous Bird Mascot seated beside Jobs on mobile / top-right on desktop */}
+                    {currentScreen === 3 && <AutonomousBird />}
+                </span>
+            </h1>
+
             <p className="screen2-subline">Skills that opened doors. Careers that changed lives.</p>
 
+            {/* Desktop Testimonials Viewport (Preserved Marquee) */}
             <div className="alumni-viewport">
                 <div className="alumni-track" id="alumniTrack">
                     {marqueeAlumni.map((a, idx) => {
@@ -142,6 +217,71 @@ export const Screen2_AlumniSuccess = () => {
                             </div>
                         );
                     })}
+                </div>
+            </div>
+
+            {/* Mobile & Tablet Single Testimonial Carousel (Wide Card + Auto-Play + Visible Right-to-Left Slide, No Arrows, No Dots) */}
+            <div
+                className="alumni-mobile-carousel"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+            >
+                <div className="alumni-mobile-carousel-viewport">
+                    <div
+                        className="alumni-mobile-slider-track"
+                        style={{
+                            transform: `translateX(-${carouselIndex * 100}%)`,
+                            transition: isTransitioning
+                                ? 'transform 0.65s cubic-bezier(0.25, 1, 0.5, 1)'
+                                : 'none'
+                        }}
+                        onTransitionEnd={handleTransitionEnd}
+                    >
+                        {carouselSlides.map((a, slideIdx) => {
+                            const initials = a.n.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+                            const realIdx = slideIdx % alumni.length;
+                            return (
+                                <div key={slideIdx} className="mobile-slide-item">
+                                    <div
+                                        className="alumni-card mobile-active-card"
+                                        onClick={() => openTestimonialModal(realIdx)}
+                                        role="button"
+                                        tabIndex={0}
+                                        title={`Click to view ${a.n}'s testimonial`}
+                                    >
+                                        <div className="acard-top">
+                                            <div className="alumni-avatar" style={{ background: a.color }}>{initials}</div>
+                                            <div className="alumni-meta">
+                                                <div className="aname">{a.n}</div>
+                                                <div className="arole">{a.role}</div>
+                                                <div className="apkg">{a.pkg}</div>
+                                            </div>
+                                            <div className="alumni-logo-wrap">
+                                                <img
+                                                    className="alumni-logo"
+                                                    src={`https://logo.clearbit.com/${a.domain}`}
+                                                    alt={a.co}
+                                                    onError={(e) => {
+                                                        if (!e.target.dataset.tried1) {
+                                                            e.target.dataset.tried1 = 'true';
+                                                            e.target.src = `https://icon.horse/icon/${a.domain}`;
+                                                        } else {
+                                                            e.target.style.display = 'none';
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="acard-quote">"{a.quote}"</div>
+                                        <div className="acard-bottom">
+                                            <div className="acard-city">📍 {a.city}</div>
+                                            <div className="acard-link">View story →</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 
