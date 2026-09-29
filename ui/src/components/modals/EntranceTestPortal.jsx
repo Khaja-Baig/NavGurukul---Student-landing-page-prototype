@@ -413,7 +413,7 @@ export const EntranceTestPortal = () => {
                                                         9: `Qualification 📜<br>What is your education level?`,
                                                         '9_college': `College Details 🎓<br>Select your year & attendance`,
                                                         11: `Category Info 👥<br>Select your category`,
-                                                        12: `All Systems Ready! 🚀<br>Launch Entrance Test`,
+                                                        12: `All Systems Ready! 🚀<br>Choose Campus to proceed`,
                                                         'test_init': `Initializing test mode... 🚀<br>Calibrating system`,
                                                         'test': `Read carefully and choose the best answer. 🚀`,
                                                         'test_submitting': `Submitting test... 📊<br>Analyzing responses`,
@@ -1014,7 +1014,7 @@ export const EntranceTestPortal = () => {
                                                         onClick={handleStartTestInCockpit}
                                                         style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#ffffff', boxShadow: '0 4px 16px rgba(16, 185, 129, 0.5)' }}
                                                     >
-                                                        <span>START Test 🚀</span>
+                                                        <span>Choose Campus 🚀</span>
                                                     </button>
                                                 </div>
                                             </div>

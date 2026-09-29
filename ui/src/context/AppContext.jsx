@@ -171,6 +171,15 @@ export const AppProvider = ({ children }) => {
         setIsCampusPageActive(false);
     };
 
+    const returnToCockpitLastStep = () => {
+        setIsCampusPageActive(false);
+        setIsCountdownActive(false);
+        setIsScreeningTestActive(false);
+        setIsPortalOpen(true);
+        setPortalStep(2);
+        setCockpitStep(12);
+    };
+
     const startScreeningCountdown = (campus, course) => {
         setSelectedCampus(campus);
         setSelectedCourse(course);
@@ -287,6 +296,7 @@ export const AppProvider = ({ children }) => {
                 setIsCampusPageActive,
                 openCampusPage,
                 closeCampusPage,
+                returnToCockpitLastStep,
                 selectedCampus,
                 setSelectedCampus,
                 selectedCourse,

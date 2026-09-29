@@ -158,12 +158,13 @@ export const allCourses = {
 };
 
 export const OurCampusView = () => {
-    const { closeCampusPage, openSchoolModal, studentName, startScreeningCountdown } = useApp();
+    const { closeCampusPage, openSchoolModal, studentName, startScreeningCountdown, returnToCockpitLastStep } = useApp();
     const [selectedCampus, setSelectedCampus] = useState(null);
     const [clickedCardId, setClickedCardId] = useState(null);
+    const [confirmCourseModal, setConfirmCourseModal] = useState(null);
 
     const handleSelectCourse = (course) => {
-        startScreeningCountdown(selectedCampus, course);
+        setConfirmCourseModal(course);
     };
 
     // Avatar & Speech State for View 2 (Inside Campus)
@@ -269,18 +270,18 @@ export const OurCampusView = () => {
             {!selectedCampus ? (
                 /* ================= VIEW 1: CAMPUS GRID ================= */
                 <div className="campus-view-container campus-grid-view">
-                    {/* Floating Back Arrow on Left Edge */}
-                    <button
-                        type="button"
-                        className="nav-arrow prev"
-                        onClick={closeCampusPage}
-                        aria-label="Back to Mission"
-                        id="campusBackToMissionBtn"
-                        title="Back to Mission"
-                        style={{ position: 'fixed', left: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 110 }}
-                    >
-                        <span>‹</span>
-                    </button>
+                    {/* Top Navigation Bar with Back to Details Button */}
+                    <div className="campus-top-nav-bar" style={{ width: '100%', maxWidth: '1200px', display: 'flex', justifyContent: 'flex-start', padding: '0 0 12px 0' }}>
+                        <button
+                            type="button"
+                            className="campus-exit-btn"
+                            onClick={returnToCockpitLastStep}
+                            title="Back to Details"
+                            id="campusBackToDetailsBtn"
+                        >
+                            <span>← Back to Details</span>
+                        </button>
+                    </div>
 
                     <h1 className="headline campus-main-title">Our Campus</h1>
                     <p className="campus-subline">
@@ -353,17 +354,28 @@ export const OurCampusView = () => {
             ) : (
                 /* ================= VIEW 2: SECOND SLIDE INSIDE CAMPUS ================= */
                 <div className="campus-view-container campus-programs-view visible">
-                    {/* Breadcrumb Navigation */}
-                    <div className="campus-breadcrumb-bar">
+                    {/* Breadcrumb Navigation & Back to Details */}
+                    <div className="campus-breadcrumb-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <button
+                                type="button"
+                                className="campus-breadcrumb-back"
+                                onClick={handleBackToGrid}
+                            >
+                                <span className="back-arrow">←</span> Choose campus
+                            </button>
+                            <span className="breadcrumb-slash">/</span>
+                            <span className="breadcrumb-current">{selectedCampus.name}</span>
+                        </div>
                         <button
                             type="button"
-                            className="campus-breadcrumb-back"
-                            onClick={handleBackToGrid}
+                            className="campus-exit-btn"
+                            onClick={returnToCockpitLastStep}
+                            title="Back to Details"
+                            style={{ padding: '6px 14px', fontSize: '12.5px' }}
                         >
-                            <span className="back-arrow">←</span> Choose campus
+                            <span>← Back to Details</span>
                         </button>
-                        <span className="breadcrumb-slash">/</span>
-                        <span className="breadcrumb-current">{selectedCampus.name}</span>
                     </div>
 
                     {/* Headline & Badges */}
@@ -448,6 +460,49 @@ export const OurCampusView = () => {
                         {/* Speech Bubble with Navi's Voice */}
                         <div className={`s4-speech-bubble ${showSpeech ? 'show' : ''}`} id="s4SpeechBubble">
                             {speechText}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Course Selection Confirmation Modal Popup */}
+            {confirmCourseModal && selectedCampus && (
+                <div className="course-confirm-overlay" role="dialog" aria-modal="true">
+                    <div className="course-confirm-modal">
+                        <div className="confirm-modal-badge-row">
+                            <span className="confirm-campus-tag">📍 {selectedCampus.name} Campus</span>
+                        </div>
+
+                        <div className="confirm-modal-icon-wrap">
+                            <span className="confirm-modal-icon">{confirmCourseModal.icon}</span>
+                        </div>
+                        <h3 className="confirm-modal-title">{confirmCourseModal.title}</h3>
+
+                        <p className="confirm-modal-message">
+                            Kya aap <strong>{selectedCampus.name}</strong> campus mein <strong>{confirmCourseModal.title}</strong> karna chahte hain?
+                            <br />
+                            <span className="confirm-modal-sub">Are you ready for the Entrance Test?</span>
+                        </p>
+
+                        <div className="confirm-modal-actions">
+                            <button
+                                type="button"
+                                className="confirm-btn-choose-again"
+                                onClick={() => setConfirmCourseModal(null)}
+                            >
+                                Choose Again
+                            </button>
+                            <button
+                                type="button"
+                                className="confirm-btn-start-test"
+                                onClick={() => {
+                                    const course = confirmCourseModal;
+                                    setConfirmCourseModal(null);
+                                    startScreeningCountdown(selectedCampus, course);
+                                }}
+                            >
+                                START Test 🚀
+                            </button>
                         </div>
                     </div>
                 </div>
