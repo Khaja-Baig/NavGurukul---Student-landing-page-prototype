@@ -408,13 +408,11 @@ export const EntranceTestPortal = () => {
                                                         3: `Awesome! 🎂<br>When’s your birthday?`,
                                                         4: `Select your option ✨<br>Almost done with basic details`,
                                                         5: `Contact Phone 📱<br>How can we reach you?`,
-                                                        6: `Email & PIN Code ✉️<br>Enter your email and PIN code`,
+                                                        6: `Email Address ✉️<br>Enter your email address`,
                                                         7: `Location Details 🏙️<br>Where are you located?`,
-                                                        8: `Current Status 💼<br>Select your current status`,
                                                         9: `Qualification 📜<br>What is your education level?`,
                                                         '9_college': `College Details 🎓<br>Select your year & attendance`,
-                                                        10: `School Medium 📚<br>In which language did you study?`,
-                                                        11: `Category Info 👥<br>Select your caste / category`,
+                                                        11: `Category Info 👥<br>Select your category`,
                                                         12: `All Systems Ready! 🚀<br>Launch Entrance Test`,
                                                         'test_init': `Initializing test mode... 🚀<br>Calibrating system`,
                                                         'test': `Read carefully and choose the best answer. 🚀`,
@@ -710,11 +708,11 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 6: EMAIL & PIN CODE STEP */}
+                                        {/* TASK 6: EMAIL ADDRESS STEP */}
                                         {cockpitStep === 6 && (
                                             <div className="floating-step-card active" id="missionStep6">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">Email & PIN Code ✉️</h2>
+                                                    <h2 className="floating-prompt-title">Email Address ✉️</h2>
                                                 </div>
                                                 <div className="floating-step-body">
                                                     <div className="floating-input-group">
@@ -726,18 +724,6 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="Email Address (e.g. student@gmail.com)"
                                                                 value={userProfile.email}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(7); }}
-                                                            />
-                                                        </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
-                                                            <span className="floating-icon">📍</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                maxLength={6}
-                                                                placeholder="6-Digit PIN Code"
-                                                                value={userProfile.pincode}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, pincode: e.target.value })}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(7); }}
                                                             />
                                                         </div>
@@ -778,7 +764,7 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="District (e.g. Patna)"
                                                                 value={userProfile.district}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(8); }}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(9); }}
                                                             />
                                                         </div>
                                                         <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
@@ -789,7 +775,7 @@ export const EntranceTestPortal = () => {
                                                                 placeholder="State (e.g. Bihar)"
                                                                 value={userProfile.state}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(8); }}
+                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(9); }}
                                                             />
                                                         </div>
                                                     </div>
@@ -799,54 +785,6 @@ export const EntranceTestPortal = () => {
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
                                                         onClick={() => setCockpitStep(6)}
-                                                    >
-                                                        <span>← Back</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(8)}
-                                                    >
-                                                        <span>Continue →</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* TASK 8: CURRENT STATUS STEP */}
-                                        {cockpitStep === 8 && (
-                                            <div className="floating-step-card active" id="missionStep8">
-                                                <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">What is your current status? 💼</h2>
-                                                </div>
-                                                <div className="floating-step-body">
-                                                    <div className="floating-gender-row status-6-grid">
-                                                        {[
-                                                            { label: 'Studying', icon: '🎓' },
-                                                            { label: 'Working', icon: '💼' },
-                                                            { label: 'Job Searching', icon: '🔍' },
-                                                            { label: 'Not Working', icon: '⏸️' },
-                                                            { label: 'Retired', icon: '🏖️' },
-                                                            { label: 'Other', icon: '🌟' }
-                                                        ].map(st => (
-                                                            <button
-                                                                key={st.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.status === st.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, status: st.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{st.icon}</span>
-                                                                <span className="gender-btn-label">{st.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="floating-step-footer flex-between">
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(7)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
@@ -873,7 +811,7 @@ export const EntranceTestPortal = () => {
                                                             { label: '12th Pass', icon: '📖' },
                                                             { label: 'Pursuing College', icon: '🏫' },
                                                             { label: 'Graduated', icon: '🎓' },
-                                                            { label: 'Post Graduate', icon: '🌟' }
+                                                            { label: 'Diploma', icon: '📜' }
                                                         ].map(q => (
                                                             <button
                                                                 key={q.label}
@@ -892,7 +830,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(8)}
+                                                        onClick={() => setCockpitStep(7)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
@@ -903,7 +841,7 @@ export const EntranceTestPortal = () => {
                                                             if (userProfile.qualification === 'Pursuing College') {
                                                                 setCockpitStep('9_college');
                                                             } else {
-                                                                setCockpitStep(10);
+                                                                setCockpitStep(11);
                                                             }
                                                         }}
                                                     >
@@ -976,57 +914,6 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(10)}
-                                                    >
-                                                        <span>Continue →</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* TASK 10: SCHOOL MEDIUM STEP */}
-                                        {cockpitStep === 10 && (
-                                            <div className="floating-step-card active" id="missionStep10">
-                                                <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">What was your school medium? 📚</h2>
-                                                </div>
-                                                <div className="floating-step-body">
-                                                    <div className="floating-gender-row">
-                                                        {[
-                                                            { label: 'Hindi', icon: '📚' },
-                                                            { label: 'English', icon: '🌐' },
-                                                            { label: 'Regional', icon: '🗣️' }
-                                                        ].map(m => (
-                                                            <button
-                                                                key={m.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.medium === m.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, medium: m.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{m.icon}</span>
-                                                                <span className="gender-btn-label">{m.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="floating-step-footer flex-between">
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn secondary-btn"
-                                                        onClick={() => {
-                                                            if (userProfile.qualification === 'Pursuing College') {
-                                                                setCockpitStep('9_college');
-                                                            } else {
-                                                                setCockpitStep(9);
-                                                            }
-                                                        }}
-                                                    >
-                                                        <span>← Back</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn primary-glow-btn"
                                                         onClick={() => setCockpitStep(11)}
                                                     >
                                                         <span>Continue →</span>
@@ -1035,11 +922,11 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 11: CASTE / CATEGORY STEP */}
+                                        {/* TASK 11: CATEGORY STEP */}
                                         {cockpitStep === 11 && (
                                             <div className="floating-step-card active" id="missionStep11">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">Select your category / caste 👥</h2>
+                                                    <h2 className="floating-prompt-title">Select your category 👥</h2>
                                                 </div>
                                                 <div className="floating-step-body">
                                                     <div className="floating-gender-row category-4-row">
@@ -1066,7 +953,13 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(10)}
+                                                        onClick={() => {
+                                                            if (userProfile.qualification === 'Pursuing College') {
+                                                                setCockpitStep('9_college');
+                                                            } else {
+                                                                setCockpitStep(9);
+                                                            }
+                                                        }}
                                                     >
                                                         <span>← Back</span>
                                                     </button>

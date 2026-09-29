@@ -158,9 +158,13 @@ export const allCourses = {
 };
 
 export const OurCampusView = () => {
-    const { closeCampusPage, openSchoolModal, studentName } = useApp();
+    const { closeCampusPage, openSchoolModal, studentName, startScreeningCountdown } = useApp();
     const [selectedCampus, setSelectedCampus] = useState(null);
     const [clickedCardId, setClickedCardId] = useState(null);
+
+    const handleSelectCourse = (course) => {
+        startScreeningCountdown(selectedCampus, course);
+    };
 
     // Avatar & Speech State for View 2 (Inside Campus)
     const [isAvatarVisible, setIsAvatarVisible] = useState(false);
@@ -265,7 +269,7 @@ export const OurCampusView = () => {
             {!selectedCampus ? (
                 /* ================= VIEW 1: CAMPUS GRID ================= */
                 <div className="campus-view-container campus-grid-view">
-                    {/* Floating Back Arrow on Left */}
+                    {/* Floating Back Arrow on Left Edge */}
                     <button
                         type="button"
                         className="nav-arrow prev"
@@ -273,6 +277,7 @@ export const OurCampusView = () => {
                         aria-label="Back to Mission"
                         id="campusBackToMissionBtn"
                         title="Back to Mission"
+                        style={{ position: 'fixed', left: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 110 }}
                     >
                         <span>‹</span>
                     </button>
@@ -396,12 +401,12 @@ export const OurCampusView = () => {
                                 <div
                                     key={course.code}
                                     className={`program-course-card ${course.themeClass} ${effectiveActiveCard === course.code ? 'avatar-highlight' : ''}`}
-                                    onClick={() => openSchoolModal(course.schoolIdx)}
+                                    onClick={() => handleSelectCourse(course)}
                                     onMouseEnter={() => handleCardHover(course)}
                                     onMouseLeave={handleCardLeave}
                                     role="button"
                                     tabIndex={0}
-                                    aria-label={`View details of ${course.title}`}
+                                    aria-label={`Select ${course.title} and start Screening Test`}
                                 >
                                     <div className="program-card-header">
                                         <div className={`program-icon-circle ${course.badgeClass}`}>{course.icon}</div>
@@ -425,9 +430,16 @@ export const OurCampusView = () => {
                                     </div>
 
                                     <div className="program-card-footer">
-                                        <div className={`admissions-open-btn btn-${course.code.toLowerCase()}`}>
-                                            <span className="btn-icon">✅</span> Admissions Open
-                                        </div>
+                                        <button
+                                            type="button"
+                                            className={`admissions-open-btn btn-${course.code.toLowerCase()}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleSelectCourse(course);
+                                            }}
+                                        >
+                                            <span className="btn-icon">✅</span> Admissions Open · Start ST
+                                        </button>
                                     </div>
                                 </div>
                             ))}

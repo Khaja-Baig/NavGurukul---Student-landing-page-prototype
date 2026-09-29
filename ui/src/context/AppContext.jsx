@@ -40,6 +40,10 @@ export const AppProvider = ({ children }) => {
     const [loginLang, setLoginLang] = useState('en');
     const [xpToasts, setXpToasts] = useState([]);
     const [isCampusPageActive, setIsCampusPageActive] = useState(false);
+    const [selectedCampus, setSelectedCampus] = useState(null);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [isCountdownActive, setIsCountdownActive] = useState(false);
+    const [isScreeningTestActive, setIsScreeningTestActive] = useState(false);
 
     // Modal Visibility States
     const [selectedSchoolIdx, setSelectedSchoolIdx] = useState(null);
@@ -167,6 +171,23 @@ export const AppProvider = ({ children }) => {
         setIsCampusPageActive(false);
     };
 
+    const startScreeningCountdown = (campus, course) => {
+        setSelectedCampus(campus);
+        setSelectedCourse(course);
+        setIsCountdownActive(true);
+        setIsScreeningTestActive(false);
+    };
+
+    const finishScreeningCountdown = () => {
+        setIsCountdownActive(false);
+        setIsScreeningTestActive(true);
+    };
+
+    const exitScreeningTest = () => {
+        setIsScreeningTestActive(false);
+        setIsCountdownActive(false);
+    };
+
     const startReverseRocketLaunchTransition = (targetScreen = null, text = 'RETURNING TO MISSION BASE...', onComplete = null) => {
         const env = document.getElementById('rocketInteriorEnv');
         if (env) {
@@ -266,6 +287,17 @@ export const AppProvider = ({ children }) => {
                 setIsCampusPageActive,
                 openCampusPage,
                 closeCampusPage,
+                selectedCampus,
+                setSelectedCampus,
+                selectedCourse,
+                setSelectedCourse,
+                isCountdownActive,
+                setIsCountdownActive,
+                isScreeningTestActive,
+                setIsScreeningTestActive,
+                startScreeningCountdown,
+                finishScreeningCountdown,
+                exitScreeningTest,
                 selectedSchoolIdx,
                 openSchoolModal,
                 closeSchoolModal,

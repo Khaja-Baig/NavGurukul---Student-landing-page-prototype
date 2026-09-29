@@ -13,6 +13,8 @@ import { Screen5_AdventurousRoadmap } from './components/screens/Screen5_Adventu
 import { Screen6_BookFreeTest } from './components/screens/Screen6_BookFreeTest';
 import { Screen7_TestInstructions } from './components/screens/Screen7_TestInstructions';
 import { OurCampusView } from './components/screens/OurCampusView';
+import { ScreeningCountdown } from './components/screens/ScreeningCountdown';
+import { ScreeningTestPlaceholder } from './components/screens/ScreeningTestPlaceholder';
 
 // Modals
 import { SchoolModal } from './components/modals/SchoolModal';
@@ -25,15 +27,21 @@ import { EntranceTestPortal } from './components/modals/EntranceTestPortal';
 import './styles/style.css';
 
 const MainAppContent = () => {
-    const { currentScreen, xpToasts, isCampusPageActive } = useApp();
+    const {
+        currentScreen,
+        xpToasts,
+        isCampusPageActive,
+        isCountdownActive,
+        isScreeningTestActive
+    } = useApp();
 
     useEffect(() => {
-        if (currentScreen > 0 || isCampusPageActive) {
+        if (currentScreen > 0 || isCampusPageActive || isCountdownActive || isScreeningTestActive) {
             document.body.classList.add('slide-other');
         } else {
             document.body.classList.remove('slide-other');
         }
-    }, [currentScreen, isCampusPageActive]);
+    }, [currentScreen, isCampusPageActive, isCountdownActive, isScreeningTestActive]);
 
     return (
         <>
@@ -45,8 +53,12 @@ const MainAppContent = () => {
                 <LeafCanvas />
             </div>
 
-            {/* Separate Campus View OR 7-Slide Landing Stage & HUD */}
-            {isCampusPageActive ? (
+            {/* View Hierarchy: Countdown -> Screening Test -> Our Campus -> Landing Stage (7 Slides) */}
+            {isCountdownActive ? (
+                <ScreeningCountdown />
+            ) : isScreeningTestActive ? (
+                <ScreeningTestPlaceholder />
+            ) : isCampusPageActive ? (
                 <OurCampusView />
             ) : (
                 <>
