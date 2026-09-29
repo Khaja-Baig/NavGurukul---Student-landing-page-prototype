@@ -510,8 +510,7 @@ footer.hint {
         height: 160px;
     }
 
-    /* Screen-specific overrides */
-    /* Campus screen — centered and balanced */
+    /* Screen 2: Our Schools screen */
     .screen[data-i="1"] {
         padding: 54px 3vw 16px;
         justify-content: flex-start;
@@ -519,23 +518,6 @@ footer.hint {
         text-align: center;
     }
 
-    .campus-view-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        width: 100%;
-    }
-
-    .campus-main-title {
-        text-align: center;
-        margin: 4px auto 6px auto;
-    }
-
-    .campus-subline {
-        text-align: center;
-        margin: 4px auto 14px auto;
-    }
 
     /* Offerings screen — vertically centered on mobile */
     .screen[data-i="2"] {

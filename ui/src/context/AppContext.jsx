@@ -44,7 +44,6 @@ export const AppProvider = ({ children }) => {
     const [selectedSchoolIdx, setSelectedSchoolIdx] = useState(null);
     const [selectedTestimonialIdx, setSelectedTestimonialIdx] = useState(null);
     const [selectedStageQuestIdx, setSelectedStageQuestIdx] = useState(null);
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isPortalOpen, setIsPortalOpen] = useState(false);
     const [portalStep, setPortalStep] = useState(1);
     const [cockpitStep, setCockpitStep] = useState(1);
@@ -111,10 +110,8 @@ export const AppProvider = ({ children }) => {
 
     // Directly navigate to Screen 7 (Entrance Test Instructions slide)
     const openLoginModal = () => go(6);
-    const closeLoginModal = () => setIsLoginModalOpen(false);
 
     const openPortalAtStep = (step = 1) => {
-        setIsLoginModalOpen(false);
         if (step === 1) {
             go(6);
             return;
@@ -134,6 +131,8 @@ export const AppProvider = ({ children }) => {
 
     const startRocketLaunchTransition = () => {
         setIsPortalOpen(true);
+        setPortalStep(2);
+        setCockpitStep(1);
         setIsLaunchReverse(false);
         setLaunchTransitionText('INITIATING ROCKET LAUNCH...');
         setIsLaunchOverlayOpen(true);
@@ -142,9 +141,6 @@ export const AppProvider = ({ children }) => {
         if (env) env.classList.add('cockpit-intro-sequence');
 
         setTimeout(() => {
-            setPortalStep(2);
-            setCockpitStep(1);
-
             // Staggered hologram power-on sequence
             const holoSys = document.getElementById('cockpitHologramSystem');
             if (holoSys) {
@@ -184,7 +180,6 @@ export const AppProvider = ({ children }) => {
         }, 320);
 
         setTimeout(() => {
-            setPortalStep(1);
             if (env) env.classList.remove('cockpit-exit-sequence');
         }, 1650);
 
@@ -261,9 +256,7 @@ export const AppProvider = ({ children }) => {
                 selectedStageQuestIdx,
                 openStageQuestModal,
                 closeStageQuestModal,
-                isLoginModalOpen,
                 openLoginModal,
-                closeLoginModal,
                 isPortalOpen,
                 portalStep,
                 setPortalStep,

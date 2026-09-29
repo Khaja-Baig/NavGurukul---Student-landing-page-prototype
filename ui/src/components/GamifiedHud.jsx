@@ -68,9 +68,8 @@ export const GamifiedHud = () => {
 
     return (
         <div id="hud" className={isScrolled ? 'is-scrolled' : ''}>
-            <div className="hud-brand" title="NavGurukul · Pravesh" onClick={() => go(0)} style={{ cursor: 'pointer' }}>
+            <div className="hud-brand" title="NavGurukul" onClick={() => go(0)} style={{ cursor: 'pointer' }}>
                 <img src="/navgurukul-logo.png" alt="NavGurukul Logo" className="hud-brand-img" />
-                <span className="hud-brand-title">· Pravesh</span>
             </div>
 
             <div className="hud-track-wrapper">
