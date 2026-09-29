@@ -39,6 +39,7 @@ export const AppProvider = ({ children }) => {
     const [studentName, setStudentName] = useState('Friend');
     const [loginLang, setLoginLang] = useState('en');
     const [xpToasts, setXpToasts] = useState([]);
+    const [isCampusPageActive, setIsCampusPageActive] = useState(false);
 
     // Modal Visibility States
     const [selectedSchoolIdx, setSelectedSchoolIdx] = useState(null);
@@ -94,7 +95,7 @@ export const AppProvider = ({ children }) => {
     };
 
     const go = (n) => {
-        n = Math.max(0, Math.min(6, n));
+        n = Math.max(0, Math.min(levelData.length - 1, n));
         if (n === currentScreen) return;
         setCurrentScreen(n);
     };
@@ -158,7 +159,15 @@ export const AppProvider = ({ children }) => {
         }, 1800);
     };
 
-    const startReverseRocketLaunchTransition = () => {
+    const openCampusPage = () => {
+        setIsCampusPageActive(true);
+    };
+
+    const closeCampusPage = () => {
+        setIsCampusPageActive(false);
+    };
+
+    const startReverseRocketLaunchTransition = (targetScreen = null, text = 'RETURNING TO MISSION BASE...', onComplete = null) => {
         const env = document.getElementById('rocketInteriorEnv');
         if (env) {
             env.classList.add('cockpit-exit-sequence');
@@ -175,8 +184,11 @@ export const AppProvider = ({ children }) => {
 
         setTimeout(() => {
             setIsLaunchReverse(true);
-            setLaunchTransitionText('RETURNING TO MISSION BASE...');
+            setLaunchTransitionText(text);
             setIsLaunchOverlayOpen(true);
+            if (targetScreen !== null) {
+                setCurrentScreen(targetScreen);
+            }
         }, 320);
 
         setTimeout(() => {
@@ -188,6 +200,9 @@ export const AppProvider = ({ children }) => {
             setIsLaunchReverse(false);
             setIsPortalOpen(false);
             setPortalStep(1);
+            if (onComplete) {
+                onComplete();
+            }
         }, 2050);
     };
 
@@ -238,7 +253,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider
             value={{
                 currentScreen,
-                totalScreens: 7,
+                totalScreens: levelData.length,
                 go,
                 xp,
                 setXp,
@@ -247,6 +262,10 @@ export const AppProvider = ({ children }) => {
                 loginLang,
                 setLoginLang,
                 xpToasts,
+                isCampusPageActive,
+                setIsCampusPageActive,
+                openCampusPage,
+                closeCampusPage,
                 selectedSchoolIdx,
                 openSchoolModal,
                 closeSchoolModal,

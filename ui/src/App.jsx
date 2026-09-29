@@ -12,6 +12,7 @@ import { Screen2_AlumniSuccess } from './components/screens/Screen2_AlumniSucces
 import { Screen5_AdventurousRoadmap } from './components/screens/Screen5_AdventurousRoadmap';
 import { Screen6_BookFreeTest } from './components/screens/Screen6_BookFreeTest';
 import { Screen7_TestInstructions } from './components/screens/Screen7_TestInstructions';
+import { OurCampusView } from './components/screens/OurCampusView';
 
 // Modals
 import { SchoolModal } from './components/modals/SchoolModal';
@@ -24,15 +25,15 @@ import { EntranceTestPortal } from './components/modals/EntranceTestPortal';
 import './styles/style.css';
 
 const MainAppContent = () => {
-    const { currentScreen, xpToasts } = useApp();
+    const { currentScreen, xpToasts, isCampusPageActive } = useApp();
 
     useEffect(() => {
-        if (currentScreen > 0) {
+        if (currentScreen > 0 || isCampusPageActive) {
             document.body.classList.add('slide-other');
         } else {
             document.body.classList.remove('slide-other');
         }
-    }, [currentScreen]);
+    }, [currentScreen, isCampusPageActive]);
 
     return (
         <>
@@ -44,29 +45,29 @@ const MainAppContent = () => {
                 <LeafCanvas />
             </div>
 
-            {/* Header HUD Track & Vehicle */}
-            <GamifiedHud />
+            {/* Separate Campus View OR 7-Slide Landing Stage & HUD */}
+            {isCampusPageActive ? (
+                <OurCampusView />
+            ) : (
+                <>
+                    {/* Header HUD Track & Vehicle (7 Slides Only) */}
+                    <GamifiedHud />
 
-            {/* XP Toasts */}
-            {xpToasts.map(toast => (
-                <div key={toast.id} className="xp-toast">
-                    {toast.text}
-                </div>
-            ))}
+                    {/* Stage Container (7 Slides) */}
+                    <div id="stage">
+                        <Screen1_GurukulTree />
+                        <Screen2_OurSchools />
+                        <Screen3_Offerings />
+                        <Screen2_AlumniSuccess />
+                        <Screen5_AdventurousRoadmap />
+                        <Screen6_BookFreeTest />
+                        <Screen7_TestInstructions />
+                    </div>
 
-            {/* Navigation Arrows */}
-            <NavControls />
-
-            {/* Stage Container */}
-            <div id="stage">
-                <Screen1_GurukulTree />
-                <Screen2_OurSchools />
-                <Screen3_Offerings />
-                <Screen2_AlumniSuccess />
-                <Screen5_AdventurousRoadmap />
-                <Screen6_BookFreeTest />
-                <Screen7_TestInstructions />
-            </div>
+                    {/* Navigation Arrows */}
+                    <NavControls />
+                </>
+            )}
 
             {/* Modals & Portal Overlays */}
             <TestimonialModal />
