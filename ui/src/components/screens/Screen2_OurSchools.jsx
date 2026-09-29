@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 
 export const schools = [
@@ -129,7 +129,7 @@ export const schools = [
     }
 ];
 
-export const Screen4_SpecialtySchools = () => {
+export const Screen2_OurSchools = () => {
     const { currentScreen, openSchoolModal, studentName } = useApp();
     const [isWrapVisible, setIsWrapVisible] = useState(false);
     const [speechText, setSpeechText] = useState('');
@@ -256,3 +256,5 @@ export const Screen4_SpecialtySchools = () => {
         </section>
     );
 };
+
+export default Screen2_OurSchools;

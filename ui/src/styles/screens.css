@@ -580,7 +580,6 @@ footer.hint {
         margin-bottom: 4px !important;
     }
 
-    /* Alumni / Student Outcomes screen — vertically balanced mobile-first composition */
     .screen[data-i="3"] {
         padding: 58px var(--screen-pad-mobile, 4vw) 32px !important;
         justify-content: flex-start !important;

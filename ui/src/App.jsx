@@ -7,7 +7,8 @@ import { LeafCanvas } from './components/LeafCanvas';
 // Screens
 import { Screen1_GurukulTree } from './components/screens/Screen1_GurukulTree';
 import { Screen4_SpecialtySchools } from './components/screens/Screen4_SpecialtySchools';
-import { Screen2_OurCampus } from './components/screens/Screen2_OurCampus';
+// import { Screen2_OurCampus } from './components/screens/Screen2_OurCampus';
+import { Screen2_OurSchools } from './components/screens/Screen2_OurSchools';
 import { Screen3_Offerings } from './components/screens/Screen3_Offerings';
 import { Screen2_AlumniSuccess } from './components/screens/Screen2_AlumniSuccess';
 import { Screen5_AdventurousRoadmap } from './components/screens/Screen5_AdventurousRoadmap';
@@ -17,7 +18,7 @@ import { Screen6_BookFreeTest } from './components/screens/Screen6_BookFreeTest'
 import { SchoolModal } from './components/modals/SchoolModal';
 import { TestimonialModal } from './components/modals/TestimonialModal';
 import { StageQuestModal } from './components/modals/StageQuestModal';
-import { LoginModal } from './components/modals/LoginModal';
+// import { LoginModal } from './components/modals/LoginModal';
 import { SlotBookingModal } from './components/modals/SlotBookingModal';
 import { LaunchTransitionOverlay } from './components/modals/LaunchTransitionOverlay';
 import { EntranceTestPortal } from './components/modals/EntranceTestPortal';
@@ -62,7 +63,8 @@ const MainAppContent = () => {
             {/* Stage Container */}
             <div id="stage">
                 <Screen1_GurukulTree />
-                <Screen2_OurCampus />
+                {/* <Screen2_OurCampus /> */}
+                <Screen2_OurSchools />
                 <Screen3_Offerings />
                 <Screen2_AlumniSuccess />
                 <Screen5_AdventurousRoadmap />
@@ -73,7 +75,7 @@ const MainAppContent = () => {
             <TestimonialModal />
             <SchoolModal />
             <StageQuestModal />
-            <LoginModal />
+            {/* <LoginModal /> */}
             <EntranceTestPortal />
             <SlotBookingModal />
         </>

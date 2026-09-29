@@ -4,7 +4,7 @@ const AppContext = createContext();
 
 export const levelData = [
     { title: 'GURUKUL TREE', icon: '🌱' },
-    { title: 'OUR CAMPUSES', icon: '🏫' },
+    { title: 'SPECIALTY TRACKS', icon: '⚡' },
     { title: '100% SCHOLARSHIP', icon: '💎' },
     { title: 'VISION & IMPACT', icon: '🌟' },
     { title: 'ADMISSION ROADMAP', icon: '🗺️' },
@@ -38,7 +38,7 @@ export const AppProvider = ({ children }) => {
     const [studentName, setStudentName] = useState('Friend');
     const [loginLang, setLoginLang] = useState('en');
     const [xpToasts, setXpToasts] = useState([]);
-    
+
     // Modal Visibility States
     const [selectedSchoolIdx, setSelectedSchoolIdx] = useState(null);
     const [selectedTestimonialIdx, setSelectedTestimonialIdx] = useState(null);
@@ -108,7 +108,9 @@ export const AppProvider = ({ children }) => {
     const openStageQuestModal = (idx) => setSelectedStageQuestIdx(idx);
     const closeStageQuestModal = () => setSelectedStageQuestIdx(null);
 
-    const openLoginModal = () => setIsLoginModalOpen(true);
+    // Login modal commented out per user request - directly opens Entrance Test Instructions
+    // const openLoginModal = () => setIsLoginModalOpen(true);
+    const openLoginModal = () => openPortalAtStep(1);
     const closeLoginModal = () => setIsLoginModalOpen(false);
 
     const openPortalAtStep = (step = 1) => {

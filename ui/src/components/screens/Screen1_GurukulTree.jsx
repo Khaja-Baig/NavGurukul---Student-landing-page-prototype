@@ -6,7 +6,7 @@ export const Screen1_GurukulTree = () => {
 
     return (
         <section className={`screen ${currentScreen === 0 ? 'active' : ''}`} data-i="0">
-            <div className="eyebrow"><span className="eyebrow-star">🌱</span> 100% Free Residential Education</div>
+            <div className="eyebrow"><span className="eyebrow-star">🌱</span> 100% Free Education</div>
             <h1 className="headline">
                 Empowering India's Youth with<br />
                 <span className="highlight-pink">World-Class Education</span>

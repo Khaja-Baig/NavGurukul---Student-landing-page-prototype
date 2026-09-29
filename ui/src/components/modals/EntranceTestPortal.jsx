@@ -258,7 +258,7 @@ export const EntranceTestPortal = () => {
         const nextIdx = Math.min(etQuestionsData.length - 1, currentQuizQIndex + 1);
         pendingNextIdxRef.current = nextIdx;
         pendingSlideClassRef.current = 'slide-enter-right';
-        
+
         // 1. Immediate VFX Breakup:
         // Text dissolves, intact asteroid mesh is removed IMMEDIATELY at 0ms (no delay or flicker),
         // and fragments + glowing dust/debris particles burst outward in one continuous animation.
@@ -365,7 +365,7 @@ export const EntranceTestPortal = () => {
             if (cockpitVideoRef.current) {
                 if (cockpitVideoRef.current.currentTime >= 8) {
                     cockpitVideoRef.current.currentTime = 0;
-                    cockpitVideoRef.current.play().catch(() => {});
+                    cockpitVideoRef.current.play().catch(() => { });
                 }
             }
             animId = requestAnimationFrame(checkVideoTime);
@@ -834,7 +834,7 @@ export const EntranceTestPortal = () => {
                                         onTimeUpdate={(e) => {
                                             if (e.currentTarget.currentTime >= 8) {
                                                 e.currentTarget.currentTime = 0;
-                                                e.currentTarget.play().catch(() => {});
+                                                e.currentTarget.play().catch(() => { });
                                             }
                                         }}
                                     />
@@ -846,7 +846,7 @@ export const EntranceTestPortal = () => {
                                         <div className="cockpit-space-viewport" id="cockpitSpaceViewport">
                                             <div className="cockpit-asteroid-hud-container" id="cockpitWindowHud">
                                                 <div className={`asteroid-carrier ${asteroidAnimState} ${isSubmitExit ? 'submit-exit' : ''}`}>
-                                                    
+
                                                     {/* Intact 3D Asteroid Rock Mesh — rendered while intact & during crack stress */}
                                                     {!['breaking', 'cleared'].includes(asteroidAnimState) && (
                                                         <div className="asteroid-mesh-wrapper">

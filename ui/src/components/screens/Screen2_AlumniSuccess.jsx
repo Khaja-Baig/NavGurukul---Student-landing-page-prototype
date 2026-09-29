@@ -153,7 +153,7 @@ export const Screen2_AlumniSuccess = () => {
 
     return (
         <section className={`screen ${currentScreen === 3 ? 'active' : ''}`} data-i="3">
-            <div className="eyebrow"><span className="eyebrow-star">✨</span> Student Outcomes</div>
+            <div className="eyebrow"><span className="eyebrow-star">✨</span> Success stories</div>
             
             <h1 className="headline">
                 <span className="headline-line1">
@@ -168,7 +168,7 @@ export const Screen2_AlumniSuccess = () => {
                 </span>
             </h1>
 
-            <p className="screen2-subline">Skills that opened doors. Careers that changed lives.</p>
+            {/* <p className="screen2-subline">Skills that opened doors. Careers that changed lives.</p> */}
 
             {/* Desktop Testimonials Viewport (Preserved Marquee) */}
             <div className="alumni-viewport">
