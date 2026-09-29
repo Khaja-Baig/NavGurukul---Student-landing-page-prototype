@@ -13,6 +13,7 @@ import { Screen3_Offerings } from './components/screens/Screen3_Offerings';
 import { Screen2_AlumniSuccess } from './components/screens/Screen2_AlumniSuccess';
 import { Screen5_AdventurousRoadmap } from './components/screens/Screen5_AdventurousRoadmap';
 import { Screen6_BookFreeTest } from './components/screens/Screen6_BookFreeTest';
+import { Screen7_TestInstructions } from './components/screens/Screen7_TestInstructions';
 
 // Modals
 import { SchoolModal } from './components/modals/SchoolModal';
@@ -69,6 +70,7 @@ const MainAppContent = () => {
                 <Screen2_AlumniSuccess />
                 <Screen5_AdventurousRoadmap />
                 <Screen6_BookFreeTest />
+                <Screen7_TestInstructions />
             </div>
 
             {/* Modals & Portal Overlays */}

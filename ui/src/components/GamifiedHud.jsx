@@ -11,14 +11,15 @@ export const GamifiedHud = () => {
 
     const nodes = [
         { level: 0, icon: '🌱', tooltip: 'L1 · Gurukul Tree', left: '0%' },
-        { level: 1, icon: '⚡', tooltip: 'L2 · Specialty Tracks', left: '20%' },
-        { level: 2, icon: '💎', tooltip: 'L3 · 100% Scholarship', left: '40%' },
-        { level: 3, icon: '🌟', tooltip: 'L4 · Vision & Impact', left: '60%' },
-        { level: 4, icon: '🗺️', tooltip: 'L5 · Admission Roadmap', left: '80%' },
-        { level: 5, icon: '🎓', tooltip: 'L6 · Book Free Test', left: '100%' }
+        { level: 1, icon: '⚡', tooltip: 'L2 · Specialty Tracks', left: '16.666%' },
+        { level: 2, icon: '💎', tooltip: 'L3 · 100% Scholarship', left: '33.333%' },
+        { level: 3, icon: '🌟', tooltip: 'L4 · Vision & Impact', left: '50%' },
+        { level: 4, icon: '🗺️', tooltip: 'L5 · Admission Roadmap', left: '66.666%' },
+        { level: 5, icon: '🎓', tooltip: 'L6 · Book Free Test', left: '83.333%' },
+        { level: 6, icon: '🚀', tooltip: 'L7 · Test Instructions', left: '100%' }
     ];
 
-    const fillWidth = `${(currentScreen / 5) * 100}%`;
+    const fillWidth = `${(currentScreen / 6) * 100}%`;
 
     useEffect(() => {
         const isForward = currentScreen > prevScreenRef.current;

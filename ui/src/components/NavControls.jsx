@@ -89,7 +89,7 @@ export const NavControls = () => {
                 id="nextBtn"
                 aria-label="Next Slide"
                 onClick={() => go(currentScreen + 1)}
-                style={{ opacity: currentScreen === totalScreens - 1 ? 0.3 : 1, pointerEvents: currentScreen === totalScreens - 1 ? 'none' : 'auto' }}
+                style={{ opacity: currentScreen === totalScreens - 1 ? 0 : 1, pointerEvents: currentScreen === totalScreens - 1 ? 'none' : 'auto' }}
             >
                 ›
             </button>

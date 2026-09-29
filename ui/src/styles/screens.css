@@ -733,3 +733,34 @@ footer.hint {
         height: 7px;
     }
 }
+
+/* ========================================================
+   SCREEN 7: ENTRANCE TEST INSTRUCTIONS SLIDE
+   ======================================================== */
+.screen.screen-instructions {
+    padding: 70px 0 0 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    text-align: left;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100% !important;
+    max-width: 100% !important;
+    inset: 0 !important;
+}
+
+.screen.screen-instructions .et-portal-body.step1-active {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 24px 0 24px 32px !important;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 410px 1fr;
+    gap: 28px;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}

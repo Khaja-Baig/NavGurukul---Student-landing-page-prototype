@@ -8,7 +8,8 @@ export const levelData = [
     { title: '100% SCHOLARSHIP', icon: '💎' },
     { title: 'VISION & IMPACT', icon: '🌟' },
     { title: 'ADMISSION ROADMAP', icon: '🗺️' },
-    { title: 'BOOK FREE TEST', icon: '🎓' }
+    { title: 'BOOK FREE TEST', icon: '🎓' },
+    { title: 'TEST INSTRUCTIONS', icon: '🚀' }
 ];
 
 export const etQuestionsData = [
@@ -94,7 +95,7 @@ export const AppProvider = ({ children }) => {
     };
 
     const go = (n) => {
-        n = Math.max(0, Math.min(5, n));
+        n = Math.max(0, Math.min(6, n));
         if (n === currentScreen) return;
         setCurrentScreen(n);
     };
@@ -108,24 +109,31 @@ export const AppProvider = ({ children }) => {
     const openStageQuestModal = (idx) => setSelectedStageQuestIdx(idx);
     const closeStageQuestModal = () => setSelectedStageQuestIdx(null);
 
-    // Login modal commented out per user request - directly opens Entrance Test Instructions
-    // const openLoginModal = () => setIsLoginModalOpen(true);
-    const openLoginModal = () => openPortalAtStep(1);
+    // Directly navigate to Screen 7 (Entrance Test Instructions slide)
+    const openLoginModal = () => go(6);
     const closeLoginModal = () => setIsLoginModalOpen(false);
 
     const openPortalAtStep = (step = 1) => {
         setIsLoginModalOpen(false);
+        if (step === 1) {
+            go(6);
+            return;
+        }
         setPortalStep(step);
         setIsPortalOpen(true);
     };
 
-    const closePortal = () => setIsPortalOpen(false);
+    const closePortal = () => {
+        setIsPortalOpen(false);
+        setPortalStep(1);
+    };
 
     const openSlotModal = () => setIsSlotModalOpen(true);
     const closeSlotModal = () => setIsSlotModalOpen(false);
     const openSlotBookingModal = () => setIsSlotModalOpen(true);
 
     const startRocketLaunchTransition = () => {
+        setIsPortalOpen(true);
         setIsLaunchReverse(false);
         setLaunchTransitionText('INITIATING ROCKET LAUNCH...');
         setIsLaunchOverlayOpen(true);
@@ -183,6 +191,8 @@ export const AppProvider = ({ children }) => {
         setTimeout(() => {
             setIsLaunchOverlayOpen(false);
             setIsLaunchReverse(false);
+            setIsPortalOpen(false);
+            setPortalStep(1);
         }, 2050);
     };
 
@@ -233,7 +243,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider
             value={{
                 currentScreen,
-                totalScreens: 6,
+                totalScreens: 7,
                 go,
                 xp,
                 setXp,

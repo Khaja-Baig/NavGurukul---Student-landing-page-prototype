@@ -1729,7 +1729,7 @@ export const EntranceTestPortal = () => {
                                                         onClick={handleStartTestInCockpit}
                                                         style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#ffffff', boxShadow: '0 4px 16px rgba(16, 185, 129, 0.5)' }}
                                                     >
-                                                        <span>START Entrance Test 🚀</span>
+                                                        <span>START Test 🚀</span>
                                                     </button>
                                                 </div>
                                             </div>
