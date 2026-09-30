@@ -548,37 +548,54 @@ export const EntranceTestPortal = () => {
                                                     <h2 className="floating-prompt-title">What's your name? 👤</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-input-group">
-                                                        <div className="floating-input-wrapper">
-                                                            <span className="floating-icon">👤</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="First Name ( Rahul )"
-                                                                value={userProfile.firstName}
-                                                                onChange={(e) => {
-                                                                    const val = e.target.value;
-                                                                    setUserProfile({ ...userProfile, firstName: val });
-                                                                    if (showGreetingAck) setShowGreetingAck(false);
-                                                                    if (hasSubmittedName) setHasSubmittedName(false);
-                                                                }}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
-                                                            />
+                                                    <div className="floating-input-group name-fields-group">
+                                                        {/* 1. First Name Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    First Name <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">👤</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="First Name ( Rahul )"
+                                                                    value={userProfile.firstName}
+                                                                    onChange={(e) => {
+                                                                        const val = e.target.value;
+                                                                        setUserProfile({ ...userProfile, firstName: val });
+                                                                        if (showGreetingAck) setShowGreetingAck(false);
+                                                                        if (hasSubmittedName) setHasSubmittedName(false);
+                                                                    }}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                        <div className="floating-input-wrapper secondary-wrap">
-                                                            <span className="floating-icon">📝</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="Last Name ( Kumar )"
-                                                                value={userProfile.lastName}
-                                                                onChange={(e) => {
-                                                                    setUserProfile({ ...userProfile, lastName: e.target.value });
-                                                                    if (showGreetingAck) setShowGreetingAck(false);
-                                                                    if (hasSubmittedName) setHasSubmittedName(false);
-                                                                }}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
-                                                            />
+
+                                                        {/* 2. Last Name Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Last Name <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper secondary-wrap">
+                                                                <span className="floating-icon">📝</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="Last Name ( Kumar )"
+                                                                    value={userProfile.lastName}
+                                                                    onChange={(e) => {
+                                                                        setUserProfile({ ...userProfile, lastName: e.target.value });
+                                                                        if (showGreetingAck) setShowGreetingAck(false);
+                                                                        if (hasSubmittedName) setHasSubmittedName(false);
+                                                                    }}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     {((showGreetingAck || hasSubmittedName) && userProfile.firstName.trim() !== '') && (

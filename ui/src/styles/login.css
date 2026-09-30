@@ -6839,10 +6839,11 @@ select.et-select::-ms-expand,
 }
 
 /* Contact Details 3-Field Layout & Form Labels */
-.contact-fields-group {
+.contact-fields-group,
+.name-fields-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
 }
 
@@ -8892,6 +8893,10 @@ select.et-select::-ms-expand,
         gap: 8px !important;
     }
 
+    .name-fields-group {
+        gap: 14px !important;
+    }
+
     .floating-input-field {
         display: flex !important;
         flex-direction: column !important;
@@ -8976,15 +8981,15 @@ select.et-select::-ms-expand,
         font-weight: 700 !important;
     }
 
-    /* 6. Footer Action Buttons - Sleek, proportioned size */
+    /* 6. Footer Action Buttons - Sleek, proportioned size with comfortable gap */
     .floating-step-footer {
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
-        gap: 12px !important;
+        gap: 22px !important;
         margin-top: auto !important;
         padding-top: 4px !important;
-        max-width: 310px !important;
+        max-width: 330px !important;
         margin-left: auto !important;
         margin-right: auto !important;
         width: 100% !important;
