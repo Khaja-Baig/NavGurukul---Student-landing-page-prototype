@@ -721,32 +721,52 @@ export const EntranceTestPortal = () => {
                                                     <h2 className="floating-prompt-title">Birthday & Gender 🎂</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-dob-group" style={{ marginBottom: '14px' }}>
-                                                        <input
-                                                            type="date"
-                                                            className="floating-date-picker"
-                                                            value={userProfile.dob}
-                                                            onChange={(e) => setUserProfile({ ...userProfile, dob: e.target.value })}
-                                                        />
-                                                        <span className="dob-calendar-icon">📅</span>
-                                                    </div>
-                                                    <div className="floating-gender-row">
-                                                        {[
-                                                            { label: 'Male', icon: '👨‍🚀' },
-                                                            { label: 'Female', icon: '👩‍🚀' },
-                                                            { label: 'Other', icon: '🧑‍🚀' }
-                                                        ].map(g => (
-                                                            <button
-                                                                key={g.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn ${userProfile.gender === g.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, gender: g.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{g.icon}</span>
-                                                                <span className="gender-btn-label">{g.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
+                                                    <div className="dob-gender-fields-group" style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+                                                        {/* 1. Date of Birth Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Date of Birth <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">📅</span>
+                                                                <input
+                                                                    type="date"
+                                                                    className="floating-text-input floating-date-picker"
+                                                                    value={userProfile.dob}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, dob: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(4); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 2. Gender Selection Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Gender <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-gender-row">
+                                                                {[
+                                                                    { label: 'Male', icon: '👨‍🚀' },
+                                                                    { label: 'Female', icon: '👩‍🚀' },
+                                                                    { label: 'Other', icon: '🧑‍🚀' }
+                                                                ].map(g => (
+                                                                    <button
+                                                                        key={g.label}
+                                                                        type="button"
+                                                                        className={`floating-gender-btn ${userProfile.gender === g.label ? 'selected' : ''}`}
+                                                                        onClick={() => setUserProfile({ ...userProfile, gender: g.label })}
+                                                                    >
+                                                                        <span className="gender-btn-icon">{g.icon}</span>
+                                                                        <span className="gender-btn-label">{g.label}</span>
+                                                                        <span className="gender-btn-check">✓</span>
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
