@@ -305,8 +305,8 @@ export const Screen3_Offerings = () => {
         <section className={`screen ${currentScreen === 2 ? 'active' : ''}`} data-i="2">
             <div className="eyebrow"><span className="eyebrow-star">🎁</span> Comprehensive 100% Scholarship</div>
             <h1 className="headline">
-                Everything Covered.<br />
-                <span className="highlight-pink">Zero Financial Barrier.</span>
+                You focus on learning<br />
+                <span className="highlight-pink">We cover everything.</span>
             </h1>
 
             <div className="offering-carousel-wrap">
