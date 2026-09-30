@@ -6849,7 +6849,7 @@ select.et-select::-ms-expand,
 .floating-input-field {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     text-align: left;
     width: 100%;
 }
@@ -8761,7 +8761,7 @@ select.et-select::-ms-expand,
         box-shadow: none !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
-        padding: 26px 22px calc(24px + env(safe-area-inset-bottom, 16px)) !important;
+        padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 16px)) !important;
         height: 100% !important;
         min-height: 100% !important;
         display: none;
@@ -8845,16 +8845,18 @@ select.et-select::-ms-expand,
 
     /* 4. Spacing & Typography */
     .floating-step-header {
-        margin-bottom: 6px;
+        margin-top: 0 !important;
+        margin-bottom: 2px !important;
     }
 
     .floating-prompt-title {
         font-family: var(--font-display) !important;
-        font-size: 22px !important;
+        font-size: 21px !important;
         font-weight: 800 !important;
         color: #0f172a !important;
-        margin-bottom: 4px !important;
-        line-height: 1.25 !important;
+        margin-top: 0 !important;
+        margin-bottom: 2px !important;
+        line-height: 1.22 !important;
         text-shadow: none !important;
         letter-spacing: -0.3px;
         display: flex;
@@ -8868,7 +8870,7 @@ select.et-select::-ms-expand,
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin: 14px 0 18px;
+        margin: 6px 0 10px !important;
     }
 
     /* 5. Inputs - Website Theme Styling (Ivory/White with Rose Border) */
@@ -8883,15 +8885,19 @@ select.et-select::-ms-expand,
         gap: 9px !important;
     }
 
-    .contact-fields-group .floating-text-input {
-        height: 44px !important;
-        font-size: 14px !important;
+    .floating-input-field {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 5px !important;
+        text-align: left !important;
+        width: 100% !important;
     }
 
     .floating-input-label {
         color: #334155 !important;
         font-size: 11.5px !important;
         font-weight: 700 !important;
+        margin-left: 2px !important;
     }
 
     .same-as-phone-btn {
@@ -8917,14 +8923,16 @@ select.et-select::-ms-expand,
 
     .floating-text-input {
         width: 100% !important;
-        height: 50px !important;
-        padding: 10px 14px 10px 46px !important;
+        height: 46px !important; /* Uniform height across all steps */
+        min-height: 46px !important;
+        max-height: 46px !important;
+        padding: 8px 14px 8px 44px !important;
         background: rgba(255, 255, 255, 0.94) !important;
         border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
-        border-radius: 16px !important;
+        border-radius: 14px !important;
         color: #0f172a !important;
         font-family: var(--font-display) !important;
-        font-size: 15px !important;
+        font-size: 14.5px !important;
         font-weight: 500 !important;
         outline: none;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(233, 30, 99, 0.05) !important;
@@ -8960,22 +8968,28 @@ select.et-select::-ms-expand,
         font-weight: 700 !important;
     }
 
-    /* 6. Footer Action Buttons */
+    /* 6. Footer Action Buttons - Sleek, proportioned size */
     .floating-step-footer {
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
         gap: 12px !important;
         margin-top: auto !important;
-        padding-top: 6px !important;
+        padding-top: 4px !important;
+        max-width: 310px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
     }
 
     .floating-action-btn {
-        height: 50px !important;
-        padding: 0 24px !important;
-        border-radius: 999px !important;
+        height: 40px !important;
+        min-height: 40px !important;
+        max-height: 40px !important;
+        padding: 0 16px !important;
+        border-radius: 20px !important;
         font-family: var(--font-display) !important;
-        font-size: 15px !important;
+        font-size: 13.5px !important;
         font-weight: 700 !important;
         cursor: pointer;
         outline: none;
@@ -8992,10 +9006,10 @@ select.et-select::-ms-expand,
     }
 
     .secondary-btn {
-        background: rgba(255, 255, 255, 0.92) !important;
+        background: rgba(255, 255, 255, 0.94) !important;
         color: #475569 !important;
-        border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.25) !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
         flex: 1 !important;
     }
 
@@ -9009,13 +9023,13 @@ select.et-select::-ms-expand,
     .primary-glow-btn {
         background: linear-gradient(135deg, #e91e63 0%, #f43f5e 50%, #f59e0b 100%) !important;
         color: #ffffff !important;
-        box-shadow: 0 4px 18px rgba(233, 30, 99, 0.38) !important;
-        flex: 1.3 !important;
+        box-shadow: 0 3px 12px rgba(233, 30, 99, 0.32) !important;
+        flex: 1.25 !important;
     }
 
     .primary-glow-btn:hover,
     .primary-glow-btn:active {
-        box-shadow: 0 6px 22px rgba(233, 30, 99, 0.55) !important;
+        box-shadow: 0 4px 16px rgba(233, 30, 99, 0.45) !important;
     }
 
     /* 7. Additional Steps Form Components (Steps 2-9) Website Theme Palette */

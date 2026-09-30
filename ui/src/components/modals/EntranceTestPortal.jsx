@@ -554,7 +554,7 @@ export const EntranceTestPortal = () => {
                                                             <input
                                                                 type="text"
                                                                 className="floating-text-input"
-                                                                placeholder="First Name (e.g. Rahul)"
+                                                                placeholder="First Name ( Rahul )"
                                                                 value={userProfile.firstName}
                                                                 onChange={(e) => {
                                                                     const val = e.target.value;
@@ -570,7 +570,7 @@ export const EntranceTestPortal = () => {
                                                             <input
                                                                 type="text"
                                                                 className="floating-text-input"
-                                                                placeholder="Last Name (e.g. Kumar)"
+                                                                placeholder="Last Name ( Kumar )"
                                                                 value={userProfile.lastName}
                                                                 onChange={(e) => {
                                                                     setUserProfile({ ...userProfile, lastName: e.target.value });
@@ -630,7 +630,7 @@ export const EntranceTestPortal = () => {
                                                                 <input
                                                                     type="tel"
                                                                     className="floating-text-input"
-                                                                    placeholder="e.g. 9876543210"
+                                                                    placeholder="9876543210"
                                                                     value={userProfile.phone}
                                                                     onChange={(e) => {
                                                                         const val = e.target.value;
@@ -666,7 +666,7 @@ export const EntranceTestPortal = () => {
                                                                 <input
                                                                     type="tel"
                                                                     className="floating-text-input"
-                                                                    placeholder="e.g. 9876543210"
+                                                                    placeholder="9876543210"
                                                                     value={userProfile.whatsapp}
                                                                     onChange={(e) => setUserProfile({ ...userProfile, whatsapp: e.target.value })}
                                                                     onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
@@ -686,7 +686,7 @@ export const EntranceTestPortal = () => {
                                                                 <input
                                                                     type="email"
                                                                     className="floating-text-input"
-                                                                    placeholder="e.g. rahul@example.com"
+                                                                    placeholder="rahul@example.com"
                                                                     value={userProfile.email}
                                                                     onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
                                                                     onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
@@ -781,7 +781,7 @@ export const EntranceTestPortal = () => {
                                                             <input
                                                                 type="text"
                                                                 className="floating-text-input"
-                                                                placeholder="State (e.g. Bihar / Maharashtra)"
+                                                                placeholder="State (Bihar / Maharashtra)"
                                                                 value={userProfile.state}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
@@ -792,7 +792,7 @@ export const EntranceTestPortal = () => {
                                                             <input
                                                                 type="text"
                                                                 className="floating-text-input"
-                                                                placeholder="District (e.g. Patna / Pune)"
+                                                                placeholder="District (Patna / Pune)"
                                                                 value={userProfile.district}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
@@ -925,7 +925,7 @@ export const EntranceTestPortal = () => {
                                                             <input
                                                                 type="text"
                                                                 className="floating-text-input"
-                                                                placeholder="School or College Name (e.g. Govt Senior Secondary School)"
+                                                                placeholder="School or College Name (Govt Senior Secondary School)"
                                                                 value={userProfile.schoolName || ''}
                                                                 onChange={(e) => setUserProfile({ ...userProfile, schoolName: e.target.value })}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(8); }}
