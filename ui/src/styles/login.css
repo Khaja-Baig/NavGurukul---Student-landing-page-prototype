@@ -6663,10 +6663,237 @@ select.et-select::-ms-expand,
     justify-content: center;
 }
 
-.flex-between {
+/* ==========================================================================
+   WELCOME & AUTH METHOD STEP (Your Dream Deserves a Guide)
+   ========================================================================== */
+.auth-welcome-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    height: 100%;
+}
+
+.auth-welcome-header {
+    margin-bottom: 2px;
+}
+
+.auth-welcome-title {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: clamp(20px, 4.5vw, 25px);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.22;
+    letter-spacing: -0.4px;
+    margin: 0;
+}
+
+.guide-word-highlight {
+    position: relative;
+    display: inline-block;
+    color: #e91e63;
+    font-weight: 900;
+}
+
+.guide-swoosh-svg {
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 8px;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.auth-welcome-subtitle {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+    margin: 6px 0 0;
+    line-height: 1.35;
+}
+
+.auth-welcome-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    margin: 12px 0 8px;
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.auth-google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #e91e63 0%, #f43f5e 50%, #ea580c 100%);
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 14.5px;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(233, 30, 99, 0.35);
+    cursor: pointer;
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.auth-google-btn:hover {
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.45);
+}
+
+.auth-google-btn:active {
+    transform: translateY(0.5px);
+}
+
+.auth-google-icon-wrapper {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.auth-or-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 2px 0;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.divider-text {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 11px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1.5px;
+}
+
+.auth-manual-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.16s ease;
+}
+
+.auth-manual-btn:hover {
+    background: rgba(233, 30, 99, 0.15);
+    border-color: #e91e63;
+    color: #ffffff;
+    transform: translateY(-1.5px);
+}
+
+.auth-manual-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+.auth-trust-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.trust-shield {
+    font-size: 13px;
+}
+
+/* Contact Details 3-Field Layout & Form Labels */
+.contact-fields-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.floating-input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+    width: 100%;
+}
+
+.floating-label-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    padding: 0 2px;
+}
+
+.floating-input-label {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.88);
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.req-star {
+    color: #e91e63;
+    font-weight: 800;
+    margin-left: 2px;
+}
+
+.same-as-phone-btn {
+    background: transparent;
+    border: none;
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    color: #e91e63;
+    cursor: pointer;
+    padding: 0 4px;
+    text-decoration: underline;
+    transition: opacity 0.15s ease;
+}
+
+.same-as-phone-btn:hover {
+    opacity: 0.8;
 }
 
 /* Floating Profile Summary Seal */
@@ -8455,7 +8682,7 @@ select.et-select::-ms-expand,
     }
 }
 
-@media (max-width: 880px) {
+@media (min-width: 769px) and (max-width: 880px) {
     .cockpit-hologram-system {
         left: 4%;
         top: 54%;
@@ -8471,34 +8698,591 @@ select.et-select::-ms-expand,
     }
 }
 
-@media (max-width: 580px) {
+/* ==========================================================================
+   MOBILE RESPONSIVE BOTTOM-SHEET POPUP & AVATAR SYSTEM (max-width: 768px)
+   Matches NavGurukul Website Theme & Reference Mockup Structure
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 0. Video Background Zoom - Show purely space, stars, and nebula; hide cockpit console screen */
+    .cockpit-bg-layer {
+        overflow: hidden !important;
+    }
+
+    .cockpit-bg-img,
+    .cockpit-bg-video {
+        object-fit: cover !important;
+        object-position: center top !important;
+        transform: scale(1.5) !important;
+        transform-origin: center 15% !important;
+    }
+
+    /* 1. Full Mobile Bottom-Sheet Panel Container - 54% height, leaving 46% for upper video */
+    .cockpit-floating-stage {
+        position: absolute;
+        top: auto !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 54% !important; /* Exactly 54% popup height, leaving 46% for upper video section */
+        min-height: 340px !important;
+        max-height: 54% !important;
+        transform: none !important;
+        z-index: 50 !important; /* CRITICAL: Higher than avatar (z-index: 20) so avatar sits BEHIND popup layer */
+        pointer-events: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    /* 2. Bottom Sheet Viewport - NavGurukul Sunrise Theme & Rounded Top Corners */
+    .cockpit-stage-viewport {
+        position: relative;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 32px 32px 0 0 !important;
+        border: none !important;
+        border-top: 2px solid rgba(233, 30, 99, 0.22) !important;
+        box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.2), 0 -2px 14px rgba(233, 30, 99, 0.12) !important;
+        background: var(--bg-sunrise, linear-gradient(180deg, #fffcf5 0%, #fff7ed 35%, #fef3c7 70%, #ecfdf5 100%)) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* 3. Bottom Sheet Content Card - NavGurukul Sunrise Theme (Matching Website) */
+    .floating-step-card {
+        background: var(--bg-sunrise, linear-gradient(180deg, #fffcf5 0%, #fff7ed 35%, #fef3c7 70%, #ecfdf5 100%)) !important;
+        border: none !important;
+        border-radius: 32px 32px 0 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        padding: 26px 22px calc(24px + env(safe-area-inset-bottom, 16px)) !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        display: none;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        text-align: center;
+        position: relative;
+    }
+
+    .floating-step-card.active {
+        display: flex !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+    }
+
+    /* Disable dark space HUD pulse & scanlines inside mobile popup */
+    .floating-step-card::before {
+        display: none !important;
+    }
+
+    /* Mobile Light Sunrise Theme for Welcome Auth Card */
+    .auth-welcome-title {
+        color: #0f172a !important;
+        font-size: clamp(21px, 5.5vw, 24px) !important;
+        line-height: 1.2 !important;
+    }
+
+    .auth-welcome-subtitle {
+        color: #64748b !important;
+        font-size: 13.5px !important;
+        margin-top: 6px !important;
+    }
+
+    .auth-welcome-body {
+        gap: 12px !important;
+        margin: 14px 0 10px !important;
+        max-width: 100% !important;
+    }
+
+    .auth-google-btn {
+        height: 50px !important;
+        font-size: 15px !important;
+        border-radius: 25px !important;
+    }
+
+    .divider-line {
+        background: rgba(233, 30, 99, 0.22) !important;
+    }
+
+    .divider-text {
+        color: #94a3b8 !important;
+        font-size: 12px !important;
+    }
+
+    .auth-manual-btn {
+        height: 50px !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.3) !important;
+        color: #0f172a !important;
+        font-size: 15px !important;
+        border-radius: 25px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .auth-manual-btn:hover {
+        background: #fff5f7 !important;
+        border-color: #e91e63 !important;
+        color: #e91e63 !important;
+    }
+
+    .auth-manual-icon {
+        color: #e91e63 !important;
+    }
+
+    .auth-trust-badge {
+        color: #64748b !important;
+        font-size: 12.5px !important;
+        padding-top: 6px !important;
+    }
+
+    /* 4. Spacing & Typography */
+    .floating-step-header {
+        margin-bottom: 6px;
+    }
+
+    .floating-prompt-title {
+        font-family: var(--font-display) !important;
+        font-size: 22px !important;
+        font-weight: 800 !important;
+        color: #0f172a !important;
+        margin-bottom: 4px !important;
+        line-height: 1.25 !important;
+        text-shadow: none !important;
+        letter-spacing: -0.3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .floating-step-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 14px 0 18px;
+    }
+
+    /* 5. Inputs - Website Theme Styling (Ivory/White with Rose Border) */
+    .floating-input-group {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+        text-align: left;
+    }
+
+    .contact-fields-group {
+        gap: 9px !important;
+    }
+
+    .contact-fields-group .floating-text-input {
+        height: 44px !important;
+        font-size: 14px !important;
+    }
+
+    .floating-input-label {
+        color: #334155 !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+    }
+
+    .same-as-phone-btn {
+        color: #e91e63 !important;
+        font-size: 11px !important;
+    }
+
+    .floating-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .floating-icon {
+        position: absolute !important;
+        left: 14px !important;
+        font-size: 17px !important;
+        pointer-events: none;
+        opacity: 0.85 !important;
+        filter: none !important;
+    }
+
+    .floating-text-input {
+        width: 100% !important;
+        height: 50px !important;
+        padding: 10px 14px 10px 46px !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
+        border-radius: 16px !important;
+        color: #0f172a !important;
+        font-family: var(--font-display) !important;
+        font-size: 15px !important;
+        font-weight: 500 !important;
+        outline: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(233, 30, 99, 0.05) !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .floating-text-input::placeholder {
+        color: #64748b !important;
+        font-weight: 400 !important;
+        font-size: 14.5px !important;
+        opacity: 0.85 !important;
+    }
+
+    .floating-text-input:focus {
+        background: #ffffff !important;
+        border-color: #e91e63 !important;
+        box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.2), 0 4px 16px rgba(233, 30, 99, 0.1) !important;
+    }
+
+    /* Greeting acknowledgment pill */
+    .mission-greeting-ack {
+        margin-top: 10px !important;
+        background: #ecfdf5 !important;
+        border: 1.5px solid #a7f3d0 !important;
+        border-radius: 14px !important;
+        padding: 8px 14px !important;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1) !important;
+    }
+
+    .mission-greeting-ack .ack-text {
+        color: #065f46 !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+    }
+
+    /* 6. Footer Action Buttons */
+    .floating-step-footer {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        margin-top: auto !important;
+        padding-top: 6px !important;
+    }
+
+    .floating-action-btn {
+        height: 50px !important;
+        padding: 0 24px !important;
+        border-radius: 999px !important;
+        font-family: var(--font-display) !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        transition: transform 0.18s ease, box-shadow 0.2s ease;
+    }
+
+    .floating-action-btn:active {
+        transform: scale(0.97) !important;
+    }
+
+    .secondary-btn {
+        background: rgba(255, 255, 255, 0.92) !important;
+        color: #475569 !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        flex: 1 !important;
+    }
+
+    .secondary-btn:hover,
+    .secondary-btn:active {
+        background: #ffffff !important;
+        border-color: #e91e63 !important;
+        color: #0f172a !important;
+    }
+
+    .primary-glow-btn {
+        background: linear-gradient(135deg, #e91e63 0%, #f43f5e 50%, #f59e0b 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 18px rgba(233, 30, 99, 0.38) !important;
+        flex: 1.3 !important;
+    }
+
+    .primary-glow-btn:hover,
+    .primary-glow-btn:active {
+        box-shadow: 0 6px 22px rgba(233, 30, 99, 0.55) !important;
+    }
+
+    /* 7. Additional Steps Form Components (Steps 2-9) Website Theme Palette */
+    .floating-date-picker {
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
+        color: #0f172a !important;
+        color-scheme: light !important;
+        border-radius: 16px !important;
+        height: 50px !important;
+        padding: 10px 14px 10px 46px !important;
+        font-size: 15px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .floating-date-picker:focus {
+        border-color: #e91e63 !important;
+        box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.2) !important;
+        background: #ffffff !important;
+    }
+
+    .custom-college-select {
+        background-color: rgba(255, 255, 255, 0.94) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
+        color: #0f172a !important;
+        border-radius: 16px !important;
+        height: 50px !important;
+        font-size: 15px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .custom-college-select option {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+    }
+
+    .floating-gender-btn {
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
+        color: #1e293b !important;
+        border-radius: 18px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .gender-btn-label,
+    .qual-4-grid .gender-btn-label,
+    .status-6-grid .gender-btn-label,
+    .category-4-row .gender-btn-label {
+        color: #1e293b !important;
+    }
+
+    .floating-gender-btn.selected {
+        background: #fdf2f8 !important;
+        border-color: #e91e63 !important;
+        box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.25) !important;
+    }
+
+    .floating-gender-btn.selected .gender-btn-label {
+        color: #e91e63 !important;
+    }
+
+    .floating-photo-dropzone {
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 2px dashed rgba(233, 30, 99, 0.35) !important;
+        border-radius: 18px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .photo-main-text {
+        color: #0f172a !important;
+    }
+
+    .photo-sub-text {
+        color: #64748b !important;
+    }
+
+    .floating-summary-seal {
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.22) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .summary-name {
+        color: #0f172a !important;
+    }
+
+    .summary-sub {
+        color: #64748b !important;
+    }
+
+    /* 8. Avatar Guide System - Positioned Behind Sheet, Cropped at Waist, Raised for both hands */
     .cockpit-hologram-system {
-        left: 2%;
-        top: 48%;
-        transform: translateY(-50%) scale(0.65);
+        position: absolute !important;
+        top: auto !important;
+        bottom: calc(54% - 12px) !important; /* Waist tucks 12px behind 54% sheet's top curve */
+        left: 18px !important;
+        right: auto !important;
+        transform: none !important;
+        z-index: 20 !important; /* MUST stay behind the popup layer (z-index: 50) */
+        pointer-events: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        opacity: 1 !important;
+        filter: none !important;
     }
 
+    /* Hide heavy hologram projector device base & beams on mobile for a clean look */
+    .holo-projector-base,
+    .holo-light-beam,
+    .holo-console-glow,
+    .holo-particle-field {
+        display: none !important;
+    }
+
+    .holo-projection-assembly {
+        padding-top: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
+    /* Speech Bubble (positioned with clean gap above the avatar's head) */
     .holo-guide-caption {
-        right: calc(100% - 82px);
-        top: 108px;
-        max-width: 185px;
-        font-size: 10px;
-        padding: 5px 8px;
+        position: relative !important;
+        top: auto !important;
+        left: 2px !important;
+        right: auto !important;
+        bottom: auto !important;
+        margin-bottom: 12px !important; /* Clean, comfortable gap above avatar */
+        background: rgba(15, 23, 42, 0.85) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+        border-radius: 18px !important;
+        padding: 6px 13px !important;
+        max-width: 200px !important;
+        min-width: 0 !important;
+        text-align: left !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: auto !important;
     }
 
+    .holo-caption-glow {
+        display: none !important;
+    }
+
+    .holo-caption-content {
+        font-family: var(--font-display) !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        line-height: 1.35 !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* Pointer on speech bubble pointing down toward avatar */
     .holo-caption-pointer {
-        right: -8px;
-        border-top: 5px solid transparent;
-        border-bottom: 5px solid transparent;
-        border-left: 8px solid rgba(56, 189, 248, 0.75);
+        position: absolute !important;
+        bottom: -6px !important;
+        left: 24px !important;
+        top: auto !important;
+        right: auto !important;
+        transform: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        border-left: 5px solid transparent !important;
+        border-right: 5px solid transparent !important;
+        border-top: 6px solid rgba(15, 23, 42, 0.85) !important;
+        border-bottom: none !important;
+        filter: none !important;
     }
 
     .holo-caption-pointer::after {
-        top: -3.5px;
-        left: -8.5px;
-        border-top: 3.5px solid transparent;
-        border-bottom: 3.5px solid transparent;
-        border-left: 7px solid rgba(7, 14, 33, 0.95);
+        display: none !important;
+    }
+
+    /* Avatar Unit - Both hands clearly visible, clean waist crop, no black shadow */
+    .holo-avatar-wrapper {
+        position: relative !important;
+        width: 180px !important;
+        height: 205px !important; /* Raised height so second hand is fully visible */
+        overflow: hidden !important; /* Crops cleanly at waist - no legs or feet */
+        margin-bottom: 0 !important;
+        opacity: 1 !important;
+        transform: none !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
+    .holo-avatar-img {
+        width: 390px !important;
+        min-width: 390px !important;
+        max-width: none !important;
+        height: auto !important;
+        margin-top: -15px !important;
+        margin-left: -123px !important; /* Centers Asha in 180px wrapper with both hands visible */
+        object-fit: contain !important;
+        filter: none !important; /* Completely removed dark drop shadow */
+        opacity: 1 !important;
+        mix-blend-mode: normal !important; /* Crisp, vibrant full 3D character */
+    }
+
+    /* Exit animation on mobile */
+    .cockpit-exit-sequence .cockpit-floating-stage {
+        opacity: 0 !important;
+        transform: translateY(50px) !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+    }
+
+    .cockpit-exit-sequence .cockpit-hologram-system {
+        opacity: 0 !important;
+        transform: translateY(20px) !important;
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+    }
+}
+
+/* Extra optimization for compact mobile viewports (e.g. height <= 680px) */
+@media (max-width: 768px) and (max-height: 680px) {
+    .cockpit-floating-stage {
+        height: 54% !important;
+        min-height: 320px !important;
+        max-height: 54% !important;
+    }
+
+    .cockpit-hologram-system {
+        bottom: calc(54% - 10px) !important;
+        filter: none !important;
+    }
+
+    .holo-guide-caption {
+        margin-bottom: 10px !important;
+    }
+
+    .holo-avatar-wrapper {
+        width: 155px !important;
+        height: 175px !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
+    .holo-avatar-img {
+        width: 340px !important;
+        min-width: 340px !important;
+        margin-top: -13px !important;
+        margin-left: -106px !important;
+        filter: none !important;
+    }
+
+    .floating-prompt-title {
+        font-size: 20px !important;
+    }
+
+    .floating-text-input,
+    .floating-action-btn {
+        height: 46px !important;
     }
 }
 

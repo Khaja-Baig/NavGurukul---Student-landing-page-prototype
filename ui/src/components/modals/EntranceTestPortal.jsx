@@ -403,8 +403,9 @@ export const EntranceTestPortal = () => {
                                                 id="holoCaptionText"
                                                 dangerouslySetInnerHTML={{
                                                     __html: {
+                                                        0: `Welcome Explorer! 🌟<br>Let’s start your dream journey!`,
                                                         1: `Hey Explorer! 👋<br>What’s your name?`,
-                                                        2: `Contact Details 📱<br>Enter your Phone & Email`,
+                                                        2: `Contact Details 📱<br>Enter Phone, WhatsApp & Email`,
                                                         3: `Awesome, ${userProfile.firstName || name}! 🎂<br>Select your DOB & Gender`,
                                                         4: `Location Details 🏙️<br>Enter your State & District`,
                                                         5: `Category Info 👥<br>Select your category`,
@@ -456,6 +457,90 @@ export const EntranceTestPortal = () => {
                                 {/* 3. Floating Cockpit Screen Viewport */}
                                 <div className="cockpit-floating-stage">
                                     <div className="cockpit-stage-viewport">
+                                        {/* TASK 0: WELCOME & AUTH METHOD STEP (From Reference Mockup) */}
+                                        {cockpitStep === 0 && (
+                                            <div className="floating-step-card active auth-welcome-card" id="missionStep0">
+                                                <div className="auth-welcome-header text-center">
+                                                    <h2 className="auth-welcome-title">
+                                                        Your dream <br />
+                                                        deserves a <span className="guide-word-highlight">
+                                                            guide
+                                                            <svg className="guide-swoosh-svg" viewBox="0 0 72 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M2 6.5C24 2 52 2 70 6.5" stroke="url(#guideSwooshGrad)" strokeWidth="3.2" strokeLinecap="round" />
+                                                                <defs>
+                                                                    <linearGradient id="guideSwooshGrad" x1="2" y1="6.5" x2="70" y2="6.5" gradientUnits="userSpaceOnUse">
+                                                                        <stop stopColor="#e91e63" />
+                                                                        <stop offset="1" stopColor="#ea580c" />
+                                                                    </linearGradient>
+                                                                </defs>
+                                                            </svg>
+                                                        </span>
+                                                    </h2>
+                                                    <p className="auth-welcome-subtitle">
+                                                        Let's get started on your dream journey!
+                                                    </p>
+                                                </div>
+
+                                                <div className="auth-welcome-body">
+                                                    {/* 1. Continue with Google Button */}
+                                                    <button
+                                                        type="button"
+                                                        className="auth-google-btn"
+                                                        onClick={() => {
+                                                            setUserProfile(prev => ({
+                                                                ...prev,
+                                                                firstName: prev.firstName || 'Rahul',
+                                                                lastName: prev.lastName || 'Kumar',
+                                                                email: prev.email || 'rahul.kumar@gmail.com'
+                                                            }));
+                                                            setStudentName('Rahul');
+                                                            setCockpitStep(1);
+                                                        }}
+                                                    >
+                                                        <span className="auth-google-icon-wrapper">
+                                                            <svg width="20" height="20" viewBox="0 0 24 24">
+                                                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.9c2.28-2.1 3.6-5.2 3.6-9.15z"/>
+                                                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.9-3.05c-1.08.72-2.45 1.16-4.03 1.16-3.1 0-5.73-2.09-6.67-4.9H1.27v3.13C3.25 21.3 7.31 24 12 24z"/>
+                                                                <path fill="#FBBC05" d="M5.33 14.3c-.24-.72-.38-1.49-.38-2.3s.14-1.58.38-2.3V6.57H1.27C.46 8.2 0 10.04 0 12s.46 3.8 1.27 5.43l4.06-3.13z"/>
+                                                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.57l4.06 3.13c.94-2.81 3.57-4.9 6.67-4.9z"/>
+                                                            </svg>
+                                                        </span>
+                                                        <span className="auth-btn-label">Continue with Google</span>
+                                                    </button>
+
+                                                    {/* 2. OR Divider */}
+                                                    <div className="auth-or-divider">
+                                                        <span className="divider-line"></span>
+                                                        <span className="divider-text">OR</span>
+                                                        <span className="divider-line"></span>
+                                                    </div>
+
+                                                    {/* 3. Enter Manually Button */}
+                                                    <button
+                                                        type="button"
+                                                        className="auth-manual-btn"
+                                                        onClick={() => setCockpitStep(1)}
+                                                    >
+                                                        <span className="auth-manual-icon">
+                                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                                <circle cx="12" cy="7" r="4" />
+                                                            </svg>
+                                                        </span>
+                                                        <span className="auth-btn-label">Enter Manually</span>
+                                                    </button>
+                                                </div>
+
+                                                {/* 4. Trust Footer Badge */}
+                                                <div className="auth-trust-badge">
+                                                    <span className="trust-sparkle">✨</span>
+                                                    <span className="trust-shield">🛡️</span>
+                                                    <span className="trust-text">Your data is safe with us</span>
+                                                    <span className="trust-sparkle">✨</span>
+                                                </div>
+                                            </div>
+                                        )}
+
                                         {/* TASK 1: NAME STEP */}
                                         {cockpitStep === 1 && (
                                             <div className={`floating-step-card active ${step1Error ? 'field-error-shake' : ''}`} id="missionStep1">
@@ -510,7 +595,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
-                                                        onClick={startReverseRocketLaunchTransition}
+                                                        onClick={() => setCockpitStep(0)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
@@ -532,28 +617,81 @@ export const EntranceTestPortal = () => {
                                                     <h2 className="floating-prompt-title">Contact Details 📱</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-input-group">
-                                                        <div className="floating-input-wrapper">
-                                                            <span className="floating-icon">📞</span>
-                                                            <input
-                                                                type="tel"
-                                                                className="floating-text-input"
-                                                                placeholder="Phone Number (e.g. 9876543210)"
-                                                                value={userProfile.phone}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, phone: e.target.value, whatsapp: userProfile.whatsapp || e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
-                                                            />
+                                                    <div className="floating-input-group contact-fields-group">
+                                                        {/* 1. Phone Number Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Phone Number <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">📞</span>
+                                                                <input
+                                                                    type="tel"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. 9876543210"
+                                                                    value={userProfile.phone}
+                                                                    onChange={(e) => {
+                                                                        const val = e.target.value;
+                                                                        setUserProfile(prev => ({
+                                                                            ...prev,
+                                                                            phone: val,
+                                                                            whatsapp: (!prev.whatsapp || prev.whatsapp === prev.phone) ? val : prev.whatsapp
+                                                                        }));
+                                                                    }}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
-                                                            <span className="floating-icon">✉️</span>
-                                                            <input
-                                                                type="email"
-                                                                className="floating-text-input"
-                                                                placeholder="Email Address (e.g. rahul@example.com)"
-                                                                value={userProfile.email}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
-                                                            />
+
+                                                        {/* 2. WhatsApp Number Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    WhatsApp Number <span className="req-star">*</span>
+                                                                </label>
+                                                                {userProfile.phone && userProfile.whatsapp !== userProfile.phone && (
+                                                                    <button
+                                                                        type="button"
+                                                                        className="same-as-phone-btn"
+                                                                        onClick={() => setUserProfile({ ...userProfile, whatsapp: userProfile.phone })}
+                                                                    >
+                                                                        Same as Phone
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">💬</span>
+                                                                <input
+                                                                    type="tel"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. 9876543210"
+                                                                    value={userProfile.whatsapp}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, whatsapp: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 3. Email Address Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Email Address <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">✉️</span>
+                                                                <input
+                                                                    type="email"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. rahul@example.com"
+                                                                    value={userProfile.email}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

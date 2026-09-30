@@ -51,7 +51,7 @@ export const AppProvider = ({ children }) => {
     const [selectedStageQuestIdx, setSelectedStageQuestIdx] = useState(null);
     const [isPortalOpen, setIsPortalOpen] = useState(false);
     const [portalStep, setPortalStep] = useState(1);
-    const [cockpitStep, setCockpitStep] = useState(1);
+    const [cockpitStep, setCockpitStep] = useState(0);
 
     // Rocket Launch Overlay State
     const [isLaunchOverlayOpen, setIsLaunchOverlayOpen] = useState(false);
@@ -140,7 +140,7 @@ export const AppProvider = ({ children }) => {
     const startRocketLaunchTransition = () => {
         setIsPortalOpen(true);
         setPortalStep(2);
-        setCockpitStep(1);
+        setCockpitStep(0);
         setIsLaunchReverse(false);
         setLaunchTransitionText('INITIATING ROCKET LAUNCH...');
         setIsLaunchOverlayOpen(true);
