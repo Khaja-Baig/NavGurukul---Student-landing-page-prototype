@@ -87,7 +87,10 @@ export const AppProvider = ({ children }) => {
         guardianPhone: '',
         pincode: '',
         district: '',
-        email: ''
+        state: '',
+        email: '',
+        schoolName: '',
+        photoUrl: ''
     });
 
     const triggerXpToast = (text) => {

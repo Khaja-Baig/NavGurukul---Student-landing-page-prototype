@@ -221,11 +221,11 @@ h1.headline {
 
 /* ===================== SCREEN 1: SPACING OVERRIDES ===================== */
 .screen[data-i="0"] .eyebrow {
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 .screen[data-i="0"] h1.headline {
-    margin-bottom: 28px;
+    margin-bottom: 0;
 }
 
 /* ===================== SCREEN 2 (OUR SCHOOLS): SPACING OVERRIDES ===================== */
@@ -362,7 +362,7 @@ p.sub {
 }
 
 .name-field {
-    margin-top: 28px;
+    margin-top: 16px;
     display: inline-flex;
     align-items: center;
     gap: 14px;

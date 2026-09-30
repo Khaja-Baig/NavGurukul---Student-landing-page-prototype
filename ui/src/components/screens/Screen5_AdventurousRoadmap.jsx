@@ -44,71 +44,77 @@ export const Screen5_AdventurousRoadmap = () => {
     const [isMobile, setIsMobile] = useState(
         typeof window !== 'undefined' ? window.innerWidth <= 768 : false
     );
-    const [cameraPos, setCameraPos] = useState({ x: 0, y: 0 });
+    const [isDragging, setIsDragging] = useState(false);
 
     const animFrameRef = useRef(null);
     const viewportRef = useRef(null);
     const parchmentFrameRef = useRef(null);
-    const touchStartXRef = useRef(null);
-    const touchStartYRef = useRef(null);
+    const lastSwipeClickTimeRef = useRef(0);
 
-    const getCameraPosForStage = (stage, vpWidth, vpHeight) => {
-        const MAP_WIDTH = 720;
-        const MAP_HEIGHT = (720 * 934) / 1604; // ~419.25px
-        const w = vpWidth || 380;
-        const h = vpHeight || 419;
-        const maxScrollX = Math.max(0, MAP_WIDTH - w);
-        const maxScrollY = Math.max(0, MAP_HEIGHT - h);
+    const isMouseDownRef = useRef(false);
+    const dragStartXRef = useRef(0);
+    const dragStartScrollLeftRef = useRef(0);
+    const dragMovedRef = useRef(false);
 
-        const yStage = maxScrollY > 5 ? -Math.min(maxScrollY, 20) : 0;
+    const handleMouseDown = (e) => {
+        if (!isMobile || !viewportRef.current) return;
+        isMouseDownRef.current = true;
+        dragStartXRef.current = e.clientX;
+        dragStartScrollLeftRef.current = viewportRef.current.scrollLeft;
+        dragMovedRef.current = false;
+        setIsDragging(true);
+    };
 
-        switch (stage) {
-            case 0:
-            case 1:
-                return { x: 0, y: 0 };
-            case 2:
-                return {
-                    x: Math.max(0, Math.min(maxScrollX, Math.round(324 - w / 2))),
-                    y: yStage
-                };
-            case 3:
-                return {
-                    x: Math.max(0, Math.min(maxScrollX, Math.round(454 - w / 2))),
-                    y: yStage
-                };
-            case 4:
-                return {
-                    x: maxScrollX,
-                    y: 0
-                };
-            default:
-                return { x: 0, y: 0 };
+    const handleMouseMove = (e) => {
+        if (!isMouseDownRef.current || !viewportRef.current) return;
+        const delta = e.clientX - dragStartXRef.current;
+        if (Math.abs(delta) > 4) {
+            dragMovedRef.current = true;
         }
+        viewportRef.current.scrollLeft = dragStartScrollLeftRef.current - delta;
+    };
+
+    const handleMouseUp = () => {
+        isMouseDownRef.current = false;
+        setIsDragging(false);
+    };
+
+    const handleSpotClick = (stageIdx) => {
+        if (dragMovedRef.current) return;
+        s5GoToStage(stageIdx);
+    };
+
+    const handleSwipeHintClick = (e) => {
+        if (e) {
+            e.stopPropagation();
+            if (e.cancelable) e.preventDefault();
+        }
+        const now = Date.now();
+        if (now - lastSwipeClickTimeRef.current < 350) return;
+        lastSwipeClickTimeRef.current = now;
+
+        if (!viewportRef.current) return;
+        const vp = viewportRef.current;
+        const maxScroll = vp.scrollWidth - vp.clientWidth;
+        if (maxScroll <= 0) return;
+
+        // If near start, smooth scroll forward to show remaining milestones (Level 2, 3 & Destination)
+        // If already near or past middle, smooth scroll back to Start
+        const isNearStart = vp.scrollLeft < maxScroll * 0.35;
+        const targetScroll = isNearStart ? maxScroll * 0.78 : 0;
+        vp.scrollTo({ left: targetScroll, behavior: 'smooth' });
     };
 
     useEffect(() => {
         const updateDims = () => {
             const mobile = window.innerWidth <= 768;
             setIsMobile(mobile);
-            if (mobile && viewportRef.current) {
-                const w = viewportRef.current.clientWidth || window.innerWidth;
-                const h = viewportRef.current.clientHeight || 419;
-                if (!s5IsWalking) {
-                    const targetCam = getCameraPosForStage(s5CurrentStage, w, h);
-                    setCameraPos(targetCam);
-                    if (parchmentFrameRef.current) {
-                        parchmentFrameRef.current.style.transform = `translate(-${targetCam.x}px, ${targetCam.y}px)`;
-                    }
-                }
-            } else if (!mobile && parchmentFrameRef.current) {
-                parchmentFrameRef.current.style.transform = 'none';
-            }
         };
 
         updateDims();
         window.addEventListener('resize', updateDims);
         return () => window.removeEventListener('resize', updateDims);
-    }, [s5CurrentStage, s5IsWalking]);
+    }, []);
 
     useEffect(() => {
         if (currentScreen === 4) {
@@ -116,16 +122,13 @@ export const Screen5_AdventurousRoadmap = () => {
             setRunnerPos(initialCp);
             const mobile = window.innerWidth <= 768;
             setIsMobile(mobile);
-            if (mobile) {
-                const w = viewportRef.current?.clientWidth || window.innerWidth;
-                const h = viewportRef.current?.clientHeight || 419;
-                const cam = getCameraPosForStage(s5CurrentStage, w, h);
-                setCameraPos(cam);
-                if (parchmentFrameRef.current) {
-                    parchmentFrameRef.current.style.transform = `translate(-${cam.x}px, ${cam.y}px)`;
-                }
-            } else if (parchmentFrameRef.current) {
-                parchmentFrameRef.current.style.transform = 'none';
+            if (mobile && viewportRef.current) {
+                const MAP_WIDTH = 720;
+                const avatarPx = (initialCp.left / 100) * MAP_WIDTH;
+                const vpW = viewportRef.current.clientWidth || 360;
+                const maxScroll = MAP_WIDTH - vpW;
+                const targetScroll = Math.max(0, Math.min(maxScroll, avatarPx - vpW / 2));
+                viewportRef.current.scrollLeft = targetScroll;
             }
         }
     }, [currentScreen, s5CurrentStage]);
@@ -176,25 +179,24 @@ export const Screen5_AdventurousRoadmap = () => {
         const { pathEl, isReversed } = createS5RoadPath(s5CurrentStage, targetStage);
         const totalLength = pathEl.getTotalLength();
 
-        const fromStage = s5CurrentStage;
-        const curVpW = viewportRef.current?.clientWidth || window.innerWidth;
-        const curVpH = viewportRef.current?.clientHeight || 419;
-        const startCam = getCameraPosForStage(fromStage, curVpW, curVpH);
-        const endCam = getCameraPosForStage(targetStage, curVpW, curVpH);
-
+        const MAP_WIDTH = 720;
         if (!totalLength || totalLength <= 0) {
             setS5CurrentStage(targetStage);
-            setRunnerPos(s5CheckpointCoordinates[targetStage]);
-            setCameraPos(endCam);
-            if (parchmentFrameRef.current && window.innerWidth <= 768) {
-                parchmentFrameRef.current.style.transform = `translate(-${endCam.x}px, ${endCam.y}px)`;
+            const finalCp = s5CheckpointCoordinates[targetStage];
+            setRunnerPos(finalCp);
+            if (isMobile && viewportRef.current) {
+                const avatarPixelX = (finalCp.left / 100) * MAP_WIDTH;
+                const vpWidth = viewportRef.current.clientWidth || 360;
+                const maxScrollX = MAP_WIDTH - vpWidth;
+                const targetScrollX = Math.max(0, Math.min(maxScrollX, avatarPixelX - vpWidth / 2));
+                viewportRef.current.scrollTo({ left: targetScrollX, behavior: 'smooth' });
             }
             return;
         }
 
         setS5IsWalking(true);
 
-        const stageDiff = Math.abs(targetStage - fromStage);
+        const stageDiff = Math.abs(targetStage - s5CurrentStage);
         const duration = Math.max(3600, Math.min(7200, totalLength * 11.0 + stageDiff * 450));
         const startTime = performance.now();
 
@@ -248,12 +250,13 @@ export const Screen5_AdventurousRoadmap = () => {
             const topPercent = pt.y / 10;
             setRunnerPos({ left: leftPercent, top: topPercent });
 
-            // Synchronize camera translation in the exact same frame!
-            const curCamX = startCam.x + progressT * (endCam.x - startCam.x);
-            const curCamY = startCam.y + progressT * (endCam.y - startCam.y);
-            setCameraPos({ x: curCamX, y: curCamY });
-            if (parchmentFrameRef.current && window.innerWidth <= 768) {
-                parchmentFrameRef.current.style.transform = `translate(-${curCamX}px, ${curCamY}px)`;
+            // Synchronize scroll on mobile so avatar stays centered
+            if (isMobile && viewportRef.current) {
+                const avatarPixelX = (pt.x / 1000) * MAP_WIDTH;
+                const vpWidth = viewportRef.current.clientWidth || 360;
+                const maxScrollX = MAP_WIDTH - vpWidth;
+                const targetScrollX = Math.max(0, Math.min(maxScrollX, avatarPixelX - vpWidth / 2));
+                viewportRef.current.scrollLeft = targetScrollX;
             }
 
             if (linearT < 1) {
@@ -264,9 +267,12 @@ export const Screen5_AdventurousRoadmap = () => {
                 const finalCp = s5CheckpointCoordinates[targetStage];
                 setRunnerPos(finalCp);
                 setCharSlope(0);
-                setCameraPos(endCam);
-                if (parchmentFrameRef.current && window.innerWidth <= 768) {
-                    parchmentFrameRef.current.style.transform = `translate(-${endCam.x}px, ${endCam.y}px)`;
+                if (isMobile && viewportRef.current) {
+                    const avatarPixelX = (finalCp.left / 100) * MAP_WIDTH;
+                    const vpWidth = viewportRef.current.clientWidth || 360;
+                    const maxScrollX = MAP_WIDTH - vpWidth;
+                    const targetScrollX = Math.max(0, Math.min(maxScrollX, avatarPixelX - vpWidth / 2));
+                    viewportRef.current.scrollLeft = targetScrollX;
                 }
 
                 if (targetStage > 0) {
@@ -289,30 +295,6 @@ export const Screen5_AdventurousRoadmap = () => {
         }
     };
 
-    const handleTouchStart = (e) => {
-        if (!e.touches || e.touches.length === 0) return;
-        touchStartXRef.current = e.touches[0].clientX;
-        touchStartYRef.current = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e) => {
-        if (touchStartXRef.current === null || !e.changedTouches || e.changedTouches.length === 0) return;
-        const diffX = e.changedTouches[0].clientX - touchStartXRef.current;
-        const diffY = e.changedTouches[0].clientY - touchStartYRef.current;
-        touchStartXRef.current = null;
-        touchStartYRef.current = null;
-
-        if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY) * 1.3) {
-            if (diffX < 0) {
-                s5AdvanceMilestone();
-            } else {
-                if (s5CurrentStage > 0) {
-                    s5GoToStage(s5CurrentStage - 1);
-                }
-            }
-        }
-    };
-
     const bannerHtml = s5BannerMessages[s5CurrentStage] ? s5BannerMessages[s5CurrentStage](name) : '';
 
     return (
@@ -320,55 +302,72 @@ export const Screen5_AdventurousRoadmap = () => {
             <h1 className="headline">Simple 4-Step <span className="highlight-pink s5-underline">Admission Journey</span></h1>
 
             <div className="s5-adventure-stage">
-                <div
-                    className="s5-viewport-box"
-                    ref={viewportRef}
-                    onTouchStart={handleTouchStart}
-                    onTouchEnd={handleTouchEnd}
-                >
+                <div className="s5-map-viewport-wrapper">
                     <div
-                        className="s5-parchment-frame"
-                        ref={parchmentFrameRef}
-                        style={{
-                            transform: isMobile
-                                ? `translate(-${cameraPos.x}px, ${cameraPos.y}px)`
-                                : 'none'
-                        }}
+                        className={`s5-viewport-box ${isDragging ? 'is-dragging' : ''}`}
+                        ref={viewportRef}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                        onTouchStart={() => { dragMovedRef.current = false; }}
+                        onTouchMove={() => { dragMovedRef.current = true; }}
                     >
-                        <img src="/css/Map.png" alt="Admission Journey Map" className="s5-map-bg-img" />
-
-                        {[0, 1, 2, 3, 4].map((stageIdx) => (
-                            <div
-                                key={stageIdx}
-                                className={`s5-stage-spot spot-${stageIdx} ${s5CurrentStage === stageIdx ? 'active' : ''}`}
-                                data-stage={stageIdx}
-                                onClick={() => s5GoToStage(stageIdx)}
-                            >
-                                <div className="s5-spot-pulse"></div>
-                            </div>
-                        ))}
-
                         <div
-                            className={`s5-avatar-runner ${s5IsWalking ? 'is-walking' : 'is-idle'}`}
-                            id="s5AvatarRunner"
-                            style={{
-                                left: `${runnerPos.left}%`,
-                                top: `${runnerPos.top}%`
-                            }}
+                            className="s5-parchment-frame"
+                            ref={parchmentFrameRef}
                         >
-                            <div className="s5-ground-shadow"></div>
+                            <img src="/css/Map.png" alt="Admission Journey Map" className="s5-map-bg-img" />
+
+                            {[0, 1, 2, 3, 4].map((stageIdx) => (
+                                <div
+                                    key={stageIdx}
+                                    className={`s5-stage-spot spot-${stageIdx} ${s5CurrentStage === stageIdx ? 'active' : ''}`}
+                                    data-stage={stageIdx}
+                                    onClick={() => handleSpotClick(stageIdx)}
+                                >
+                                    <div className="s5-spot-pulse"></div>
+                                </div>
+                            ))}
+
                             <div
-                                className="s5-char-rig"
-                                id="s5CharRig"
+                                className={`s5-avatar-runner ${s5IsWalking ? 'is-walking' : 'is-idle'}`}
+                                id="s5AvatarRunner"
                                 style={{
-                                    transform: `scaleX(${charFacing}) rotate(${charSlope}deg)`
+                                    left: `${runnerPos.left}%`,
+                                    top: `${runnerPos.top}%`
                                 }}
                             >
-                                <div className="s5-asha-sprite" id="s5AshaSprite"></div>
+                                <div className="s5-ground-shadow"></div>
+                                <div
+                                    className="s5-char-rig"
+                                    id="s5CharRig"
+                                    style={{
+                                        transform: `scaleX(${charFacing}) rotate(${charSlope}deg)`
+                                    }}
+                                >
+                                    <div className="s5-asha-sprite" id="s5AshaSprite"></div>
+                                </div>
+                                <div className="s5-avatar-tag" id="s5AvatarTag">{name}</div>
                             </div>
-                            <div className="s5-avatar-tag" id="s5AvatarTag">{name}</div>
                         </div>
                     </div>
+
+                    {/* Floating Swipe Map Pill Badge (Mobile Only) - Always pinned to bottom-right of viewport */}
+                    {isMobile && (
+                        <button
+                            type="button"
+                            className="s5-swipe-pill"
+                            onClick={handleSwipeHintClick}
+                            onTouchEnd={handleSwipeHintClick}
+                            aria-label="Swipe map"
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                            <span>Swipe map</span>
+                        </button>
+                    )}
                 </div>
 
                 <div className="s5-wooden-banner" id="s5WoodenBanner" onClick={s5AdvanceMilestone}>
