@@ -24,29 +24,29 @@ export const Screen7_TestInstructions = () => {
     const stripeRules = [
         {
             icon: '⏱️',
-            title: '1 Hour Complete Test ⏱️',
-            desc: 'The test takes approximately 1 hour. Please complete it in a quiet place free from disruptions.',
+            title: '1 Hour Test ⏱️',
+            desc: 'The test will takes around 1 hour. Please find a quiet place with no distractions.',
             theme: 'card-theme-pink',
             msg: 'Sabse pehle, test complete karne ke liye 1 hour milega. ⏱️'
         },
         {
             icon: '📝',
-            title: 'Notebook & Pen Required 📝',
-            desc: 'Keep a rough notebook and pen handy for quick mathematical and logic calculations.',
+            title: 'Notebook & Pen 📝',
+            desc: 'Keep a rough notebook and pen for quick calculation and notes.',
             theme: 'card-theme-orange',
             msg: 'Notebook aur pen paas mein zaroor rakhna.'
         },
         {
             icon: '📱',
-            title: 'Mobile / Laptop Online Mode 📱',
-            desc: 'You can solve all multiple-choice questions directly on your mobile device or laptop screen.',
+            title: 'Mobile / Laptop 📱',
+            desc: 'Use any device (mobile or laptop) with a stable internet connection.',
             theme: 'card-theme-purple',
             msg: 'Test mobile ya laptop par online hoga.'
         },
         {
             icon: '🤝',
             title: 'Honesty Policy 🤝',
-            desc: 'We evaluate true learning potential. Give your best effort without any unfair means or cheating.',
+            desc: "Give your best effort without cheating. It's all about your learning!",
             theme: 'card-theme-green',
             msg: 'Aur honestly test dena — bina cheating ke.'
         }

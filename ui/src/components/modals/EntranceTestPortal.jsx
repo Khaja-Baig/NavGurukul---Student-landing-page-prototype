@@ -407,7 +407,7 @@ export const EntranceTestPortal = () => {
                                                         1: `Hey Explorer! 👋<br>What’s your name?`,
                                                         2: `Contact Details 📱<br>Enter Phone, WhatsApp & Email`,
                                                         3: `Awesome, ${userProfile.firstName || name}! 🎂<br>Select your DOB & Gender`,
-                                                        4: `Location Details 🏙️<br>Enter your State & District`,
+                                                        4: `Location Details 🏙️<br>Enter State, District & School`,
                                                         5: `Category Info 👥<br>Select your category`,
                                                         6: `Qualification 📜<br>What is your highest education level?`,
                                                         7: `Education Details 🏫<br>Enter your School or Institute name`,
@@ -788,35 +788,72 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 4: STATE & DISTRICT STEP */}
+                                        {/* TASK 4: STATE, DISTRICT & SCHOOL STEP */}
                                         {cockpitStep === 4 && (
                                             <div className="floating-step-card active" id="missionStep4">
                                                 <div className="floating-step-header text-center">
                                                     <h2 className="floating-prompt-title">Where are you located? 🏙️</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-input-group">
-                                                        <div className="floating-input-wrapper">
-                                                            <span className="floating-icon">🗺️</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="State (Bihar / Maharashtra)"
-                                                                value={userProfile.state}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
-                                                            />
+                                                    <div className="location-fields-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+                                                        {/* 1. State Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    State <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">🗺️</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. Bihar / Maharashtra"
+                                                                    value={userProfile.state}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
-                                                            <span className="floating-icon">🏙️</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="District (Patna / Pune)"
-                                                                value={userProfile.district}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
-                                                            />
+
+                                                        {/* 2. District Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    District <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">🏙️</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. Patna / Pune"
+                                                                    value={userProfile.district}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 3. School / Institute Name Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    School / Institute Name <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">🏫</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. Govt High School / ABC College"
+                                                                    value={userProfile.schoolName || ''}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, schoolName: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -924,7 +961,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(7)}
+                                                        onClick={() => setCockpitStep(8)}
                                                     >
                                                         <span>Continue →</span>
                                                     </button>
@@ -1006,7 +1043,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(7)}
+                                                        onClick={() => setCockpitStep(6)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>

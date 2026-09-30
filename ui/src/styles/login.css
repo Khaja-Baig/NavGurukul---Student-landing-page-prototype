@@ -8881,8 +8881,9 @@ select.et-select::-ms-expand,
         text-align: left;
     }
 
-    .contact-fields-group {
-        gap: 9px !important;
+    .contact-fields-group,
+    .location-fields-group {
+        gap: 8px !important;
     }
 
     .floating-input-field {
