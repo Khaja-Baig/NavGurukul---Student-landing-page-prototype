@@ -888,7 +888,8 @@ export const EntranceTestPortal = () => {
                                                             { label: 'General', icon: '👥' },
                                                             { label: 'OBC', icon: '👥' },
                                                             { label: 'SC', icon: '👥' },
-                                                            { label: 'ST', icon: '👥' }
+                                                            { label: 'ST', icon: '👥' },
+                                                            { label: 'Others', icon: '👥' }
                                                         ].map(cat => (
                                                             <button
                                                                 key={cat.label}
@@ -931,7 +932,6 @@ export const EntranceTestPortal = () => {
                                                 <div className="floating-step-body">
                                                     <div className="floating-gender-row qual-4-grid">
                                                         {[
-                                                            { label: '10th Pass', icon: '📖' },
                                                             { label: '12th Pass', icon: '📚' },
                                                             { label: 'Pursuing College', icon: '🏫' },
                                                             { label: 'Graduated', icon: '🎓' },
@@ -1026,14 +1026,18 @@ export const EntranceTestPortal = () => {
                                                         />
                                                         <label htmlFor="etPhotoInput" className="floating-photo-dropzone">
                                                             {uploadedPhotoUrl || userProfile.photoUrl ? (
-                                                                <div className="floating-photo-preview">
-                                                                    <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Explorer Photo" id="cockpitPhotoImg" />
-                                                                    <span className="photo-change-overlay">✏️ Change Photo</span>
+                                                                <div className="floating-photo-uploaded-wrap">
+                                                                    <div className="floating-photo-preview">
+                                                                        <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Explorer Photo" id="cockpitPhotoImg" />
+                                                                        <span className="photo-change-overlay">✏️ Change</span>
+                                                                    </div>
+                                                                    <span className="photo-change-hint">✏️ Tap to change photo</span>
                                                                 </div>
                                                             ) : (
                                                                 <div className="floating-photo-placeholder">
                                                                     <div className="photo-cam-icon-glow">📷</div>
                                                                     <span className="photo-main-text">Add Your Photo</span>
+                                                                    <span className="photo-sub-text">Tap to upload your picture</span>
                                                                 </div>
                                                             )}
                                                         </label>

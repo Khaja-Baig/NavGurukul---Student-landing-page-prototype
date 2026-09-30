@@ -6447,7 +6447,7 @@ select.et-select::-ms-expand,
 }
 
 .category-4-row {
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(5, 1fr) !important;
     gap: 8px !important;
 }
 
@@ -8865,6 +8865,12 @@ select.et-select::-ms-expand,
         gap: 8px;
     }
 
+    #missionStep6 .floating-prompt-title {
+        font-size: 18px !important;
+        white-space: nowrap !important;
+        letter-spacing: -0.5px !important;
+    }
+
     .floating-step-body {
         flex: 1;
         display: flex;
@@ -9097,6 +9103,52 @@ select.et-select::-ms-expand,
         width: 100% !important;
     }
 
+    .category-4-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .category-4-row .floating-gender-btn {
+        flex: 0 0 calc(33.333% - 7px) !important;
+        max-width: calc(33.333% - 7px) !important;
+    }
+
+    .qual-4-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+
+    .qual-4-grid .floating-gender-btn {
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 10px 14px !important;
+        height: 48px !important;
+        min-height: 48px !important;
+        border-radius: 14px !important;
+        text-align: left !important;
+    }
+
+    .qual-4-grid .gender-btn-icon {
+        font-size: 20px !important;
+        line-height: 1 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .qual-4-grid .gender-btn-label {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: #334155 !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+    }
+
     .floating-gender-btn {
         position: relative !important;
         background: rgba(255, 255, 255, 0.94) !important;
@@ -9147,19 +9199,99 @@ select.et-select::-ms-expand,
         font-weight: 800 !important;
     }
 
+    .floating-photo-box {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 4px 0 !important;
+    }
+
     .floating-photo-dropzone {
+        width: 100% !important;
+        max-width: 310px !important;
+        height: 175px !important;
+        min-height: 175px !important;
         background: rgba(255, 255, 255, 0.94) !important;
-        border: 2px dashed rgba(233, 30, 99, 0.35) !important;
+        border: 2px dashed rgba(233, 30, 99, 0.38) !important;
         border-radius: 18px !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 16px !important;
+        box-sizing: border-box !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .floating-photo-dropzone:hover,
+    .floating-photo-dropzone:active {
+        border-color: #e91e63 !important;
+        background: #fff5f8 !important;
+    }
+
+    .floating-photo-placeholder {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+
+    .photo-cam-icon-glow {
+        font-size: 38px !important;
+        line-height: 1 !important;
+        margin-bottom: 2px !important;
+        filter: drop-shadow(0 4px 8px rgba(233, 30, 99, 0.2)) !important;
     }
 
     .photo-main-text {
         color: #0f172a !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
     }
 
     .photo-sub-text {
         color: #64748b !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+    }
+
+    .floating-photo-uploaded-wrap {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+
+    .floating-photo-preview {
+        position: relative !important;
+        width: 105px !important;
+        height: 105px !important;
+        border-radius: 50% !important;
+        border: 3px solid #e91e63 !important;
+        box-shadow: 0 4px 16px rgba(233, 30, 99, 0.25) !important;
+        overflow: hidden !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #cockpitPhotoImg {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 50% !important;
+    }
+
+    .photo-change-hint {
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        color: #e91e63 !important;
+        margin-top: 4px !important;
     }
 
     .floating-summary-seal {
