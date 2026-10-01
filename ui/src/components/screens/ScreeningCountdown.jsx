@@ -2,12 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 
 export const ScreeningCountdown = () => {
-    const {
-        selectedCampus,
-        selectedCourse,
-        finishScreeningCountdown,
-        setIsCountdownActive
-    } = useApp();
+    const { finishScreeningCountdown } = useApp();
 
     // Steps: 3 -> 2 -> 1 -> 'GO!'
     const [count, setCount] = useState(3);
@@ -72,42 +67,8 @@ export const ScreeningCountdown = () => {
         };
     }, []);
 
-    const handleSkip = () => {
-        finishScreeningCountdown();
-    };
-
-    const handleCancel = () => {
-        setIsCountdownActive(false);
-    };
-
     return (
         <div className="countdown-screen-container" id="screeningCountdownScreen">
-            {/* Top Bar with Cancel / Skip controls */}
-            <div className="countdown-top-bar">
-                <button
-                    type="button"
-                    className="countdown-cancel-btn"
-                    onClick={handleCancel}
-                    title="Cancel and return to campus selection"
-                >
-                    ✕ Cancel
-                </button>
-
-                <div className="countdown-course-info">
-                    {selectedCampus && <span className="countdown-chip">📍 {selectedCampus.name}</span>}
-                    {selectedCourse && <span className="countdown-chip course-chip">🎓 {selectedCourse.code}</span>}
-                </div>
-
-                <button
-                    type="button"
-                    className="countdown-skip-btn"
-                    onClick={handleSkip}
-                    title="Skip Countdown"
-                >
-                    Skip ➔
-                </button>
-            </div>
-
             {/* Central Sunburst Rays radiating outward */}
             <div className="countdown-sunburst-wrap">
                 <div className="countdown-sunburst"></div>
