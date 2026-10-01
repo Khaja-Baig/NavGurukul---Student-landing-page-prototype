@@ -6999,13 +6999,14 @@ select.et-select::-ms-expand,
 .ready-profile-card {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
-    border: 1.5px solid rgba(244, 114, 182, 0.35);
-    border-radius: 18px;
-    padding: 10px 14px;
+    border: 1.5px solid rgba(244, 114, 182, 0.38);
+    border-radius: 20px;
+    padding: 14px 18px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    gap: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+    min-height: 78px;
 }
 
 .ready-avatar-wrap {
@@ -7014,8 +7015,8 @@ select.et-select::-ms-expand,
 }
 
 .ready-avatar-circle {
-    width: 42px;
-    height: 42px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: 2px solid #ec4899;
     background: rgba(255, 255, 255, 0.1);
@@ -7032,19 +7033,19 @@ select.et-select::-ms-expand,
 }
 
 .ready-avatar-emoji {
-    font-size: 22px;
+    font-size: 26px;
 }
 
 .ready-avatar-badge {
     position: absolute;
     bottom: -2px;
     right: -2px;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: #10b981;
     color: #ffffff;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 900;
     display: flex;
     align-items: center;
@@ -7059,7 +7060,7 @@ select.et-select::-ms-expand,
 
 .ready-profile-name {
     font-family: var(--font-display, 'Outfit', sans-serif);
-    font-size: 14.5px;
+    font-size: 16px;
     font-weight: 800;
     color: #ffffff;
     margin: 0;
@@ -7067,7 +7068,7 @@ select.et-select::-ms-expand,
 }
 
 .ready-profile-sub {
-    font-size: 11px;
+    font-size: 12px;
     color: #94a3b8;
     margin: 2px 0 0 0;
     white-space: nowrap;
@@ -7078,13 +7079,13 @@ select.et-select::-ms-expand,
 .ready-badge-pill {
     background: rgba(16, 185, 129, 0.2);
     color: #10b981;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
-    padding: 3px 9px;
+    padding: 5px 12px;
     border-radius: 999px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     letter-spacing: 0.3px;
     flex-shrink: 0;
     border: 1px solid rgba(16, 185, 129, 0.35);
@@ -7092,7 +7093,7 @@ select.et-select::-ms-expand,
 
 .ready-card-chevron {
     color: #94a3b8;
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1;
     font-weight: 600;
     flex-shrink: 0;
@@ -9717,10 +9718,10 @@ select.et-select::-ms-expand,
 
     /* Mobile Light Sunrise Theme for Step 9: All Systems Ready & Choose Campus */
     #missionStep9 {
-        justify-content: flex-start !important;
-        gap: 8px !important;
+        justify-content: space-between !important;
+        gap: 14px !important;
         overflow-y: auto !important;
-        padding-bottom: calc(16px + env(safe-area-inset-bottom, 16px)) !important;
+        padding: 16px 18px calc(20px + env(safe-area-inset-bottom, 16px)) !important;
     }
 
     .ready-header {
@@ -9733,48 +9734,82 @@ select.et-select::-ms-expand,
         line-height: 1.35 !important;
     }
 
+    .ready-step-body {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+        width: 100% !important;
+    }
+
+    /* Verified Profile Card - Enriched & Enlarged */
     .ready-profile-card {
         background: #ffffff !important;
-        border: 1.5px solid rgba(244, 114, 182, 0.3) !important;
-        box-shadow: 0 3px 12px rgba(244, 114, 182, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
-        padding: 8px 12px !important;
-        gap: 10px !important;
+        border: 1.5px solid rgba(244, 114, 182, 0.38) !important;
+        box-shadow: 0 4px 20px rgba(244, 114, 182, 0.14), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+        padding: 16px 18px !important;
+        gap: 14px !important;
+        border-radius: 22px !important;
+        min-height: 82px !important;
     }
 
     .ready-avatar-circle {
         background: #ffffff !important;
-        border-color: #ec4899 !important;
-        width: 40px !important;
-        height: 40px !important;
+        border: 2.5px solid #ec4899 !important;
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    .ready-avatar-emoji {
+        font-size: 28px !important;
+    }
+
+    .ready-avatar-badge {
+        width: 19px !important;
+        height: 19px !important;
+        font-size: 11px !important;
+        bottom: -2px !important;
+        right: -2px !important;
     }
 
     .ready-profile-name {
         color: #0f172a !important;
-        font-size: 14px !important;
+        font-size: 17px !important;
+        font-weight: 800 !important;
     }
 
     .ready-profile-sub {
         color: #64748b !important;
-        font-size: 11px !important;
+        font-size: 12.5px !important;
+        margin-top: 3px !important;
     }
 
     .ready-badge-pill {
         background: #d1fae5 !important;
         color: #059669 !important;
         border: none !important;
-        font-size: 10px !important;
-        padding: 3px 8px !important;
+        font-size: 11.5px !important;
+        font-weight: 800 !important;
+        padding: 6px 13px !important;
+        border-radius: 999px !important;
+        letter-spacing: 0.3px !important;
     }
 
+    .ready-card-chevron {
+        font-size: 24px !important;
+        color: #94a3b8 !important;
+    }
+
+    /* 4-item Milestone Strip */
     .ready-milestone-strip {
         background: #f8fafc !important;
         border: 1px solid #e2e8f0 !important;
-        padding: 8px 4px !important;
+        border-radius: 18px !important;
+        padding: 12px 6px !important;
     }
 
     .milestone-icon-wrap {
-        width: 30px !important;
-        height: 30px !important;
+        width: 34px !important;
+        height: 34px !important;
     }
 
     .milestone-icon-wrap.icon-shield {
@@ -9799,58 +9834,65 @@ select.et-select::-ms-expand,
 
     .milestone-label {
         color: #475569 !important;
-        font-size: 9px !important;
-        line-height: 1.2 !important;
+        font-size: 9.5px !important;
+        line-height: 1.25 !important;
+        margin-top: 5px !important;
     }
 
     .milestone-divider {
         background: #cbd5e1 !important;
         opacity: 0.6 !important;
-        height: 26px !important;
+        height: 30px !important;
     }
 
-    .ready-campus-title {
-        color: #1e293b !important;
-        font-size: 14px !important;
-        margin: 2px 0 0 0 !important;
-    }
-
-    .ready-campus-card {
-        background: #ffffff !important;
-        border: 1.5px solid #e2e8f0 !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-        padding: 8px 12px !important;
-        gap: 10px !important;
-    }
-
-    .campus-card-thumb {
-        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%) !important;
-        border: 1px solid #7dd3fc !important;
-        width: 40px !important;
-        height: 40px !important;
-    }
-
-    .campus-card-name {
-        color: #0f172a !important;
-        font-size: 13.5px !important;
-    }
-
-    .campus-card-sub {
-        color: #64748b !important;
-        font-size: 11px !important;
+    /* Footer Buttons - Symmetrical, Clean, Single-Line */
+    .ready-footer {
+        margin-top: 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        width: 100% !important;
     }
 
     .ready-back-btn {
         background: #ffffff !important;
         border: 1.5px solid #c7d2fe !important;
         color: #4f46e5 !important;
-        padding: 9px 18px !important;
+        height: 48px !important;
+        border-radius: 24px !important;
+        padding: 0 18px !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 auto !important;
+        min-width: 96px !important;
     }
 
     .ready-launch-btn {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
         color: #ffffff !important;
-        padding: 9px 18px !important;
+        height: 48px !important;
+        border-radius: 24px !important;
+        padding: 0 20px !important;
+        font-size: 14.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.2px !important;
+        white-space: nowrap !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 1 !important;
+        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    .ready-launch-btn span,
+    .ready-back-btn span {
+        white-space: nowrap !important;
+        line-height: 1 !important;
+        display: inline-block !important;
     }
 
     .floating-summary-seal {

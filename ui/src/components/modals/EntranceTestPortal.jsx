@@ -1214,7 +1214,7 @@ export const EntranceTestPortal = () => {
                                                         className="floating-action-btn launch-glow-btn ready-launch-btn"
                                                         onClick={handleStartTestInCockpit}
                                                     >
-                                                        <span>🏫 Choose Campus →</span>
+                                                        <span>Choose Campus →</span>
                                                     </button>
                                                 </div>
                                             </div>
