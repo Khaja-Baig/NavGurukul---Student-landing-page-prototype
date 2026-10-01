@@ -1113,45 +1113,108 @@ export const EntranceTestPortal = () => {
 
                                         {/* TASK 9: FINAL CONFIRMATION & LAUNCH TEST */}
                                         {cockpitStep === 9 && (
-                                            <div className="floating-step-card active" id="missionStep9">
-                                                <div className="floating-step-header text-center">
+                                            <div className="floating-step-card active ready-mission-card" id="missionStep9">
+                                                <div className="floating-step-header text-center ready-header">
                                                     <h2 className="floating-prompt-title ready-sparkle-title">All Systems Ready! 🚀</h2>
+                                                    <p className="ready-step-desc">
+                                                        Your profile is verified and everything is set.<br />
+                                                        Now choose your campus to continue your journey.
+                                                    </p>
                                                 </div>
-                                                <div className="floating-step-body text-center">
-                                                    <div className="floating-summary-seal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', background: 'rgba(255, 255, 255, 0.05)', padding: '10px 16px', borderRadius: '12px' }}>
-                                                        <div className="summary-avatar-preview" id="summaryAvatarPreview" style={{ fontSize: '24px' }}>
-                                                            {uploadedPhotoUrl || userProfile.photoUrl ? (
-                                                                <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Preview" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
-                                                            ) : (
-                                                                '👨‍🚀'
-                                                            )}
-                                                        </div>
-                                                        <div className="summary-details" style={{ textAlign: 'left' }}>
-                                                            <div className="summary-name" style={{ fontWeight: '700', fontSize: '13px', color: '#ffffff' }}>
-                                                                {userProfile.firstName ? `${userProfile.firstName} ${userProfile.lastName || ''}`.trim() : name}
+
+                                                <div className="floating-step-body ready-step-body">
+                                                    {/* 1. Profile Verified Card */}
+                                                    <div className="ready-profile-card">
+                                                        <div className="ready-avatar-wrap">
+                                                            <div className="ready-avatar-circle">
+                                                                {uploadedPhotoUrl || userProfile.photoUrl ? (
+                                                                    <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Explorer" className="ready-avatar-img" />
+                                                                ) : (
+                                                                    <span className="ready-avatar-emoji">👧</span>
+                                                                )}
                                                             </div>
-                                                            <div className="summary-sub" style={{ fontSize: '11px', color: '#94a3b8' }}>
-                                                                {userProfile.district ? `${userProfile.district}, ${userProfile.state || ''}` : 'Location & Details Verified'}
-                                                            </div>
+                                                            <span className="ready-avatar-badge">✓</span>
                                                         </div>
-                                                        <span className="summary-check-seal" style={{ marginLeft: 'auto', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', padding: '2px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '800' }}>✓ VERIFIED</span>
+                                                        <div className="ready-profile-meta">
+                                                            <h4 className="ready-profile-name">
+                                                                {userProfile.firstName ? `${userProfile.firstName} ${userProfile.lastName || ''}`.trim() : studentName || 'Explorer'}
+                                                            </h4>
+                                                            <p className="ready-profile-sub">Location & Details Verified</p>
+                                                        </div>
+                                                        <div className="ready-badge-pill">
+                                                            <span className="badge-check-icon">✓</span> VERIFIED
+                                                        </div>
+                                                        <span className="ready-card-chevron">›</span>
+                                                    </div>
+
+                                                    {/* 2. 4-Stage Status / Readiness Strip */}
+                                                    <div className="ready-milestone-strip">
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-shield">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                                                    <path d="m9 12 2 2 4-4"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Verified<br />Profile</span>
+                                                        </div>
+
+                                                        <div className="milestone-divider"></div>
+
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-pin">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                                    <circle cx="12" cy="10" r="3"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Location<br />Confirmed</span>
+                                                        </div>
+
+                                                        <div className="milestone-divider"></div>
+
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-campus">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                                                                    <path d="M6 6h10"/>
+                                                                    <path d="M6 10h10"/>
+                                                                    <path d="M6 14h10"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Campus<br />Access Ready</span>
+                                                        </div>
+
+                                                        <div className="milestone-divider"></div>
+
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-rocket">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                                                                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                                                                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                                                                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Let's Start<br />Your Journey!</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="floating-step-footer flex-between">
+
+                                                <div className="floating-step-footer flex-between ready-footer">
                                                     <button
                                                         type="button"
-                                                        className="floating-action-btn secondary-btn"
+                                                        className="floating-action-btn secondary-btn ready-back-btn"
                                                         onClick={() => setCockpitStep(8)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
                                                     <button
                                                         type="button"
-                                                        className="floating-action-btn launch-glow-btn"
+                                                        className="floating-action-btn launch-glow-btn ready-launch-btn"
                                                         onClick={handleStartTestInCockpit}
-                                                        style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#ffffff', boxShadow: '0 4px 16px rgba(16, 185, 129, 0.5)' }}
                                                     >
-                                                        <span>Choose Campus 🚀</span>
+                                                        <span>🏫 Choose Campus →</span>
                                                     </button>
                                                 </div>
                                             </div>
