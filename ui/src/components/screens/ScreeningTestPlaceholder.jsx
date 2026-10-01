@@ -97,7 +97,10 @@ export const ScreeningTestPlaceholder = () => {
     const displayEmail = userProfile?.email || 'sujitkumar19013@gmail.com';
     const displayPhone = userProfile?.phone || userProfile?.whatsapp || '3512313132';
     const displayState = userProfile?.state || 'Chhattisgarh';
-    const displaySchool = selectedCourse?.title || userProfile?.schoolName || 'School of Programming (SOP)';
+    const displaySchool = selectedCourse?.title || userProfile?.schoolName || 'School of Business (SOB)';
+    const displayCampus = selectedCampus?.name
+        ? (selectedCampus.name.toLowerCase().includes('campus') ? selectedCampus.name : `${selectedCampus.name} Campus`)
+        : (userProfile?.preferredCampus || 'Sarjapur Campus');
 
     return (
         <div className="screening-test-portal-view" id="screeningTestView">
@@ -272,6 +275,10 @@ export const ScreeningTestPlaceholder = () => {
                                 <div className="res-detail-item">
                                     <span className="res-detail-label">State:</span>
                                     <span className="res-detail-val">{displayState}</span>
+                                </div>
+                                <div className="res-detail-item">
+                                    <span className="res-detail-label">Preferred Campus:</span>
+                                    <span className="res-detail-val">{displayCampus}</span>
                                 </div>
                                 <div className="res-detail-item full-width">
                                     <span className="res-detail-label">Selected School:</span>
