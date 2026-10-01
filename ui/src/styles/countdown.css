@@ -27,7 +27,7 @@
 /* Central Sunburst Rotating Rays - Shifted Upwards */
 .countdown-sunburst-wrap {
     position: absolute;
-    top: 36%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100vw;
@@ -40,18 +40,18 @@
 }
 
 .countdown-sunburst {
-    width: min(95vw, 95vh);
-    height: min(95vw, 95vh);
-    max-width: 820px;
-    max-height: 820px;
+    width: min(120vw, 115vh);
+    height: min(120vw, 115vh);
+    max-width: 1050px;
+    max-height: 1050px;
     border-radius: 50%;
     background: repeating-conic-gradient(
         from 0deg,
         rgba(251, 191, 36, 0.45) 0deg 9deg,
         transparent 9deg 18deg
     );
-    mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.55) 50%, transparent 72%);
-    -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.55) 50%, transparent 72%);
+    mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 55%, transparent 78%);
+    -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 55%, transparent 78%);
     animation: sunburstRotate 45s linear infinite;
 }
 
@@ -67,7 +67,7 @@
 /* Center Content Area - Shifted Upwards co-centered with Sunburst */
 .countdown-center-zone {
     position: absolute;
-    top: 36%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -79,18 +79,18 @@
 
 .countdown-get-ready-label {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: clamp(14px, 1.6vw, 18px);
+    font-size: clamp(16px, 1.8vw, 22px);
     font-weight: 900;
-    letter-spacing: 6px;
+    letter-spacing: 7px;
     color: #db2777;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     text-shadow: 0 1px 2px rgba(219, 39, 119, 0.2);
 }
 
 .countdown-number-display {
     font-family: 'Arial Rounded MT Bold', 'Fredoka', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: clamp(120px, 18vw, 190px);
+    font-size: clamp(160px, 22vw, 240px);
     font-weight: 900;
     line-height: 1;
     color: #f59e0b;
@@ -104,7 +104,7 @@
 }
 
 .countdown-number-display.is-go {
-    font-size: clamp(90px, 14vw, 150px);
+    font-size: clamp(110px, 16vw, 170px);
     color: #10b981;
     text-shadow:
         0 4px 0 #059669,
@@ -132,15 +132,19 @@
 .countdown-avatar-zone {
     position: absolute;
     bottom: 0;
-    left: 20px;
+    left: 10px;
     z-index: 15;
     pointer-events: none;
+    line-height: 0;
 }
 
 .countdown-asha-avatar {
-    height: clamp(240px, 44vh, 460px);
+    height: clamp(330px, 50vh, 580px);
+    width: auto;
     object-fit: contain;
     filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.12));
+    margin-left: -50px;
+    display: block;
     animation: ashaEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -159,26 +163,40 @@
 @media (max-width: 768px) {
     .countdown-sunburst-wrap,
     .countdown-center-zone {
-        top: 34% !important;
+        top: 37% !important;
     }
 
     .countdown-sunburst {
-        width: min(92vw, 85vh) !important;
-        height: min(92vw, 85vh) !important;
+        width: min(130vw, 105vh) !important;
+        height: min(130vw, 105vh) !important;
+        max-width: 900px !important;
+        max-height: 900px !important;
+    }
+
+    .countdown-get-ready-label {
+        font-size: clamp(15px, 3.8vw, 19px) !important;
+        letter-spacing: 5px !important;
     }
 
     .countdown-number-display {
-        font-size: clamp(96px, 26vw, 140px) !important;
+        font-size: clamp(145px, 38vw, 195px) !important;
+    }
+
+    .countdown-number-display.is-go {
+        font-size: clamp(105px, 28vw, 145px) !important;
     }
 
     .countdown-avatar-zone {
-        left: -15px !important;
+        left: 0 !important;
         bottom: 0 !important;
+        line-height: 0 !important;
     }
 
     .countdown-asha-avatar {
-        height: clamp(210px, 40vh, 320px) !important;
-        max-width: 55vw !important;
+        height: clamp(300px, 46vh, 410px) !important;
+        width: auto !important;
+        max-width: none !important;
+        margin-left: -55px !important;
     }
 }
 
