@@ -150,34 +150,47 @@ export const Screen7_TestInstructions = () => {
                     {/* STEP 1: INSTRUCTIONS */}
                     <div className="et-step-pane active" id="etStep1">
                         <div className="et-pane-header">
-                            <h2 className="et-pane-title">NavGurukul Entrance Test Instructions</h2>
+                            <h2 className="et-pane-title">
+                                NavGurukul Entrance Test <br className="et-title-break" />Instructions
+                            </h2>
                             <p className="et-pane-sub">Please read the following important instructions carefully before starting your screening test.</p>
                         </div>
 
                         <div className="et-rules-grid-stage">
                             {/* Gamified Animated Circle START CTA */}
                             <div className="et-circle-start-wrap">
-                                <button
-                                    type="button"
-                                    className={`et-circle-start-btn et-ready-btn ${isStartBtnVisible ? 'visible' : ''}`}
-                                    id="etStartBtn"
-                                    onClick={startRocketLaunchTransition}
-                                    aria-label="Start Entrance Test"
-                                >
-                                    <div className="circle-pulse-ring ring-1"></div>
-                                    <div className="circle-pulse-ring ring-2"></div>
-                                    <div className="circle-sparkle s1">✨</div>
-                                    <div className="circle-sparkle s2">⭐</div>
-                                    <div className="circle-sparkle s3">⚡</div>
-                                    <div className="circle-content">
-                                        <div className="circle-icon">🚀</div>
-                                        <span className="circle-text">Start</span>
-                                        <span className="circle-sub">Mission</span>
-                                    </div>
-                                    <div className="circle-hover-tooltip">
-                                        <span>Tap to Start! 🎯</span>
-                                    </div>
-                                </button>
+                                <div className="et-btn-action-row">
+                                    <span className="et-side-sparkle left">✨</span>
+                                    <button
+                                        type="button"
+                                        className={`et-circle-start-btn et-ready-btn ${isStartBtnVisible ? 'visible' : ''}`}
+                                        id="etStartBtn"
+                                        onClick={startRocketLaunchTransition}
+                                        aria-label="Start Entrance Test"
+                                    >
+                                        <div className="circle-pulse-ring ring-1"></div>
+                                        <div className="circle-pulse-ring ring-2"></div>
+                                        <div className="circle-sparkle s1">✨</div>
+                                        <div className="circle-sparkle s2">⭐</div>
+                                        <div className="circle-sparkle s3">⚡</div>
+                                        <div className="circle-content">
+                                            <div className="circle-icon">🚀</div>
+                                            <span className="circle-text">Start</span>
+                                            <span className="circle-sub">Mission</span>
+                                            <span className="circle-arrow-mobile">→</span>
+                                        </div>
+                                        <div className="circle-hover-tooltip">
+                                            <span>Tap to Start! 🎯</span>
+                                        </div>
+                                    </button>
+                                    <span className="et-side-sparkle right">✨</span>
+                                </div>
+                                <div className={`et-safe-hands-badge ${isStartBtnVisible ? 'visible' : ''}`}>
+                                    <span className="safe-hands-sparkle">·</span>
+                                    <span className="safe-hands-shield">🛡️</span>
+                                    <span className="safe-hands-text">You're in safe hands</span>
+                                    <span className="safe-hands-sparkle">·</span>
+                                </div>
                             </div>
 
                             {/* 4 Colored Rules Stripes Grid */}

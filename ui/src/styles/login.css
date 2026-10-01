@@ -773,6 +773,20 @@
     transform: translateX(-50%) translateY(0) scale(1);
 }
 
+.circle-arrow-mobile,
+.et-side-sparkle,
+.et-safe-hands-badge {
+    display: none;
+}
+
+.et-title-break {
+    display: block;
+}
+
+.et-btn-action-row {
+    display: contents;
+}
+
 /* Rules Grid Vertical Horizontal Stripes for Step 1 - Restored 100% Flush to Right Edge */
 .et-rules-grid {
     display: flex;
@@ -4660,16 +4674,18 @@ select.et-select::-ms-expand,
     }
 
     .et-portal-body.step1-active {
-        padding: 14px 14px 48px !important;
-        margin: 0 !important;
+        padding: 4px 16px 16px !important;
+        margin: 0 auto !important;
         width: 100% !important;
-        max-width: 100% !important;
+        max-width: 420px !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
         overflow-y: visible !important;
         overflow-x: hidden !important;
         height: auto !important;
+        min-height: unset !important;
+        justify-content: flex-start !important;
         position: relative !important;
         z-index: 10 !important;
     }
@@ -4686,6 +4702,8 @@ select.et-select::-ms-expand,
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
 
     .et-portal-body.step1-active #etStep1 {
@@ -4693,42 +4711,46 @@ select.et-select::-ms-expand,
         margin: 0 !important;
         width: 100% !important;
         box-sizing: border-box !important;
-        gap: 16px !important;
+        gap: 12px !important;
         display: flex !important;
         flex-direction: column !important;
+        justify-content: flex-start !important;
     }
 
+    /* 1. Compact Header and Description */
     .et-portal-body.step1-active #etStep1 .et-pane-header {
         text-align: center !important;
-        padding: 6px 6px 0 !important;
-        margin-bottom: 6px !important;
+        padding: 0 4px !important;
+        margin-bottom: 2px !important;
     }
 
     .et-portal-body.step1-active .et-pane-title {
-        font-size: 21px !important;
+        font-size: 21.5px !important;
         line-height: 1.25 !important;
         color: #0f172a !important;
-        margin: 0 0 6px 0 !important;
+        margin: 0 0 4px 0 !important;
         word-break: break-word !important;
         font-weight: 800 !important;
+        letter-spacing: -0.2px !important;
     }
 
     .et-portal-body.step1-active .et-pane-sub {
-        font-size: 13px !important;
-        line-height: 1.45 !important;
+        font-size: 11.5px !important;
+        line-height: 1.35 !important;
         color: #64748b !important;
         margin: 0 auto !important;
         max-width: 95% !important;
     }
 
-    /* Rules Grid Stage: Column layout, cards first, start button below */
+    /* 2. Rules Grid Stage & Compact Cards */
     .et-portal-body.step1-active .et-rules-grid-stage {
         position: relative !important;
         width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 20px !important;
+        gap: 14px !important;
         box-sizing: border-box !important;
+        justify-content: flex-start !important;
     }
 
     .et-portal-body.step1-active .et-rules-grid {
@@ -4746,8 +4768,8 @@ select.et-select::-ms-expand,
     /* Sequential Cascade Animation for Cards */
     .et-portal-body.step1-active .et-rules-grid .et-rule-card {
         width: 100% !important;
-        height: auto !important;
-        min-height: unset !important;
+        height: 90px !important;
+        min-height: 90px !important;
         clip-path: none !important;
         border-radius: 16px !important;
         padding: 14px 16px !important;
@@ -4756,12 +4778,12 @@ select.et-select::-ms-expand,
         align-items: center !important;
         gap: 14px !important;
         margin: 0 !important;
-        transform: translateY(22px) scale(0.96) !important;
+        transform: translateY(14px) scale(0.98) !important;
         opacity: 0 !important;
         pointer-events: none !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04) !important;
         filter: none !important;
-        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, box-shadow 0.25s !important;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, box-shadow 0.25s !important;
     }
 
     .et-portal-body.step1-active .card-theme-pink {
@@ -4814,7 +4836,7 @@ select.et-select::-ms-expand,
     .et-portal-body.step1-active .et-rules-grid .et-rule-card.visible:hover,
     .et-portal-body.step1-active .et-rules-grid .et-rule-card.active-guide {
         transform: translateY(-2px) scale(1.015) !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07) !important;
     }
 
     .et-portal-body.step1-active .stripe-left-icon {
@@ -4835,6 +4857,7 @@ select.et-select::-ms-expand,
         min-width: 0 !important;
         display: flex !important;
         flex-direction: column !important;
+        justify-content: center !important;
         gap: 3px !important;
     }
 
@@ -4875,106 +4898,146 @@ select.et-select::-ms-expand,
         box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15) !important;
     }
 
-    /* Start Mission Circular Button placed below the 4 cards */
+    /* 3. Start Mission Sleek Pill Button & Safe Hands Footer */
     .et-portal-body.step1-active .et-circle-start-wrap {
         order: 2 !important;
         position: static !important;
         transform: none !important;
         width: 100% !important;
         display: flex !important;
+        flex-direction: column !important;
         justify-content: center !important;
         align-items: center !important;
-        padding: 24px 0 48px !important;
+        padding: 4px 0 2px !important;
         margin: 0 auto !important;
         z-index: 10 !important;
+        gap: 6px !important;
     }
 
-    /* Button hidden initially until step 4.4s */
-    .et-portal-body.step1-active .et-circle-start-btn {
-        width: 130px !important;
-        height: 130px !important;
-        min-width: 130px !important;
-        min-height: 130px !important;
-        max-width: 130px !important;
-        max-height: 130px !important;
-        aspect-ratio: 1 / 1 !important;
-        opacity: 0;
-        transform: scale(0);
-        pointer-events: none;
-        border-radius: 50% !important;
-        position: relative !important;
+    .et-btn-action-row {
         display: flex !important;
-        flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        background: linear-gradient(135deg, #e91e63 0%, #be185d 45%, #ea580c 100%) !important;
-        border: 4px solid #ffffff !important;
-        box-shadow: 0 12px 32px rgba(233, 30, 99, 0.45),
-            0 0 24px rgba(245, 158, 11, 0.35),
-            inset 0 4px 10px rgba(255, 255, 255, 0.6) !important;
+        gap: 12px !important;
+        width: 100% !important;
     }
 
-    /* When visible: Spring pop entrance and silky float animation */
+    .et-side-sparkle {
+        font-size: 15px !important;
+        color: #cbd5e1 !important;
+        opacity: 0.85 !important;
+        pointer-events: none !important;
+        user-select: none !important;
+    }
+
+    .et-portal-body.step1-active .et-circle-start-btn {
+        width: 100% !important;
+        max-width: 275px !important;
+        height: 45px !important;
+        min-height: 45px !important;
+        max-height: 45px !important;
+        padding: 0 22px !important;
+        aspect-ratio: auto !important;
+        border-radius: 50px !important;
+        position: relative !important;
+        display: inline-flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: linear-gradient(135deg, #e91e63 0%, #f43f5e 50%, #f59e0b 100%) !important;
+        border: none !important;
+        box-shadow: 0 4px 18px rgba(233, 30, 99, 0.4) !important;
+        cursor: pointer !important;
+        outline: none !important;
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+        pointer-events: none;
+        transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, opacity 0.3s ease !important;
+    }
+
     .et-portal-body.step1-active .et-circle-start-btn.visible {
         opacity: 1 !important;
         pointer-events: auto !important;
-        animation: circlePopEntranceMobile 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-            circleFloatMobile 3.8s ease-in-out infinite 1.2s !important;
+        transform: translateY(0) scale(1) !important;
     }
 
-    @keyframes circlePopEntranceMobile {
-        0% {
-            opacity: 0;
-            transform: scale(0.15) rotate(-10deg);
-            filter: blur(8px);
-        }
-
-        55% {
-            opacity: 0.95;
-            transform: scale(1.1) rotate(2deg);
-            filter: blur(0px);
-        }
-
-        80% {
-            transform: scale(0.97) rotate(-1deg);
-        }
-
-        100% {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-            filter: blur(0px);
-        }
-    }
-
-    @keyframes circleFloatMobile {
-
-        0%,
-        100% {
-            transform: translateY(0) rotate(0deg);
-        }
-
-        50% {
-            transform: translateY(-6px) rotate(1deg);
-        }
+    .et-portal-body.step1-active .et-circle-start-btn:active {
+        transform: scale(0.97) !important;
     }
 
     .et-portal-body.step1-active .circle-content {
-        margin-top: -2px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 7px !important;
+        margin-top: 0 !important;
     }
 
     .et-portal-body.step1-active .circle-icon {
-        font-size: 30px !important;
-        margin-bottom: 4px !important;
+        font-size: 18px !important;
+        margin: 0 !important;
+        display: inline-block !important;
+        line-height: 1 !important;
     }
 
-    .et-portal-body.step1-active .circle-text {
-        font-size: 19px !important;
-        line-height: 1.1 !important;
-    }
-
+    .et-portal-body.step1-active .circle-text,
     .et-portal-body.step1-active .circle-sub {
-        font-size: 17px !important;
-        line-height: 1.1 !important;
+        font-family: var(--font-display, 'Outfit', sans-serif) !important;
+        font-size: 14.5px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        letter-spacing: 0.15px !important;
+        display: inline !important;
+        line-height: 1 !important;
+    }
+
+    .et-portal-body.step1-active .circle-arrow-mobile {
+        font-size: 15px !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        margin-left: 2px !important;
+        display: inline-block !important;
+        line-height: 1 !important;
+    }
+
+    .et-portal-body.step1-active .circle-pulse-ring,
+    .et-portal-body.step1-active .circle-hover-tooltip,
+    .et-portal-body.step1-active .circle-sparkle {
+        display: none !important;
+    }
+
+    /* 4. You're in safe hands Badge below Start button */
+    .et-safe-hands-badge {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        font-family: var(--font-display, 'Outfit', sans-serif) !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        color: #64748b !important;
+        letter-spacing: 0.1px !important;
+        margin-top: 2px !important;
+        opacity: 0 !important;
+        transform: translateY(8px) scale(0.96) !important;
+        pointer-events: none !important;
+        transition: opacity 0.35s ease 0.1s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.1s !important;
+    }
+
+    .et-safe-hands-badge.visible {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
+        pointer-events: auto !important;
+    }
+
+    .et-safe-hands-badge .safe-hands-shield {
+        font-size: 12px !important;
+    }
+
+    .et-safe-hands-badge .safe-hands-sparkle {
+        font-size: 12px !important;
+        color: #94a3b8 !important;
     }
 
     /* ========================================================
@@ -5122,16 +5185,23 @@ select.et-select::-ms-expand,
 
     /* Step 1 on tiny screens */
     .et-portal-body.step1-active {
-        padding: 8px 10px 36px !important;
+        padding: 2px 10px 8px !important;
     }
 
     .et-portal-body.step1-active .et-pane-title {
-        font-size: 18.5px !important;
+        font-size: 19px !important;
+        line-height: 1.25 !important;
+    }
+
+    .et-portal-body.step1-active .et-pane-sub {
+        font-size: 10.5px !important;
     }
 
     .et-portal-body.step1-active .et-rules-grid .et-rule-card {
-        padding: 12px 12px !important;
-        gap: 10px !important;
+        padding: 12px 14px !important;
+        gap: 12px !important;
+        height: 88px !important;
+        min-height: 88px !important;
     }
 
     .et-portal-body.step1-active .stripe-left-icon {
@@ -5150,25 +5220,19 @@ select.et-select::-ms-expand,
     }
 
     .et-portal-body.step1-active .et-circle-start-btn {
-        width: 118px !important;
-        height: 118px !important;
-        min-width: 118px !important;
-        min-height: 118px !important;
-        max-width: 118px !important;
-        max-height: 118px !important;
+        max-width: 250px !important;
+        height: 40px !important;
+        min-height: 40px !important;
+        max-height: 40px !important;
     }
 
     .et-portal-body.step1-active .circle-icon {
-        font-size: 26px !important;
-        margin-bottom: 2px !important;
+        font-size: 16px !important;
     }
 
-    .et-portal-body.step1-active .circle-text {
-        font-size: 17px !important;
-    }
-
+    .et-portal-body.step1-active .circle-text,
     .et-portal-body.step1-active .circle-sub {
-        font-size: 15px !important;
+        font-size: 13.5px !important;
     }
 
     .et-portal-body.step4-active {
