@@ -107,6 +107,23 @@ export const EntranceTestPortal = () => {
         }, 750);
     };
 
+    const handlePopupBack = () => {
+        const env = document.getElementById('rocketInteriorEnv');
+        if (env && env.classList.contains('cockpit-exit-sequence')) {
+            return;
+        }
+
+        if (portalStep === 2) {
+            if (typeof cockpitStep === 'number' && cockpitStep > 0) {
+                setCockpitStep(prev => prev - 1);
+            } else {
+                startReverseRocketLaunchTransition();
+            }
+        } else {
+            closePortal();
+        }
+    };
+
     const cockpitVideoRef = useRef(null);
 
     useEffect(() => {
@@ -456,6 +473,21 @@ export const EntranceTestPortal = () => {
 
                                 {/* 3. Floating Cockpit Screen Viewport */}
                                 <div className="cockpit-floating-stage">
+                                    {/* Responsive Top-Left Back / Close Arrow Button (Only on First Welcome Step) */}
+                                    {cockpitStep === 0 && (
+                                        <button
+                                            type="button"
+                                            className="cockpit-popup-back-btn"
+                                            id="cockpitPopupBackBtn"
+                                            onClick={handlePopupBack}
+                                            aria-label="Back"
+                                            title="Back"
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                                            </svg>
+                                        </button>
+                                    )}
                                     <div className="cockpit-stage-viewport">
                                         {/* TASK 0: WELCOME & AUTH METHOD STEP (From Reference Mockup) */}
                                         {cockpitStep === 0 && (

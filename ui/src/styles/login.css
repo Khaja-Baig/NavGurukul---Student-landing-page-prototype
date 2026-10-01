@@ -6043,6 +6043,10 @@ select.et-select::-ms-expand,
     justify-content: center;
 }
 
+.cockpit-popup-back-btn {
+    display: none;
+}
+
 .cockpit-stage-viewport {
     position: relative;
     width: 100%;
@@ -8803,6 +8807,49 @@ select.et-select::-ms-expand,
         background: transparent !important;
     }
 
+    /* Responsive Top-Left Back Button for Cockpit Mobile Popup */
+    .cockpit-popup-back-btn {
+        position: absolute !important;
+        top: 14px !important;
+        left: 16px !important;
+        z-index: 100 !important;
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.94) !important;
+        border: 1.5px solid rgba(233, 30, 99, 0.25) !important;
+        color: #0f172a !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(233, 30, 99, 0.08) !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        padding: 0 !important;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+
+    .cockpit-popup-back-btn:hover,
+    .cockpit-popup-back-btn:active {
+        background: #fff0f3 !important;
+        border-color: #e91e63 !important;
+        color: #e91e63 !important;
+        transform: scale(1.08) !important;
+        box-shadow: 0 4px 14px rgba(233, 30, 99, 0.2) !important;
+    }
+
+    .cockpit-popup-back-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+        stroke: currentColor !important;
+        transition: transform 0.2s ease !important;
+    }
+
+    .cockpit-popup-back-btn:active svg {
+        transform: translateX(-2px) !important;
+    }
+
     /* 2. Bottom Sheet Viewport - NavGurukul Sunrise Theme & Rounded Top Corners */
     .cockpit-stage-viewport {
         position: relative;
@@ -8849,6 +8896,11 @@ select.et-select::-ms-expand,
     }
 
     /* Mobile Light Sunrise Theme for Welcome Auth Card */
+    .auth-welcome-header {
+        position: relative !important;
+        padding: 0 36px !important;
+    }
+
     .auth-welcome-title {
         color: #0f172a !important;
         font-size: clamp(21px, 5.5vw, 24px) !important;
