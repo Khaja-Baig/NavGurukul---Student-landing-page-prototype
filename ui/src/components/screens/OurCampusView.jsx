@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useApp } from '../../context/AppContext';
 
 export const campusesData = [
@@ -265,8 +266,34 @@ export const OurCampusView = () => {
         ? selectedCampus.courseCodes.map(code => allCourses[code]).filter(Boolean)
         : [];
 
+    // Lock background scroll when confirmation modal is active
+    useEffect(() => {
+        if (confirmCourseModal) {
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = '';
+            };
+        }
+    }, [confirmCourseModal]);
+
     return (
-        <section className="screen campus-screen active" data-i="campus" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 100, display: 'flex' }}>
+        <section 
+            className={`screen campus-screen active ${confirmCourseModal ? 'modal-open-lock' : ''}`} 
+            data-i="campus" 
+            style={{ 
+                position: 'fixed', 
+                top: 0, 
+                left: 0, 
+                width: '100vw', 
+                height: '100vh', 
+                zIndex: 100, 
+                display: 'flex',
+                transform: 'none',
+                WebkitTransform: 'none',
+                overflowY: confirmCourseModal ? 'hidden' : 'auto',
+                touchAction: confirmCourseModal ? 'none' : 'auto'
+            }}
+        >
             {!selectedCampus ? (
                 /* ================= VIEW 1: CAMPUS GRID ================= */
                 <div className="campus-view-container campus-grid-view">
@@ -354,28 +381,17 @@ export const OurCampusView = () => {
             ) : (
                 /* ================= VIEW 2: SECOND SLIDE INSIDE CAMPUS ================= */
                 <div className="campus-view-container campus-programs-view visible">
-                    {/* Breadcrumb Navigation & Back to Details */}
-                    <div className="campus-breadcrumb-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <button
-                                type="button"
-                                className="campus-breadcrumb-back"
-                                onClick={handleBackToGrid}
-                            >
-                                <span className="back-arrow">←</span> Choose campus
-                            </button>
-                            <span className="breadcrumb-slash">/</span>
-                            <span className="breadcrumb-current">{selectedCampus.name}</span>
-                        </div>
+                    {/* Breadcrumb Navigation */}
+                    <div className="campus-breadcrumb-bar">
                         <button
                             type="button"
-                            className="campus-exit-btn"
-                            onClick={returnToCockpitLastStep}
-                            title="Back to Details"
-                            style={{ padding: '6px 14px', fontSize: '12.5px' }}
+                            className="campus-breadcrumb-back"
+                            onClick={handleBackToGrid}
                         >
-                            <span>← Back to Details</span>
+                            <span className="back-arrow">←</span> Choose campus
                         </button>
+                        <span className="breadcrumb-slash">/</span>
+                        <span className="breadcrumb-current">{selectedCampus.name}</span>
                     </div>
 
                     {/* Headline & Badges */}
@@ -466,9 +482,16 @@ export const OurCampusView = () => {
             )}
 
             {/* Course Selection Confirmation Modal Popup */}
-            {confirmCourseModal && selectedCampus && (
-                <div className="course-confirm-overlay" role="dialog" aria-modal="true">
-                    <div className="course-confirm-modal">
+            {confirmCourseModal && selectedCampus && createPortal(
+                <div 
+                    className="course-confirm-overlay" 
+                    role="dialog" 
+                    aria-modal="true"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) setConfirmCourseModal(null);
+                    }}
+                >
+                    <div className="course-confirm-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="confirm-modal-badge-row">
                             <span className="confirm-campus-tag">📍 {selectedCampus.name} Campus</span>
                         </div>
@@ -505,7 +528,8 @@ export const OurCampusView = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </section>
     );

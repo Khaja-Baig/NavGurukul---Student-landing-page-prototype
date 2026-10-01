@@ -59,6 +59,8 @@
     overflow-y: auto !important;
     scrollbar-width: thin;
     scrollbar-color: rgba(233, 30, 99, 0.25) transparent;
+    transform: none !important;
+    -webkit-transform: none !important;
 }
 
 .campus-view-container {
@@ -846,11 +848,139 @@
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .campus-screen {
-        padding: 60px 4vw 70px !important;
+        padding: 24px 16px 50px !important;
     }
 
+    /* Hide 3D Avatar & Speech Bubble in Responsive / Mobile */
+    .campus-s4-stage .s4-avatar-zone,
+    .campus-s4-stage .s4-speech-bubble,
+    .campus-programs-view .s4-avatar-zone,
+    .campus-programs-view .s4-speech-bubble {
+        display: none !important;
+        height: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        pointer-events: none !important;
+    }
+
+    /* Responsive Clean Breadcrumb Bar */
+    .campus-breadcrumb-bar {
+        margin: 0 auto 14px auto !important;
+        padding: 6px 16px !important;
+        font-size: 0.84rem !important;
+    }
+
+    /* Responsive Programs Header */
+    .programs-header-block {
+        margin-bottom: 16px !important;
+        width: 100% !important;
+        padding: 0 8px !important;
+    }
+
+    .programs-headline {
+        font-size: clamp(20px, 5.5vw, 24px) !important;
+        line-height: 1.25 !important;
+        margin-bottom: 6px !important;
+    }
+
+    .programs-badge-row {
+        margin: 6px 0 8px !important;
+    }
+
+    .programs-campus-pill {
+        font-size: 0.85rem !important;
+        padding: 6px 18px !important;
+    }
+
+    .programs-subline {
+        font-size: 12.5px !important;
+        line-height: 1.4 !important;
+        max-width: 320px !important;
+        margin: 4px auto 0 !important;
+    }
+
+    /* Responsive Campus Stage & Cards */
+    .campus-s4-stage {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0 !important;
+        margin-top: 8px !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    .campus-programs-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 16px !important;
+        width: 100% !important;
+        max-width: 440px !important;
+        margin: 0 auto !important;
+        padding: 0 4px !important;
+    }
+
+    .program-course-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        border-radius: 20px !important;
+        padding: 16px 16px 14px !important;
+        box-sizing: border-box !important;
+        text-align: left !important;
+    }
+
+    .program-card-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        margin-bottom: 10px !important;
+    }
+
+    .program-full-name {
+        font-size: 16px !important;
+        font-weight: 800 !important;
+        line-height: 1.3 !important;
+        margin: 4px 0 6px !important;
+        text-align: left !important;
+    }
+
+    .program-desc {
+        font-size: 12.5px !important;
+        line-height: 1.45 !important;
+        color: #64748b !important;
+        margin-bottom: 12px !important;
+        text-align: left !important;
+    }
+
+    .program-meta-list {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+        margin-bottom: 14px !important;
+        text-align: left !important;
+    }
+
+    .program-meta-row {
+        font-size: 12px !important;
+    }
+
+    .admissions-open-btn {
+        width: 100% !important;
+        padding: 10px 14px !important;
+        font-size: 0.85rem !important;
+        border-radius: 12px !important;
+    }
+}
+
+@media (max-width: 640px) {
     .campus-cards-grid {
         gap: 16px;
     }
@@ -861,8 +991,51 @@
         flex: 0 0 100%;
     }
 
-    .campus-programs-grid {
-        grid-template-columns: 1fr;
+    .course-confirm-modal {
+        padding: 24px 20px 22px !important;
+        border-radius: 22px !important;
+        max-width: calc(100vw - 32px) !important;
+        width: calc(100vw - 32px) !important;
+        margin: auto !important;
+        box-sizing: border-box !important;
+    }
+
+    .confirm-modal-icon-wrap {
+        width: 56px !important;
+        height: 56px !important;
+        font-size: 26px !important;
+        margin: 0 auto 10px !important;
+    }
+
+    .confirm-modal-title {
+        font-size: 18px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .confirm-modal-message {
+        font-size: 13.5px !important;
+        line-height: 1.45 !important;
+        margin-bottom: 20px !important;
+    }
+
+    .confirm-modal-sub {
+        font-size: 12px !important;
+        margin-top: 6px !important;
+    }
+
+    .confirm-modal-actions {
+        gap: 10px !important;
+    }
+
+    .confirm-btn-choose-again {
+        padding: 10px 14px !important;
+        font-size: 13.5px !important;
+    }
+
+    .confirm-btn-start-test {
+        padding: 10px 16px !important;
+        font-size: 14px !important;
+        white-space: nowrap !important;
     }
 }
 
@@ -905,21 +1078,27 @@
    COURSE SELECTION CONFIRMATION MODAL POPUP
    ======================================================== */
 .course-confirm-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 16px;
-    box-sizing: border-box;
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100% !important;
+    min-height: 100dvh !important;
+    background: rgba(15, 23, 42, 0.72) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 999999 !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
     animation: confirmFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    touch-action: none !important;
+    overscroll-behavior: contain !important;
 }
 
 .course-confirm-modal {
