@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useApp } from '../../context/AppContext';
 
 export const campusesData = [
@@ -99,7 +100,7 @@ export const campusesData = [
             courses: "Yahan exclusively available hai hamara UGC-recognized BCA degree program (3 Years)! 🎓",
             closing: "Card par click karke BCA degree eligibility aur subjects check karein! 🚀"
         }
-    },
+    }
 ];
 
 export const allCourses = {
@@ -157,10 +158,15 @@ export const allCourses = {
     }
 };
 
-export const Screen2_OurCampus = () => {
-    const { currentScreen, openSchoolModal, studentName } = useApp();
+export const OurCampusView = () => {
+    const { closeCampusPage, openSchoolModal, studentName, startScreeningCountdown, returnToCockpitLastStep } = useApp();
     const [selectedCampus, setSelectedCampus] = useState(null);
     const [clickedCardId, setClickedCardId] = useState(null);
+    const [confirmCourseModal, setConfirmCourseModal] = useState(null);
+
+    const handleSelectCourse = (course) => {
+        setConfirmCourseModal(course);
+    };
 
     // Avatar & Speech State for View 2 (Inside Campus)
     const [isAvatarVisible, setIsAvatarVisible] = useState(false);
@@ -168,17 +174,6 @@ export const Screen2_OurCampus = () => {
     const [showSpeech, setShowSpeech] = useState(false);
     const [activeCardCode, setActiveCardCode] = useState(null);
     const [hoveredCardCode, setHoveredCardCode] = useState(null);
-
-    // Reset when switching screens
-    useEffect(() => {
-        if (currentScreen !== 1) {
-            setSelectedCampus(null);
-            setClickedCardId(null);
-            setIsAvatarVisible(false);
-            setShowSpeech(false);
-            setActiveCardCode(null);
-        }
-    }, [currentScreen]);
 
     // Handle Campus Selection
     const handleSelectCampus = (campus) => {
@@ -271,11 +266,50 @@ export const Screen2_OurCampus = () => {
         ? selectedCampus.courseCodes.map(code => allCourses[code]).filter(Boolean)
         : [];
 
+    // Lock background scroll when confirmation modal is active
+    useEffect(() => {
+        if (confirmCourseModal) {
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = '';
+            };
+        }
+    }, [confirmCourseModal]);
+
     return (
-        <section className={`screen campus-screen ${currentScreen === 1 ? 'active' : ''}`} data-i="1">
+        <section 
+            className={`screen campus-screen active ${confirmCourseModal ? 'modal-open-lock' : ''}`} 
+            data-i="campus" 
+            style={{ 
+                position: 'fixed', 
+                top: 0, 
+                left: 0, 
+                width: '100vw', 
+                height: '100vh', 
+                zIndex: 100, 
+                display: 'flex',
+                transform: 'none',
+                WebkitTransform: 'none',
+                overflowY: confirmCourseModal ? 'hidden' : 'auto',
+                touchAction: confirmCourseModal ? 'none' : 'auto'
+            }}
+        >
             {!selectedCampus ? (
                 /* ================= VIEW 1: CAMPUS GRID ================= */
                 <div className="campus-view-container campus-grid-view">
+                    {/* Top Navigation Bar with Back to Details Button */}
+                    <div className="campus-top-nav-bar" style={{ width: '100%', maxWidth: '1200px', display: 'flex', justifyContent: 'flex-start', padding: '0 0 12px 0' }}>
+                        <button
+                            type="button"
+                            className="campus-exit-btn"
+                            onClick={returnToCockpitLastStep}
+                            title="Back to Details"
+                            id="campusBackToDetailsBtn"
+                        >
+                            <span>← Back to Details</span>
+                        </button>
+                    </div>
+
                     <h1 className="headline campus-main-title">Our Campus</h1>
                     <p className="campus-subline">
                         Explore our residential campuses across India. View the programs available at each location — you can discuss and confirm your preference later with your mentor.
@@ -395,12 +429,12 @@ export const Screen2_OurCampus = () => {
                                 <div
                                     key={course.code}
                                     className={`program-course-card ${course.themeClass} ${effectiveActiveCard === course.code ? 'avatar-highlight' : ''}`}
-                                    onClick={() => openSchoolModal(course.schoolIdx)}
+                                    onClick={() => handleSelectCourse(course)}
                                     onMouseEnter={() => handleCardHover(course)}
                                     onMouseLeave={handleCardLeave}
                                     role="button"
                                     tabIndex={0}
-                                    aria-label={`View details of ${course.title}`}
+                                    aria-label={`Select ${course.title} and start Screening Test`}
                                 >
                                     <div className="program-card-header">
                                         <div className={`program-icon-circle ${course.badgeClass}`}>{course.icon}</div>
@@ -424,9 +458,16 @@ export const Screen2_OurCampus = () => {
                                     </div>
 
                                     <div className="program-card-footer">
-                                        <div className={`admissions-open-btn btn-${course.code.toLowerCase()}`}>
-                                            <span className="btn-icon">✅</span> Admissions Open
-                                        </div>
+                                        <button
+                                            type="button"
+                                            className={`admissions-open-btn btn-${course.code.toLowerCase()}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleSelectCourse(course);
+                                            }}
+                                        >
+                                            <span className="btn-icon">✅</span> Admissions Open · Start ST
+                                        </button>
                                     </div>
                                 </div>
                             ))}
@@ -438,6 +479,57 @@ export const Screen2_OurCampus = () => {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {/* Course Selection Confirmation Modal Popup */}
+            {confirmCourseModal && selectedCampus && createPortal(
+                <div 
+                    className="course-confirm-overlay" 
+                    role="dialog" 
+                    aria-modal="true"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) setConfirmCourseModal(null);
+                    }}
+                >
+                    <div className="course-confirm-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="confirm-modal-badge-row">
+                            <span className="confirm-campus-tag">📍 {selectedCampus.name} Campus</span>
+                        </div>
+
+                        <div className="confirm-modal-icon-wrap">
+                            <span className="confirm-modal-icon">{confirmCourseModal.icon}</span>
+                        </div>
+                        <h3 className="confirm-modal-title">{confirmCourseModal.title}</h3>
+
+                        <p className="confirm-modal-message">
+                            Kya aap <strong>{selectedCampus.name}</strong> campus mein <strong>{confirmCourseModal.title}</strong> karna chahte hain?
+                            <br />
+                            <span className="confirm-modal-sub">Are you ready for the Entrance Test?</span>
+                        </p>
+
+                        <div className="confirm-modal-actions">
+                            <button
+                                type="button"
+                                className="confirm-btn-choose-again"
+                                onClick={() => setConfirmCourseModal(null)}
+                            >
+                                Choose Again
+                            </button>
+                            <button
+                                type="button"
+                                className="confirm-btn-start-test"
+                                onClick={() => {
+                                    const course = confirmCourseModal;
+                                    setConfirmCourseModal(null);
+                                    startScreeningCountdown(selectedCampus, course);
+                                }}
+                            >
+                                START Test 🚀
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
             )}
         </section>
     );

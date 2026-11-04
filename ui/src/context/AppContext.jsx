@@ -4,11 +4,12 @@ const AppContext = createContext();
 
 export const levelData = [
     { title: 'GURUKUL TREE', icon: '🌱' },
-    { title: 'OUR CAMPUSES', icon: '🏫' },
+    { title: 'SPECIALTY TRACKS', icon: '⚡' },
     { title: '100% SCHOLARSHIP', icon: '💎' },
     { title: 'VISION & IMPACT', icon: '🌟' },
     { title: 'ADMISSION ROADMAP', icon: '🗺️' },
-    { title: 'BOOK FREE TEST', icon: '🎓' }
+    { title: 'BOOK FREE TEST', icon: '🎓' },
+    { title: 'TEST INSTRUCTIONS', icon: '🚀' }
 ];
 
 export const etQuestionsData = [
@@ -38,15 +39,19 @@ export const AppProvider = ({ children }) => {
     const [studentName, setStudentName] = useState('Friend');
     const [loginLang, setLoginLang] = useState('en');
     const [xpToasts, setXpToasts] = useState([]);
-    
+    const [isCampusPageActive, setIsCampusPageActive] = useState(false);
+    const [selectedCampus, setSelectedCampus] = useState(null);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [isCountdownActive, setIsCountdownActive] = useState(false);
+    const [isScreeningTestActive, setIsScreeningTestActive] = useState(false);
+
     // Modal Visibility States
     const [selectedSchoolIdx, setSelectedSchoolIdx] = useState(null);
     const [selectedTestimonialIdx, setSelectedTestimonialIdx] = useState(null);
     const [selectedStageQuestIdx, setSelectedStageQuestIdx] = useState(null);
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isPortalOpen, setIsPortalOpen] = useState(false);
     const [portalStep, setPortalStep] = useState(1);
-    const [cockpitStep, setCockpitStep] = useState(1);
+    const [cockpitStep, setCockpitStep] = useState(0);
 
     // Rocket Launch Overlay State
     const [isLaunchOverlayOpen, setIsLaunchOverlayOpen] = useState(false);
@@ -82,7 +87,10 @@ export const AppProvider = ({ children }) => {
         guardianPhone: '',
         pincode: '',
         district: '',
-        email: ''
+        state: '',
+        email: '',
+        schoolName: '',
+        photoUrl: ''
     });
 
     const triggerXpToast = (text) => {
@@ -94,7 +102,7 @@ export const AppProvider = ({ children }) => {
     };
 
     const go = (n) => {
-        n = Math.max(0, Math.min(5, n));
+        n = Math.max(0, Math.min(levelData.length - 1, n));
         if (n === currentScreen) return;
         setCurrentScreen(n);
     };
@@ -108,22 +116,31 @@ export const AppProvider = ({ children }) => {
     const openStageQuestModal = (idx) => setSelectedStageQuestIdx(idx);
     const closeStageQuestModal = () => setSelectedStageQuestIdx(null);
 
-    const openLoginModal = () => setIsLoginModalOpen(true);
-    const closeLoginModal = () => setIsLoginModalOpen(false);
+    // Directly navigate to Screen 7 (Entrance Test Instructions slide)
+    const openLoginModal = () => go(6);
 
     const openPortalAtStep = (step = 1) => {
-        setIsLoginModalOpen(false);
+        if (step === 1) {
+            go(6);
+            return;
+        }
         setPortalStep(step);
         setIsPortalOpen(true);
     };
 
-    const closePortal = () => setIsPortalOpen(false);
+    const closePortal = () => {
+        setIsPortalOpen(false);
+        setPortalStep(1);
+    };
 
     const openSlotModal = () => setIsSlotModalOpen(true);
     const closeSlotModal = () => setIsSlotModalOpen(false);
     const openSlotBookingModal = () => setIsSlotModalOpen(true);
 
     const startRocketLaunchTransition = () => {
+        setIsPortalOpen(true);
+        setPortalStep(2);
+        setCockpitStep(0);
         setIsLaunchReverse(false);
         setLaunchTransitionText('INITIATING ROCKET LAUNCH...');
         setIsLaunchOverlayOpen(true);
@@ -132,9 +149,6 @@ export const AppProvider = ({ children }) => {
         if (env) env.classList.add('cockpit-intro-sequence');
 
         setTimeout(() => {
-            setPortalStep(2);
-            setCockpitStep(1);
-
             // Staggered hologram power-on sequence
             const holoSys = document.getElementById('cockpitHologramSystem');
             if (holoSys) {
@@ -152,7 +166,41 @@ export const AppProvider = ({ children }) => {
         }, 1800);
     };
 
-    const startReverseRocketLaunchTransition = () => {
+    const openCampusPage = () => {
+        setIsCampusPageActive(true);
+    };
+
+    const closeCampusPage = () => {
+        setIsCampusPageActive(false);
+    };
+
+    const returnToCockpitLastStep = () => {
+        setIsCampusPageActive(false);
+        setIsCountdownActive(false);
+        setIsScreeningTestActive(false);
+        setIsPortalOpen(true);
+        setPortalStep(2);
+        setCockpitStep(12);
+    };
+
+    const startScreeningCountdown = (campus, course) => {
+        setSelectedCampus(campus);
+        setSelectedCourse(course);
+        setIsCountdownActive(true);
+        setIsScreeningTestActive(false);
+    };
+
+    const finishScreeningCountdown = () => {
+        setIsCountdownActive(false);
+        setIsScreeningTestActive(true);
+    };
+
+    const exitScreeningTest = () => {
+        setIsScreeningTestActive(false);
+        setIsCountdownActive(false);
+    };
+
+    const startReverseRocketLaunchTransition = (targetScreen = null, text = 'RETURNING TO MISSION BASE...', onComplete = null) => {
         const env = document.getElementById('rocketInteriorEnv');
         if (env) {
             env.classList.add('cockpit-exit-sequence');
@@ -169,18 +217,25 @@ export const AppProvider = ({ children }) => {
 
         setTimeout(() => {
             setIsLaunchReverse(true);
-            setLaunchTransitionText('RETURNING TO MISSION BASE...');
+            setLaunchTransitionText(text);
             setIsLaunchOverlayOpen(true);
+            if (targetScreen !== null) {
+                setCurrentScreen(targetScreen);
+            }
         }, 320);
 
         setTimeout(() => {
-            setPortalStep(1);
             if (env) env.classList.remove('cockpit-exit-sequence');
         }, 1650);
 
         setTimeout(() => {
             setIsLaunchOverlayOpen(false);
             setIsLaunchReverse(false);
+            setIsPortalOpen(false);
+            setPortalStep(1);
+            if (onComplete) {
+                onComplete();
+            }
         }, 2050);
     };
 
@@ -231,7 +286,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider
             value={{
                 currentScreen,
-                totalScreens: 6,
+                totalScreens: levelData.length,
                 go,
                 xp,
                 setXp,
@@ -240,6 +295,22 @@ export const AppProvider = ({ children }) => {
                 loginLang,
                 setLoginLang,
                 xpToasts,
+                isCampusPageActive,
+                setIsCampusPageActive,
+                openCampusPage,
+                closeCampusPage,
+                returnToCockpitLastStep,
+                selectedCampus,
+                setSelectedCampus,
+                selectedCourse,
+                setSelectedCourse,
+                isCountdownActive,
+                setIsCountdownActive,
+                isScreeningTestActive,
+                setIsScreeningTestActive,
+                startScreeningCountdown,
+                finishScreeningCountdown,
+                exitScreeningTest,
                 selectedSchoolIdx,
                 openSchoolModal,
                 closeSchoolModal,
@@ -249,9 +320,7 @@ export const AppProvider = ({ children }) => {
                 selectedStageQuestIdx,
                 openStageQuestModal,
                 closeStageQuestModal,
-                isLoginModalOpen,
                 openLoginModal,
-                closeLoginModal,
                 isPortalOpen,
                 portalStep,
                 setPortalStep,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { schools } from '../screens/Screen4_SpecialtySchools';
+import { schools } from '../screens/Screen2_OurSchools';
 
 export const SchoolModal = () => {
     const { selectedSchoolIdx, closeSchoolModal, go } = useApp();

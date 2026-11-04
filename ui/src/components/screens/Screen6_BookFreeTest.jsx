@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 
 export const Screen6_BookFreeTest = () => {
-    const { currentScreen, openLoginModal } = useApp();
+    const { currentScreen, go } = useApp();
     const [confettiPieces, setConfettiPieces] = useState([]);
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export const Screen6_BookFreeTest = () => {
             <button
                 className="glow-btn final-btn"
                 id="finalRegisterBtn"
-                onClick={openLoginModal}
+                onClick={() => go(6)}
             >
                 Book Free Admission Test Now →
             </button>

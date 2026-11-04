@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useApp, etQuestionsData } from '../../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import { LaunchTransitionOverlay } from './LaunchTransitionOverlay';
 
 export const EntranceTestPortal = () => {
@@ -16,17 +16,8 @@ export const EntranceTestPortal = () => {
         setUserProfile,
         startRocketLaunchTransition,
         startReverseRocketLaunchTransition,
-        userAnswers,
-        setUserAnswers,
-        currentQuizQIndex,
-        setCurrentQuizQIndex,
-        quizTimerSeconds,
-        setQuizTimerSeconds,
-        startLiveEtQuiz,
-        finishEtQuiz,
-        attemptHistory,
-        openSlotBookingModal,
-        bookedInterviewSlot
+        openCampusPage,
+        go
     } = useApp();
 
     const [uploadedPhotoUrl, setUploadedPhotoUrl] = useState('');
@@ -90,247 +81,13 @@ export const EntranceTestPortal = () => {
         }
     }, [isPortalOpen]);
 
-    // Cinematic Asteroid Question Transition States
-    const [asteroidAnimState, setAsteroidAnimState] = useState('revealed');
-    const [asteroidTextVisible, setAsteroidTextVisible] = useState(true);
-    const [fragmentsVisible, setFragmentsVisible] = useState(false);
-    const [crackVisible, setCrackVisible] = useState(false);
-    const [isSubmitExit, setIsSubmitExit] = useState(false);
-    const [displayedQuestionText, setDisplayedQuestionText] = useState(
-        etQuestionsData[0]?.text || etQuestionsData[0]?.question || ''
-    );
-    const isAsteroidTransitioningRef = useRef(false);
-    const typingTimerRef = useRef(null);
-    const transitionTimerRef = useRef([]);
-    const transitionHandledRef = useRef(false);
-    const pendingNextIdxRef = useRef(null);
-    const pendingSlideClassRef = useRef('');
-
-    const clearTransitionTimers = () => {
-        transitionTimerRef.current.forEach(t => clearTimeout(t));
-        transitionTimerRef.current = [];
-    };
-
-    const stopLetterByLetterReveal = () => {
-        if (typingTimerRef.current) {
-            clearInterval(typingTimerRef.current);
-            typingTimerRef.current = null;
-        }
-    };
-
-    const startLetterByLetterReveal = (fullText) => {
-        stopLetterByLetterReveal();
-        setDisplayedQuestionText('');
-        const textToType = fullText || '';
-        let charIdx = 0;
-        // Dynamically compute character interval (24-42ms adhering to prompt)
-        const totalTargetDuration = Math.min(1800, Math.max(900, textToType.length * 28));
-        const charInterval = Math.max(24, Math.min(42, Math.floor(totalTargetDuration / Math.max(1, textToType.length))));
-        typingTimerRef.current = setInterval(() => {
-            charIdx++;
-            setDisplayedQuestionText(textToType.slice(0, charIdx));
-            if (charIdx >= textToType.length) {
-                clearInterval(typingTimerRef.current);
-                typingTimerRef.current = null;
-                setAsteroidAnimState('active');
-                isAsteroidTransitioningRef.current = false;
-            }
-        }, charInterval);
-    };
-
-    const completeBreakupAndLoadNext = (nextIdx, slideClass) => {
-        if (transitionHandledRef.current) return;
-        transitionHandledRef.current = true;
-        pendingNextIdxRef.current = null;
-        clearTransitionTimers();
-        // Fragments and dust have completely dissipated — space is 100% clean and empty
-        setAsteroidAnimState('cleared');
-        setFragmentsVisible(false);
-        setCrackVisible(false);
-        setCurrentQuizQIndex(nextIdx);
-        setQSlideAnimClass(slideClass);
-        // Short natural cosmic pause in clean empty space before next asteroid approaches
-        const t = setTimeout(() => {
-            triggerAsteroidArrival(nextIdx);
-        }, 200);
-        transitionTimerRef.current.push(t);
-    };
-
-    const handleFragmentAnimationEnd = () => {
-        // Fallback triggered if anchor fragment completes its flight
-        if (pendingNextIdxRef.current !== null && !transitionHandledRef.current) {
-            const nextIdx = pendingNextIdxRef.current;
-            const slideClass = pendingSlideClassRef.current;
-            completeBreakupAndLoadNext(nextIdx, slideClass);
-        }
-    };
-
-    const triggerAsteroidArrival = (qIndex) => {
-        clearTransitionTimers();
-        stopLetterByLetterReveal();
-        setDisplayedQuestionText('');
-        setCrackVisible(false);
-        setFragmentsVisible(false);
-        setIsSubmitExit(false);
-        transitionHandledRef.current = false;
-        pendingNextIdxRef.current = null;
-        setAsteroidAnimState('entering');
-        setAsteroidTextVisible(false);
-
-        // One continuous cinematic glide from deep space into windshield (1.4s)
-        // Decelerates smoothly with physics easing curve, cushions into place, then reveals question
-        const t1 = setTimeout(() => {
-            setAsteroidAnimState('active');
-            setAsteroidTextVisible(true);
-            const targetQ = etQuestionsData[qIndex];
-            const fullText = targetQ?.text || targetQ?.question || '';
-            startLetterByLetterReveal(fullText);
-            // Allow next interaction once asteroid has settled and typing begins
-            setTimeout(() => {
-                isAsteroidTransitioningRef.current = false;
-            }, 300);
-        }, 1400);
-
-        transitionTimerRef.current.push(t1);
-    };
-
-    // Clean up timers on unmount
-    useEffect(() => {
-        return () => {
-            clearTransitionTimers();
-            stopLetterByLetterReveal();
-        };
-    }, []);
-
-    // Ensure asteroid and question text are visible if entering test directly or after reload
-    // IMPORTANT: When an active transition is in progress, this effect MUST NEVER touch asteroidAnimState!
-    useEffect(() => {
-        if (cockpitStep === 'test') {
-            if (isAsteroidTransitioningRef.current) return;
-            const currentQ = etQuestionsData[currentQuizQIndex];
-            const fullQ = currentQ?.text || currentQ?.question || '';
-            if (!displayedQuestionText) {
-                setDisplayedQuestionText(fullQ);
-            }
-            if (['cleared', 'exiting', 'breaking'].includes(asteroidAnimState)) {
-                setAsteroidAnimState('active');
-                setAsteroidTextVisible(true);
-                setFragmentsVisible(false);
-                setCrackVisible(false);
-            }
-        }
-    }, [cockpitStep, currentQuizQIndex]);
-
-    // Timer effect for test countdown inside rocket cockpit screen
-    useEffect(() => {
-        let timerId = null;
-        if (isPortalOpen && portalStep === 2 && cockpitStep === 'test') {
-            timerId = setInterval(() => {
-                if (setQuizTimerSeconds) {
-                    setQuizTimerSeconds(prev => (prev > 0 ? prev - 1 : 0));
-                }
-            }, 1000);
-        }
-        return () => {
-            if (timerId) clearInterval(timerId);
-        };
-    }, [isPortalOpen, portalStep, cockpitStep, setQuizTimerSeconds]);
-
     const handleStartTestInCockpit = () => {
-        setUserAnswers({});
-        setCurrentQuizQIndex(0);
-        if (setQuizTimerSeconds) setQuizTimerSeconds(3600);
-        setCockpitStep('test_init');
+        startReverseRocketLaunchTransition(null, 'LANDING AT OUR CAMPUSES...', () => {
+            openCampusPage();
+        });
         setTimeout(() => {
-            setCockpitStep('test');
-            triggerAsteroidArrival(0);
-        }, 900);
-    };
-
-    // Immediate Realistic Cinematic VFX Breakup sequence when navigating Next question
-    const handleNextQuestionInCockpit = () => {
-        if (isAsteroidTransitioningRef.current) return;
-        isAsteroidTransitioningRef.current = true;
-        transitionHandledRef.current = false;
-        clearTransitionTimers();
-        stopLetterByLetterReveal();
-
-        const nextIdx = Math.min(etQuestionsData.length - 1, currentQuizQIndex + 1);
-        pendingNextIdxRef.current = nextIdx;
-        pendingSlideClassRef.current = 'slide-enter-right';
-        
-        // 1. Immediate VFX Breakup:
-        // Text dissolves, intact asteroid mesh is removed IMMEDIATELY at 0ms (no delay or flicker),
-        // and fragments + glowing dust/debris particles burst outward in one continuous animation.
-        setAsteroidTextVisible(false);
-        setCrackVisible(false);
-        setAsteroidAnimState('breaking');
-        setFragmentsVisible(true);
-        setQSlideAnimClass('slide-exit-left');
-
-        // 2. Fragments disperse and dissipate into empty space over 1150ms
-        const t1 = setTimeout(() => {
-            if (pendingNextIdxRef.current !== null) {
-                completeBreakupAndLoadNext(nextIdx, 'slide-enter-right');
-            }
-        }, 1150);
-
-        transitionTimerRef.current.push(t1);
-    };
-
-    // Immediate Realistic Cinematic VFX Breakup sequence when navigating Prev question
-    const handlePrevQuestionInCockpit = () => {
-        if (isAsteroidTransitioningRef.current) return;
-        isAsteroidTransitioningRef.current = true;
-        transitionHandledRef.current = false;
-        clearTransitionTimers();
-        stopLetterByLetterReveal();
-
-        const prevIdx = Math.max(0, currentQuizQIndex - 1);
-        pendingNextIdxRef.current = prevIdx;
-        pendingSlideClassRef.current = 'slide-enter-left';
-
-        // 1. Immediate VFX Breakup:
-        // Text dissolves, intact asteroid mesh is removed IMMEDIATELY at 0ms (no delay or flicker),
-        // and fragments + glowing dust/debris particles burst outward in one continuous animation.
-        setAsteroidTextVisible(false);
-        setCrackVisible(false);
-        setAsteroidAnimState('breaking');
-        setFragmentsVisible(true);
-        setQSlideAnimClass('slide-exit-right');
-
-        // 2. Fragments disperse and dissipate into empty space over 1150ms
-        const t1 = setTimeout(() => {
-            if (pendingNextIdxRef.current !== null) {
-                completeBreakupAndLoadNext(prevIdx, 'slide-enter-left');
-            }
-        }, 1150);
-
-        transitionTimerRef.current.push(t1);
-    };
-
-    // Softer, respectful cosmic dissolve sequence on Test Submit (not violent breakup)
-    const handleSubmitTestInCockpit = () => {
-        if (isAsteroidTransitioningRef.current) return;
-        isAsteroidTransitioningRef.current = true;
-        clearTransitionTimers();
-        stopLetterByLetterReveal();
-
-        setAsteroidTextVisible(false);
-        setIsSubmitExit(true);
-        setAsteroidAnimState('dissolving');
-
-        const t1 = setTimeout(() => {
-            setCockpitStep('test_submitting');
-            const t2 = setTimeout(() => {
-                finishEtQuiz();
-                setCockpitStep('test_results');
-                isAsteroidTransitioningRef.current = false;
-            }, 1200);
-            transitionTimerRef.current.push(t2);
-        }, 1400);
-
-        transitionTimerRef.current.push(t1);
+            openCampusPage();
+        }, 800);
     };
 
     const handleStep1Continue = () => {
@@ -350,13 +107,23 @@ export const EntranceTestPortal = () => {
         }, 750);
     };
 
-    // Guided Rule Sequence Animation States
-    const [visibleStripes, setVisibleStripes] = useState([false, false, false, false]);
-    const [activeStripeIdx, setActiveStripeIdx] = useState(null);
-    const [isStartBtnVisible, setIsStartBtnVisible] = useState(false);
-    const [isUserInteracting, setIsUserInteracting] = useState(false);
-    const [customSpeechMsg, setCustomSpeechMsg] = useState(null);
-    const sequenceTimersRef = useRef([]);
+    const handlePopupBack = () => {
+        const env = document.getElementById('rocketInteriorEnv');
+        if (env && env.classList.contains('cockpit-exit-sequence')) {
+            return;
+        }
+
+        if (portalStep === 2) {
+            if (typeof cockpitStep === 'number' && cockpitStep > 0) {
+                setCockpitStep(prev => prev - 1);
+            } else {
+                startReverseRocketLaunchTransition();
+            }
+        } else {
+            closePortal();
+        }
+    };
+
     const cockpitVideoRef = useRef(null);
 
     useEffect(() => {
@@ -365,7 +132,7 @@ export const EntranceTestPortal = () => {
             if (cockpitVideoRef.current) {
                 if (cockpitVideoRef.current.currentTime >= 8) {
                     cockpitVideoRef.current.currentTime = 0;
-                    cockpitVideoRef.current.play().catch(() => {});
+                    cockpitVideoRef.current.play().catch(() => { });
                 }
             }
             animId = requestAnimationFrame(checkVideoTime);
@@ -378,86 +145,7 @@ export const EntranceTestPortal = () => {
         };
     }, [portalStep]);
 
-    const clearSequenceTimers = () => {
-        sequenceTimersRef.current.forEach(t => clearTimeout(t));
-        sequenceTimersRef.current = [];
-    };
 
-    const stripeRules = [
-        {
-            icon: '⏱️',
-            title: '1 Hour Complete Test ⏱️',
-            desc: 'The test takes approximately 1 hour. Please complete it in a quiet place free from disruptions.',
-            theme: 'card-theme-pink',
-            msg: 'Sabse pehle, test complete karne ke liye 1 hour milega. ⏱️'
-        },
-        {
-            icon: '📝',
-            title: 'Notebook & Pen Required 📝',
-            desc: 'Keep a rough notebook and pen handy for quick mathematical and logic calculations.',
-            theme: 'card-theme-orange',
-            msg: 'Notebook aur pen paas mein zaroor rakhna.'
-        },
-        {
-            icon: '📱',
-            title: 'Mobile / Laptop Online Mode 📱',
-            desc: 'You can solve all multiple-choice questions directly on your mobile device or laptop screen.',
-            theme: 'card-theme-purple',
-            msg: 'Test mobile ya laptop par online hoga.'
-        },
-        {
-            icon: '🤝',
-            title: 'Honesty Policy 🤝',
-            desc: 'We evaluate true learning potential. Give your best effort without any unfair means or cheating.',
-            theme: 'card-theme-green',
-            msg: 'Aur honestly test dena — bina cheating ke.'
-        }
-    ];
-
-    useEffect(() => {
-        if (!isPortalOpen || portalStep !== 1) return;
-
-        clearSequenceTimers();
-        setIsUserInteracting(false);
-        setVisibleStripes([false, false, false, false]);
-        setActiveStripeIdx(null);
-        setIsStartBtnVisible(false);
-        setCustomSpeechMsg(null);
-
-        // Delay 400ms -> Stripe 0
-        sequenceTimersRef.current.push(setTimeout(() => {
-            setVisibleStripes([true, false, false, false]);
-            setActiveStripeIdx(0);
-        }, 400));
-
-        // Delay 1400ms -> Stripe 1
-        sequenceTimersRef.current.push(setTimeout(() => {
-            setVisibleStripes([true, true, false, false]);
-            setActiveStripeIdx(1);
-        }, 1400));
-
-        // Delay 2400ms -> Stripe 2
-        sequenceTimersRef.current.push(setTimeout(() => {
-            setVisibleStripes([true, true, true, false]);
-            setActiveStripeIdx(2);
-        }, 2400));
-
-        // Delay 3400ms -> Stripe 3
-        sequenceTimersRef.current.push(setTimeout(() => {
-            setVisibleStripes([true, true, true, true]);
-            setActiveStripeIdx(3);
-        }, 3400));
-
-        // Delay 4400ms -> Reveal Start Button and clear highlight
-        sequenceTimersRef.current.push(setTimeout(() => {
-            setActiveStripeIdx(null);
-            setIsStartBtnVisible(true);
-        }, 4400));
-
-        return () => {
-            clearSequenceTimers();
-        };
-    }, [isPortalOpen, portalStep]);
 
     // Staggered Hologram Activation Animation (Matches legacy 4-stage JS sequence)
     useEffect(() => {
@@ -510,7 +198,7 @@ export const EntranceTestPortal = () => {
         }
     }, [cockpitStep, portalStep]);
 
-    if (!isPortalOpen) return null;
+    if (!isPortalOpen || portalStep === 1) return null;
 
     const name = (studentName && studentName !== 'Friend') ? studentName : 'Friend';
 
@@ -535,34 +223,7 @@ export const EntranceTestPortal = () => {
         }
     };
 
-    const handleStripeHover = (idx) => {
-        clearSequenceTimers();
-        setIsUserInteracting(true);
-        setVisibleStripes([true, true, true, true]);
-        setIsStartBtnVisible(true);
-        setActiveStripeIdx(idx);
-        setCustomSpeechMsg(stripeRules[idx].msg);
-    };
 
-    const handleStripeLeave = () => {
-        setActiveStripeIdx(null);
-        if (isUserInteracting) {
-            setCustomSpeechMsg(`Kisi bhi instruction par hover karke details padhein ya<br/><strong>START Mission</strong> par click karke apna mission start<br/>karein! ✨`);
-        } else {
-            setCustomSpeechMsg(null);
-        }
-    };
-
-    let currentStripeMsg = '';
-    if (customSpeechMsg) {
-        currentStripeMsg = customSpeechMsg;
-    } else if (activeStripeIdx !== null && activeStripeIdx < stripeRules.length) {
-        currentStripeMsg = stripeRules[activeStripeIdx].msg;
-    } else if (isStartBtnVisible) {
-        currentStripeMsg = `Jab aap ready ho jain, toh <strong>START Mission</strong> par click karke apna mission start karein! 🚀`;
-    } else {
-        currentStripeMsg = `Hey <span class="student-name-placeholder">${name}</span>! Aage badhne se pehle kuch important instructions padh lo. 💡`;
-    }
 
     return (
         <div id="entranceTestPortalScreen" className={`et-portal-screen active ${portalStep === 1 ? 'step1-active' : ''} ${portalStep === 2 ? 'et-cockpit-mode' : ''} ${portalStep === 5 ? 'step3-active et-quiz-mode' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
@@ -656,9 +317,7 @@ export const EntranceTestPortal = () => {
                     <button
                         className="et-exit-btn"
                         onClick={() => {
-                            if (portalStep === 2 && (cockpitStep === 'test' || cockpitStep === 'test_init')) {
-                                setShowExitConfirmModal(true);
-                            } else if (portalStep === 2) {
+                            if (portalStep === 2) {
                                 startReverseRocketLaunchTransition();
                             } else {
                                 closePortal();
@@ -671,52 +330,13 @@ export const EntranceTestPortal = () => {
                 </div>
             </header>
 
-            {/* EXIT CONFIRMATION MODAL DURING TEST */}
-            {showExitConfirmModal && (
-                <div className="r-exit-confirm-overlay">
-                    <div className="r-exit-confirm-card">
-                        <div className="r-exit-icon">⚠️</div>
-                        <h3 className="r-exit-title">Exit Entrance Test?</h3>
-                        <p className="r-exit-desc">Are you sure you want to exit? Your selected answers will not be saved.</p>
-                        <div className="r-exit-actions">
-                            <button
-                                type="button"
-                                className="r-exit-btn-continue"
-                                onClick={() => setShowExitConfirmModal(false)}
-                            >
-                                Continue Test
-                            </button>
-                            <button
-                                type="button"
-                                className="r-exit-btn-leave"
-                                onClick={() => {
-                                    setShowExitConfirmModal(false);
-                                    setCockpitStep(12);
-                                    startReverseRocketLaunchTransition();
-                                }}
-                            >
-                                Exit Test
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+
 
             {/* Main Workspace Body Grid */}
-            <main className={`et-portal-body ${portalStep === 1 ? 'step1-active' : ''} ${portalStep === 2 ? 'step2-active' : ''} ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
-                {/* Left Hero Sidebar: Mentor Asha */}
-                <aside className="et-hero-sidebar">
-                    {portalStep !== 5 ? (
-                        <div className="et-mentor-card">
-                            <div className="et-mentor-aura"></div>
-                            <img src="/mentor-avatar2.png" alt="Mentor Asha" className="et-mentor-avatar" />
-                            <div
-                                className="et-speech-bubble"
-                                id="etPortalSpeechBubble"
-                                dangerouslySetInnerHTML={{ __html: currentStripeMsg }}
-                            />
-                        </div>
-                    ) : (
+            <main className={`et-portal-body ${portalStep === 2 ? 'step2-active' : ''} ${portalStep === 5 ? 'step3-active' : ''} ${portalStep === 4 ? 'step4-active' : ''}`}>
+                {/* Left Hero Sidebar: Mentor Asha for Quiz Mode */}
+                {portalStep === 5 && (
+                    <aside className="et-hero-sidebar">
                         <div className="et-step3-sidebar-wrapper">
                             {/* Top Speech Bubble above Asha */}
                             <div className="et-step3-top-bubble">
@@ -756,66 +376,12 @@ export const EntranceTestPortal = () => {
                                 </div>
                             </div>
                         </div>
-                    )}
-                </aside>
+                    </aside>
+                )}
 
                 {/* Right Main Canvas */}
                 <section className="et-portal-canvas">
-                    {/* STEP 1: INSTRUCTIONS */}
-                    {portalStep === 1 && (
-                        <div className="et-step-pane active" id="etStep1">
-                            <div className="et-pane-header">
-                                <h2 className="et-pane-title">NavGurukul Entrance Test Instructions</h2>
-                                <p className="et-pane-sub">Please read the following important instructions carefully before starting your screening test.</p>
-                            </div>
-
-                            <div className="et-rules-grid-stage">
-                                {/* Gamified Animated Circle START CTA */}
-                                <div className="et-circle-start-wrap">
-                                    <button
-                                        type="button"
-                                        className={`et-circle-start-btn et-ready-btn ${isStartBtnVisible ? 'visible' : ''}`}
-                                        id="etStartBtn"
-                                        onClick={startRocketLaunchTransition}
-                                        aria-label="Start Entrance Test"
-                                    >
-                                        <div className="circle-pulse-ring ring-1"></div>
-                                        <div className="circle-pulse-ring ring-2"></div>
-                                        <div className="circle-sparkle s1">✨</div>
-                                        <div className="circle-sparkle s2">⭐</div>
-                                        <div className="circle-sparkle s3">⚡</div>
-                                        <div className="circle-content">
-                                            <div className="circle-icon">🚀</div>
-                                            <span className="circle-text">Start</span>
-                                            <span className="circle-sub">Mission</span>
-                                        </div>
-                                        <div className="circle-hover-tooltip">
-                                            <span>Tap to Start! 🎯</span>
-                                        </div>
-                                    </button>
-                                </div>
-
-                                {/* 4 Colored Rules Stripes Grid */}
-                                <div className="et-rules-grid" onMouseLeave={handleStripeLeave}>
-                                    {stripeRules.map((rule, idx) => (
-                                        <div
-                                            key={idx}
-                                            className={`et-rule-card ${rule.theme} ${visibleStripes[idx] ? 'visible' : ''} ${activeStripeIdx === idx ? 'active-guide' : ''}`}
-                                            onMouseEnter={() => handleStripeHover(idx)}
-                                            onClick={() => handleStripeHover(idx)}
-                                        >
-                                            <div className="stripe-left-icon">{rule.icon}</div>
-                                            <div className="stripe-main-content">
-                                                <strong className="stripe-title">{rule.title}</strong>
-                                                <p className="stripe-desc">{rule.desc}</p>
-                                            </div>
-                                            <span className="card-check">✓</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                    {/* STEP 1: INSTRUCTIONS (Removed - now handled directly by Screen7_TestInstructions on Slide 7) */}
 
                     {/* STEP 2: ROCKET COCKPIT ONBOARDING */}
                     {portalStep === 2 && (
@@ -834,103 +400,14 @@ export const EntranceTestPortal = () => {
                                         onTimeUpdate={(e) => {
                                             if (e.currentTarget.currentTime >= 8) {
                                                 e.currentTarget.currentTime = 0;
-                                                e.currentTarget.play().catch(() => {});
+                                                e.currentTarget.play().catch(() => { });
                                             }
                                         }}
                                     />
                                     <div className="cockpit-space-stars"></div>
                                     <div className="cockpit-nebula-pulse"></div>
 
-                                    {/* Dedicated Space Windshield Viewport: physically clips asteroid outside the cockpit */}
-                                    {cockpitStep === 'test' && (
-                                        <div className="cockpit-space-viewport" id="cockpitSpaceViewport">
-                                            <div className="cockpit-asteroid-hud-container" id="cockpitWindowHud">
-                                                <div className={`asteroid-carrier ${asteroidAnimState} ${isSubmitExit ? 'submit-exit' : ''}`}>
-                                                    
-                                                    {/* Intact 3D Asteroid Rock Mesh — rendered while intact & during crack stress */}
-                                                    {!['breaking', 'cleared'].includes(asteroidAnimState) && (
-                                                        <div className="asteroid-mesh-wrapper">
-                                                            <img
-                                                                src="/asteroid_rock.png"
-                                                                alt="Mission Asteroid"
-                                                                className="asteroid-rock-img"
-                                                            />
-                                                            <div className="asteroid-cosmic-glow"></div>
-                                                        </div>
-                                                    )}
-
-                                                    {/* Glowing Stress Fracture / Crack Overlay */}
-                                                    {crackVisible && (
-                                                        <svg className="asteroid-crack-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                                            <defs>
-                                                                <linearGradient id="crackGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                                    <stop offset="0%" stopColor="#f8fafc" stopOpacity="1" />
-                                                                    <stop offset="35%" stopColor="#38bdf8" stopOpacity="0.95" />
-                                                                    <stop offset="100%" stopColor="#c084fc" stopOpacity="0.9" />
-                                                                </linearGradient>
-                                                                <filter id="crackNeonGlow" x="-20%" y="-20%" width="140%" height="140%">
-                                                                    <feGaussianBlur stdDeviation="1.2" result="blur" />
-                                                                    <feMerge>
-                                                                        <feMergeNode in="blur" />
-                                                                        <feMergeNode in="SourceGraphic" />
-                                                                    </feMerge>
-                                                                </filter>
-                                                            </defs>
-                                                            <g filter="url(#crackNeonGlow)">
-                                                                <path className="crack-path crack-branch-1" d="M57.0,57.9 L57.8,39.9 M40.2,36.0 L55.5,34.4 M24.6,36.5 L39.4,38.0 M22.4,40.9 L23.4,58.8 M55.5,34.4 L57.2,0.0 M71.0,36.0 L76.5,0.0 M20.3,100.0 L22.9,59.7" />
-                                                                <path className="crack-path crack-branch-2" d="M39.4,38.0 L39.8,58.3 M37.3,62.8 L39.8,58.3 M23.4,58.8 L37.3,62.8 M74.6,46.1 L81.3,45.5 M38.4,0.0 L40.2,36.0 M0.0,62.4 L22.9,59.7 M81.3,45.5 L100.0,8.7" />
-                                                                <path className="crack-path crack-branch-3" d="M39.8,58.3 L53.1,63.8 M39.4,38.0 L40.2,36.0 M72.3,60.2 L74.6,46.1 M22.9,59.7 L23.4,58.8 M35.4,100.0 L37.3,62.8 M81.3,45.5 L95.7,77.7" />
-                                                                <path className="crack-path crack-branch-4" d="M53.1,63.8 L57.0,57.9 M57.0,57.9 L69.2,64.8 M69.2,64.8 L72.3,60.2 M22.4,40.9 L24.6,36.5 M69.2,64.8 L70.1,100.0 M0.0,34.2 L22.4,40.9" />
-                                                                <path className="crack-path crack-branch-5" d="M55.5,34.4 L57.8,39.9 M57.8,39.9 L71.0,36.0 M71.0,36.0 L74.6,46.1 M53.1,63.8 L54.0,100.0 M72.3,60.2 L95.7,77.7 M23.6,0.0 L24.6,36.5" />
-                                                            </g>
-                                                        </svg>
-                                                    )}
-
-                                                    {/* Physical Shatter Rocky Fragments, Shockwave & Micro-Debris System */}
-                                                    {asteroidAnimState === 'breaking' && fragmentsVisible && (
-                                                        <div className="asteroid-fragments-container">
-                                                            {/* Central Core Energy Shockwave Ring */}
-                                                            <div className="asteroid-shockwave-ring"></div>
-
-                                                            {/* 16 Irregular Voronoi 3D Rock Shards */}
-                                                            {[...Array(16)].map((_, i) => (
-                                                                <div
-                                                                    key={`frag-${i}`}
-                                                                    className={`asteroid-fragment frag-${i}`}
-                                                                    onAnimationEnd={i === 0 ? handleFragmentAnimationEnd : undefined}
-                                                                ></div>
-                                                            ))}
-
-                                                            {/* 8 Glowing High-Speed Debris Embers */}
-                                                            {[...Array(8)].map((_, i) => (
-                                                                <div key={`debris-${i}`} className={`asteroid-micro-debris debris-${i}`}></div>
-                                                            ))}
-
-                                                            {/* 8 Tiny Rock Flecks / Cosmic Dust Particles */}
-                                                            {[...Array(8)].map((_, i) => (
-                                                                <div key={`dust-${i}`} className={`asteroid-dust-particle dust-${i}`}></div>
-                                                            ))}
-                                                        </div>
-                                                    )}
-
-                                                    {/* Projected Holographic Question Surface — Pure projection, no rectangular box! */}
-                                                    <div className={`asteroid-projection-surface ${asteroidTextVisible ? 'visible' : ''}`}>
-                                                        <div className="projection-scan-beam"></div>
-                                                        <div className="asteroid-q-text">
-                                                            {displayedQuestionText || (etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question || '')}
-                                                            {asteroidTextVisible && displayedQuestionText && displayedQuestionText.length < (etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question || '').length && (
-                                                                <span className="typing-cursor">▌</span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* 2. Holographic Avatar Guide System (Console Projector on Left Side) */}
+                                    {/* 2. Holographic Avatar Guide System (Console Projector on Left Side) */}
                                 <div className={`cockpit-hologram-system ${holoStage}`} id="cockpitHologramSystem">
                                     <div className="holo-console-glow"></div>
 
@@ -943,19 +420,16 @@ export const EntranceTestPortal = () => {
                                                 id="holoCaptionText"
                                                 dangerouslySetInnerHTML={{
                                                     __html: {
+                                                        0: `Welcome Explorer! 🌟<br>Let’s start your dream journey!`,
                                                         1: `Hey Explorer! 👋<br>What’s your name?`,
-                                                        2: `Great, ${userProfile.firstName || name}! 📸<br>Let’s add your photo`,
-                                                        3: `Awesome! 🎂<br>When’s your birthday?`,
-                                                        4: `Select your option ✨<br>Almost done with basic details`,
-                                                        5: `Contact Phone 📱<br>How can we reach you?`,
-                                                        6: `Email & PIN Code ✉️<br>Enter your email and PIN code`,
-                                                        7: `Location Details 🏙️<br>Where are you located?`,
-                                                        8: `Current Status 💼<br>Select your current status`,
-                                                        9: `Qualification 📜<br>What is your education level?`,
-                                                        '9_college': `College Details 🎓<br>Select your year & attendance`,
-                                                        10: `School Medium 📚<br>In which language did you study?`,
-                                                        11: `Category Info 👥<br>Select your caste / category`,
-                                                        12: `All Systems Ready! 🚀<br>Launch Entrance Test`,
+                                                        2: `Contact Details 📱<br>Enter Phone, WhatsApp & Email`,
+                                                        3: `Awesome, ${userProfile.firstName || name}! 🎂<br>Select your DOB & Gender`,
+                                                        4: `Location Details 🏙️<br>Enter State, District & School`,
+                                                        5: `Category Info 👥<br>Select your category`,
+                                                        6: `Qualification 📜<br>What is your highest education level?`,
+                                                        7: `Education Details 🏫<br>Enter your School or Institute name`,
+                                                        8: `Almost done, ${userProfile.firstName || name}! 📸<br>Let’s add your photo`,
+                                                        9: `All Systems Ready! 🚀<br>Choose Campus to proceed`,
                                                         'test_init': `Initializing test mode... 🚀<br>Calibrating system`,
                                                         'test': `Read carefully and choose the best answer. 🚀`,
                                                         'test_submitting': `Submitting test... 📊<br>Analyzing responses`,
@@ -997,77 +471,108 @@ export const EntranceTestPortal = () => {
                                     </div>
                                 </div>
 
-                                {/* Front Cockpit Window HUD: Test Results Display */}
-                                {cockpitStep === 'test_results' && (() => {
-                                    const latestAttempt = attemptHistory[0] || { marks: 0, isPassed: false };
-                                    return (
-                                        <div className="cockpit-window-hud-container" id="cockpitWindowResultsHud">
-                                            <div className="cockpit-hud-results-card">
-                                                <div className="hud-corner hud-corner-tl"></div>
-                                                <div className="hud-corner hud-corner-tr"></div>
-                                                <div className="hud-corner hud-corner-bl"></div>
-                                                <div className="hud-corner hud-corner-br"></div>
-                                                <div className="hud-results-header">
-                                                    <span className="hud-reticle-line"></span>
-                                                    <span className="hud-res-title">TEST COMPLETED 🎉</span>
-                                                    <span className="hud-reticle-line"></span>
-                                                </div>
-                                                <div className="hud-results-score-row">
-                                                    <span className="hud-score-number">{latestAttempt.marks}</span>
-                                                    <span className="hud-score-divider">/</span>
-                                                    <span className="hud-score-total">24</span>
-                                                    <span className="hud-score-unit">Marks</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })()}
-
-                                {/* Left Cockpit Window Screen: Question Number & Progress */}
-                                {cockpitStep === 'test' && (
-                                    <div className="cockpit-left-screen-container" id="cockpitLeftScreen">
-                                        <div className="cockpit-aux-screen cockpit-left-display">
-                                            <div className="hud-corner hud-corner-tl"></div>
-                                            <div className="hud-corner hud-corner-tr"></div>
-                                            <div className="hud-corner hud-corner-bl"></div>
-                                            <div className="hud-corner hud-corner-br"></div>
-                                            <div className="aux-screen-body">
-                                                <div className="cockpit-q-label">QUESTION</div>
-                                                <div className="cockpit-q-counter-val" key={`qcnt-${currentQuizQIndex}`}>
-                                                    <span className="q-current">{String(currentQuizQIndex + 1).padStart(2, '0')}</span>
-                                                    <span className="q-separator">/</span>
-                                                    <span className="q-total">{String(etQuestionsData.length).padStart(2, '0')}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Right Cockpit Window Screen: Test Timer */}
-                                {cockpitStep === 'test' && (
-                                    <div className="cockpit-right-screen-container" id="cockpitRightScreen">
-                                        <div className="cockpit-aux-screen cockpit-right-display">
-                                            <div className="hud-corner hud-corner-tl"></div>
-                                            <div className="hud-corner hud-corner-tr"></div>
-                                            <div className="hud-corner hud-corner-bl"></div>
-                                            <div className="hud-corner hud-corner-br"></div>
-                                            <div className="aux-screen-body">
-                                                <div className="cockpit-timer-val">
-                                                    <span className="timer-icon">⏱</span>
-                                                    <span className="timer-digits">{formatTime(quizTimerSeconds)}</span>
-                                                </div>
-                                                <div className="cockpit-timer-sub">
-                                                    <span className="timer-status-pulse"></span>
-                                                    <span>TIME REMAINING</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
                                 {/* 3. Floating Cockpit Screen Viewport */}
                                 <div className="cockpit-floating-stage">
+                                    {/* Responsive Top-Left Back / Close Arrow Button (Only on First Welcome Step) */}
+                                    {cockpitStep === 0 && (
+                                        <button
+                                            type="button"
+                                            className="cockpit-popup-back-btn"
+                                            id="cockpitPopupBackBtn"
+                                            onClick={handlePopupBack}
+                                            aria-label="Back"
+                                            title="Back"
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                                            </svg>
+                                        </button>
+                                    )}
                                     <div className="cockpit-stage-viewport">
+                                        {/* TASK 0: WELCOME & AUTH METHOD STEP (From Reference Mockup) */}
+                                        {cockpitStep === 0 && (
+                                            <div className="floating-step-card active auth-welcome-card" id="missionStep0">
+                                                <div className="auth-welcome-header text-center">
+                                                    <h2 className="auth-welcome-title">
+                                                        Your dream <br />
+                                                        deserves a <span className="guide-word-highlight">
+                                                            guide
+                                                            <svg className="guide-swoosh-svg" viewBox="0 0 72 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M2 6.5C24 2 52 2 70 6.5" stroke="url(#guideSwooshGrad)" strokeWidth="3.2" strokeLinecap="round" />
+                                                                <defs>
+                                                                    <linearGradient id="guideSwooshGrad" x1="2" y1="6.5" x2="70" y2="6.5" gradientUnits="userSpaceOnUse">
+                                                                        <stop stopColor="#e91e63" />
+                                                                        <stop offset="1" stopColor="#ea580c" />
+                                                                    </linearGradient>
+                                                                </defs>
+                                                            </svg>
+                                                        </span>
+                                                    </h2>
+                                                    <p className="auth-welcome-subtitle">
+                                                        Let's get started on your dream journey!
+                                                    </p>
+                                                </div>
+
+                                                <div className="auth-welcome-body">
+                                                    {/* 1. Continue with Google Button */}
+                                                    <button
+                                                        type="button"
+                                                        className="auth-google-btn"
+                                                        onClick={() => {
+                                                            setUserProfile(prev => ({
+                                                                ...prev,
+                                                                firstName: prev.firstName || 'Rahul',
+                                                                lastName: prev.lastName || 'Kumar',
+                                                                email: prev.email || 'rahul.kumar@gmail.com'
+                                                            }));
+                                                            setStudentName('Rahul');
+                                                            setCockpitStep(1);
+                                                        }}
+                                                    >
+                                                        <span className="auth-google-icon-wrapper">
+                                                            <svg width="20" height="20" viewBox="0 0 24 24">
+                                                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.9c2.28-2.1 3.6-5.2 3.6-9.15z"/>
+                                                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.9-3.05c-1.08.72-2.45 1.16-4.03 1.16-3.1 0-5.73-2.09-6.67-4.9H1.27v3.13C3.25 21.3 7.31 24 12 24z"/>
+                                                                <path fill="#FBBC05" d="M5.33 14.3c-.24-.72-.38-1.49-.38-2.3s.14-1.58.38-2.3V6.57H1.27C.46 8.2 0 10.04 0 12s.46 3.8 1.27 5.43l4.06-3.13z"/>
+                                                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.57l4.06 3.13c.94-2.81 3.57-4.9 6.67-4.9z"/>
+                                                            </svg>
+                                                        </span>
+                                                        <span className="auth-btn-label">Continue with Google</span>
+                                                    </button>
+
+                                                    {/* 2. OR Divider */}
+                                                    <div className="auth-or-divider">
+                                                        <span className="divider-line"></span>
+                                                        <span className="divider-text">OR</span>
+                                                        <span className="divider-line"></span>
+                                                    </div>
+
+                                                    {/* 3. Enter Manually Button */}
+                                                    <button
+                                                        type="button"
+                                                        className="auth-manual-btn"
+                                                        onClick={() => setCockpitStep(1)}
+                                                    >
+                                                        <span className="auth-manual-icon">
+                                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                                <circle cx="12" cy="7" r="4" />
+                                                            </svg>
+                                                        </span>
+                                                        <span className="auth-btn-label">Enter Manually</span>
+                                                    </button>
+                                                </div>
+
+                                                {/* 4. Trust Footer Badge */}
+                                                <div className="auth-trust-badge">
+                                                    <span className="trust-sparkle">✨</span>
+                                                    <span className="trust-shield">🛡️</span>
+                                                    <span className="trust-text">Your data is safe with us</span>
+                                                    <span className="trust-sparkle">✨</span>
+                                                </div>
+                                            </div>
+                                        )}
+
                                         {/* TASK 1: NAME STEP */}
                                         {cockpitStep === 1 && (
                                             <div className={`floating-step-card active ${step1Error ? 'field-error-shake' : ''}`} id="missionStep1">
@@ -1075,37 +580,54 @@ export const EntranceTestPortal = () => {
                                                     <h2 className="floating-prompt-title">What's your name? 👤</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-input-group">
-                                                        <div className="floating-input-wrapper">
-                                                            <span className="floating-icon">👤</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="First Name (e.g. Rahul)"
-                                                                value={userProfile.firstName}
-                                                                onChange={(e) => {
-                                                                    const val = e.target.value;
-                                                                    setUserProfile({ ...userProfile, firstName: val });
-                                                                    if (showGreetingAck) setShowGreetingAck(false);
-                                                                    if (hasSubmittedName) setHasSubmittedName(false);
-                                                                }}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
-                                                            />
+                                                    <div className="floating-input-group name-fields-group">
+                                                        {/* 1. First Name Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    First Name <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">👤</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="First Name ( Rahul )"
+                                                                    value={userProfile.firstName}
+                                                                    onChange={(e) => {
+                                                                        const val = e.target.value;
+                                                                        setUserProfile({ ...userProfile, firstName: val });
+                                                                        if (showGreetingAck) setShowGreetingAck(false);
+                                                                        if (hasSubmittedName) setHasSubmittedName(false);
+                                                                    }}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                        <div className="floating-input-wrapper secondary-wrap">
-                                                            <span className="floating-icon">📝</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="Last Name (e.g. Kumar)"
-                                                                value={userProfile.lastName}
-                                                                onChange={(e) => {
-                                                                    setUserProfile({ ...userProfile, lastName: e.target.value });
-                                                                    if (showGreetingAck) setShowGreetingAck(false);
-                                                                    if (hasSubmittedName) setHasSubmittedName(false);
-                                                                }}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
-                                                            />
+
+                                                        {/* 2. Last Name Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Last Name <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper secondary-wrap">
+                                                                <span className="floating-icon">📝</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="Last Name ( Kumar )"
+                                                                    value={userProfile.lastName}
+                                                                    onChange={(e) => {
+                                                                        setUserProfile({ ...userProfile, lastName: e.target.value });
+                                                                        if (showGreetingAck) setShowGreetingAck(false);
+                                                                        if (hasSubmittedName) setHasSubmittedName(false);
+                                                                    }}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') handleStep1Continue(); }}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     {((showGreetingAck || hasSubmittedName) && userProfile.firstName.trim() !== '') && (
@@ -1122,7 +644,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
-                                                        onClick={startReverseRocketLaunchTransition}
+                                                        onClick={() => setCockpitStep(0)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
@@ -1137,34 +659,89 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 2: PHOTO STEP */}
+                                        {/* TASK 2: PHONE & EMAIL STEP */}
                                         {cockpitStep === 2 && (
                                             <div className="floating-step-card active" id="missionStep2">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">Add your photo 📸</h2>
+                                                    <h2 className="floating-prompt-title">Contact Details 📱</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-photo-box">
-                                                        <input
-                                                            type="file"
-                                                            id="etPhotoInput"
-                                                            accept="image/*"
-                                                            style={{ display: 'none' }}
-                                                            onChange={handlePhotoUpload}
-                                                        />
-                                                        <label htmlFor="etPhotoInput" className="floating-photo-dropzone">
-                                                            {uploadedPhotoUrl || userProfile.photoUrl ? (
-                                                                <div className="floating-photo-preview">
-                                                                    <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Explorer Photo" id="cockpitPhotoImg" />
-                                                                    <span className="photo-change-overlay">✏️ Change Photo</span>
-                                                                </div>
-                                                            ) : (
-                                                                <div className="floating-photo-placeholder">
-                                                                    <div className="photo-cam-icon-glow">📷</div>
-                                                                    <span className="photo-main-text">Add Your Photo</span>
-                                                                </div>
-                                                            )}
-                                                        </label>
+                                                    <div className="floating-input-group contact-fields-group">
+                                                        {/* 1. Phone Number Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Phone Number <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">📞</span>
+                                                                <input
+                                                                    type="tel"
+                                                                    className="floating-text-input"
+                                                                    placeholder="9876543210"
+                                                                    value={userProfile.phone}
+                                                                    onChange={(e) => {
+                                                                        const val = e.target.value;
+                                                                        setUserProfile(prev => ({
+                                                                            ...prev,
+                                                                            phone: val,
+                                                                            whatsapp: (!prev.whatsapp || prev.whatsapp === prev.phone) ? val : prev.whatsapp
+                                                                        }));
+                                                                    }}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 2. WhatsApp Number Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    WhatsApp Number <span className="req-star">*</span>
+                                                                </label>
+                                                                {userProfile.phone && userProfile.whatsapp !== userProfile.phone && (
+                                                                    <button
+                                                                        type="button"
+                                                                        className="same-as-phone-btn"
+                                                                        onClick={() => setUserProfile({ ...userProfile, whatsapp: userProfile.phone })}
+                                                                    >
+                                                                        Same as Phone
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">💬</span>
+                                                                <input
+                                                                    type="tel"
+                                                                    className="floating-text-input"
+                                                                    placeholder="9876543210"
+                                                                    value={userProfile.whatsapp}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, whatsapp: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 3. Email Address Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Email Address <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">✉️</span>
+                                                                <input
+                                                                    type="email"
+                                                                    className="floating-text-input"
+                                                                    placeholder="rahul@example.com"
+                                                                    value={userProfile.email}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(3); }}
+                                                                />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
@@ -1186,21 +763,59 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 3: DATE OF BIRTH STEP */}
+                                        {/* TASK 3: DOB & GENDER STEP */}
                                         {cockpitStep === 3 && (
                                             <div className="floating-step-card active" id="missionStep3">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">When’s your birthday? 🎂</h2>
+                                                    <h2 className="floating-prompt-title">Birthday & Gender 🎂</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-dob-group">
-                                                        <input
-                                                            type="date"
-                                                            className="floating-date-picker"
-                                                            value={userProfile.dob}
-                                                            onChange={(e) => setUserProfile({ ...userProfile, dob: e.target.value })}
-                                                        />
-                                                        <span className="dob-calendar-icon">📅</span>
+                                                    <div className="dob-gender-fields-group" style={{ display: 'flex', flexDirection: 'column', gap: '16px', width: '100%' }}>
+                                                        {/* 1. Date of Birth Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Date of Birth <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">📅</span>
+                                                                <input
+                                                                    type="date"
+                                                                    className="floating-text-input floating-date-picker"
+                                                                    value={userProfile.dob}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, dob: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(4); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 2. Gender Selection Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    Gender <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-gender-row">
+                                                                {[
+                                                                    { label: 'Male', icon: '👨‍🚀' },
+                                                                    { label: 'Female', icon: '👩‍🚀' },
+                                                                    { label: 'Other', icon: '🧑‍🚀' }
+                                                                ].map(g => (
+                                                                    <button
+                                                                        key={g.label}
+                                                                        type="button"
+                                                                        className={`floating-gender-btn ${userProfile.gender === g.label ? 'selected' : ''}`}
+                                                                        onClick={() => setUserProfile({ ...userProfile, gender: g.label })}
+                                                                    >
+                                                                        <span className="gender-btn-icon">{g.icon}</span>
+                                                                        <span className="gender-btn-label">{g.label}</span>
+                                                                        <span className="gender-btn-check">✓</span>
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
@@ -1222,30 +837,73 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 4: GENDER STEP */}
+                                        {/* TASK 4: STATE, DISTRICT & SCHOOL STEP */}
                                         {cockpitStep === 4 && (
                                             <div className="floating-step-card active" id="missionStep4">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">How should we identify you? ✨</h2>
+                                                    <h2 className="floating-prompt-title">Where are you located? 🏙️</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-gender-row">
-                                                        {[
-                                                            { label: 'Male', icon: '👨‍🚀' },
-                                                            { label: 'Female', icon: '👩‍🚀' },
-                                                            { label: 'Other', icon: '🧑‍🚀' }
-                                                        ].map(g => (
-                                                            <button
-                                                                key={g.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn ${userProfile.gender === g.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, gender: g.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{g.icon}</span>
-                                                                <span className="gender-btn-label">{g.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
+                                                    <div className="location-fields-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+                                                        {/* 1. State Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    State <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">🗺️</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. Bihar / Maharashtra"
+                                                                    value={userProfile.state}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 2. District Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    District <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">🏙️</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. Patna / Pune"
+                                                                    value={userProfile.district}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        {/* 3. School / Institute Name Field */}
+                                                        <div className="floating-input-field">
+                                                            <div className="floating-label-row">
+                                                                <label className="floating-input-label">
+                                                                    School / Institute Name <span className="req-star">*</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="floating-input-wrapper">
+                                                                <span className="floating-icon">🏫</span>
+                                                                <input
+                                                                    type="text"
+                                                                    className="floating-text-input"
+                                                                    placeholder="e.g. Govt High School / ABC College"
+                                                                    value={userProfile.schoolName || ''}
+                                                                    onChange={(e) => setUserProfile({ ...userProfile, schoolName: e.target.value })}
+                                                                    onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(5); }}
+                                                                />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
@@ -1267,36 +925,32 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 5: CONTACT PHONE NUMBERS STEP */}
+                                        {/* TASK 5: CATEGORY STEP */}
                                         {cockpitStep === 5 && (
                                             <div className="floating-step-card active" id="missionStep5">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">How can we reach you? 📱</h2>
+                                                    <h2 className="floating-prompt-title">Select your category 👥</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-input-group">
-                                                        <div className="floating-input-wrapper">
-                                                            <span className="floating-icon">💬</span>
-                                                            <input
-                                                                type="tel"
-                                                                className="floating-text-input"
-                                                                placeholder="WhatsApp Number (e.g. 9876543210)"
-                                                                value={userProfile.whatsapp}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, whatsapp: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(6); }}
-                                                            />
-                                                        </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
-                                                            <span className="floating-icon">📞</span>
-                                                            <input
-                                                                type="tel"
-                                                                className="floating-text-input"
-                                                                placeholder="Calling Phone Number"
-                                                                value={userProfile.phone}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, phone: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(6); }}
-                                                            />
-                                                        </div>
+                                                    <div className="floating-gender-row category-4-row">
+                                                        {[
+                                                            { label: 'General', icon: '👥' },
+                                                            { label: 'OBC', icon: '👥' },
+                                                            { label: 'SC', icon: '👥' },
+                                                            { label: 'ST', icon: '👥' },
+                                                            { label: 'Others', icon: '👥' }
+                                                        ].map(cat => (
+                                                            <button
+                                                                key={cat.label}
+                                                                type="button"
+                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.category === cat.label ? 'selected' : ''}`}
+                                                                onClick={() => setUserProfile({ ...userProfile, category: cat.label })}
+                                                            >
+                                                                <span className="gender-btn-icon">{cat.icon}</span>
+                                                                <span className="gender-btn-label">{cat.label}</span>
+                                                                <span className="gender-btn-check">✓</span>
+                                                            </button>
+                                                        ))}
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
@@ -1318,37 +972,31 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 6: EMAIL & PIN CODE STEP */}
+                                        {/* TASK 6: HIGHEST QUALIFICATION STEP */}
                                         {cockpitStep === 6 && (
                                             <div className="floating-step-card active" id="missionStep6">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">Email & PIN Code ✉️</h2>
+                                                    <h2 className="floating-prompt-title">What is your highest qualification? 📜</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-input-group">
-                                                        <div className="floating-input-wrapper">
-                                                            <span className="floating-icon">✉️</span>
-                                                            <input
-                                                                type="email"
-                                                                className="floating-text-input"
-                                                                placeholder="Email Address (e.g. student@gmail.com)"
-                                                                value={userProfile.email}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, email: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(7); }}
-                                                            />
-                                                        </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
-                                                            <span className="floating-icon">📍</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                maxLength={6}
-                                                                placeholder="6-Digit PIN Code"
-                                                                value={userProfile.pincode}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, pincode: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(7); }}
-                                                            />
-                                                        </div>
+                                                    <div className="floating-gender-row qual-4-grid">
+                                                        {[
+                                                            { label: '12th Pass', icon: '📚' },
+                                                            { label: 'Pursuing College', icon: '🏫' },
+                                                            { label: 'Graduated', icon: '🎓' },
+                                                            { label: 'Diploma', icon: '📜' }
+                                                        ].map(q => (
+                                                            <button
+                                                                key={q.label}
+                                                                type="button"
+                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.qualification === q.label ? 'selected' : ''}`}
+                                                                onClick={() => setUserProfile({ ...userProfile, qualification: q.label })}
+                                                            >
+                                                                <span className="gender-btn-icon">{q.icon}</span>
+                                                                <span className="gender-btn-label">{q.label}</span>
+                                                                <span className="gender-btn-check">✓</span>
+                                                            </button>
+                                                        ))}
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
@@ -1362,7 +1010,7 @@ export const EntranceTestPortal = () => {
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(7)}
+                                                        onClick={() => setCockpitStep(8)}
                                                     >
                                                         <span>Continue →</span>
                                                     </button>
@@ -1370,33 +1018,22 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 7: LOCATION DETAILS (DISTRICT & STATE) */}
+                                        {/* TASK 7: SCHOOL / INSTITUTE NAME STEP */}
                                         {cockpitStep === 7 && (
                                             <div className="floating-step-card active" id="missionStep7">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">Where are you located? 🏙️</h2>
+                                                    <h2 className="floating-prompt-title">School / Institute Name 🏫</h2>
                                                 </div>
                                                 <div className="floating-step-body">
                                                     <div className="floating-input-group">
                                                         <div className="floating-input-wrapper">
-                                                            <span className="floating-icon">🏙️</span>
+                                                            <span className="floating-icon">🏫</span>
                                                             <input
                                                                 type="text"
                                                                 className="floating-text-input"
-                                                                placeholder="District (e.g. Patna)"
-                                                                value={userProfile.district}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(8); }}
-                                                            />
-                                                        </div>
-                                                        <div className="floating-input-wrapper secondary-wrap" style={{ marginTop: '10px' }}>
-                                                            <span className="floating-icon">🗺️</span>
-                                                            <input
-                                                                type="text"
-                                                                className="floating-text-input"
-                                                                placeholder="State (e.g. Bihar)"
-                                                                value={userProfile.state}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, state: e.target.value })}
+                                                                placeholder="School or College Name (Govt Senior Secondary School)"
+                                                                value={userProfile.schoolName || ''}
+                                                                onChange={(e) => setUserProfile({ ...userProfile, schoolName: e.target.value })}
                                                                 onKeyDown={(e) => { if (e.key === 'Enter') setCockpitStep(8); }}
                                                             />
                                                         </div>
@@ -1421,40 +1058,45 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 8: CURRENT STATUS STEP */}
+                                        {/* TASK 8: PHOTO STEP */}
                                         {cockpitStep === 8 && (
                                             <div className="floating-step-card active" id="missionStep8">
                                                 <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">What is your current status? 💼</h2>
+                                                    <h2 className="floating-prompt-title">Add your photo 📸</h2>
                                                 </div>
                                                 <div className="floating-step-body">
-                                                    <div className="floating-gender-row status-6-grid">
-                                                        {[
-                                                            { label: 'Studying', icon: '🎓' },
-                                                            { label: 'Working', icon: '💼' },
-                                                            { label: 'Job Searching', icon: '🔍' },
-                                                            { label: 'Not Working', icon: '⏸️' },
-                                                            { label: 'Retired', icon: '🏖️' },
-                                                            { label: 'Other', icon: '🌟' }
-                                                        ].map(st => (
-                                                            <button
-                                                                key={st.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.status === st.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, status: st.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{st.icon}</span>
-                                                                <span className="gender-btn-label">{st.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
+                                                    <div className="floating-photo-box">
+                                                        <input
+                                                            type="file"
+                                                            id="etPhotoInput"
+                                                            accept="image/*"
+                                                            style={{ display: 'none' }}
+                                                            onChange={handlePhotoUpload}
+                                                        />
+                                                        <label htmlFor="etPhotoInput" className="floating-photo-dropzone">
+                                                            {uploadedPhotoUrl || userProfile.photoUrl ? (
+                                                                <div className="floating-photo-uploaded-wrap">
+                                                                    <div className="floating-photo-preview">
+                                                                        <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Explorer Photo" id="cockpitPhotoImg" />
+                                                                        <span className="photo-change-overlay">✏️ Change</span>
+                                                                    </div>
+                                                                    <span className="photo-change-hint">✏️ Tap to change photo</span>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="floating-photo-placeholder">
+                                                                    <div className="photo-cam-icon-glow">📷</div>
+                                                                    <span className="photo-main-text">Add Your Photo</span>
+                                                                    <span className="photo-sub-text">Tap to upload your picture</span>
+                                                                </div>
+                                                            )}
+                                                        </label>
                                                     </div>
                                                 </div>
                                                 <div className="floating-step-footer flex-between">
                                                     <button
                                                         type="button"
                                                         className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(7)}
+                                                        onClick={() => setCockpitStep(6)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
@@ -1469,768 +1111,121 @@ export const EntranceTestPortal = () => {
                                             </div>
                                         )}
 
-                                        {/* TASK 9: HIGHEST QUALIFICATION STEP */}
+                                        {/* TASK 9: FINAL CONFIRMATION & LAUNCH TEST */}
                                         {cockpitStep === 9 && (
-                                            <div className="floating-step-card active" id="missionStep9">
-                                                <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">What is your highest qualification? 📜</h2>
+                                            <div className="floating-step-card active ready-mission-card" id="missionStep9">
+                                                <div className="floating-step-header text-center ready-header">
+                                                    <h2 className="floating-prompt-title ready-sparkle-title">All Systems Ready! 🚀</h2>
+                                                    <p className="ready-step-desc">
+                                                        Your profile is verified and everything is set.<br />
+                                                        Now choose your campus to continue your journey.
+                                                    </p>
                                                 </div>
-                                                <div className="floating-step-body">
-                                                    <div className="floating-gender-row qual-4-grid">
-                                                        {[
-                                                            { label: '12th Pass', icon: '📖' },
-                                                            { label: 'Pursuing College', icon: '🏫' },
-                                                            { label: 'Graduated', icon: '🎓' },
-                                                            { label: 'Post Graduate', icon: '🌟' }
-                                                        ].map(q => (
-                                                            <button
-                                                                key={q.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.qualification === q.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, qualification: q.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{q.icon}</span>
-                                                                <span className="gender-btn-label">{q.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
+
+                                                <div className="floating-step-body ready-step-body">
+                                                    {/* 1. Profile Verified Card */}
+                                                    <div className="ready-profile-card">
+                                                        <div className="ready-avatar-wrap">
+                                                            <div className="ready-avatar-circle">
+                                                                {uploadedPhotoUrl || userProfile.photoUrl ? (
+                                                                    <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Explorer" className="ready-avatar-img" />
+                                                                ) : (
+                                                                    <span className="ready-avatar-emoji">👧</span>
+                                                                )}
+                                                            </div>
+                                                            <span className="ready-avatar-badge">✓</span>
+                                                        </div>
+                                                        <div className="ready-profile-meta">
+                                                            <h4 className="ready-profile-name">
+                                                                {userProfile.firstName ? `${userProfile.firstName} ${userProfile.lastName || ''}`.trim() : studentName || 'Explorer'}
+                                                            </h4>
+                                                            <p className="ready-profile-sub">Location & Details Verified</p>
+                                                        </div>
+                                                        <div className="ready-badge-pill">
+                                                            <span className="badge-check-icon">✓</span> VERIFIED
+                                                        </div>
+                                                        <span className="ready-card-chevron">›</span>
+                                                    </div>
+
+                                                    {/* 2. 4-Stage Status / Readiness Strip */}
+                                                    <div className="ready-milestone-strip">
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-shield">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                                                    <path d="m9 12 2 2 4-4"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Verified<br />Profile</span>
+                                                        </div>
+
+                                                        <div className="milestone-divider"></div>
+
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-pin">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                                    <circle cx="12" cy="10" r="3"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Location<br />Confirmed</span>
+                                                        </div>
+
+                                                        <div className="milestone-divider"></div>
+
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-campus">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                                                                    <path d="M6 6h10"/>
+                                                                    <path d="M6 10h10"/>
+                                                                    <path d="M6 14h10"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Campus<br />Access Ready</span>
+                                                        </div>
+
+                                                        <div className="milestone-divider"></div>
+
+                                                        <div className="milestone-item">
+                                                            <div className="milestone-icon-wrap icon-rocket">
+                                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                                                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                                                                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                                                                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                                                                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                                                                </svg>
+                                                            </div>
+                                                            <span className="milestone-label">Let's Start<br />Your Journey!</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="floating-step-footer flex-between">
+
+                                                <div className="floating-step-footer flex-between ready-footer">
                                                     <button
                                                         type="button"
-                                                        className="floating-action-btn secondary-btn"
+                                                        className="floating-action-btn secondary-btn ready-back-btn"
                                                         onClick={() => setCockpitStep(8)}
                                                     >
                                                         <span>← Back</span>
                                                     </button>
                                                     <button
                                                         type="button"
-                                                        className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => {
-                                                            if (userProfile.qualification === 'Pursuing College') {
-                                                                setCockpitStep('9_college');
-                                                            } else {
-                                                                setCockpitStep(10);
-                                                            }
-                                                        }}
-                                                    >
-                                                        <span>Continue →</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* TASK 9.5: PURSUING COLLEGE DETAILS STEP */}
-                                        {cockpitStep === '9_college' && (
-                                            <div className="floating-step-card active" id="missionStep9College">
-                                                <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">College Details 🏫</h2>
-                                                </div>
-                                                <div className="floating-step-body college-details-form" style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
-                                                    {/* Field 1: Which year is going on? */}
-                                                    <div className="floating-input-group">
-                                                        <label className="college-field-label" style={{ fontSize: '11.5px', fontWeight: 600, color: '#e2e8f0' }}>
-                                                            Which year is going on? *
-                                                        </label>
-                                                        <div className="custom-dropdown-container">
-                                                            <select
-                                                                className="floating-text-input custom-college-select"
-                                                                value={userProfile.collegeYear || ''}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, collegeYear: e.target.value })}
-                                                                style={{ height: '34px', paddingLeft: '12px', cursor: 'pointer' }}
-                                                            >
-                                                                <option value="" disabled style={{ background: '#0f172a', color: '#94a3b8' }}>Select Option</option>
-                                                                <option value="1st Year" style={{ background: '#0f172a', color: '#ffffff' }}>1st Year</option>
-                                                                <option value="2nd Year" style={{ background: '#0f172a', color: '#ffffff' }}>2nd Year</option>
-                                                                <option value="3rd Year" style={{ background: '#0f172a', color: '#ffffff' }}>3rd Year</option>
-                                                                <option value="4th Year" style={{ background: '#0f172a', color: '#ffffff' }}>4th Year</option>
-                                                                <option value="Final Year" style={{ background: '#0f172a', color: '#ffffff' }}>Final Year</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Field 2: College Attendance Method */}
-                                                    <div className="floating-input-group">
-                                                        <label className="college-field-label" style={{ fontSize: '11.5px', fontWeight: 600, color: '#e2e8f0' }}>
-                                                            College Attendance Method *
-                                                        </label>
-                                                        <div className="custom-dropdown-container">
-                                                            <select
-                                                                className="floating-text-input custom-college-select"
-                                                                value={userProfile.collegeAttendance || ''}
-                                                                onChange={(e) => setUserProfile({ ...userProfile, collegeAttendance: e.target.value })}
-                                                                style={{ height: '34px', paddingLeft: '12px', cursor: 'pointer' }}
-                                                            >
-                                                                <option value="" disabled style={{ background: '#0f172a', color: '#94a3b8' }}>Select Option</option>
-                                                                <option value="I go to college regularly, attend classes daily." style={{ background: '#0f172a', color: '#ffffff' }}>
-                                                                    I go to college regularly, attend classes daily.
-                                                                </option>
-                                                                <option value="I only go to write exams and study at home." style={{ background: '#0f172a', color: '#ffffff' }}>
-                                                                    I only go to write exams and study at home.
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="floating-step-footer flex-between">
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(9)}
-                                                    >
-                                                        <span>← Back</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(10)}
-                                                    >
-                                                        <span>Continue →</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* TASK 10: SCHOOL MEDIUM STEP */}
-                                        {cockpitStep === 10 && (
-                                            <div className="floating-step-card active" id="missionStep10">
-                                                <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">What was your school medium? 📚</h2>
-                                                </div>
-                                                <div className="floating-step-body">
-                                                    <div className="floating-gender-row">
-                                                        {[
-                                                            { label: 'Hindi', icon: '📚' },
-                                                            { label: 'English', icon: '🌐' },
-                                                            { label: 'Regional', icon: '🗣️' }
-                                                        ].map(m => (
-                                                            <button
-                                                                key={m.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.medium === m.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, medium: m.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{m.icon}</span>
-                                                                <span className="gender-btn-label">{m.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="floating-step-footer flex-between">
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn secondary-btn"
-                                                        onClick={() => {
-                                                            if (userProfile.qualification === 'Pursuing College') {
-                                                                setCockpitStep('9_college');
-                                                            } else {
-                                                                setCockpitStep(9);
-                                                            }
-                                                        }}
-                                                    >
-                                                        <span>← Back</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(11)}
-                                                    >
-                                                        <span>Continue →</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* TASK 11: CASTE / CATEGORY STEP */}
-                                        {cockpitStep === 11 && (
-                                            <div className="floating-step-card active" id="missionStep11">
-                                                <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title">Select your category / caste 👥</h2>
-                                                </div>
-                                                <div className="floating-step-body">
-                                                    <div className="floating-gender-row category-4-row">
-                                                        {[
-                                                            { label: 'General', icon: '👥' },
-                                                            { label: 'OBC', icon: '👥' },
-                                                            { label: 'SC', icon: '👥' },
-                                                            { label: 'ST', icon: '👥' }
-                                                        ].map(cat => (
-                                                            <button
-                                                                key={cat.label}
-                                                                type="button"
-                                                                className={`floating-gender-btn cockpit-pill-btn ${userProfile.category === cat.label ? 'selected' : ''}`}
-                                                                onClick={() => setUserProfile({ ...userProfile, category: cat.label })}
-                                                            >
-                                                                <span className="gender-btn-icon">{cat.icon}</span>
-                                                                <span className="gender-btn-label">{cat.label}</span>
-                                                                <span className="gender-btn-check">✓</span>
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="floating-step-footer flex-between">
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(10)}
-                                                    >
-                                                        <span>← Back</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn primary-glow-btn"
-                                                        onClick={() => setCockpitStep(12)}
-                                                    >
-                                                        <span>Continue →</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* TASK 12: FINAL CONFIRMATION & LAUNCH TEST */}
-                                        {cockpitStep === 12 && (
-                                            <div className="floating-step-card active" id="missionStep12">
-                                                <div className="floating-step-header text-center">
-                                                    <h2 className="floating-prompt-title ready-sparkle-title">All Systems Ready! 🚀</h2>
-                                                </div>
-                                                <div className="floating-step-body text-center">
-                                                    <div className="floating-summary-seal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', background: 'rgba(255, 255, 255, 0.05)', padding: '10px 16px', borderRadius: '12px' }}>
-                                                        <div className="summary-avatar-preview" id="summaryAvatarPreview" style={{ fontSize: '24px' }}>
-                                                            {uploadedPhotoUrl || userProfile.photoUrl ? (
-                                                                <img src={uploadedPhotoUrl || userProfile.photoUrl} alt="Preview" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }} />
-                                                            ) : (
-                                                                '👨‍🚀'
-                                                            )}
-                                                        </div>
-                                                        <div className="summary-details" style={{ textAlign: 'left' }}>
-                                                            <div className="summary-name" style={{ fontWeight: '700', fontSize: '13px', color: '#ffffff' }}>
-                                                                {userProfile.firstName ? `${userProfile.firstName} ${userProfile.lastName}` : name}
-                                                            </div>
-                                                            <div className="summary-sub" style={{ fontSize: '11px', color: '#94a3b8' }}>
-                                                                {userProfile.district ? `${userProfile.district}, ${userProfile.state || ''}` : 'Location & Details Verified'}
-                                                            </div>
-                                                        </div>
-                                                        <span className="summary-check-seal" style={{ marginLeft: 'auto', background: 'rgba(16, 185, 129, 0.2)', color: '#10b981', padding: '2px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '800' }}>✓ VERIFIED</span>
-                                                    </div>
-                                                </div>
-                                                <div className="floating-step-footer flex-between">
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn secondary-btn"
-                                                        onClick={() => setCockpitStep(11)}
-                                                    >
-                                                        <span>← Back</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="floating-action-btn launch-glow-btn"
+                                                        className="floating-action-btn launch-glow-btn ready-launch-btn"
                                                         onClick={handleStartTestInCockpit}
-                                                        style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#ffffff', boxShadow: '0 4px 16px rgba(16, 185, 129, 0.5)' }}
                                                     >
-                                                        <span>START Entrance Test 🚀</span>
+                                                        <span>Choose Campus →</span>
                                                     </button>
                                                 </div>
                                             </div>
                                         )}
 
-                                        {/* IN-ROCKET COCKPIT TEST INIT STEP */}
-                                        {cockpitStep === 'test_init' && (
-                                            <div className="floating-step-card active rocket-test-init-card">
-                                                <div className="r-init-spinner"></div>
-                                                <h3 className="r-init-title">INITIALIZING ENTRANCE TEST...</h3>
-                                                <p className="r-init-sub">CALIBRATING SYSTEM & LOADING QUESTIONS</p>
-                                            </div>
-                                        )}
-
-                                        {/* IN-ROCKET COCKPIT ACTIVE TEST TERMINAL STEP (CENTRAL SCREEN: OPTIONS & NAV ONLY) */}
-                                        {cockpitStep === 'test' && (
-                                            <div className="floating-step-card active rocket-test-card" id="missionStepTest">
-                                                {/* Options Grid (Clean 2x2 Layout) */}
-                                                <div className={`rocket-test-options-grid ${qSlideAnimClass}`}>
-                                                    {etQuestionsData[currentQuizQIndex]?.options.map((opt, oIdx) => {
-                                                        const isSelected = userAnswers[currentQuizQIndex] === oIdx;
-                                                        const letter = String.fromCharCode(65 + oIdx);
-                                                        return (
-                                                            <button
-                                                                key={oIdx}
-                                                                type="button"
-                                                                className={`rocket-test-opt-btn ${isSelected ? 'selected' : ''}`}
-                                                                onClick={() => setUserAnswers({ ...userAnswers, [currentQuizQIndex]: oIdx })}
-                                                            >
-                                                                <span className="r-opt-letter">{letter}</span>
-                                                                <span className="r-opt-text">{opt}</span>
-                                                                <span className="r-opt-check">{isSelected ? '✓' : ''}</span>
-                                                            </button>
-                                                        );
-                                                    })}
-                                                </div>
-
-                                                {/* Footer Navigation inside central screen */}
-                                                <div className="rocket-test-footer flex-between">
-                                                    {currentQuizQIndex > 0 ? (
-                                                        <button
-                                                            type="button"
-                                                            className="floating-action-btn secondary-btn r-test-nav-btn"
-                                                            onClick={handlePrevQuestionInCockpit}
-                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
-                                                        >
-                                                            <span>← Back</span>
-                                                        </button>
-                                                    ) : (
-                                                        <div style={{ width: '70px' }}></div>
-                                                    )}
-
-                                                    {currentQuizQIndex < etQuestionsData.length - 1 ? (
-                                                        <button
-                                                            type="button"
-                                                            className="floating-action-btn primary-glow-btn r-test-nav-btn"
-                                                            onClick={handleNextQuestionInCockpit}
-                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
-                                                        >
-                                                            <span>Next →</span>
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            type="button"
-                                                            className="floating-action-btn launch-glow-btn r-test-nav-btn"
-                                                            onClick={handleSubmitTestInCockpit}
-                                                            disabled={isAsteroidTransitioningRef.current || ['cracking', 'breaking', 'cleared', 'entering', 'dissolving'].includes(asteroidAnimState)}
-                                                            style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)' }}
-                                                        >
-                                                            <span>Submit Test ✓</span>
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* IN-ROCKET COCKPIT TEST SUBMITTING STEP */}
-                                        {cockpitStep === 'test_submitting' && (
-                                            <div className="floating-step-card active rocket-test-submitting-card">
-                                                <div className="r-submit-check">✓</div>
-                                                <h3 className="r-submit-title">TEST SUBMITTED</h3>
-                                                <p className="r-submit-sub">Analyzing your responses...</p>
-                                            </div>
-                                        )}
-
-                                        {/* IN-ROCKET COCKPIT TEST RESULTS ACTIONS STEP (CENTRAL SCREEN: ACTIONS ONLY) */}
-                                        {cockpitStep === 'test_results' && (() => {
-                                            const latestAttempt = attemptHistory[0] || { marks: 0, isPassed: false };
-                                            return (
-                                                <div className="floating-step-card active rocket-test-results-actions-card">
-                                                    <div className="r-res-actions-content">
-                                                        <div className="r-res-console-status">
-                                                            <span className="r-res-pulse-dot"></span>
-                                                            <span>MISSION RESULT LOGGED</span>
-                                                        </div>
-                                                        <div className="r-res-actions-buttons">
-                                                            <button
-                                                                type="button"
-                                                                className="floating-action-btn primary-glow-btn r-res-main-btn"
-                                                                onClick={() => setPortalStep(4)}
-                                                            >
-                                                                <span>See Your Result 📊</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })()}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* STEP 5: LIVE MCQ QUIZ */}
-                    {portalStep === 5 && (
-                        <div className="et-step-pane active et-quiz-page-view" id="etStep3">
-                            <div className="et-quiz-light-wrapper">
-                                {/* RIGHT MAIN CARD */}
-                                <div className="quiz-main-card">
-                                    {/* Header: Test Title & Count Down Timer */}
-                                    <div className="quiz-card-header">
-                                        <div className="quiz-title-badge">
-                                            <span className="quiz-title-icon">🧮</span>
-                                            <span className="quiz-title-text">NavGurukul Logic & Problem Solving Test</span>
-                                        </div>
-
-                                        <div className="quiz-timer-badge">
-                                            <span className="timer-label">TIME REMAINING</span>
-                                            <div className="timer-value">
-                                                <span className="timer-icon">⏱️</span>
-                                                <span>{formatTime(quizTimerSeconds)}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Sub-Header Metadata: Question Counter & Category (10XP & Progress bar removed as requested) */}
-                                    <div className="quiz-meta-row">
-                                        <span className="meta-pill question-pill">
-                                            Question {currentQuizQIndex + 1}/{etQuestionsData.length}
-                                        </span>
-                                        <span className="meta-pill category-pill">
-                                            {etQuestionsData[currentQuizQIndex]?.topic || etQuestionsData[currentQuizQIndex]?.topicName || 'Logic & Calculation'}
-                                        </span>
-                                    </div>
-
-                                    {/* Question Statement */}
-                                    <div className="quiz-question-box">
-                                        <span className="q-badge-icon">?</span>
-                                        <h3 className="q-text-content">
-                                            {etQuestionsData[currentQuizQIndex]?.text || etQuestionsData[currentQuizQIndex]?.question}
-                                        </h3>
-                                    </div>
-
-                                    {/* 2x2 Options Grid */}
-                                    <div className="quiz-options-grid">
-                                        {etQuestionsData[currentQuizQIndex]?.options.map((opt, oIdx) => {
-                                            const isSelected = userAnswers[currentQuizQIndex] === oIdx;
-                                            const letter = String.fromCharCode(65 + oIdx);
-                                            return (
-                                                <button
-                                                    key={oIdx}
-                                                    type="button"
-                                                    className={`grid-option-card ${isSelected ? 'selected' : ''}`}
-                                                    onClick={() => setUserAnswers({ ...userAnswers, [currentQuizQIndex]: oIdx })}
-                                                >
-                                                    <span className="grid-opt-letter">{letter}</span>
-                                                    <span className="grid-opt-text">{opt}</span>
-                                                    <span className="grid-radio-icon">
-                                                        {isSelected ? '⦿' : '◯'}
-                                                    </span>
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-
-                                    {/* Card Footer Row: Quick Tip & Action Area (Answer & Earn removed as requested) */}
-                                    <div className="quiz-card-footer">
-                                        <div className="quick-tip-card">
-                                            <span className="tip-flash-icon">⚡</span>
-                                            <div className="tip-text-body">
-                                                <span className="tip-label">Quick Tip</span>
-                                                <span className="tip-content">
-                                                    {etQuestionsData[currentQuizQIndex]?.mentorMsg || 'Time is directly proportional to work when number of coders changes.'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="quiz-action-area">
-                                            {currentQuizQIndex > 0 && (
-                                                <button
-                                                    type="button"
-                                                    className="quiz-sub-prev-btn"
-                                                    onClick={() => setCurrentQuizQIndex(prev => prev - 1)}
-                                                >
-                                                    ← Previous
-                                                </button>
-                                            )}
-
-                                            {currentQuizQIndex < etQuestionsData.length - 1 ? (
-                                                <button
-                                                    type="button"
-                                                    className="quiz-primary-next-btn"
-                                                    onClick={() => setCurrentQuizQIndex(prev => prev + 1)}
-                                                >
-                                                    <span>Next Question →</span>
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    type="button"
-                                                    className="quiz-primary-next-btn submit-style"
-                                                    onClick={finishEtQuiz}
-                                                >
-                                                    <span>Submit Test 🚀</span>
-                                                </button>
-                                            )}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     )}
-
-                    {/* STEP 4: RESULTS & ATTEMPT HISTORY DASHBOARD */}
-                    {portalStep === 4 && (() => {
-                        const displayHistory = attemptHistory.length > 0 ? attemptHistory : [
-                            { attemptNum: 1, timeStr: '08/27/2026, 11:58 AM', marks: 20, isPassed: true }
-                        ];
-                        const hasAnyPassed = displayHistory.some(a => a.isPassed);
-
-                        const displayName = (userProfile.firstName || userProfile.lastName)
-                            ? `${userProfile.firstName} ${userProfile.lastName}`.trim()
-                            : (studentName && studentName !== 'Friend' ? studentName : 'Sujit');
-                        const displayEmail = userProfile.email || 'sujitkumar19013@gmail.com';
-                        const displayPhone = userProfile.phone || userProfile.whatsapp || '3512313132';
-                        const displayState = userProfile.state || 'Chhattisgarh';
-                        const displaySchool = userProfile.selectedSchool || 'School of Programming (SOP)';
-
-                        return (
-                            <div className="et-step-pane active" id="etStep4">
-                                <div className="et-results-container">
-                                    {/* Student Details Card */}
-                                    <div className="res-card res-student-card">
-                                        <div className="res-card-title">
-                                            <span className="card-title-icon student-icon">👤</span>
-                                            <h3>Student Details</h3>
-                                        </div>
-                                        <div className="res-details-grid">
-                                            <div className="res-detail-item">
-                                                <span className="res-detail-label">Name:</span>
-                                                <span className="res-detail-val">{displayName}</span>
-                                            </div>
-                                            <div className="res-detail-item">
-                                                <span className="res-detail-label">Email:</span>
-                                                <span className="res-detail-val">{displayEmail}</span>
-                                            </div>
-                                            <div className="res-detail-item">
-                                                <span className="res-detail-label">Phone Number:</span>
-                                                <span className="res-detail-val">{displayPhone}</span>
-                                            </div>
-                                            <div className="res-detail-item">
-                                                <span className="res-detail-label">State:</span>
-                                                <span className="res-detail-val">{displayState}</span>
-                                            </div>
-                                            <div className="res-detail-item full-width">
-                                                <span className="res-detail-label">Selected School:</span>
-                                                <span className="res-detail-val">{displaySchool}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Test Results & Slot Booking Card */}
-                                    <div className="res-card res-results-card">
-                                        <div className="res-card-title">
-                                            <span className="card-title-icon test-icon">📑</span>
-                                            <h3>Test Results & Slot Booking</h3>
-                                        </div>
-
-                                        {/* Desktop View: Original Table (Shown on Desktop, Hidden on Mobile) */}
-                                        <div className="res-table-wrapper">
-                                            <table className="res-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>STAGE</th>
-                                                        <th>STATUS</th>
-                                                        <th>SCHEDULED TIME</th>
-                                                        <th>ACTIONS</th>
-                                                        <th>MARKS</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {displayHistory.map((attempt, index) => {
-                                                        const isLatest = (index === displayHistory.length - 1);
-                                                        const stageName = (displayHistory.length > 1)
-                                                            ? `Screening Test (Attempt ${attempt.attemptNum})`
-                                                            : `Screening Test`;
-
-                                                        const canRetest = !attempt.isPassed && isLatest && !hasAnyPassed;
-
-                                                        return (
-                                                            <tr key={index}>
-                                                                <td className="td-stage">
-                                                                    <div className="stage-cell">
-                                                                        <span className="stage-icon st-icon">📄</span>
-                                                                        <span className="stage-name-text">{stageName}</span>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="td-status">
-                                                                    {attempt.isPassed ? (
-                                                                        <span className="res-status-badge status-pass">✓ Pass</span>
-                                                                    ) : (
-                                                                        <span className="res-status-badge status-fail">✖ Fail</span>
-                                                                    )}
-                                                                </td>
-                                                                <td className="td-time">
-                                                                    <span className="time-cell">
-                                                                        <span className="cal-icon">📅</span> {attempt.timeStr}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="td-actions">
-                                                                    {canRetest ? (
-                                                                        <button type="button" className="res-action-btn btn-retest" onClick={startLiveEtQuiz}>
-                                                                            Retest
-                                                                        </button>
-                                                                    ) : (
-                                                                        '–'
-                                                                    )}
-                                                                </td>
-                                                                <td className="td-marks">{attempt.marks}</td>
-                                                            </tr>
-                                                        );
-                                                    })}
-
-                                                    {hasAnyPassed && (
-                                                        <tr id="resRowLearning">
-                                                            <td className="td-stage">
-                                                                <div className="stage-cell">
-                                                                    <span className="stage-icon lr-icon">👥</span>
-                                                                    <span className="stage-name-text">Learning Round</span>
-                                                                </div>
-                                                            </td>
-                                                            <td className="td-status">
-                                                                {bookedInterviewSlot ? (
-                                                                    <span className="res-status-badge status-scheduled">✔ Scheduled</span>
-                                                                ) : (
-                                                                    <span className="res-status-badge status-pending">⏳ Pending</span>
-                                                                )}
-                                                            </td>
-                                                            <td className="td-time">
-                                                                <span className="time-cell">
-                                                                    <span className="cal-icon">📅</span> {bookedInterviewSlot || 'Not Scheduled'}
-                                                                </span>
-                                                            </td>
-                                                            <td className="td-actions">
-                                                                {!bookedInterviewSlot ? (
-                                                                    <button type="button" className="res-action-btn btn-book-slot" onClick={openSlotBookingModal}>
-                                                                        Book Slot
-                                                                    </button>
-                                                                ) : (
-                                                                    '–'
-                                                                )}
-                                                            </td>
-                                                            <td className="td-marks">–</td>
-                                                        </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        {/* Mobile View: Responsive Stage Cards (Hidden on Desktop, Shown on Mobile) */}
-                                        <div className="res-stage-cards-container">
-                                            {displayHistory.map((attempt, index) => {
-                                                const isLatest = (index === displayHistory.length - 1);
-                                                const stageName = (displayHistory.length > 1)
-                                                    ? `Screening Test (Attempt ${attempt.attemptNum})`
-                                                    : `Screening Test`;
-
-                                                const canRetest = !attempt.isPassed && isLatest && !hasAnyPassed;
-
-                                                return (
-                                                    <div
-                                                        className={`res-stage-card ${attempt.isPassed ? 'stage-card-pass' : 'stage-card-fail'}`}
-                                                        key={index}
-                                                    >
-                                                        {/* Left Colored Accent Stripe */}
-                                                        <div className={`stage-card-accent-bar ${attempt.isPassed ? 'accent-pass' : 'accent-fail'}`}></div>
-
-                                                        <div className="stage-card-inner">
-                                                            {/* Top Row: Stage Name + Marks + Status Pill */}
-                                                            <div className="stage-card-header-row">
-                                                                <div className="stage-card-title-wrap">
-                                                                    <h4 className="stage-card-name">{stageName}</h4>
-                                                                </div>
-
-                                                                <div className="stage-card-badges-wrap">
-                                                                    {attempt.marks !== undefined && attempt.marks !== null && (
-                                                                        <div className="stage-card-marks-box">
-                                                                            <span className="marks-box-lbl">MARKS:</span>
-                                                                            <span className="marks-box-val">{attempt.marks}</span>
-                                                                        </div>
-                                                                    )}
-
-                                                                    <div className={`stage-card-status-pill ${attempt.isPassed ? 'pill-pass' : 'pill-fail'}`}>
-                                                                        {attempt.isPassed ? (
-                                                                            <>
-                                                                                <span className="pill-dot">✓</span> PASS
-                                                                            </>
-                                                                        ) : (
-                                                                            <>
-                                                                                <span className="pill-dot">✕</span> FAIL
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Middle Row: Scheduled Time */}
-                                                            <div className="stage-card-time-row">
-                                                                <span className="stage-cal-icon">📅</span>
-                                                                <span className="stage-time-val">{attempt.timeStr}</span>
-                                                            </div>
-
-                                                            {/* Bottom Row: Actions */}
-                                                            <div className="stage-card-actions-section">
-                                                                <span className="stage-actions-heading">ACTIONS</span>
-                                                                {canRetest ? (
-                                                                    <button
-                                                                        type="button"
-                                                                        className="stage-action-btn btn-stage-retest"
-                                                                        onClick={startLiveEtQuiz}
-                                                                    >
-                                                                        Retest
-                                                                    </button>
-                                                                ) : (
-                                                                    <span className="stage-action-dash">–</span>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
-
-                                            {hasAnyPassed && (
-                                                <div className={`res-stage-card ${bookedInterviewSlot ? 'stage-card-pass' : 'stage-card-pending'}`} id="resCardLearning">
-                                                    {/* Left Colored Accent Stripe */}
-                                                    <div className={`stage-card-accent-bar ${bookedInterviewSlot ? 'accent-pass' : 'accent-amber'}`}></div>
-
-                                                    <div className="stage-card-inner">
-                                                        {/* Top Row: Stage Name + Status Pill */}
-                                                        <div className="stage-card-header-row">
-                                                            <div className="stage-card-title-wrap">
-                                                                <h4 className="stage-card-name">Learning Round</h4>
-                                                            </div>
-
-                                                            <div className="stage-card-badges-wrap">
-                                                                <div className={`stage-card-status-pill ${bookedInterviewSlot ? 'pill-scheduled' : 'pill-pending'}`}>
-                                                                    {bookedInterviewSlot ? (
-                                                                        <>
-                                                                            <span className="pill-dot">✔</span> SCHEDULED
-                                                                        </>
-                                                                    ) : (
-                                                                        <>
-                                                                            <span className="pill-dot">⏳</span> PENDING
-                                                                        </>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Middle Row: Scheduled Time */}
-                                                        <div className="stage-card-time-row">
-                                                            <span className="stage-cal-icon">📅</span>
-                                                            <span className={`stage-time-val ${!bookedInterviewSlot ? 'not-scheduled' : ''}`}>
-                                                                {bookedInterviewSlot || 'Not Scheduled'}
-                                                            </span>
-                                                        </div>
-
-                                                        {/* Bottom Row: Actions */}
-                                                        <div className="stage-card-actions-section">
-                                                            <span className="stage-actions-heading">ACTIONS</span>
-                                                            {!bookedInterviewSlot ? (
-                                                                <button
-                                                                    type="button"
-                                                                    className="stage-action-btn btn-stage-book"
-                                                                    onClick={openSlotBookingModal}
-                                                                >
-                                                                    Book Slot
-                                                                </button>
-                                                            ) : (
-                                                                <span className="stage-action-dash">–</span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })()}
                 </section>
             </main>
         </div>

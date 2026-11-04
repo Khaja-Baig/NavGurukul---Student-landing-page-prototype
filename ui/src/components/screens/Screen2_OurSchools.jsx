@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 
 export const schools = [
@@ -97,40 +97,39 @@ export const schools = [
         location: 'Pune, Maharashtra'
     },
     {
-        tag: 'DEGREE PROGRAM',
+        tag: 'UI/UX & GRAPHIC DESIGN',
         tagClass: 'purple-tag',
         themeClass: 'purple-theme',
         badgeClass: 'purple-badge',
-        icon: '🎓',
-        title: 'Bachelor of Computer Applications (BCA)',
-        desc: '3-year accredited university degree with residential software training.',
+        icon: '🎨',
+        title: 'School of Design (SOD)',
+        desc: 'UI/UX design, Figma prototyping & visual branding.',
         bgClass: 'purple-bg',
         eligibility: [
             'Minimum age: 16.5 years',
-            'Must be 12th pass (any stream)',
+            'Must be 12th pass',
             'Family income less than 5 LPA',
-            'Exclusively for girls at Himachal Campus',
-            'Passion for computer science & higher education'
+            'Creativity and passion for visual design & user experiences'
         ],
         curriculum: [
-            'Programming in C/C++, Java & Python',
-            'Web Development, Data Structures & Algorithms',
-            'Database Management Systems (DBMS) & SQL',
-            'Software Engineering, Cloud Computing & Networks',
-            'Accredited University Internship & Capstone Project'
+            'Design Thinking & UI/UX Principles',
+            'Figma, Adobe XD & Prototyping',
+            'User Research & Wireframing',
+            'Visual Branding & Graphic Design',
+            'Live Client & Portfolio Projects'
         ],
         outcomes: [
-            'UGC-recognized BCA Degree',
-            'Software Engineer / IT Analyst',
-            'Full Stack Web Developer',
-            'Direct pathway to MCA & Master’s degrees'
+            'UI/UX Designer',
+            'Product Designer',
+            'Graphic Designer',
+            'Visual Communication Specialist'
         ],
-        duration: '3 Years (Degree Program)',
-        location: 'Himachal Campus (Girls)'
+        duration: '12–15 months (Self-paced, duration may vary)',
+        location: 'Bengaluru, Pune, Himachal'
     }
 ];
 
-export const Screen4_SpecialtySchools = () => {
+export const Screen2_OurSchools = () => {
     const { currentScreen, openSchoolModal, studentName } = useApp();
     const [isWrapVisible, setIsWrapVisible] = useState(false);
     const [speechText, setSpeechText] = useState('');
@@ -257,3 +256,5 @@ export const Screen4_SpecialtySchools = () => {
         </section>
     );
 };
+
+export default Screen2_OurSchools;
